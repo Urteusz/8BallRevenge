@@ -39,6 +39,7 @@ func _ready() -> void:
 		connect("points_changed", shop_ui._on_points_updated)
 
 func _on_ball_pocketed(ball):
+	print("Pocketed")
 	if ball == player_ball:
 		moves_left -= 1
 		emit_signal("moves_changed", moves_left)

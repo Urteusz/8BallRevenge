@@ -1,5 +1,7 @@
 extends Marker3D
 
+@export var game_manager: Node3D
+
 @export var ball_scene: PackedScene
 @export var player_ball: RigidBody3D
 
@@ -56,7 +58,7 @@ func _ready() -> void:
 		var new_instance = ball_scene.instantiate()
 		add_child(new_instance)
 		new_instance.global_position = position
-
+		game_manager.ball_list.append(new_instance)
 		# ---- Zmieniona logika przypisywania tekstur ----
 		var texture_to_apply: Texture2D = null
 
