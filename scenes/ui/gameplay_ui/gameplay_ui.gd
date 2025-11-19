@@ -25,6 +25,8 @@ func _ready() -> void:
 	_ignore_mouse()
 
 func _on_moves_changed(value: int) -> void:
+	if(value<=3):
+		moves_count_label.add_theme_color_override("font_color",Color(0.663, 0.0, 0.082, 1.0))
 	moves_count_label.text = "%d" % value
 	moves_title_label.text = "Moves left"
 
