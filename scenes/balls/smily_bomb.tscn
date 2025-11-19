@@ -1,10 +1,13 @@
-[gd_scene load_steps=33 format=4 uid="uid://bvb4maqi2qftn"]
+[gd_scene load_steps=36 format=4 uid="uid://bvb4maqi2qftn"]
 
 [ext_resource type="Script" uid="uid://daqmlvtkpk5vy" path="res://scenes/balls/scripts/explosive_bomb.gd" id="1_lgfus"]
+[ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="2_etd6p"]
 [ext_resource type="Texture2D" uid="uid://dfsx82n0ob0al" path="res://materials/Smoke30Frames.png" id="2_y1nh3"]
-[ext_resource type="Shader" path="res://shaders/wave.gdshader" id="3_2vxl7"]
-[ext_resource type="Script" path="res://scenes/balls/scripts/smoke_boom.gd" id="3_kee82"]
-[ext_resource type="Script" path="res://scenes/balls/scripts/wave_boom.gd" id="5_y3ptt"]
+[ext_resource type="Shader" uid="uid://dops3226bmyhg" path="res://shaders/wave.gdshader" id="3_2vxl7"]
+[ext_resource type="Script" uid="uid://kqx2q5q7wc83" path="res://scenes/balls/scripts/smoke_boom.gd" id="3_kee82"]
+[ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/hit_particles/star_particles_2.tscn" id="3_y5st0"]
+[ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/hit_particles/star_particles_3.tscn" id="4_x2os8"]
+[ext_resource type="Script" uid="uid://eu5j7e0j07ig" path="res://scenes/balls/scripts/wave_boom.gd" id="5_y3ptt"]
 [ext_resource type="Shader" uid="uid://l7a30blnr3dk" path="res://shaders/outline.gdshader" id="6_v2olm"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hafg3"]
@@ -234,7 +237,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_svn6p")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_lgfus"]
-radius = 0.40546557
+radius = 0.5085822
 
 [node name="smiley_bomb" type="RigidBody3D" node_paths=PackedStringArray("smoke_effect", "shockwave_effect")]
 physics_material_override = SubResource("PhysicsMaterial_hafg3")
@@ -243,6 +246,9 @@ max_contacts_reported = 9
 script = ExtResource("1_lgfus")
 smoke_effect = NodePath("Particles/SmokeBOOM")
 shockwave_effect = NodePath("Particles/WaveBOOM")
+hit_particles = ExtResource("2_etd6p")
+hit_particles2 = ExtResource("3_y5st0")
+hit_particles3 = ExtResource("4_x2os8")
 
 [node name="Particles" type="Node3D" parent="."]
 
@@ -266,7 +272,7 @@ draw_pass_1 = SubResource("QuadMesh_y3ptt")
 script = ExtResource("5_y3ptt")
 
 [node name="fuzeParticle" type="GPUParticles3D" parent="Particles"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.38932735, 0.61347556, -0.008247852)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.46922243, 0.74374145, -0.008247852)
 amount = 25
 lifetime = 0.06999999999999999
 explosiveness = 0.15
@@ -276,7 +282,7 @@ process_material = SubResource("ParticleProcessMaterial_y1nh3")
 draw_pass_1 = SubResource("QuadMesh_kee82")
 
 [node name="Mesh" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
+transform = Transform3D(1.25, 0, 0, 0, -5.4639237e-08, 1.25, 0, -1.25, -5.4639237e-08, 0, 0, 0)
 
 [node name="Sphere001" type="MeshInstance3D" parent="Mesh"]
 transform = Transform3D(0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, 0)
