@@ -180,7 +180,7 @@ player_ball = NodePath("../PlayerBall")
 ball_radius = 1.0
 
 [node name="smiley_bomb" parent="SubViewportContainer/SubViewport/Table" groups=["balls"] instance=ExtResource("12_06ugt")]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0.68769264, 0.2331419, 2.2595236)
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -8.891136, 1.3868876, -12.586104)
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_e4fnj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218924)
