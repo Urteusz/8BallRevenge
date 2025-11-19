@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="BallData" load_steps=3 format=3 uid="uid://0n22mwo5lwvt"]
+[gd_resource type="Resource" script_class="BallData" load_steps=4 format=3 uid="uid://0n22mwo5lwvt"]
 
 [ext_resource type="Script" uid="uid://cvwkj0qnv7yim" path="res://scenes/balls/scripts/ball_data.gd" id="1_ntorf"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="1_sclq6"]
+[ext_resource type="Texture2D" uid="uid://16srndfhc6ny" path="res://textures/balls/ball3.png" id="3_b1tly"]
 
 [resource]
 script = ExtResource("1_ntorf")
 scene = ExtResource("1_sclq6")
+texture = ExtResource("3_b1tly")
 metadata/_custom_type_script = "uid://cvwkj0qnv7yim"
