@@ -79,6 +79,7 @@ func _process(delta: float) -> void:
 			if stop_timer >= STOP_DELAY:
 				_enter_aiming_state()
 				emit_signal("round_ended")
+				print("Zakończonczono runde")
 		if camera.is_looking_at_player():
 			_setup_aim_line()
 

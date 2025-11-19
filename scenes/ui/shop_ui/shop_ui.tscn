@@ -1,15 +1,23 @@
-[gd_scene load_steps=14 format=3 uid="uid://kvfi6lfgn235"]
+[gd_scene load_steps=16 format=3 uid="uid://kvfi6lfgn235"]
 
 [ext_resource type="Script" uid="uid://bx3yeygfw7ttj" path="res://scenes/ui/shop_ui/scripts/shop_ui.gd" id="1_67u7h"]
 [ext_resource type="Texture2D" uid="uid://bqmhekyijn2be" path="res://textures/icon.svg" id="3_k0lrw"]
 [ext_resource type="Shader" uid="uid://cr63kprmyipui" path="res://shaders/edge_detection_2.gdshader" id="3_l0xgo"]
+[ext_resource type="Shader" uid="uid://l7a30blnr3dk" path="res://shaders/outline.gdshader" id="3_rq2wq"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="4_daov2"]
 [ext_resource type="Script" uid="uid://cndjgyoi38fel" path="res://scenes/ui/shop_ui/scripts/shop_ball.gd" id="4_l0xgo"]
 [ext_resource type="Texture2D" uid="uid://dwk3egkgbtwmf" path="res://textures/ui/Button2_quit.png" id="6_daov2"]
 [ext_resource type="Texture2D" uid="uid://dqkftrx7p0k6b" path="res://textures/ui/Button2_quit_pressed.png" id="7_jjtc3"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lbg84"]
+render_priority = 0
+shader = ExtResource("3_rq2wq")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_thickness = 0.00999999977648
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mfc4s"]
 render_priority = 0
+next_pass = SubResource("ShaderMaterial_lbg84")
 shader = ExtResource("3_l0xgo")
 shader_parameter/shadows_enabled = true
 shader_parameter/highlights_enabled = true
