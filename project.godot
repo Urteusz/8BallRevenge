@@ -34,6 +34,10 @@ window/stretch/aspect="expand"
 
 import/blender/enabled=false
 
+[gui]
+
+theme/custom_font="uid://vcecbwh0vav0"
+
 [input]
 
 next_camera_target={

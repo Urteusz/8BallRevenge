@@ -46,6 +46,7 @@ func _show_popup(hit_position: Vector3, points_gained: int) -> void:
 	get_parent().add_child(popup_instance)
 	popup_instance.global_position = hit_position
 	popup_instance.set_and_play(points_gained)
+	print_debug(points_gained)
 
 func _show_particles(hit_position: Vector3) -> void:
 	if !hit_particles or !hit_particles2 or !hit_particles3:
