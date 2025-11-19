@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://2qvhwcgcgbqq"]
+[gd_scene load_steps=39 format=3 uid="uid://2qvhwcgcgbqq"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scenes/level1/scripts/camera.gd" id="1_j4hya"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_n15fh"]
@@ -14,19 +14,10 @@
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scenes/level1/scripts/walls.gd" id="9_wi5kd"]
 [ext_resource type="PackedScene" uid="uid://ip5evxm3a6tt" path="res://models/room_colored.glb" id="10_3j5si"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="11_uj67f"]
-[ext_resource type="Texture2D" uid="uid://dnmjl4sbt5n1w" path="res://textures/balls/ball1.png" id="12_06ugt"]
-[ext_resource type="Texture2D" uid="uid://brxljclb4ecyg" path="res://textures/balls/ball0.png" id="12_825qs"]
-[ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_e4fnj"]
-[ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/shop_ui/shop_ui.tscn" id="12_k3l6j"]
-[ext_resource type="Texture2D" uid="uid://c8o1wj8d27cbh" path="res://textures/balls/ball2.png" id="13_5prdx"]
-[ext_resource type="ArrayMesh" uid="uid://cgn8o6bfpqab5" path="res://models/table/table_rim.obj" id="14_jw3ls"]
-[ext_resource type="Texture2D" uid="uid://16srndfhc6ny" path="res://textures/balls/ball3.png" id="15_h2uvi"]
-[ext_resource type="Texture2D" uid="uid://fipg4aib8ahe" path="res://textures/balls/ball4.png" id="16_udjwb"]
 [ext_resource type="PackedScene" uid="uid://bvb4maqi2qftn" path="res://scenes/balls/smily_bomb.tscn" id="12_06ugt"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_e4fnj"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/shop_ui/shop_ui.tscn" id="12_k3l6j"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/gameplay_ui/gameplay_ui.tscn" id="17_e4fnj"]
-[ext_resource type="Texture2D" uid="uid://mek1mglrkvqf" path="res://textures/balls/ball5.png" id="17_v0ouj"]
 [ext_resource type="Texture2D" uid="uid://bqmhekyijn2be" path="res://textures/icon.svg" id="18_h2uvi"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
@@ -192,7 +183,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.264763)
 script = ExtResource("5_eaqp3")
 ball_scene = ExtResource("6_y6x3d")
 player_ball = NodePath("../PlayerBall")
-ball_textures = Array[Texture2D]([ExtResource("12_825qs"), ExtResource("12_06ugt"), ExtResource("13_5prdx"), ExtResource("15_h2uvi"), ExtResource("16_udjwb"), ExtResource("17_v0ouj")])
 ball_radius = 1.0
 default_ball_texture = ExtResource("18_h2uvi")
 

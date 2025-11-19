@@ -20,6 +20,8 @@ func _ready() -> void:
 	if !player_ball:
 		push_error("Error: 'Player Ball' not set in Ball Spawner")
 		return
+	
+	load_textures_from_folder("res://textures/balls")
 		
 	if ball_textures.is_empty() and !default_ball_texture:
 		push_warning("Warning: 'Ball Textures' array is empty and 'Default Ball Texture' is not set. Balls will not have any texture unless set in their scene directly.")
@@ -67,6 +69,7 @@ func _ready() -> void:
 		elif default_ball_texture:
 			texture_to_apply = default_ball_texture
 			print("Kula ", current_texture_index, ": Używam domyślnej tekstury: ", texture_to_apply.resource_path if texture_to_apply else "Brak")
+			current_texture_index += 1;
 		else:
 			print("Kula ", current_texture_index, ": Brak tekstury do zastosowania.")
 		
@@ -116,3 +119,22 @@ func find_mesh_instance(node: Node) -> MeshInstance3D:
 		if mesh_instance:
 			return mesh_instance
 	return null
+	
+func load_textures_from_folder(path: String) -> void:
+	var dir = DirAccess.open(path)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		
+		while file_name != "":
+			if !dir.current_is_dir() and (file_name.ends_with(".png") or file_name.ends_with(".jpg")):
+				var full_path = path + "/" + file_name
+				var texture = load(full_path)
+				if texture is Texture2D:
+					ball_textures.append(texture)
+					print("Załadowano teksturę z kodu: ", file_name)
+			
+			file_name = dir.get_next()
+		dir.list_dir_end()
+	else:
+		push_error("Nie znaleziono folderu: " + path)
