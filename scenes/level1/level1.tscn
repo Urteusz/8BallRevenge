@@ -171,10 +171,9 @@ object_node = NodePath("../../PlayerBall")
 transform = Transform3D(-5.94, 0, 8.969151e-07, 0, 5.94, 0, -8.969151e-07, 0, -5.94, -0.03560875, -9.019196, 16.133665)
 shape = SubResource("ConcavePolygonShape3D_st3il")
 
-[node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" node_paths=PackedStringArray("game_manager", "player_ball")]
+[node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" node_paths=PackedStringArray("player_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.264763)
 script = ExtResource("10_5prdx")
-game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("6_y6x3d")
 player_ball = NodePath("../PlayerBall")
 ball_radius = 1.0

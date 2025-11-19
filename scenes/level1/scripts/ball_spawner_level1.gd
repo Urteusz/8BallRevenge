@@ -1,18 +1,16 @@
 extends Marker3D
 
-@export var game_manager: Node3D
-
 @export var ball_scene: PackedScene
 @export var player_ball: RigidBody3D
 
-# --- New variable to control the triangle size ---
-@export var num_rows: int = 3 # Defines the number of rows (e.g., 3 rows = 1+2+3=6 balls total)
+@export var spread: float = 1.0
+@export var depth: float = 1.0
+@export var height: float = 1.0
 
-@export var spread: float = 1.0 # Horizontal distance between balls in a row
-@export var depth: float = 1.0  # Vertical (z-axis) distance between rows
-@export var height: float = 1.0 # Base height offset from the Marker3D
+@export var ball_textures: Array[Texture2D] 
+@export var ball_radius: float = 0.05 
 
-@export var ball_radius: float = 0.05
+@export var default_ball_texture: Texture2D 
 
 func _ready() -> void:
 	if !ball_scene:
@@ -22,7 +20,15 @@ func _ready() -> void:
 	if !player_ball:
 		push_error("Error: 'Player Ball' not set in Ball Spawner")
 		return
-		
+	
+	load_textures_from_folder("res://textures/balls")
+
+	if ball_textures.is_empty() and !default_ball_texture:
+		push_warning("Warning: 'Ball Textures' array is empty and 'Default Ball Texture' is not set. Balls will not have any texture unless set in their scene directly.")
+	elif ball_textures.is_empty() and default_ball_texture:
+		push_warning("Warning: 'Ball Textures' array is empty. All balls will use the 'Default Ball Texture'.")
+
+
 	var base_transform := global_transform
 	var base_position := base_transform.origin
 	var right_vector := base_transform.basis.x
@@ -30,68 +36,61 @@ func _ready() -> void:
 	var up_vector := base_transform.basis.y
 
 	var y_offset_for_balls := up_vector * (height + ball_radius)
-	
+
 	var positions: Array[Vector3] = []
+	var current_texture_index = 0
 
-	# --- Automatic Position Calculation ---
-	# Loop through each row (r = 0 is the front ball)
-	for r in range(num_rows):
-		# Calculate the Z offset (depth) for the current row
-		var z_offset = -(back_vector * depth * float(r))
-		
-		# Each row 'r' has 'r + 1' balls (row 0 has 1, row 1 has 2, etc.)
-		var num_balls_in_row = r + 1
-		
-		# Calculate the starting X offset to keep the row centered
-		# For r=0 (1 ball), start_x_scalar = 0
-		# For r=1 (2 balls), start_x_scalar = -0.5
-		# For r=2 (3 balls), start_x_scalar = -1.0
-		var start_x_scalar: float = -(float(r) / 2.0) * spread
-		
-		# Loop through each ball 'c' in the current row 'r'
-		for c in range(num_balls_in_row):
-			# Calculate the X offset for this specific ball
-			# (start_x_scalar + c * spread) gives the centered position for this ball
-			var x_offset = (start_x_scalar + (float(c) * spread)) * right_vector
-			
-			# Combine all offsets to get the final position
-			var ball_position = base_position + z_offset + x_offset + y_offset_for_balls
-			positions.append(ball_position)
-	# --- End of Automatic Calculation ---
+	# Rząd 1: 1 kula
+	positions.append(base_position + y_offset_for_balls)
 
-	var i: int = 0
-	for ball_position in positions:
-		if i >= PlayerData.current_deck.size():
-			return
-		
-		var ball_data: BallData = PlayerData.current_deck[i]
-		if !ball_data or !ball_data.scene:
-			i += 1
-			continue	
-		
-		var new_instance = ball_data.scene.instantiate()
+	# Rząd 2: 2 kule
+	positions.append(base_position - (back_vector * depth) - (right_vector * spread * 0.5) + y_offset_for_balls)
+	positions.append(base_position - (back_vector * depth) + (right_vector * spread * 0.5) + y_offset_for_balls)
+
+	# Rząd 3: 3 kule
+	positions.append(base_position - (back_vector * depth * 2.0) - (right_vector * spread * 1.0) + y_offset_for_balls)
+	positions.append(base_position - (back_vector * depth * 2.0) + y_offset_for_balls)
+	positions.append(base_position - (back_vector * depth * 2.0) + (right_vector * spread * 1.0) + y_offset_for_balls)
+
+	for position in positions:
+		var new_instance = ball_scene.instantiate()
 		add_child(new_instance)
-		game_manager.ball_list.append(new_instance)
-		new_instance.base_value = ball_data.base_value
-		new_instance.global_position = ball_position
-		
-		if ball_data.texture:
-			apply_texture_to_ball(new_instance, ball_data.texture)
-		
+		new_instance.global_position = position
+
+		# ---- Zmieniona logika przypisywania tekstur ----
+		var texture_to_apply: Texture2D = null
+
+		# Najpierw spróbuj wziąć unikalną teksturę z tablicy
+		if not ball_textures.is_empty() and current_texture_index < ball_textures.size():
+			texture_to_apply = ball_textures[current_texture_index]
+			print("Kula ", current_texture_index, ": Używam tekstury z ball_textures: ", texture_to_apply.resource_path if texture_to_apply else "Brak")
+			current_texture_index += 1
+		# Jeśli nie ma więcej unikalnych tekstur, użyj domyślnej
+		elif default_ball_texture:
+			texture_to_apply = default_ball_texture
+			print("Kula ", current_texture_index, ": Używam domyślnej tekstury: ", texture_to_apply.resource_path if texture_to_apply else "Brak")
+			current_texture_index += 1;
+		else:
+			print("Kula ", current_texture_index, ": Brak tekstury do zastosowania.")
+
+		# Jeśli znaleziono teksturę (czy to unikalną, czy domyślną), zastosuj ją
+		if texture_to_apply:
+			apply_texture_to_ball(new_instance, texture_to_apply)
+		else:
+			push_warning("Warning: No texture assigned to a ball instance. 'Ball Textures' array exhausted and 'Default Ball Texture' not set.")
+
+
 		if new_instance.has_method("_on_round_ended"):
 			player_ball.round_ended.connect(new_instance._on_round_ended)
 		else:
-			push_warning("Warning: Ball instance does not have 'on_round_ended'")
-		
-		i += 1
-
+			push_warning("Warning: Ball instance does not have '_on_round_ended' method.")
 
 func apply_texture_to_ball(ball_instance: Node3D, texture: Texture2D) -> void:
 	var mesh_instance = find_mesh_instance(ball_instance)
 
 	if mesh_instance and mesh_instance.mesh:
 		var material = mesh_instance.get_active_material(0)
-		
+
 		if material:
 			# *** KLUCZOWA ZMIANA: Tworzenie unikalnej kopii materiału ***
 			var unique_material = material.duplicate()
@@ -120,3 +119,22 @@ func find_mesh_instance(node: Node) -> MeshInstance3D:
 		if mesh_instance:
 			return mesh_instance
 	return null
+	
+func load_textures_from_folder(path: String) -> void:
+	var dir = DirAccess.open(path)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		
+		while file_name != "":
+			if !dir.current_is_dir() and (file_name.ends_with(".png") or file_name.ends_with(".jpg")):
+				var full_path = path + "/" + file_name
+				var texture = load(full_path)
+				if texture is Texture2D:
+					ball_textures.append(texture)
+					print("Załadowano teksturę z kodu: ", file_name)
+			
+			file_name = dir.get_next()
+		dir.list_dir_end()
+	else:
+		push_error("Nie znaleziono folderu: " + path)
