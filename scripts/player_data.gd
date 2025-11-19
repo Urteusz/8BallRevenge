@@ -5,6 +5,7 @@ extends Node
 
 var player_balls: Array[BallData] = [] # Cala lista kul jakie gracz posiada do wyboru
 var current_deck: Array[BallData] = [] # 
+const TEXTURES_PATH = "res://textures/balls/"
 
 var red_ball_data = load("res://scenes/balls/ball_data/red_ball.tres")
 var black_ball_data = load("res://scenes/balls/ball_data/black_ball.tres")
@@ -24,10 +25,21 @@ func _ready() -> void:
 	current_deck.append(yellow_ball_data)
 	current_deck.append(bomb_ball_data)
 	
-	#current_deck.append(bomb_ball_data)
-	#current_deck.append(bomb_ball_data)
-	#current_deck.append(bomb_ball_data)
-	#current_deck.append(bomb_ball_data)
-	#current_deck.append(bomb_ball_data)
-	#current_deck.append(bomb_ball_data)
+	load_textures_for_deck()
+	
+func load_textures_for_deck() -> void:
+	for ball_data in current_deck:
+		if ball_data == null:
+			continue
+			
+		var ball_name = ball_data.resource_path.get_file().get_basename()
+		var texture_path_png = TEXTURES_PATH + ball_name + ".png"
+		
+		if ResourceLoader.exists(texture_path_png):
+			ball_data.texture = load(texture_path_png)
+			print("Załadowano teksturę (PNG) dla: ", ball_name)
+		
+		else:
+			push_warning("Nie znaleziono tekstury dla kuli: " + ball_name + " w folderze " + TEXTURES_PATH)
+		
 	
