@@ -1,7 +1,7 @@
 [gd_resource type="SphereMesh" load_steps=7 format=3 uid="uid://b7ow3a5vk1da1"]
 
 [ext_resource type="Texture2D" uid="uid://16srndfhc6ny" path="res://textures/balls/ball3.png" id="1_bmxrr"]
-[ext_resource type="Shader" path="res://shaders/outline.gdshader" id="2_y5rik"]
+[ext_resource type="Shader" uid="uid://l7a30blnr3dk" path="res://shaders/outline.gdshader" id="2_y5rik"]
 [ext_resource type="Shader" uid="uid://cr63kprmyipui" path="res://shaders/edge_detection_2.gdshader" id="3_tnrti"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bmxrr"]

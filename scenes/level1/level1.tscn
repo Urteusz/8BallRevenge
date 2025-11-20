@@ -176,6 +176,7 @@ script = ExtResource("10_e4fnj")
 game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("6_y6x3d")
 player_ball = NodePath("../PlayerBall")
+height = 0.0
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_e4fnj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218924)

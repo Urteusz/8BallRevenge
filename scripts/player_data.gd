@@ -37,8 +37,9 @@ func _ready() -> void:
 	# Ball spawner ma narazie tylko 6 pozycji wiec max 6 kul
 	# Ustawiam tymczasowo bo nie ma jeszcze ui do wyboru kul
 	
-	current_deck.append(bouncy_ball_data)
+
 	current_deck.append(black_ball_data)
+	current_deck.append(bouncy_ball_data)
 	current_deck.append(red_ball_data)
 	current_deck.append(blue_ball_data)
 	current_deck.append(green_ball_data)
