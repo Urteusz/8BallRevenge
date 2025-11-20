@@ -10,6 +10,7 @@ extends Control
 var shop_open := false
 var shop_positions_set := false
 var points: int = 0
+var ilosc_zakupionych = -1
 
 func _ready() -> void:
 	label.add_theme_color_override("font_color", Color.WHITE)
@@ -44,13 +45,13 @@ func _buy_item(item_name: String, cost: int, ball_type: String) -> void:
 		if PlayerData.current_deck.size() == 0:
 			print_debug("Brak kul w decku do zamiany!")
 			return
-		
+		ilosc_zakupionych+=1
 		# Odejmij punkty
 		points -= cost
 		label.text = "Punkty: %d" % points
 		
 		# Zamień pierwszą kulę w decku na nową
-		var success = PlayerData.replace_ball_in_deck(0, ball_type)
+		var success = PlayerData.replace_ball_in_deck(ilosc_zakupionych, ball_type)
 		
 		if success:
 			print_debug("Kupiono:", item_name, "- zamieniono kulę w decku")

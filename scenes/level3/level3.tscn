@@ -9,7 +9,7 @@
 [ext_resource type="ArrayMesh" uid="uid://cjg16fg5a31w4" path="res://models/table/table_walls.obj" id="7_44lnw"]
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="8_cwvdl"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/level_script/walls.gd" id="9_jc0vr"]
-[ext_resource type="Script" path="res://scenes/level1/scripts/ball_spawner_level1.gd" id="10_oi5cx"]
+[ext_resource type="Script" uid="uid://ddr1vvp0rplvr" path="res://scenes/level1/scripts/ball_spawner_level1.gd" id="10_oi5cx"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="11_cmsc5"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_6axdp"]
 [ext_resource type="PackedScene" uid="uid://c6j004sg52ide" path="res://models/room_colored_no_walls.glb" id="13_jglet"]
@@ -190,7 +190,6 @@ script = ExtResource("10_oi5cx")
 game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("11_cmsc5")
 player_ball = NodePath("../PlayerBall")
-num_rows = 1
 ball_radius = 1.0
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_6axdp")]

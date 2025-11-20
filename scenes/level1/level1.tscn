@@ -177,7 +177,6 @@ script = ExtResource("10_5prdx")
 game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("6_y6x3d")
 player_ball = NodePath("../PlayerBall")
-num_rows = 1
 ball_radius = 1.0
 
 [node name="smiley_bomb" parent="SubViewportContainer/SubViewport/Table" groups=["balls"] instance=ExtResource("12_06ugt")]
