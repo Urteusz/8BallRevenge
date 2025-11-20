@@ -7,18 +7,17 @@ extends Control
 @onready var again_button: Button = $"GameOverWindow/AgainButton"
 @onready var exit_button: Button = $"GameOverWindow/ExitButton"
 @onready var win_label: Label = $"WinWindow/LabelWin"
-@onready var exit_button_win: Button = $"WinWindow/WinWindowButtons/ExitButton"
-@onready var next_button: Button = $"WinWindow/WinWindowButtons/NextButton"
+@onready var shop_button: Button = $"WinWindow/GoToShop"
 
 @export var game_manager: Node3D
+@export var shopUI: Control
 
 func _ready() -> void:
 	game_over_window.visible = false
 	win_window.visible = false
 	again_button.pressed.connect(_on_try_again)
 	exit_button.pressed.connect(_on_main_menu)
-	exit_button_win.pressed.connect(_on_main_menu)
-	next_button.pressed.connect(_on_next_level)
+	shop_button.pressed.connect(_on_shop_button)
 	if game_manager:
 		game_manager.connect("moves_changed", _on_moves_changed)
 		game_manager.connect("player_died", _on_game_over)
@@ -40,8 +39,7 @@ func _on_game_over() -> void:
 	
 func _on_game_win() -> void:
 	win_window.visible = true
-	win_label.text = "Winner winner chicken diner"
-	moves_count_label.text = ""
+	win_label.text = "Gratuluję ukończyłeś poziom"
 	_enable_mouse()
 
 func _on_try_again() -> void:
@@ -50,8 +48,10 @@ func _on_try_again() -> void:
 func _on_main_menu() -> void:
 	LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)
 	
-func _on_next_level() -> void:
-	LoadManager.load_scene(ScenePaths.LEVEL3_PATH)
+func _on_shop_button() -> void:
+	win_window.visible = false
+	_ignore_mouse()
+	shopUI.toggle_shop()
 
 func _ignore_mouse() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE

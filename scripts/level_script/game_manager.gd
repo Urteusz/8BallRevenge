@@ -11,6 +11,7 @@ var game_over := false
 var ball_list: Array
 var points: int = 0
 var move_again := false
+var game_win := false
 
 signal player_died
 signal player_win
@@ -49,19 +50,20 @@ func _on_ball_pocketed(ball):
 		move_again = true
 		ball_list.erase(ball)
 		ball.queue_free()
-		if ball_list.size() == 0:
-			emit_signal("player_win")
 
 
 func _on_round_ended() -> void:
 	if game_over:
 		return
+	if ball_list.size() == 0:
+			points=points*moves_left
+			emit_signal("points_changed", points)
+			emit_signal("player_win")
 	if moves_left > 1:
 		if !move_again:
 			moves_left -= 1
 		else:
 			move_again = false
-		
 		emit_signal("moves_changed", moves_left)
 	else:
 		_on_game_over()

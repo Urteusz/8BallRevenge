@@ -177,6 +177,7 @@ script = ExtResource("10_5prdx")
 game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("6_y6x3d")
 player_ball = NodePath("../PlayerBall")
+num_rows = 1
 ball_radius = 1.0
 
 [node name="smiley_bomb" parent="SubViewportContainer/SubViewport/Table" groups=["balls"] instance=ExtResource("12_06ugt")]
@@ -231,10 +232,14 @@ environment = SubResource("Environment_jka67")
 
 [node name="ShopUI" parent="." instance=ExtResource("12_k3l6j")]
 
+[node name="ControlShop" parent="ShopUI" index="0" node_paths=PackedStringArray("game_manager")]
+game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
+
 [node name="GameplayUI" parent="." instance=ExtResource("17_e4fnj")]
 
-[node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager")]
+[node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager", "shopUI")]
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
+shopUI = NodePath("../../ShopUI/ControlShop")
 
 [connection signal="game_won" from="SubViewportContainer/SubViewport/Camera3D" to="GameplayUI/ControlGameplay" method="_on_game_win"]
 [connection signal="targetting_center" from="SubViewportContainer/SubViewport/Camera3D" to="SubViewportContainer/SubViewport/Table/PlayerBall" method="_on_camera_3d_targetting_center"]

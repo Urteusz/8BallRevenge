@@ -173,7 +173,7 @@ transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 8
 physics_material_override = SubResource("PhysicsMaterial_e4fnj")
 
 [node name="TableWalls" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Walls" node_paths=PackedStringArray("object_node")]
-transform = Transform3D(-6.695, 0, 1.0109169e-06, 0, 6.695, 0, -1.0109169e-06, 0, -6.695, 0, -9.169, 16.873)
+transform = Transform3D(-6.9, 0, 1.0418711e-06, 0, 6.9, 0, -1.0418711e-06, 0, -6.9, -0.045, -9, 17.218)
 mesh = ExtResource("7_44lnw")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("ShaderMaterial_u8udk")
@@ -245,8 +245,9 @@ environment = SubResource("Environment_jka67")
 
 [node name="GameplayUI" parent="." instance=ExtResource("19_lsmej")]
 
-[node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager")]
+[node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager", "shopUI")]
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
+shopUI = NodePath("../../ShopUI/ControlShop")
 
 [node name="bridge3" parent="." instance=ExtResource("20_13qfw")]
 transform = Transform3D(-26.325108, 0, 11.041737, 0, 28.547, 0, -11.041737, 0, -26.325108, 1062.833, 166.87213, -1144.5442)

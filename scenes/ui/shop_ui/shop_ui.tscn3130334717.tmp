@@ -64,6 +64,7 @@ grow_vertical = 2
 script = ExtResource("1_67u7h")
 
 [node name="LabelPoints" type="Label" parent="ControlShop"]
+modulate = Color(0, 0, 0, 1)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
