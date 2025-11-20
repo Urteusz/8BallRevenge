@@ -40,7 +40,7 @@ func _on_item_pressed(item_name: String) -> void:
 		"Kulka Czerwona": _buy_item(item_name, 1000, "red")
 		"Kulka Zielona": _buy_item(item_name, 2000, "green")
 		"Kulka Niebieska": _buy_item(item_name, 3000, "blue")
-		"Kulka Ciemna": _buy_item(item_name, 4000, "black")
+		"Kulka Szybka": _buy_item(item_name, 4000, "speedy")
 		"Kulka Bomba": _buy_item(item_name, 5000, "bomb")
 
 func _buy_item(item_name: String, cost: int, ball_type: String) -> void:
@@ -73,9 +73,9 @@ func _buy_item(item_name: String, cost: int, ball_type: String) -> void:
 	else:
 		print_debug("Za mało punktów na", item_name)
 
-#func _process(delta) -> void:
-	#if Input.is_action_just_pressed("ui_cancel"):
-		#toggle_shop()
+func _process(delta) -> void:
+	if Input.is_action_just_pressed("ui_cancel"):
+		toggle_shop()
 
 func toggle_shop() -> void:
 	shop_open = !shop_open

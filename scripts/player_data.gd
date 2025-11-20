@@ -24,7 +24,8 @@ var ball_data_map = {
 	"green": green_ball_data,
 	"purple": purple_ball_data,
 	"yellow": yellow_ball_data,
-	"bomb": bomb_ball_data
+	"bomb": bomb_ball_data,
+	"speedy": speedy_ball_data
 }
 
 const SAVE_PATH = "user://player_progress.save"
@@ -33,7 +34,7 @@ func _ready() -> void:
 	# Ball spawner ma narazie tylko 6 pozycji wiec max 6 kul
 	# Ustawiam tymczasowo bo nie ma jeszcze ui do wyboru kul
 	
-	current_deck.append(yellow_ball_data)
+	current_deck.append(bomb_ball_data)
 	current_deck.append(red_ball_data)
 	current_deck.append(black_ball_data)
 	current_deck.append(blue_ball_data)

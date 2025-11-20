@@ -13,7 +13,6 @@ var can_explode: bool = true
 
 func _ready():
 	super._ready()
-	base_value = 500
 	
 	if smoke_effect:
 		smoke_effect.emitting = false

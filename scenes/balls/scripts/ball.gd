@@ -40,7 +40,6 @@ func on_hit() -> void:
 
 func enable_scoring() -> void:
 	can_score = true
-
 # Inne kule zmienialyby implementacje tego
 func _calculate_points() -> int:
 	return base_value * total_bounces_round
