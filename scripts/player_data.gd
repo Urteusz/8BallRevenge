@@ -15,6 +15,7 @@ var green_ball_data = load("res://scenes/balls/ball_data/green_ball.tres")
 var purple_ball_data = load("res://scenes/balls/ball_data/purple_ball.tres")
 var yellow_ball_data = load("res://scenes/balls/ball_data/yellow_ball.tres")
 var bomb_ball_data = load("res://scenes/balls/ball_data/bomb_ball.tres")
+var speedy_ball_data = load("res://scenes/balls/ball_data/speedy_ball.tres")
 
 var ball_data_map = {
 	"red": red_ball_data,
