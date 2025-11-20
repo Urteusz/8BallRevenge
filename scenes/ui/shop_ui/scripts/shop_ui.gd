@@ -37,11 +37,11 @@ func _on_points_updated(new_points: int) -> void:
 
 func _on_item_pressed(item_name: String) -> void:
 	match item_name:
-		"Kulka Magnetyczna": _buy_item(item_name, 1000, "magnetic")
-		"Kulka Zielona": _buy_item(item_name, 2000, "green")
-		"Kulka Niebieska": _buy_item(item_name, 3000, "blue")
-		"Kulka Szybka": _buy_item(item_name, 4000, "speedy")
-		"Kulka Bomba": _buy_item(item_name, 5000, "bomb")
+		"Kulka Magnetyczna": _buy_item(item_name, 10, "magnetic")
+		"Kulka Zielona": _buy_item(item_name, 20, "green")
+		"Kulka Niebieska": _buy_item(item_name, 30, "blue")
+		"Kulka Szybka": _buy_item(item_name, 40, "speedy")
+		"Kulka Bomba": _buy_item(item_name, 50, "bomb")
 
 func _buy_item(item_name: String, cost: int, ball_type: String) -> void:
 	if item_name in item_bought:

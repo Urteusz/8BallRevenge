@@ -12,7 +12,8 @@ class_name ExplosiveBomb
 var can_explode: bool = true 
 
 func _ready():
-	super._ready()
+	
+	super()
 	
 	if smoke_effect:
 		smoke_effect.emitting = false
@@ -45,12 +46,11 @@ func _on_body_entered(body_rid: RID, body: Node, body_shape_index: int, local_sh
 			shockwave_effect.restart()
 			shockwave_effect.emitting = true
 	
-	can_explode = false
+	
 	
 	explode()
 	
-	await get_tree().create_timer(explosion_cooldown).timeout
-	can_explode = true
+	
 
 
 func explode():

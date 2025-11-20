@@ -38,7 +38,7 @@ func _ready() -> void:
 	# Ustawiam tymczasowo bo nie ma jeszcze ui do wyboru kul
 	
 
-	current_deck.append(black_ball_data)
+	current_deck.append(bomb_ball_data)
 	current_deck.append(bouncy_ball_data)
 	current_deck.append(red_ball_data)
 	current_deck.append(blue_ball_data)

@@ -9,7 +9,7 @@ const BALLS_GROUP = "balls"
 var moves_left: int
 var game_over := false
 var ball_list: Array
-var points: int = 0
+var points: int = 500
 var move_again := false
 var game_win := false
 

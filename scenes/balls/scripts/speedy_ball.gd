@@ -2,7 +2,7 @@ extends BallParent
 class_name SpeedyBall
 
 # Konfiguracja supermocy
-@export var speed_multiplier: float = 3.5  # Mnożnik siły przekazywanej innej bili
+@export var speed_multiplier: float = 5  # Mnożnik siły przekazywanej innej bili
 @export var self_boost: float = 1.2        # Ile prędkości zachowuje/zyskuje po odbiciu od bandy
 @export var boost_cooldown: float = 0.2    # Żeby nie "zwariowała" przy ciągłym styku
 
