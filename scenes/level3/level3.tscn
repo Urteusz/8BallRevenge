@@ -190,7 +190,7 @@ script = ExtResource("10_oi5cx")
 game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("11_cmsc5")
 player_ball = NodePath("../PlayerBall")
-ball_radius = 1.0
+height = 0.0
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_6axdp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218924)
