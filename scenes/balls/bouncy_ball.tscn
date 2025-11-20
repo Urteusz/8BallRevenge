@@ -60,7 +60,7 @@ shadow_mesh = SubResource("ArrayMesh_vijkl")
 [sub_resource type="SphereShape3D" id="SphereShape3D_ush83"]
 radius = 0.998094
 
-[node name="BouncyBall" type="RigidBody3D"]
+[node name="BouncyBall" type="RigidBody3D" groups=["balls"]]
 physics_material_override = SubResource("PhysicsMaterial_rqvfc")
 contact_monitor = true
 max_contacts_reported = 4
