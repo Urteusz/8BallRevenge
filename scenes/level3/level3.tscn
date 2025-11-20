@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="4_twmmh"]
 [ext_resource type="ArrayMesh" uid="uid://doao5c3onp6y0" path="res://models/table/table_rim_2.obj" id="5_d1yyg"]
 [ext_resource type="Shader" uid="uid://3i5t87i5bngp" path="res://shaders/table_edges.gdshader" id="6_4nps4"]
-[ext_resource type="ArrayMesh" uid="uid://cjg16fg5a31w4" path="res://models/table/table_walls.obj" id="7_44lnw"]
+[ext_resource type="ArrayMesh" uid="uid://c45k7ub6bpejj" path="res://models/table/Walls.obj" id="7_gte40"]
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="8_cwvdl"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/level_script/walls.gd" id="9_jc0vr"]
 [ext_resource type="Script" uid="uid://ddr1vvp0rplvr" path="res://scenes/level1/scripts/ball_spawner_level1.gd" id="10_oi5cx"]
@@ -173,8 +173,8 @@ transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 8
 physics_material_override = SubResource("PhysicsMaterial_e4fnj")
 
 [node name="TableWalls" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Walls" node_paths=PackedStringArray("object_node")]
-transform = Transform3D(-6.9, 0, 1.0418711e-06, 0, 6.9, 0, -1.0418711e-06, 0, -6.9, -0.045, -9, 17.218)
-mesh = ExtResource("7_44lnw")
+transform = Transform3D(-5.48, 0, 8.2745703e-07, 0, 5.48, 0, -8.2745703e-07, 0, -5.48, 0.505, -9.16, 16.62)
+mesh = ExtResource("7_gte40")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("ShaderMaterial_u8udk")
 script = ExtResource("9_jc0vr")
