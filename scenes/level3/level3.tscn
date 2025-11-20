@@ -108,7 +108,7 @@ ambient_light_source = 3
 fog_enabled = true
 fog_light_color = Color(0, 0, 0, 1)
 
-[node name="Node3D" type="Node3D"]
+[node name="Node3D2" type="Node3D"]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 texture_filter = 1

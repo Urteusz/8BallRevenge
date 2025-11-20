@@ -17,6 +17,7 @@ var yellow_ball_data = load("res://scenes/balls/ball_data/yellow_ball.tres")
 var bomb_ball_data = load("res://scenes/balls/ball_data/bomb_ball.tres")
 var speedy_ball_data = load("res://scenes/balls/ball_data/speedy_ball.tres")
 var bouncy_ball_data = load("res://scenes/balls/ball_data/bouncy_ball.tres")
+var magnetic_ball_data = load("res://scenes/balls/ball_data/magnetic_ball.tres")
 
 var ball_data_map = {
 	"red": red_ball_data,
@@ -26,7 +27,8 @@ var ball_data_map = {
 	"purple": purple_ball_data,
 	"yellow": yellow_ball_data,
 	"bomb": bomb_ball_data,
-	"speedy": speedy_ball_data
+	"speedy": speedy_ball_data,
+	"magnetic": magnetic_ball_data
 }
 
 const SAVE_PATH = "user://player_progress.save"

@@ -1,9 +1,9 @@
-[gd_scene load_steps=39 format=4]
+[gd_scene load_steps=39 format=4 uid="uid://dlnhsxxyfvc15"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_j4hya"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_n15fh"]
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="4_gv02k"]
-[ext_resource type="Script" uid="uid://ddr1vvp0rplvr" path="res://scenes/level2/scripts/ball_spawner_level2.gd" id="5_eaqp3"]
+[ext_resource type="Script" uid="uid://ddr1vvp0rplvr" path="res://scenes/level1/scripts/ball_spawner_level1.gd" id="5_ritex"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="6_y6x3d"]
 [ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="8_0em4h"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/level_script/walls.gd" id="9_gv02k"]
@@ -275,7 +275,7 @@ object_node = NodePath("../../../PlayerBall")
 
 [node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" node_paths=PackedStringArray("game_manager", "player_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3257387, -6)
-script = ExtResource("5_eaqp3")
+script = ExtResource("5_ritex")
 game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("6_y6x3d")
 player_ball = NodePath("../PlayerBall")

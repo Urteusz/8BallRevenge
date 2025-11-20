@@ -1,6 +1,5 @@
-[gd_resource type="SphereMesh" load_steps=7 format=3 uid="uid://3f1owrnm802y"]
+[gd_resource type="SphereMesh" load_steps=6 format=3 uid="uid://3f1owrnm802y"]
 
-[ext_resource type="Texture2D" uid="uid://dnmjl4sbt5n1w" path="res://textures/balls/ball1.png" id="1_gkb8k"]
 [ext_resource type="Shader" path="res://shaders/outline.gdshader" id="2_rh45l"]
 [ext_resource type="Shader" uid="uid://cr63kprmyipui" path="res://shaders/edge_detection_2.gdshader" id="3_bewrp"]
 
@@ -23,7 +22,7 @@ shader_parameter/shadow_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uaovo"]
 next_pass = SubResource("ShaderMaterial_mfc4s")
-albedo_texture = ExtResource("1_gkb8k")
+albedo_color = Color(0.23753911, 0.23753914, 0.23753911, 1)
 
 [resource]
 material = SubResource("StandardMaterial3D_uaovo")

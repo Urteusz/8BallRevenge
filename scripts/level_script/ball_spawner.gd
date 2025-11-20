@@ -67,7 +67,7 @@ func _ready() -> void:
 		var ball_data: BallData = PlayerData.current_deck[i]
 		if !ball_data or !ball_data.scene:
 			i += 1
-			continue	
+			continue
 		
 		var new_instance = ball_data.scene.instantiate()
 		add_child(new_instance)
@@ -84,7 +84,14 @@ func _ready() -> void:
 			push_warning("Warning: Ball instance does not have 'on_round_ended'")
 		
 		i += 1
+	await get_tree().create_timer(0.3).timeout
+	_enable_scoring_for_all_balls()
 
+
+func _enable_scoring_for_all_balls() -> void:
+	for ball in game_manager.ball_list:
+		if ball.has_method("enable_scoring"):
+			ball.enable_scoring()
 
 func apply_texture_to_ball(ball_instance: Node3D, texture: Texture2D) -> void:
 	var mesh_instance = find_mesh_instance(ball_instance)

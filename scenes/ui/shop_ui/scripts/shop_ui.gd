@@ -37,7 +37,7 @@ func _on_points_updated(new_points: int) -> void:
 
 func _on_item_pressed(item_name: String) -> void:
 	match item_name:
-		"Kulka Czerwona": _buy_item(item_name, 1000, "red")
+		"Kulka Magnetyczna": _buy_item(item_name, 1000, "magnetic")
 		"Kulka Zielona": _buy_item(item_name, 2000, "green")
 		"Kulka Niebieska": _buy_item(item_name, 3000, "blue")
 		"Kulka Szybka": _buy_item(item_name, 4000, "speedy")

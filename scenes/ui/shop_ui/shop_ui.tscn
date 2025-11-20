@@ -82,7 +82,7 @@ grow_vertical = 2
 [node name="Button1" type="Button" parent="ControlShop/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Kulka Czerwona"
+text = "Kulka Magnetyczna"
 
 [node name="Button2" type="Button" parent="ControlShop/HBoxContainer"]
 layout_mode = 2
