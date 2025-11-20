@@ -1,6 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cvnfjdk8w4xmw"]
+[gd_scene load_steps=8 format=3 uid="uid://cvnfjdk8w4xmw"]
 
 [ext_resource type="Script" uid="uid://b708i5vqbdg13" path="res://scenes/balls/scripts/magnetic_ball.gd" id="1_25lsb"]
+[ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="2_ntpfr"]
+[ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/hit_particles/star_particles_2.tscn" id="3_12743"]
+[ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/hit_particles/star_particles_3.tscn" id="4_1fjgl"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_m23fj"]
 
@@ -13,11 +16,15 @@ metallic_specular = 0.65
 roughness = 0.15
 
 [node name="MagneticBall" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4421356, -1.3083694, 1.0683186)
 contact_monitor = true
 max_contacts_reported = 4
 linear_damp = 0.5
 angular_damp = 0.5
 script = ExtResource("1_25lsb")
+hit_particles = ExtResource("2_ntpfr")
+hit_particles2 = ExtResource("3_12743")
+hit_particles3 = ExtResource("4_1fjgl")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_m23fj")
