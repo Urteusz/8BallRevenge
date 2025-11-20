@@ -10,7 +10,6 @@ class_name BallParent
 signal points_scored(points, world_position)
 signal ball_pocketed(ball)
 
-
 var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 
 # Bazowa ilosc punktow za zderzenie
@@ -20,6 +19,7 @@ var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 var total_points: int = 0 # Suma punktow jaka sie dostanie za wbicie kuli
 var total_bounces_round: int = 0 # Suma odbic w jednej rundzie (do momentu zatrzymania sie bialej bili)
 var total_score_popup_instance = null
+var can_score := false
 
 
 func pocketed() -> void:
@@ -27,14 +27,19 @@ func pocketed() -> void:
 	emit_signal("ball_pocketed", self)
 
 func on_hit() -> void:
-	total_bounces_round += 1
+	if can_score:
+		total_bounces_round += 1
+		var points_gained: int = _calculate_points()
+		print(points_gained)
+		total_points += points_gained
+		_show_popup(global_position, points_gained) # global_position -> miejsce kuli w momencie zderzenia
+		_show_particles(global_position)
+	
 
-	var points_gained: int = _calculate_points()
-	total_points += points_gained
+	
 
-	_show_popup(global_position, points_gained) # global_position -> miejsce kuli w momencie zderzenia
-	_show_particles(global_position)
-
+func enable_scoring() -> void:
+	can_score = true
 
 # Inne kule zmienialyby implementacje tego
 func _calculate_points() -> int:

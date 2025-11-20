@@ -10,7 +10,10 @@ extends Control
 var shop_open := false
 var shop_positions_set := false
 var points: int = 0
-var ilosc_zakupionych = -1
+var ilosc_zakupionych = 0
+
+var item_bought = []
+var buttons = []
 
 func _ready() -> void:
 	label.add_theme_color_override("font_color", Color.WHITE)
@@ -19,6 +22,7 @@ func _ready() -> void:
 	next_button.pressed.connect(_on_next_level)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	for item_button in buttons_container.get_children():
+		buttons.append(item_button)
 		item_button.connect("pressed", Callable(self, "_on_item_pressed").bind(item_button.text))
 
 func _on_next_level() -> void:
@@ -40,18 +44,24 @@ func _on_item_pressed(item_name: String) -> void:
 		"Kulka Bomba": _buy_item(item_name, 5000, "bomb")
 
 func _buy_item(item_name: String, cost: int, ball_type: String) -> void:
+	if item_name in item_bought:
+		print_debug("Kupiono już ten prodkut")
+		return
 	if points >= cost:
 		# Sprawdź czy gracz ma kulę do zamiany
 		if PlayerData.current_deck.size() == 0:
 			print_debug("Brak kul w decku do zamiany!")
 			return
-		ilosc_zakupionych+=1
 		# Odejmij punkty
 		points -= cost
 		label.text = "Punkty: %d" % points
 		
-		# Zamień pierwszą kulę w decku na nową
 		var success = PlayerData.replace_ball_in_deck(ilosc_zakupionych, ball_type)
+		ilosc_zakupionych+=1
+		item_bought.append(item_name)
+		for btn in buttons:
+			if btn.text == item_name:
+				btn.text = "Sold out"
 		
 		if success:
 			print_debug("Kupiono:", item_name, "- zamieniono kulę w decku")
