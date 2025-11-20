@@ -239,13 +239,14 @@ shadow_mesh = SubResource("ArrayMesh_svn6p")
 [sub_resource type="SphereShape3D" id="SphereShape3D_lgfus"]
 radius = 0.5085822
 
-[node name="smiley_bomb" type="RigidBody3D" node_paths=PackedStringArray("smoke_effect", "shockwave_effect")]
+[node name="smiley_bomb" type="RigidBody3D" node_paths=PackedStringArray("smoke_effect", "shockwave_effect", "fuze_effect")]
 physics_material_override = SubResource("PhysicsMaterial_hafg3")
 contact_monitor = true
-max_contacts_reported = 9
+max_contacts_reported = 4
 script = ExtResource("1_lgfus")
 smoke_effect = NodePath("Particles/SmokeBOOM")
 shockwave_effect = NodePath("Particles/WaveBOOM")
+fuze_effect = NodePath("Particles/fuzeParticle")
 hit_particles = ExtResource("2_etd6p")
 hit_particles2 = ExtResource("3_y5st0")
 hit_particles3 = ExtResource("4_x2os8")
