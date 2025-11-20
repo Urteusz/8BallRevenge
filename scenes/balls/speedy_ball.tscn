@@ -1,0 +1,38 @@
+[gd_scene load_steps=9 format=3 uid="uid://ba517yyhlau5u"]
+
+[ext_resource type="Script" uid="uid://b6nhfx7h257o8" path="res://scenes/balls/scripts/speedy_ball.gd" id="1_wln65"]
+[ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="2_b22gl"]
+[ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/hit_particles/star_particles_2.tscn" id="3_nh68v"]
+[ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/hit_particles/star_particles_3.tscn" id="4_ctmrx"]
+[ext_resource type="Shader" uid="uid://b6kbsyqcwfxsp" path="res://shaders/speedy_ball.gdshader" id="5_nh68v"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_wln65"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ctmrx"]
+render_priority = 0
+shader = ExtResource("5_nh68v")
+shader_parameter/base_color = Color(0.0661043, 0.58919346, 0.6709184, 1)
+shader_parameter/energy_color = Color(1, 0.1, 0, 1)
+shader_parameter/metallic = 0.9
+shader_parameter/roughness = 0.2
+shader_parameter/energy_speed = 3.0
+shader_parameter/fresnel_power = 2.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0naav"]
+
+[node name="SpeedyBall" type="RigidBody3D"]
+contact_monitor = true
+max_contacts_reported = 4
+script = ExtResource("1_wln65")
+hit_particles = ExtResource("2_b22gl")
+hit_particles2 = ExtResource("3_nh68v")
+hit_particles3 = ExtResource("4_ctmrx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_wln65")
+surface_material_override/0 = SubResource("ShaderMaterial_ctmrx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_0naav")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
