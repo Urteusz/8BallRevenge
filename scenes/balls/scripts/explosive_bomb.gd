@@ -24,7 +24,6 @@ func _ready():
 
 
 func on_hit():
-	print("points")
 	super.on_hit()
 
 

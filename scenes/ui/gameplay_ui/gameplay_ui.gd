@@ -40,10 +40,11 @@ func _on_game_over() -> void:
 func _on_game_win() -> void:
 	win_window.visible = true
 	win_label.text = "Gratuluję ukończyłeś poziom"
+	PlayerData.set_level(3)
 	_enable_mouse()
 
 func _on_try_again() -> void:
-	LoadManager.load_scene(ScenePaths.LEVEL1_PATH)
+	LoadManager.load_scene(PlayerData.get_level_path())
 
 func _on_main_menu() -> void:
 	LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)

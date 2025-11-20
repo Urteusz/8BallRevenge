@@ -56,6 +56,7 @@ func _on_round_ended() -> void:
 	if game_over:
 		return
 	if ball_list.size() == 0:
+			PlayerData.set_level(3)
 			points=points*moves_left
 			emit_signal("points_changed", points)
 			emit_signal("player_win")

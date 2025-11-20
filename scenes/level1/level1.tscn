@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="8_0em4h"]
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="8_n1moy"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/level_script/walls.gd" id="9_wi5kd"]
-[ext_resource type="Script" path="res://scenes/level1/scripts/ball_spawner_level1.gd" id="10_5prdx"]
+[ext_resource type="Script" uid="uid://ddr1vvp0rplvr" path="res://scenes/level1/scripts/ball_spawner_level1.gd" id="10_5prdx"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="11_uj67f"]
 [ext_resource type="PackedScene" uid="uid://bvb4maqi2qftn" path="res://scenes/balls/smily_bomb.tscn" id="12_06ugt"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_e4fnj"]
@@ -231,9 +231,6 @@ shop_ui = NodePath("../../../ShopUI/ControlShop")
 environment = SubResource("Environment_jka67")
 
 [node name="ShopUI" parent="." instance=ExtResource("12_k3l6j")]
-
-[node name="ControlShop" parent="ShopUI" index="0" node_paths=PackedStringArray("game_manager")]
-game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
 
 [node name="GameplayUI" parent="." instance=ExtResource("17_e4fnj")]
 

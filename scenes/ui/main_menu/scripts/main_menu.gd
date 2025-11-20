@@ -4,7 +4,7 @@ extends PanelContainer
 #	zeby nie dalo sie wcisnac play -> i szybko wcisnac opcje
 
 func _on_play_button_pressed() -> void:
-	LoadManager.load_scene(ScenePaths.LEVEL1_PATH)
+	LoadManager.load_scene(PlayerData.get_level_path())
 
 
 # moze lepiej by bylo sobie darowac ten loading screen tutaj

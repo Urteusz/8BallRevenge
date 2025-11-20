@@ -23,7 +23,8 @@ func _ready() -> void:
 func _on_next_level() -> void:
 	toggle_shop()
 	continue_container.visible = false
-	LoadManager.load_scene(ScenePaths.LEVEL3_PATH)
+	PlayerData.set_level(3)
+	LoadManager.load_scene(PlayerData.get_level_path())
 
 func _on_points_updated(new_points: int) -> void:
 	points = new_points
@@ -45,9 +46,9 @@ func _buy_item(item_name: String, cost: int) -> void:
 	else:
 		print_debug("Za mało punktów na", item_name)
 
-func _process(delta) -> void:
-	if Input.is_action_just_pressed("ui_cancel"):
-		toggle_shop()
+#func _process(delta) -> void:
+	#if Input.is_action_just_pressed("ui_cancel"):
+		#toggle_shop()
 
 func toggle_shop() -> void:
 	shop_open = !shop_open
