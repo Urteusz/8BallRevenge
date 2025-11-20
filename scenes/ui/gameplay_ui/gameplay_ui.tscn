@@ -78,26 +78,39 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Main Menu"
 
-[node name="WinWindow" type="HBoxContainer" parent="ControlGameplay"]
-process_mode = 3
+[node name="WinWindow" type="VBoxContainer" parent="ControlGameplay"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -111.5
-offset_top = -15.5
-offset_right = 111.5
-offset_bottom = 15.5
+offset_left = -105.5
+offset_top = -40.0
+offset_right = 105.5
+offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="LabelWin" type="Label" parent="ControlGameplay/WinWindow"]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("3_2mbl5")
+theme_override_font_sizes/font_size = 50
 
-[node name="ExitButton" type="Button" parent="ControlGameplay/WinWindow"]
+[node name="WinWindowButtons" type="HBoxContainer" parent="ControlGameplay/WinWindow"]
+process_mode = 3
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ExitButton" type="Button" parent="ControlGameplay/WinWindow/WinWindowButtons"]
 process_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Main Menu"
+text = "MAIN MENU"
+
+[node name="NextButton" type="Button" parent="ControlGameplay/WinWindow/WinWindowButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "NEXT LEVEL"

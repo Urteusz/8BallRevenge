@@ -7,7 +7,8 @@ extends Control
 @onready var again_button: Button = $"GameOverWindow/AgainButton"
 @onready var exit_button: Button = $"GameOverWindow/ExitButton"
 @onready var win_label: Label = $"WinWindow/LabelWin"
-@onready var exit_button_win: Button = $"WinWindow/ExitButton"
+@onready var exit_button_win: Button = $"WinWindow/WinWindowButtons/ExitButton"
+@onready var next_button: Button = $"WinWindow/WinWindowButtons/NextButton"
 
 @export var game_manager: Node3D
 
@@ -17,6 +18,7 @@ func _ready() -> void:
 	again_button.pressed.connect(_on_try_again)
 	exit_button.pressed.connect(_on_main_menu)
 	exit_button_win.pressed.connect(_on_main_menu)
+	next_button.pressed.connect(_on_next_level)
 	if game_manager:
 		game_manager.connect("moves_changed", _on_moves_changed)
 		game_manager.connect("player_died", _on_game_over)
@@ -47,6 +49,9 @@ func _on_try_again() -> void:
 
 func _on_main_menu() -> void:
 	LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)
+	
+func _on_next_level() -> void:
+	LoadManager.load_scene(ScenePaths.LEVEL3_PATH)
 
 func _ignore_mouse() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE

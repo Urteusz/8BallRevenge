@@ -8,7 +8,6 @@ extends Node3D
 
 
 func set_and_play(value: int) -> void:
-	print_debug("set_and_play() called")
 	label.text = str(value)
 	animation_player.play("PointsPopupAnimation")
 
