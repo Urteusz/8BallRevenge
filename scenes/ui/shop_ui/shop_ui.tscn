@@ -123,12 +123,12 @@ text = "Kulka Niebieska"
 [node name="Button4" type="Button" parent="ControlShop/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Kulka Złota"
+text = "Kulka Ciemna"
 
 [node name="Button5" type="Button" parent="ControlShop/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Kulka Ciemna"
+text = "Kulka Bomba"
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="ControlShop"]
 z_index = -1

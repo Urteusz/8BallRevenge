@@ -16,26 +16,58 @@ var purple_ball_data = load("res://scenes/balls/ball_data/purple_ball.tres")
 var yellow_ball_data = load("res://scenes/balls/ball_data/yellow_ball.tres")
 var bomb_ball_data = load("res://scenes/balls/ball_data/bomb_ball.tres")
 
+var ball_data_map = {
+	"red": red_ball_data,
+	"black": black_ball_data,
+	"blue": blue_ball_data,
+	"green": green_ball_data,
+	"purple": purple_ball_data,
+	"yellow": yellow_ball_data,
+	"bomb": bomb_ball_data
+}
+
 const SAVE_PATH = "user://player_progress.save"
 
 func _ready() -> void:
 	# Ball spawner ma narazie tylko 6 pozycji wiec max 6 kul
 	# Ustawiam tymczasowo bo nie ma jeszcze ui do wyboru kul
 	
-	current_deck.append(bomb_ball_data)
+	current_deck.append(yellow_ball_data)
 	current_deck.append(red_ball_data)
 	current_deck.append(black_ball_data)
 	current_deck.append(blue_ball_data)
 	current_deck.append(green_ball_data)
 	current_deck.append(yellow_ball_data)
+
+
+func replace_ball_in_deck(index: int, new_ball_type: String) -> bool:
+	if index < 0 or index >= current_deck.size():
+		push_error("Nieprawidłowy indeks kuli: ", index)
+		return false
 	
-	#current_deck.append(bomb_ball_data)
-	#current_deck.append(bomb_ball_data)
-	#current_deck.append(bomb_ball_data)
-	#current_deck.append(bomb_ball_data)
-	#current_deck.append(bomb_ball_data)
-	#current_deck.append(bomb_ball_data)
+	if not ball_data_map.has(new_ball_type):
+		push_error("Nieznany typ kuli: ", new_ball_type)
+		return false
 	
+	var new_ball_data = ball_data_map[new_ball_type]
+	if new_ball_data:
+		current_deck[index] = new_ball_data
+		save_progress()
+		print("Zamieniono kulę na pozycji ", index, " na ", new_ball_type)
+		return true
+	
+	return false
+
+func remove_ball_from_deck(index: int) -> bool:
+	if index < 0 or index >= current_deck.size():
+		push_error("Nieprawidłowy indeks kuli: ", index)
+		return false
+	
+	current_deck.remove_at(index)
+	save_progress()
+	print("Usunięto kulę z pozycji ", index)
+	return true
+
 func save_progress() -> void:
 	var save_data = {
 		"current_level": current_level,

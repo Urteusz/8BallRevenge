@@ -32,17 +32,33 @@ func _on_points_updated(new_points: int) -> void:
 
 func _on_item_pressed(item_name: String) -> void:
 	match item_name:
-		"Kulka Czerwona": _buy_item(item_name, 1000)
-		"Kulka Zielona": _buy_item(item_name, 2000)
-		"Kulka Niebieska": _buy_item(item_name, 3000)
-		"Kulka Ciemna": _buy_item(item_name, 4000)
-		"Kulka Złota": _buy_item(item_name, 5000)
+		"Kulka Czerwona": _buy_item(item_name, 1000, "red")
+		"Kulka Zielona": _buy_item(item_name, 2000, "green")
+		"Kulka Niebieska": _buy_item(item_name, 3000, "blue")
+		"Kulka Ciemna": _buy_item(item_name, 4000, "black")
+		"Kulka Bomba": _buy_item(item_name, 5000, "bomb")
 
-func _buy_item(item_name: String, cost: int) -> void:
+func _buy_item(item_name: String, cost: int, ball_type: String) -> void:
 	if points >= cost:
+		# Sprawdź czy gracz ma kulę do zamiany
+		if PlayerData.current_deck.size() == 0:
+			print_debug("Brak kul w decku do zamiany!")
+			return
+		
+		# Odejmij punkty
 		points -= cost
 		label.text = "Punkty: %d" % points
-		print_debug("Kupiono:", item_name)
+		
+		# Zamień pierwszą kulę w decku na nową
+		var success = PlayerData.replace_ball_in_deck(0, ball_type)
+		
+		if success:
+			print_debug("Kupiono:", item_name, "- zamieniono kulę w decku")
+		else:
+			print_debug("Błąd: nie udało się zamienić kuli")
+			# Zwróć punkty jeśli się nie udało
+			points += cost
+			label.text = "Punkty: %d" % points
 	else:
 		print_debug("Za mało punktów na", item_name)
 

@@ -11,6 +11,7 @@
 [ext_resource type="Shader" path="res://shaders/outline.gdshader" id="6_v2olm"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hafg3"]
+bounce = 0.3
 
 [sub_resource type="Gradient" id="Gradient_2vxl7"]
 offsets = PackedFloat32Array(0, 0.21501707, 0.8088737, 1)
@@ -243,6 +244,8 @@ radius = 0.5085822
 physics_material_override = SubResource("PhysicsMaterial_hafg3")
 contact_monitor = true
 max_contacts_reported = 4
+linear_damp = 0.5
+angular_damp = 0.5
 script = ExtResource("1_lgfus")
 smoke_effect = NodePath("Particles/SmokeBOOM")
 shockwave_effect = NodePath("Particles/WaveBOOM")
