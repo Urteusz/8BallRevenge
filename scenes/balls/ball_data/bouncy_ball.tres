@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="BallData" load_steps=3 format=3 uid="uid://d30dyowjdb1eg"]
+
+[ext_resource type="PackedScene" uid="uid://df2gj0u6puakx" path="res://scenes/balls/bouncy_ball.tscn" id="1_cuwtl"]
+[ext_resource type="Script" uid="uid://cvwkj0qnv7yim" path="res://scenes/balls/scripts/ball_data.gd" id="1_ojgbi"]
+
+[resource]
+script = ExtResource("1_ojgbi")
+scene = ExtResource("1_cuwtl")
+metadata/_custom_type_script = "uid://cvwkj0qnv7yim"

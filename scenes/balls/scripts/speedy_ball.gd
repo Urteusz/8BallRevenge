@@ -4,7 +4,6 @@ class_name SpeedyBall
 # Konfiguracja supermocy
 @export var speed_multiplier: float = 3.5  # Mnożnik siły przekazywanej innej bili
 @export var self_boost: float = 1.2        # Ile prędkości zachowuje/zyskuje po odbiciu od bandy
-@export var low_drag_value: float = 0.1    # Bardzo niskie tarcie (standardowo pewnie masz ok 1.0)
 @export var boost_cooldown: float = 0.2    # Żeby nie "zwariowała" przy ciągłym styku
 
 # Efekty wizualne
@@ -17,8 +16,6 @@ func _ready():
 	super._ready()
 	base_value = 300 # Szybka bila może być warta mniej/więcej punktów
 	
-	# Zmniejszamy opór powietrza/stołu dla tej konkretnej bili
-	linear_damp = low_drag_value
 	
 	if trail_effect:
 		trail_effect.emitting = false

@@ -154,7 +154,7 @@ surface_material_override/0 = SubResource("ShaderMaterial_jw3ls")
 transform = Transform3D(5.83, 0, 0, 0, 5.83, 0, 0, 0, 5.83, 11.29156, -0.31067014, 0)
 shape = SubResource("ConcavePolygonShape3D_v0ouj")
 
-[node name="Walls" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["table"]]
+[node name="Walls" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["walls"]]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 8.168132, 16.172523)
 physics_material_override = SubResource("PhysicsMaterial_e4fnj")
 

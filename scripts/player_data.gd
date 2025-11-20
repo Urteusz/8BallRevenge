@@ -14,14 +14,15 @@ var purple_ball_data = load("res://scenes/balls/ball_data/purple_ball.tres")
 var yellow_ball_data = load("res://scenes/balls/ball_data/yellow_ball.tres")
 var bomb_ball_data = load("res://scenes/balls/ball_data/bomb_ball.tres")
 var speedy_ball_data = load("res://scenes/balls/ball_data/speedy_ball.tres")
+var bouncy_ball_data = load("res://scenes/balls/ball_data/bouncy_ball.tres")
 
 func _ready() -> void:
 	# Ball spawner ma narazie tylko 6 pozycji wiec max 6 kul
 	# Ustawiam tymczasowo bo nie ma jeszcze ui do wyboru kul
 	
 	current_deck.append(bomb_ball_data)
-	current_deck.append(red_ball_data)
 	current_deck.append(black_ball_data)
+	current_deck.append(red_ball_data)
 	current_deck.append(blue_ball_data)
 	current_deck.append(green_ball_data)
 	current_deck.append(yellow_ball_data)
