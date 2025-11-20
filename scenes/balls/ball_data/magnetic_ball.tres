@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="BallData" load_steps=3 format=3 uid="uid://dh8v0swqdneq6"]
+
+[ext_resource type="PackedScene" uid="uid://cvnfjdk8w4xmw" path="res://scenes/balls/magnetic_ball.tscn" id="1_5rb1n"]
+[ext_resource type="Script" uid="uid://cvwkj0qnv7yim" path="res://scenes/balls/scripts/ball_data.gd" id="1_gwoop"]
+
+[resource]
+script = ExtResource("1_gwoop")
+scene = ExtResource("1_5rb1n")
+metadata/_custom_type_script = "uid://cvwkj0qnv7yim"

@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://cvnfjdk8w4xmw"]
+
+[ext_resource type="Script" uid="uid://b708i5vqbdg13" path="res://scenes/balls/scripts/magnetic_ball.gd" id="1_25lsb"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_m23fj"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_25lsb"]
+
+[node name="MagneticBall" type="RigidBody3D"]
+script = ExtResource("1_25lsb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_m23fj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_25lsb")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
