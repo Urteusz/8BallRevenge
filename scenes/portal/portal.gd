@@ -1,5 +1,7 @@
 extends Area3D
 
+class_name Portal
+
 @export var destination_portal: Area3D 
 
 func _ready():

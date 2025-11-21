@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://d3yctdgsrhiyc"]
+[gd_scene load_steps=37 format=3 uid="uid://d3yctdgsrhiyc"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_3eqw4"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_els6h"]
@@ -13,9 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="11_6l25c"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_3mrqv"]
 [ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="13_wclge"]
+[ext_resource type="PackedScene" uid="uid://bkb01avlky248" path="res://scenes/portal/portal.tscn" id="14_3eqw4"]
 [ext_resource type="PackedScene" uid="uid://beu1u8hon4nem" path="res://scenes/portal/camera_portal.tscn" id="15_els6h"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="15_pnh7s"]
-[ext_resource type="Shader" uid="uid://bnkgjkxalej8p" path="res://camera_portal.gdshader" id="16_2psii"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="16_7svy4"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="17_6damt"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="18_0c75d"]
@@ -77,44 +77,6 @@ data = PackedVector3Array(1.7851, 1.6466999, 2.3917, 1.7851, 0.0121, 2.3917, 1.7
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_k3l6j"]
 size = Vector3(38.535522, 1, 70.246826)
-
-[sub_resource type="Shader" id="Shader_els6h"]
-code = "shader_type spatial;
-render_mode unshaded, cull_back;
-
-uniform sampler2D viewport_texture : source_color;
-
-void fragment() {
-    vec3 portal_view = texture(viewport_texture, SCREEN_UV).rgb;
-    
-    ALBEDO = portal_view;
-}"
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_2psii"]
-viewport_path = NodePath("SubViewportContainer/SubViewport/Table/Portals/CameraPortal/SubViewport")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_f6tad"]
-resource_local_to_scene = true
-render_priority = 0
-shader = SubResource("Shader_els6h")
-shader_parameter/viewport_texture = SubResource("ViewportTexture_2psii")
-
-[sub_resource type="QuadMesh" id="QuadMesh_cuf1e"]
-resource_local_to_scene = true
-material = SubResource("ShaderMaterial_f6tad")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_f6tad"]
-viewport_path = NodePath("SubViewportContainer/SubViewport/Table/Portals/CameraPortal2/SubViewport")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_l0b7s"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("16_2psii")
-shader_parameter/viewport_texture = SubResource("ViewportTexture_f6tad")
-
-[sub_resource type="QuadMesh" id="QuadMesh_qoqow"]
-resource_local_to_scene = true
-material = SubResource("ShaderMaterial_l0b7s")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_aj7ea"]
 viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/crt")
@@ -230,23 +192,18 @@ shape = SubResource("BoxShape3D_k3l6j")
 
 [node name="Portals" type="Node" parent="SubViewportContainer/SubViewport/Table"]
 
+[node name="Portal" parent="SubViewportContainer/SubViewport/Table/Portals" node_paths=PackedStringArray("destination_portal") instance=ExtResource("14_3eqw4")]
+transform = Transform3D(-0.27034068, 0, 3.5246477, 0, 3.5349998, 0, -3.5246477, 0, -0.27034068, -1.738136, 1.8230257, 10.577272)
+destination_portal = NodePath("../Portal2")
+
+[node name="Portal2" parent="SubViewportContainer/SubViewport/Table/Portals" node_paths=PackedStringArray("destination_portal") instance=ExtResource("14_3eqw4")]
+transform = Transform3D(3.535, 0, 0, 0, 3.5349994, 0, 0, 0, 3.535, 0.18838549, 2.10464, -12.129917)
+destination_portal = NodePath("../Portal")
+
 [node name="CameraPortal" parent="SubViewportContainer/SubViewport/Table/Portals" node_paths=PackedStringArray("player_camera", "destination_portal") instance=ExtResource("15_els6h")]
-transform = Transform3D(-1.5451977e-07, 0, 3.535, 0, 3.535, 0, -3.535, 0, -1.5451977e-07, -5.918141, 1.5081363, -7.264067)
+transform = Transform3D(3.535, 0, 0, 0, 3.535, 0, 0, 0, 3.535, 0, 1.5081363, 0)
 player_camera = NodePath("../../../Camera3D")
-destination_portal = NodePath("../CameraPortal2")
-
-[node name="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Portals/CameraPortal" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25605512)
-mesh = SubResource("QuadMesh_cuf1e")
-
-[node name="CameraPortal2" parent="SubViewportContainer/SubViewport/Table/Portals" node_paths=PackedStringArray("player_camera", "destination_portal") instance=ExtResource("15_els6h")]
-transform = Transform3D(-1.5451977e-07, 0, -3.535, 0, 3.535, 0, 3.535, 0, -1.5451977e-07, 4.1502733, 1.5040355, 10.398128)
-player_camera = NodePath("../../../Camera3D")
-destination_portal = NodePath("../CameraPortal")
-
-[node name="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Portals/CameraPortal2" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.68134856)
-mesh = SubResource("QuadMesh_qoqow")
+destination_portal = NodePath("../Portal")
 
 [node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport"]
 
@@ -290,7 +247,5 @@ transform = Transform3D(-5.1142325e-07, 0, -11.7, 0, 11.7, 0, 11.7, 0, -5.114232
 [connection signal="targetting_center" from="SubViewportContainer/SubViewport/Camera3D" to="SubViewportContainer/SubViewport/Table/PlayerBall" method="_on_camera_3d_targetting_center"]
 [connection signal="ball_pushed" from="SubViewportContainer/SubViewport/Table/PlayerBall" to="GameplayUI/ControlGameplay" method="_on_move"]
 
-[editable path="SubViewportContainer/SubViewport/Table/Portals/CameraPortal"]
-[editable path="SubViewportContainer/SubViewport/Table/Portals/CameraPortal2"]
 [editable path="ShopUI"]
 [editable path="GameplayUI"]

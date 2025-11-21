@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://beu1u8hon4nem"]
+
+[ext_resource type="Script" uid="uid://d1tqeqcfsecd1" path="res://scenes/portal/camera_portal.gd" id="1_ikukd"]
+[ext_resource type="Shader" uid="uid://bnkgjkxalej8p" path="res://camera_portal.gdshader" id="2_4b3h4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4b3h4"]
+render_priority = 1
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+grow = true
+grow_amount = 0.01
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qg6s5"]
+next_pass = SubResource("StandardMaterial3D_4b3h4")
+stencil_mode = 1
+stencil_flags = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qg6s5"]
+resource_local_to_scene = true
+render_priority = 0
+next_pass = SubResource("StandardMaterial3D_qg6s5")
+shader = ExtResource("2_4b3h4")
+
+[sub_resource type="QuadMesh" id="QuadMesh_8j420"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_qg6s5")
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_umpx7"]
+data = PackedVector3Array(0.5, -0.5, 0, -0.5, -0.5, 0, 0.5, 0.5, 0, -0.5, -0.5, 0, -0.5, 0.5, 0, 0.5, 0.5, 0)
+
+[node name="CameraPortal" type="Area3D"]
+transform = Transform3D(3.535, 0, 0, 0, 3.535, 0, 0, 0, 3.535, 0, 0, 0)
+script = ExtResource("1_ikukd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_8j420")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConcavePolygonShape3D_umpx7")
+
+[node name="ExitPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.31102437, 0.26600003)
+
+[node name="SubViewport" type="SubViewport" parent="."]
+size = Vector2i(1280, 720)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]

@@ -56,4 +56,4 @@ mesh = SubResource("QuadMesh_8j420")
 shape = SubResource("ConcavePolygonShape3D_umpx7")
 
 [node name="ExitPoint" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.008270932, 0.26580548)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.266)
