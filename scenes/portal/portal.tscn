@@ -1,8 +1,46 @@
-[gd_scene load_steps=4 format=3 uid="uid://bkb01avlky248"]
+[gd_scene load_steps=8 format=3 uid="uid://bkb01avlky248"]
 
 [ext_resource type="Script" uid="uid://cxlp5d0d5wgk3" path="res://scenes/portal/portal.gd" id="1_2pe5p"]
+[ext_resource type="Shader" uid="uid://qjnghp28bk5r" path="res://raymarching.gdshader" id="2_8j420"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8j420"]
+render_priority = 1
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.37613544, 0.44241384, 1, 1)
+grow = true
+grow_amount = 0.015
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_umpx7"]
+next_pass = SubResource("StandardMaterial3D_8j420")
+stencil_mode = 1
+stencil_flags = 2
+stencil_color = Color(0.37613544, 0.44241384, 1, 1)
+stencil_outline_thickness = 0.015
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_umpx7"]
+render_priority = 2
+next_pass = SubResource("StandardMaterial3D_umpx7")
+shader = ExtResource("2_8j420")
+shader_parameter/u_noise_amplitude = 0.6330000300675
+shader_parameter/u_noise_frequency = 0.70000002999012
+shader_parameter/u_noise_octaves = 1
+shader_parameter/u_noise_lacunarity = 1.318000015105
+shader_parameter/u_noise_persistence = 0.6670000316825
+shader_parameter/u_surface_threshold = 0.37600001786
+shader_parameter/u_surface_density = 0.42
+shader_parameter/u_gradient_start_color = Color(0.4295801, 0.7551702, 1, 1)
+shader_parameter/u_gradient_end_color = Color(1, 1, 1, 1)
+shader_parameter/u_fresnel_color = Color(1, 1, 1, 1)
+shader_parameter/u_fresnel_power = 5.0
+shader_parameter/u_center = Vector3(0, 0, 0)
 
 [sub_resource type="QuadMesh" id="QuadMesh_8j420"]
+material = SubResource("ShaderMaterial_umpx7")
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_umpx7"]
 data = PackedVector3Array(0.5, -0.5, 0, -0.5, -0.5, 0, 0.5, 0.5, 0, -0.5, -0.5, 0, -0.5, 0.5, 0, 0.5, 0.5, 0)

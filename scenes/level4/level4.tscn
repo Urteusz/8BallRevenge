@@ -171,10 +171,10 @@ shape = SubResource("ConcavePolygonShape3D_st3il")
 [node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" node_paths=PackedStringArray("game_manager", "player_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.264763)
 script = ExtResource("10_j6hga")
-game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("11_6l25c")
-player_ball = NodePath("../PlayerBall")
 height = 0.0
+game_manager = NodePath("../../GameManager")
+player_ball = NodePath("../PlayerBall")
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_3mrqv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218924)
@@ -192,11 +192,11 @@ shape = SubResource("BoxShape3D_k3l6j")
 [node name="Portals" type="Node" parent="SubViewportContainer/SubViewport/Table"]
 
 [node name="Portal" parent="SubViewportContainer/SubViewport/Table/Portals" node_paths=PackedStringArray("destination_portal") instance=ExtResource("14_3eqw4")]
-transform = Transform3D(2.721915, 0, 2.2555275, 0, 3.535, 0, -2.2555275, 0, 2.721915, -3.5510347, 1.8230257, 10.577272)
+transform = Transform3D(-0.27034068, 0, 3.5246477, 0, 3.5349998, 0, -3.5246477, 0, -0.27034068, -1.738136, 1.8230257, 10.577272)
 destination_portal = NodePath("../Portal2")
 
 [node name="Portal2" parent="SubViewportContainer/SubViewport/Table/Portals" node_paths=PackedStringArray("destination_portal") instance=ExtResource("14_3eqw4")]
-transform = Transform3D(0.51628137, 0, 3.4970958, 0, 3.5349998, 0, -3.4970958, 0, 0.51628137, -5.788, 1.8230257, -2.3584995)
+transform = Transform3D(2.8022869, 0, -2.154858, -1.3030648, 2.8154345, -1.6945717, 1.716227, 2.1376505, 2.2318687, 4.0115986, 5.238637, -6.5222282)
 destination_portal = NodePath("../Portal")
 
 [node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport"]

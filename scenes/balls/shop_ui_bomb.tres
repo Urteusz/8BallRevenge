@@ -1,6 +1,6 @@
-[gd_resource type="SphereMesh" load_steps=6 format=3 uid="uid://bgjs6uerwg33g"]
+[gd_resource type="SphereMesh" load_steps=6 format=3 uid="uid://cksbx3fmbakd2"]
 
-[ext_resource type="Shader" uid="uid://l7a30blnr3dk" path="res://shaders/outline.gdshader" id="2_q0un2"]
+[ext_resource type="Shader" path="res://shaders/outline.gdshader" id="2_q0un2"]
 [ext_resource type="Shader" uid="uid://cr63kprmyipui" path="res://shaders/edge_detection_2.gdshader" id="2_wre7q"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5q5ry"]
