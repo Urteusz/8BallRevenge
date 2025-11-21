@@ -1,9 +1,11 @@
 extends PanelContainer
 
-@onready var resolution_button = $VBoxContainer/Resolution/ResolutionButton
-@onready var vsync_button = $VBoxContainer/VSync/VSyncButton
-@onready var fullscreen_button = $VBoxContainer/FullscreenButton
-@onready var apply_button = $VBoxContainer/HBoxContainer/ApplyButton
+@onready var resolution_button = $HBoxContainer/Graphics/Resolution/ResolutionButton
+@onready var vsync_button = $HBoxContainer/Graphics/VSync/VSyncButton
+@onready var fullscreen_button = $HBoxContainer/Graphics/FullscreenButton
+@onready var apply_button = $HBoxContainer/Graphics/HBoxContainer/ApplyButton
+
+@onready var inverted_mouse_button = $HBoxContainer/Controls/InvertedMouseButton
 
 const VSYNC_MODES = {
 	"Disabled": DisplayServer.VSYNC_DISABLED,
@@ -57,6 +59,7 @@ func load_current_settings() -> void:
 	var vsync_mode = SettingsManager.get_setting("graphics", "vsync_mode")
 	var resolution = SettingsManager.get_setting("graphics", "resolution")
 	var fullscreen = SettingsManager.get_setting("graphics", "fullscreen")
+	var inverted_mouse = SettingsManager.get_setting("controls", "inverted_mouse")
 
 	for i in range(vsync_button.item_count):
 		if vsync_button.get_item_id(i) == vsync_mode:
@@ -69,6 +72,7 @@ func load_current_settings() -> void:
 			break
 
 	fullscreen_button.button_pressed = fullscreen
+	inverted_mouse_button.button_pressed = inverted_mouse
 
 
 func _on_apply_pressed() -> void:
@@ -79,10 +83,14 @@ func _on_apply_pressed() -> void:
 	var new_vsync_mode = vsync_button.get_item_id(vsync_id)
 
 	var new_fullscreen: bool = fullscreen_button.button_pressed
+	
+	var new_inverted_mouse: bool = inverted_mouse_button.button_pressed
 
 	SettingsManager.set_setting("graphics", "resolution", new_resolution)
 	SettingsManager.set_setting("graphics", "vsync_mode", new_vsync_mode)
 	SettingsManager.set_setting("graphics", "fullscreen", new_fullscreen)
+	
+	SettingsManager.set_setting("controls", "inverted_mouse", new_inverted_mouse)
 
 	SettingsManager.apply_graphics_settings()
 	SettingsManager.save_settings()

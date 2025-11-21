@@ -19,43 +19,53 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_sglii")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
 layout_mode = 2
 
-[node name="Resolution" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="Graphics" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/Resolution"]
+[node name="Resolution" type="HBoxContainer" parent="PanelContainer/HBoxContainer/Graphics"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/Graphics/Resolution"]
 layout_mode = 2
 text = "Resolution"
 
-[node name="ResolutionButton" type="OptionButton" parent="PanelContainer/VBoxContainer/Resolution"]
+[node name="ResolutionButton" type="OptionButton" parent="PanelContainer/HBoxContainer/Graphics/Resolution"]
 layout_mode = 2
 
-[node name="VSync" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="VSync" type="HBoxContainer" parent="PanelContainer/HBoxContainer/Graphics"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/VSync"]
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/Graphics/VSync"]
 layout_mode = 2
 text = "VSync"
 
-[node name="VSyncButton" type="OptionButton" parent="PanelContainer/VBoxContainer/VSync"]
+[node name="VSyncButton" type="OptionButton" parent="PanelContainer/HBoxContainer/Graphics/VSync"]
 layout_mode = 2
 
-[node name="FullscreenButton" type="CheckButton" parent="PanelContainer/VBoxContainer"]
+[node name="FullscreenButton" type="CheckButton" parent="PanelContainer/HBoxContainer/Graphics"]
 layout_mode = 2
 text = "Fullscreen"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer/Graphics"]
 layout_mode = 2
 
-[node name="ApplyButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="ApplyButton" type="Button" parent="PanelContainer/HBoxContainer/Graphics/HBoxContainer"]
 layout_mode = 2
 text = "Apply"
 
-[node name="QuitButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="QuitButton" type="Button" parent="PanelContainer/HBoxContainer/Graphics/HBoxContainer"]
 layout_mode = 2
 text = "Quit"
 
-[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/ApplyButton" to="PanelContainer" method="_on_apply_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/QuitButton" to="PanelContainer" method="_on_quit_pressed"]
+[node name="Controls" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="InvertedMouseButton" type="CheckButton" parent="PanelContainer/HBoxContainer/Controls"]
+layout_mode = 2
+text = "Inverted Mouse"
+
+[connection signal="pressed" from="PanelContainer/HBoxContainer/Graphics/HBoxContainer/ApplyButton" to="PanelContainer" method="_on_apply_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/Graphics/HBoxContainer/QuitButton" to="PanelContainer" method="_on_quit_pressed"]

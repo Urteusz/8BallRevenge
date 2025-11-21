@@ -87,7 +87,10 @@ func _process(delta: float) -> void:
 
 func _input(event) -> void:
 	if event is InputEventMouseMotion:
-		cursor_phi += event.relative.y * mouse_sensitivity
+		if SettingsManager.get_setting("controls", "inverted_mouse"):
+			cursor_phi -= event.relative.y * mouse_sensitivity
+		else:
+			cursor_phi += event.relative.y * mouse_sensitivity
 		theta += event.relative.x * mouse_sensitivity
 
 	# Na szybko to zmienilem zeby dzialalo
