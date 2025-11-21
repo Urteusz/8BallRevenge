@@ -1,27 +1,28 @@
-[gd_scene load_steps=35 format=3 uid="uid://d3yctdgsrhiyc"]
+[gd_scene load_steps=36 format=3 uid="uid://d3yctdgsrhiyc"]
 
-[ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_3s6wb"]
-[ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_57pbt"]
-[ext_resource type="ArrayMesh" uid="uid://dimwn5un3y3tk" path="res://models/table_with_pockets/base.obj" id="3_3tvxu"]
-[ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="4_of2um"]
-[ext_resource type="ArrayMesh" uid="uid://fuo2ey8ldk6s" path="res://models/table_with_pockets/rim.obj" id="5_sjy6l"]
-[ext_resource type="Shader" uid="uid://3i5t87i5bngp" path="res://shaders/table_edges.gdshader" id="6_5fx0e"]
-[ext_resource type="ArrayMesh" uid="uid://cllyja83senci" path="res://models/table_with_pockets/walls.obj" id="7_gf102"]
-[ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="8_xcvv7"]
-[ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/level_script/walls.gd" id="9_0prao"]
-[ext_resource type="Script" uid="uid://bdvel67ub340k" path="res://scripts/level_script/ball_spawner.gd" id="10_twuav"]
-[ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="11_eethd"]
-[ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_uga7x"]
-[ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="13_bangt"]
-[ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="15_u5q61"]
-[ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="16_ohe1b"]
-[ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="17_3yldh"]
-[ext_resource type="PackedScene" uid="uid://cmg38wrvkqomi" path="res://models/room_colored_no_walls_no_guitar_array.glb" id="18_3s6wb"]
-[ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="18_4skx5"]
+[ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_3eqw4"]
+[ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_els6h"]
+[ext_resource type="ArrayMesh" uid="uid://dimwn5un3y3tk" path="res://models/table_with_pockets/base.obj" id="3_2psii"]
+[ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="4_f6tad"]
+[ext_resource type="ArrayMesh" uid="uid://fuo2ey8ldk6s" path="res://models/table_with_pockets/rim.obj" id="5_l0b7s"]
+[ext_resource type="Shader" uid="uid://3i5t87i5bngp" path="res://shaders/table_edges.gdshader" id="6_cuf1e"]
+[ext_resource type="ArrayMesh" uid="uid://cllyja83senci" path="res://models/table_with_pockets/walls.obj" id="7_qoqow"]
+[ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="8_67qms"]
+[ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/level_script/walls.gd" id="9_d3s1f"]
+[ext_resource type="Script" uid="uid://bdvel67ub340k" path="res://scripts/level_script/ball_spawner.gd" id="10_j6hga"]
+[ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="11_6l25c"]
+[ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_3mrqv"]
+[ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="13_wclge"]
+[ext_resource type="PackedScene" uid="uid://bkb01avlky248" path="res://scenes/portal/portal.tscn" id="14_3eqw4"]
+[ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="15_pnh7s"]
+[ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="16_7svy4"]
+[ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="17_6damt"]
+[ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="18_0c75d"]
+[ext_resource type="PackedScene" uid="uid://cmg38wrvkqomi" path="res://models/room_colored_no_walls_no_guitar_array.glb" id="19_cem6e"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
-shader = ExtResource("2_57pbt")
+shader = ExtResource("2_els6h")
 shader_parameter/lineHighlight = 0.2
 shader_parameter/lineShadow = 0.7
 
@@ -37,7 +38,7 @@ rough = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_06ugt"]
 albedo_color = Color(0.54901963, 0.6117647, 0.8, 1)
-albedo_texture = ExtResource("4_of2um")
+albedo_texture = ExtResource("4_f6tad")
 uv1_scale = Vector3(4.515, 4.515, 4.515)
 uv1_triplanar = true
 texture_filter = 0
@@ -51,7 +52,7 @@ bounce = 0.75
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jw3ls"]
 render_priority = 1
-shader = ExtResource("6_5fx0e")
+shader = ExtResource("6_cuf1e")
 shader_parameter/albedo_color = Color(0.1728327, 0.17283267, 0.17283267, 1)
 shader_parameter/fade_start_distance = 5.0
 shader_parameter/fade_end_distance = 2.0
@@ -64,7 +65,7 @@ bounce = 0.1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u8udk"]
 render_priority = -1
-shader = ExtResource("8_xcvv7")
+shader = ExtResource("8_67qms")
 shader_parameter/albedo_color = Color(0.17254902, 0.13333334, 0.9098039, 1)
 shader_parameter/object_position = Vector3(0, 0, 0)
 shader_parameter/visible_distance = 0.690000032775
@@ -80,7 +81,7 @@ size = Vector3(38.535522, 1, 70.246826)
 viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/crt")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_aj7ea"]
-shader = ExtResource("16_ohe1b")
+shader = ExtResource("16_7svy4")
 shader_parameter/skyColor = Color(1, 1, 1, 1)
 shader_parameter/horizonColor = Color(0.17737836, 0.16961, 0.72409153, 1)
 
@@ -115,7 +116,7 @@ render_target_update_mode = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14432669, 1.4036087, 3.7672782)
 doppler_tracking = 2
 current = true
-script = ExtResource("1_3s6wb")
+script = ExtResource("1_3eqw4")
 player_ball = NodePath("../Table/PlayerBall")
 
 [node name="EdgeDetectionShader" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D"]
@@ -130,7 +131,7 @@ physics_material_override = SubResource("PhysicsMaterial_b2yaj")
 
 [node name="TableBase" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Base"]
 transform = Transform3D(5.9889765, 0, 0, 0, 5.9889746, 0, 0, 0, 5.9889746, 0, 0.500314, 0)
-mesh = ExtResource("3_3tvxu")
+mesh = ExtResource("3_2psii")
 surface_material_override/0 = SubResource("StandardMaterial3D_06ugt")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Base"]
@@ -143,7 +144,7 @@ physics_material_override = SubResource("PhysicsMaterial_u8udk")
 
 [node name="TableRim" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Rim"]
 transform = Transform3D(5.83, 0, 0, 0, 5.83, 0, 0, 0, 5.83, 11.29156, -0.31067014, 0)
-mesh = ExtResource("5_sjy6l")
+mesh = ExtResource("5_l0b7s")
 skeleton = NodePath("../../../../..")
 surface_material_override/0 = SubResource("ShaderMaterial_jw3ls")
 
@@ -157,10 +158,10 @@ physics_material_override = SubResource("PhysicsMaterial_e4fnj")
 
 [node name="TableWalls" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Table/Walls" node_paths=PackedStringArray("object_node")]
 transform = Transform3D(-6.095, 0, 9.203194e-07, 0, 6.095, 0, -9.203194e-07, 0, -6.095, 0.007380031, -8.669687, 16.109196)
-mesh = ExtResource("7_gf102")
+mesh = ExtResource("7_qoqow")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("ShaderMaterial_u8udk")
-script = ExtResource("9_0prao")
+script = ExtResource("9_d3s1f")
 object_node = NodePath("../../PlayerBall")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Walls"]
@@ -169,24 +170,34 @@ shape = SubResource("ConcavePolygonShape3D_st3il")
 
 [node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" node_paths=PackedStringArray("game_manager", "player_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.264763)
-script = ExtResource("10_twuav")
+script = ExtResource("10_j6hga")
 game_manager = NodePath("../../GameManager")
-ball_scene = ExtResource("11_eethd")
+ball_scene = ExtResource("11_6l25c")
 player_ball = NodePath("../PlayerBall")
 height = 0.0
 
-[node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_uga7x")]
+[node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_3mrqv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218924)
 max_charge_duration = 2.0
 aim_line_ray_range = 30.0
 
 [node name="PocketsHitbox" type="Area3D" parent="SubViewportContainer/SubViewport/Table" groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.699977, -0.8570008, -13.004261)
-script = ExtResource("13_bangt")
+script = ExtResource("13_wclge")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/PocketsHitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.82, -2.4804516, 13.176)
 shape = SubResource("BoxShape3D_k3l6j")
+
+[node name="Portals" type="Node" parent="SubViewportContainer/SubViewport/Table"]
+
+[node name="Portal" parent="SubViewportContainer/SubViewport/Table/Portals" node_paths=PackedStringArray("destination_portal") instance=ExtResource("14_3eqw4")]
+transform = Transform3D(2.721915, 0, 2.2555275, 0, 3.535, 0, -2.2555275, 0, 2.721915, -3.5510347, 1.8230257, 10.577272)
+destination_portal = NodePath("../Portal2")
+
+[node name="Portal2" parent="SubViewportContainer/SubViewport/Table/Portals" node_paths=PackedStringArray("destination_portal") instance=ExtResource("14_3eqw4")]
+transform = Transform3D(0.51628137, 0, 3.4970958, 0, 3.5349998, 0, -3.4970958, 0, 0.51628137, -5.788, 1.8230257, -2.3584995)
+destination_portal = NodePath("../Portal")
 
 [node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport"]
 
@@ -208,22 +219,22 @@ transform = Transform3D(-0.98378253, 0.019382963, -0.17831567, -0.004762233, 0.9
 fov = 123.75
 
 [node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball", "shop_ui")]
-script = ExtResource("15_u5q61")
+script = ExtResource("15_pnh7s")
 player_ball = NodePath("../Table/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jka67")
 
-[node name="ShopUI" parent="." instance=ExtResource("17_3yldh")]
+[node name="ShopUI" parent="." instance=ExtResource("17_6damt")]
 
-[node name="GameplayUI" parent="." instance=ExtResource("18_4skx5")]
+[node name="GameplayUI" parent="." instance=ExtResource("18_0c75d")]
 
 [node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager", "shopUI")]
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
 shopUI = NodePath("../../ShopUI/ControlShop")
 
-[node name="room_colored_no_walls_no_guitar_array" parent="." instance=ExtResource("18_3s6wb")]
+[node name="room_colored_no_walls_no_guitar_array" parent="." instance=ExtResource("19_cem6e")]
 transform = Transform3D(-5.1142325e-07, 0, -11.7, 0, 11.7, 0, 11.7, 0, -5.1142325e-07, 0, 5.65, 0)
 
 [connection signal="game_won" from="SubViewportContainer/SubViewport/Camera3D" to="GameplayUI/ControlGameplay" method="_on_game_win"]
