@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://c4urxkongd8y7"]
+
+[ext_resource type="Script" uid="uid://bhko3mbjrbctu" path="res://scenes/table_setup/BallSlot.gd" id="1_17hpq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ag0fu"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.19215687)
+
+[sub_resource type="SphereMesh" id="SphereMesh_17hpq"]
+material = SubResource("StandardMaterial3D_ag0fu")
+radial_segments = 8
+rings = 4
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_stlrh"]
+
+[node name="BallSlot" type="Node3D"]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+script = ExtResource("1_17hpq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+mesh = SubResource("SphereMesh_17hpq")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("SphereShape3D_stlrh")
+
+[connection signal="mouse_entered" from="CharacterBody3D" to="CharacterBody3D" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterBody3D" to="CharacterBody3D" method="_on_mouse_exited"]

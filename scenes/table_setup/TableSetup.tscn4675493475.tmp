@@ -1,0 +1,102 @@
+[gd_scene load_steps=14 format=3 uid="uid://byqjd8fn4xht6"]
+
+[ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="1_8n455"]
+[ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="2_gqa4p"]
+[ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="3_y0rk8"]
+[ext_resource type="PackedScene" uid="uid://c4urxkongd8y7" path="res://scenes/table_setup/BallSlot.tscn" id="4_dor75"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
+render_priority = -1
+shader = ExtResource("1_8n455")
+shader_parameter/lineHighlight = 0.2
+shader_parameter/lineShadow = 0.7
+
+[sub_resource type="QuadMesh" id="QuadMesh_0dyta"]
+lightmap_size_hint = Vector2i(12, 12)
+material = SubResource("ShaderMaterial_jsk3o")
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_sw2tr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b2yaj"]
+albedo_color = Color(0.54901963, 0.6117647, 0.8, 1)
+albedo_texture = ExtResource("2_gqa4p")
+albedo_texture_force_srgb = true
+uv1_scale = Vector3(11, 16, 33)
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dc2xx"]
+material = SubResource("StandardMaterial3D_b2yaj")
+size = Vector2(22, 32)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y8of3"]
+size = Vector3(21.54, 0.36, 31.36)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sl2xa"]
+shader = ExtResource("3_y0rk8")
+shader_parameter/skyColor = Color(1, 1, 1, 1)
+shader_parameter/horizonColor = Color(0.17737836, 0.16961, 0.72409153, 1)
+
+[sub_resource type="Sky" id="Sky_gqa4p"]
+sky_material = SubResource("ShaderMaterial_sl2xa")
+
+[sub_resource type="Environment" id="Environment_firy5"]
+background_mode = 2
+background_energy_multiplier = 1.34
+sky = SubResource("Sky_gqa4p")
+ambient_light_source = 3
+
+[node name="TableScene" type="Node"]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+physics_object_picking = true
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(0.94719315, -0.1637526, 0.2756998, -0.0082714325, 0.8470153, 0.5315042, -0.32055712, -0.5057176, 0.8009326, 2.9905348, 4.3143115, 1.9825165)
+current = true
+fov = 55.4
+
+[node name="EdgeDetectionShader" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D"]
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_0dyta")
+
+[node name="Table" type="Node" parent="SubViewportContainer"]
+
+[node name="Base" type="StaticBody3D" parent="SubViewportContainer/Table"]
+transform = Transform3D(0.9999999, 0, 0, 0, 0.9999998, 0, 0, 0, 0.99999994, 0, 0, 0)
+physics_material_override = SubResource("PhysicsMaterial_sw2tr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/Table/Base"]
+transform = Transform3D(0.99986196, 0.016614765, 0, -0.016614763, 0.9998619, 0, 0, 0, 0.99999994, -0.070275314, 0.06570959, 0.01689863)
+mesh = SubResource("PlaneMesh_dc2xx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/Table/Base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.10431814, 0)
+shape = SubResource("BoxShape3D_y8of3")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer"]
+environment = SubResource("Environment_firy5")
+
+[node name="Marker3D" type="Marker3D" parent="SubViewportContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6.35679)
+
+[node name="BallSlot" parent="SubViewportContainer" instance=ExtResource("4_dor75")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72778773, -5.4847593)
+
+[node name="CharacterBody3D" parent="SubViewportContainer/BallSlot" index="0" node_paths=PackedStringArray("camera")]
+camera = NodePath("../../SubViewport/Camera3D")
+
+[editable path="SubViewportContainer/BallSlot"]

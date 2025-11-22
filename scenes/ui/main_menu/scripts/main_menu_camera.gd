@@ -10,15 +10,12 @@ var current_angle: float = 0.0
 
 # kamera zaczyna z losowym katem
 func _ready() -> void:
-	current_angle = randf_range(0.0, TAU) # TAU -> 2 * PI
+	current_angle = TAU
 
 
 func _process(delta: float) -> void:
-	current_angle += rotation_speed * delta
-
 	var offset_x = radius * cos(current_angle)
 	var offset_z = radius * sin(current_angle)
-
 	var final_height = (sin(current_angle * 0.5) * 0.5 + 1.0) * height
 
 	global_position = Vector3(
