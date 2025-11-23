@@ -90,12 +90,13 @@ func _input(event) -> void:
 			charge_ring.visible = false
 			charging = false
 
-	if event.is_action_pressed("push_ball") \
-		and current_phase == Phase.AIMING \
-		and camera.current_target_index == 0 and !charging:
-		start_charging()
-	elif event.is_action_released("push_ball"):
-		release_push()
+	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		if event.is_action_pressed("push_ball") \
+			and current_phase == Phase.AIMING \
+			and camera.current_target_index == 0 and !charging:
+			start_charging()
+		elif event.is_action_released("push_ball"):
+			release_push()
 
 
 # --- STANY I POMOCNICZE ---

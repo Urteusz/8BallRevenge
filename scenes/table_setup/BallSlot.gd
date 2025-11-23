@@ -46,8 +46,10 @@ func _on_mouse_exited():
 	mesh_instance.material_override = original_material
 
 func receive_ui_drop(ball_scene: PackedScene) -> void:
-	remove_child(mesh_instance) # mesh_instance jest null po tym
-	#i nie wiem czy to nie sprawia problemów
+	print_debug("received")
 	var ball: RigidBody3D = ball_scene.instantiate()
-	ball.freeze = true
-	add_child(ball)
+	ball.position = position
+	ball.sleeping = true
+	ball.add_to_group("BALLS")
+	get_parent().add_child(ball)
+	queue_free()

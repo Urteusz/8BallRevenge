@@ -41,5 +41,7 @@ func fire_raycast_at_mouse():
 
 	if result:
 		var collider = result["collider"]
+		print_debug("raycast hit {}", collider.name)
 		if collider.has_method("receive_ui_drop"):
+			print_debug("collider has method")
 			collider.receive_ui_drop(ball_scene)

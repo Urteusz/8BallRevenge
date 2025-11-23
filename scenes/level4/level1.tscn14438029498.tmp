@@ -226,24 +226,6 @@ camera = NodePath("../../Camera3D")
 [node name="MeshInstance3D" parent="SubViewportContainer/SubViewport/BallSlot/CharacterBody3D" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.23874971, 0)
 
-[node name="BallSlot2" parent="SubViewportContainer/SubViewport" instance=ExtResource("15_3tvxu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2.442652)
-
-[node name="CharacterBody3D" parent="SubViewportContainer/SubViewport/BallSlot2" index="0" node_paths=PackedStringArray("camera")]
-camera = NodePath("../../Camera3D")
-
-[node name="MeshInstance3D" parent="SubViewportContainer/SubViewport/BallSlot2/CharacterBody3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.23874971, 0)
-
-[node name="BallSlot3" parent="SubViewportContainer/SubViewport" instance=ExtResource("15_3tvxu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2.442652)
-
-[node name="CharacterBody3D" parent="SubViewportContainer/SubViewport/BallSlot3" index="0" node_paths=PackedStringArray("camera")]
-camera = NodePath("../../Camera3D")
-
-[node name="MeshInstance3D" parent="SubViewportContainer/SubViewport/BallSlot3/CharacterBody3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.23874971, 0)
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jka67")
 
@@ -266,7 +248,5 @@ camera = NodePath("../SubViewportContainer/SubViewport/Camera3D")
 [connection signal="ball_pushed" from="SubViewportContainer/SubViewport/Table/PlayerBall" to="GameplayUI/ControlGameplay" method="_on_move"]
 
 [editable path="SubViewportContainer/SubViewport/BallSlot"]
-[editable path="SubViewportContainer/SubViewport/BallSlot2"]
-[editable path="SubViewportContainer/SubViewport/BallSlot3"]
 [editable path="ShopUI"]
 [editable path="GameplayUI"]

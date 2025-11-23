@@ -86,23 +86,24 @@ func _process(delta: float) -> void:
 
 
 func _input(event) -> void:
-	if event is InputEventMouseMotion:
-		if SettingsManager.get_setting("controls", "inverted_mouse"):
-			cursor_phi -= event.relative.y * mouse_sensitivity
-		else:
-			cursor_phi += event.relative.y * mouse_sensitivity
-		theta += event.relative.x * mouse_sensitivity
+	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		if event is InputEventMouseMotion:
+			if SettingsManager.get_setting("controls", "inverted_mouse"):
+				cursor_phi -= event.relative.y * mouse_sensitivity
+			else:
+				cursor_phi += event.relative.y * mouse_sensitivity
+			theta += event.relative.x * mouse_sensitivity
 
-	# Na szybko to zmienilem zeby dzialalo
-	# DO PRZEPISANIA TAK SAMO JAK udpate_camera_target()
-	if event.is_action_pressed("next_camera_target") || event.is_action_pressed("previous_camera_target"):
-		if target == null:
-			theta = previous_theta
-			current_target_index = 0
-		else:
-			previous_theta = theta
-			current_target_index = 1
-		update_camera_target()
+		# Na szybko to zmienilem zeby dzialalo
+		# DO PRZEPISANIA TAK SAMO JAK udpate_camera_target()
+		if event.is_action_pressed("next_camera_target") || event.is_action_pressed("previous_camera_target"):
+			if target == null:
+				theta = previous_theta
+				current_target_index = 0
+			else:
+				previous_theta = theta
+				current_target_index = 1
+			update_camera_target()
 
 	if event.is_action_pressed("toggle_mouse_capture"):
 		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
