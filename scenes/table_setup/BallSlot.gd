@@ -27,8 +27,10 @@ func _physics_process(_delta: float) -> void:
 		
 		var intersection_point = drop_plane.intersects_ray(ray_origin, ray_normal)
 		
+		# Jak nie chcesz snap to grid to wywal snapped
+		var grid_size = 1.0
 		if intersection_point:
-			global_position = intersection_point
+			global_position = Vector3(snapped(intersection_point.x, grid_size), intersection_point.y, snapped(intersection_point.z, grid_size))
 
 func _input_event(_camera: Node, event: InputEvent, _position: Vector3, _normal: Vector3, _shape_idx: int) -> void:
 	if event is InputEventMouseButton:

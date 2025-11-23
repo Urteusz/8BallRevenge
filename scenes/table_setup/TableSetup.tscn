@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://byqjd8fn4xht6"]
+[gd_scene load_steps=16 format=3 uid="uid://byqjd8fn4xht6"]
 
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="1_8n455"]
+[ext_resource type="Script" uid="uid://dajak4847nwks" path="res://scenes/table_setup/table_setup_camera.gd" id="1_y0rk8"]
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="2_gqa4p"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="3_y0rk8"]
 [ext_resource type="PackedScene" uid="uid://c4urxkongd8y7" path="res://scenes/table_setup/BallSlot.tscn" id="4_dor75"]
@@ -69,6 +70,7 @@ render_target_update_mode = 4
 transform = Transform3D(0.94719315, -0.1637526, 0.2756998, -0.0082714325, 0.8470153, 0.5315042, -0.32055712, -0.5057176, 0.8009326, 2.9905348, 4.3143115, 1.9825165)
 current = true
 fov = 55.4
+script = ExtResource("1_y0rk8")
 
 [node name="EdgeDetectionShader" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D"]
 extra_cull_margin = 16384.0
@@ -100,6 +102,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72778773, -5.4847593)
 [node name="CharacterBody3D" parent="SubViewportContainer/BallSlot" index="0" node_paths=PackedStringArray("camera")]
 camera = NodePath("../../SubViewport/Camera3D")
 
+[node name="BallSlot2" parent="SubViewportContainer" instance=ExtResource("4_dor75")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7528303, 0.72778773, -5.4847593)
+
+[node name="CharacterBody3D" parent="SubViewportContainer/BallSlot2" index="0" node_paths=PackedStringArray("camera")]
+camera = NodePath("../../SubViewport/Camera3D")
+
+[node name="BallSlot3" parent="SubViewportContainer" instance=ExtResource("4_dor75")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7528303, 0.72778773, -5.4847593)
+
+[node name="CharacterBody3D" parent="SubViewportContainer/BallSlot3" index="0" node_paths=PackedStringArray("camera")]
+camera = NodePath("../../SubViewport/Camera3D")
+
 [node name="Deck" parent="." instance=ExtResource("5_gqa4p")]
 anchors_preset = 1
 anchor_left = 1.0
@@ -110,3 +124,5 @@ grow_horizontal = 0
 size_flags_horizontal = 0
 
 [editable path="SubViewportContainer/BallSlot"]
+[editable path="SubViewportContainer/BallSlot2"]
+[editable path="SubViewportContainer/BallSlot3"]
