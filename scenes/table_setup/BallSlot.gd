@@ -44,3 +44,10 @@ func _on_mouse_entered():
 func _on_mouse_exited():
 	hovering = false
 	mesh_instance.material_override = original_material
+
+func receive_ui_drop(ball_scene: PackedScene) -> void:
+	remove_child(mesh_instance) # mesh_instance jest null po tym
+	#i nie wiem czy to nie sprawia problemów
+	var ball: RigidBody3D = ball_scene.instantiate()
+	ball.freeze = true
+	add_child(ball)

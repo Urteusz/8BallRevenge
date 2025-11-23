@@ -114,7 +114,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7528303, 0.72778773, -5.484
 [node name="CharacterBody3D" parent="SubViewportContainer/BallSlot3" index="0" node_paths=PackedStringArray("camera")]
 camera = NodePath("../../SubViewport/Camera3D")
 
-[node name="Deck" parent="." instance=ExtResource("5_gqa4p")]
+[node name="Deck" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("5_gqa4p")]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -122,6 +122,14 @@ offset_left = -256.0
 offset_bottom = 256.0
 grow_horizontal = 0
 size_flags_horizontal = 0
+camera = NodePath("../SubViewportContainer/SubViewport/Camera3D")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 9.0
+offset_top = 683.0
+offset_right = 69.0
+offset_bottom = 714.0
+text = "Koniec"
 
 [editable path="SubViewportContainer/BallSlot"]
 [editable path="SubViewportContainer/BallSlot2"]

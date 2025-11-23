@@ -36,6 +36,6 @@ current = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport"]
 environment = SubResource("Environment_1or6j")
 
-[node name="Opona" parent="SubViewport" instance=ExtResource("1_gt8c3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.9323263)
+[node name="Ball" parent="SubViewport" instance=ExtResource("1_gt8c3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.8780918)
 script = ExtResource("2_m6wq4")
