@@ -57,6 +57,10 @@ func _spawn_balls() -> void:
 
 func _on_ball_mouse_entered(ball_node: Node3D) -> void:
 	if mode == Mode.DEFAULT:
+		# bierze MeshInstance3D ze sceny kuli, jesli kula ma jakies inne efekty
+		# 	to ich ze soba nie przeniesie, wiec najlepiej by bylo wstawic wszstkie wizualne efekty
+		#	do jednego node3d i go tutaj pobierac
+		#	bomba na przyklad nie dziala
 		var mesh = ball_node.get_node_or_null("MeshInstance3D")
 		if mesh:
 			_animate_ball_height(mesh, BALL_HOVER_Y_OFFSET)
@@ -85,6 +89,7 @@ func _on_ball_input_event(camera: Node, event: InputEvent, event_position: Vecto
 				mode = Mode.BALL
 				
 				ball_original_position = ball_node.global_position
+				ball_original_position.y = 0.0 # na wypadek jakby byla w gorze...
 				ball_original_rotation = ball_node.global_rotation
 				ball_being_viewed = ball_node
 				
