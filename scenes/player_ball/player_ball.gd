@@ -14,7 +14,7 @@ const RING_ALPHA: float = 0.7
 const MIN_IMPULSE: float = 0.2
 
 # Ustawienia uderzenia
-@export var max_charge_duration: float = 3.0
+@export var max_charge_duration: float = 1.0
 @export var max_impulse_strength: float = 30.0
 
 # Kolory pierścienia ładowania strzału (słaby -> średni -> mocny)
@@ -201,11 +201,6 @@ func setup_charge_ring() -> void:
 		var color = ring_material.albedo_color
 		color.a = 0.0
 		ring_material.albedo_color = color
-
-		# Zacznij animację
-		var charge_animation = animation_player.get_animation("charge")
-		charge_animation.loop_mode = Animation.LOOP_PINGPONG
-		animation_player.play("charge")
 	else:
 		push_error("Error: ChargeRing has no material!")
 		return
