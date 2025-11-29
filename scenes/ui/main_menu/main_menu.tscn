@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://b0a6ch7y3umcj"]
+[gd_scene load_steps=32 format=3 uid="uid://b0a6ch7y3umcj"]
 
 [ext_resource type="Script" uid="uid://cjd6s35brnfyc" path="res://scenes/ui/main_menu/scripts/main_menu.gd" id="1_5seab"]
 [ext_resource type="Texture2D" uid="uid://bmbtuxpculhwv" path="res://textures/ui/main_menu3.png" id="1_x2yjq"]
@@ -9,12 +9,14 @@
 [ext_resource type="Texture2D" uid="uid://bspufxilq7h0d" path="res://textures/ui/Button2_pressed.png" id="4_dn3lk"]
 [ext_resource type="Texture2D" uid="uid://dio5dc6p87rq0" path="res://textures/ui/Button_pressed.png" id="4_lqpn7"]
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="4_x2yjq"]
+[ext_resource type="Texture2D" uid="uid://m2g2mgjtfq40" path="res://textures/ui/Button2_focused.png" id="5_fnkq8"]
 [ext_resource type="FontFile" uid="uid://vcecbwh0vav0" path="res://fonts/BridgeParapet.ttf" id="5_idvnp"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="5_lqpn7"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="6_qel0l"]
 [ext_resource type="Texture2D" uid="uid://dwk3egkgbtwmf" path="res://textures/ui/Button2_quit.png" id="7_dn3lk"]
 [ext_resource type="Script" uid="uid://joi35n2utr5w" path="res://scenes/ui/main_menu/scripts/main_menu_ball.gd" id="7_rrgl4"]
 [ext_resource type="Texture2D" uid="uid://dqkftrx7p0k6b" path="res://textures/ui/Button2_quit_pressed.png" id="8_4ujhu"]
+[ext_resource type="Texture2D" uid="uid://c2bqqlu4yt03p" path="res://textures/ui/Button2_quit_focusedt.png" id="11_8i8ns"]
 
 [sub_resource type="Theme" id="Theme_5dd4i"]
 
@@ -124,13 +126,16 @@ self_modulate = Color(1, 0.45, 0.45, 1)
 layout_mode = 2
 
 [node name="PlayButtonTextured" type="TextureButton" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 10
 size_flags_stretch_ratio = 0.81
+focus_neighbor_bottom = NodePath("../OptionsButtonTextured")
 texture_normal = ExtResource("3_rrgl4")
 texture_pressed = ExtResource("4_dn3lk")
+texture_focused = ExtResource("5_fnkq8")
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PanelContainer/VBoxContainer/PlayButtonTextured"]
 layout_mode = 1
@@ -156,13 +161,17 @@ modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
 [node name="OptionsButtonTextured" type="TextureButton" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 10
 size_flags_stretch_ratio = 0.45
+focus_neighbor_top = NodePath("../PlayButtonTextured")
+focus_neighbor_bottom = NodePath("../QuitButtonTextured")
 texture_normal = ExtResource("3_rrgl4")
 texture_pressed = ExtResource("4_dn3lk")
+texture_focused = ExtResource("5_fnkq8")
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PanelContainer/VBoxContainer/OptionsButtonTextured"]
 layout_mode = 1
@@ -197,6 +206,7 @@ texture_normal = ExtResource("3_x2yjq")
 texture_pressed = ExtResource("4_lqpn7")
 
 [node name="QuitButtonTextured" type="TextureButton" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
 texture_filter = 1
 layout_direction = 2
 layout_mode = 2
@@ -204,6 +214,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 10
 texture_normal = ExtResource("7_dn3lk")
 texture_pressed = ExtResource("8_4ujhu")
+texture_focused = ExtResource("11_8i8ns")
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PanelContainer/VBoxContainer/QuitButtonTextured"]
 layout_mode = 1

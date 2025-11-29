@@ -8,6 +8,7 @@ var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 
 @export var player_ball: Node3D
 @export var mouse_sensitivity: float = 0.003
+@export var joystick_sensitivity: float = 2.0
 @export var table_camera_radius: float = 13.0 # dystans kamery od celu gdy patrzy sie na srodek
 @export var ball_camera_radius: float = 5.0 #		i gdy patrzy sie na kule
 @export var camera_lerp_speed: float = 10.0
@@ -52,6 +53,7 @@ func _ready() -> void:
 
 # do podzielenia na mniejsze funkcje
 func _process(delta: float) -> void:
+	_handle_joystick_input(delta)
 
 	camera_current_radius = lerp(camera_current_radius, camera_target_radius, camera_lerp_speed * delta)
 	cursor_phi = clamp(cursor_phi, min_cursor_phi, max_cursor_phi)
@@ -157,6 +159,16 @@ func is_looking_at_center() -> bool:
 		push_error("Error: camera.ball_list is null")
 		return false
 
+func _handle_joystick_input(delta: float) -> void:
+	var input_direction = Input.get_vector("look_left", "look_right", "look_up", "look_down")
+	
+	if input_direction.length() > 0:
+		theta += input_direction.x * joystick_sensitivity * delta
+		
+		if SettingsManager.get_setting("controls", "inverted_mouse"):
+			cursor_phi -= input_direction.y * joystick_sensitivity * delta
+		else:
+			cursor_phi += input_direction.y * joystick_sensitivity * delta
 
 func _reload_current_scene() -> void:
 	var error_code = get_tree().reload_current_scene()
