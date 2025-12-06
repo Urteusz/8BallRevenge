@@ -33,7 +33,10 @@ layout_mode = 2
 text = "Resolution"
 
 [node name="ResolutionButton" type="OptionButton" parent="PanelContainer/HBoxContainer/Graphics/Resolution"]
+unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_right = NodePath("../../../Controls/InvertedMouseButton")
+focus_neighbor_bottom = NodePath("../../VSync/VSyncButton")
 
 [node name="VSync" type="HBoxContainer" parent="PanelContainer/HBoxContainer/Graphics"]
 layout_mode = 2
@@ -43,21 +46,32 @@ layout_mode = 2
 text = "VSync"
 
 [node name="VSyncButton" type="OptionButton" parent="PanelContainer/HBoxContainer/Graphics/VSync"]
+unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_top = NodePath("../../Resolution/ResolutionButton")
+focus_neighbor_bottom = NodePath("../../FullscreenButton")
 
 [node name="FullscreenButton" type="CheckButton" parent="PanelContainer/HBoxContainer/Graphics"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../VSync/VSyncButton")
+focus_neighbor_bottom = NodePath("../HBoxContainer/ApplyButton")
 text = "Fullscreen"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer/Graphics"]
 layout_mode = 2
 
 [node name="ApplyButton" type="Button" parent="PanelContainer/HBoxContainer/Graphics/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_top = NodePath("../../FullscreenButton")
+focus_neighbor_right = NodePath("../QuitButton")
 text = "Apply"
 
 [node name="QuitButton" type="Button" parent="PanelContainer/HBoxContainer/Graphics/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath("../ApplyButton")
+focus_neighbor_top = NodePath("../../FullscreenButton")
 text = "Quit"
 
 [node name="Controls" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
@@ -65,6 +79,8 @@ layout_mode = 2
 
 [node name="InvertedMouseButton" type="CheckButton" parent="PanelContainer/HBoxContainer/Controls"]
 layout_mode = 2
+focus_neighbor_left = NodePath("../../Graphics/Resolution/ResolutionButton")
+focus_neighbor_bottom = NodePath("../../Graphics/VSync/VSyncButton")
 text = "Inverted Mouse"
 
 [connection signal="pressed" from="PanelContainer/HBoxContainer/Graphics/HBoxContainer/ApplyButton" to="PanelContainer" method="_on_apply_pressed"]
