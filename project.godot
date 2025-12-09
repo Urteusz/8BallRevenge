@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Ballatro"
-run/main_scene="uid://b0a6ch7y3umcj"
+run/main_scene="uid://ceg8mqsg4e1r8"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://textures/icon.svg"
 

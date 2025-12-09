@@ -27,6 +27,11 @@ func pocketed() -> void:
 	emit_signal("ball_pocketed", self)
 
 func on_hit() -> void:
+	for child in get_children():
+		if child.is_class("IceCube"):
+			print("Pooga")
+			child.queue_free();
+	
 	if can_score:
 		total_bounces_round += 1
 		var points_gained: int = _calculate_points()

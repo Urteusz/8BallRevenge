@@ -16,7 +16,7 @@ shader_parameter/opacity = 0.842000039995
 
 [sub_resource type="SphereMesh" id="SphereMesh_noarx"]
 material = SubResource("ShaderMaterial_eie3b")
-radial_segments = 6
+radial_segments = 5
 rings = 3
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a0tk4"]

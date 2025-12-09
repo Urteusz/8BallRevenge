@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://bfe7pu3i6s67t"]
+
+[ext_resource type="ArrayMesh" uid="uid://c54k7fcsvd8yl" path="res://models/ice_cube.obj" id="1_cgype"]
+[ext_resource type="Script" uid="uid://eqwmgb8nqnos" path="res://scenes/balls/ice_cube.gd" id="1_d5alu"]
+[ext_resource type="Shader" uid="uid://djlyuw2r6bpxp" path="res://shaders/ice_ball.gdshader" id="2_d5alu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0110t"]
+render_priority = 0
+shader = ExtResource("2_d5alu")
+shader_parameter/base_color = Color(0.2, 0.6, 1, 1)
+shader_parameter/fresnel_power = 2.0
+shader_parameter/fresnel_intensity = 1.5
+shader_parameter/opacity = 0.8370000397575
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_cgype"]
+points = PackedVector3Array(0.90035236, 1, 0.90035236, 1, 0.90035236, 0.90035236, 0.90035236, 1, -0.90054816, -0.90054816, 1, 0.90035236, 0.90035236, 0.90035236, 1, 1, 0.90035236, -0.90054816, 1, -0.90054816, 0.90035236, 0.90035236, 0.90035236, -1, -0.90054816, 1, -0.90054816, -1, 0.90035236, 0.90035236, -0.90054816, 0.90035236, 1, 0.90035236, -0.90054816, 1, 1, -0.90054816, -0.90054816, 0.90035236, -1, 0.90035236, 0.90035236, -0.90054816, -1, -0.90054816, 0.90035236, -1, -1, 0.90035236, -0.90054816, -1, -0.90054816, 0.90035236, -0.90054816, -0.90054816, 1, 0.90035236, -1, -0.90054816, -0.90054816, -1, 0.90035236, -0.90054816, -0.90054816, -1, -1, -0.90054816, -0.90054816, -0.90054816, -1, -0.90054816)
+
+[node name="IceCube" type="Node3D"]
+
+[node name="RigidBody3D" type="Area3D" parent="."]
+script = ExtResource("1_d5alu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+transform = Transform3D(0.53, 0, 0, 0, 0.53, 0, 0, 0, 0.53, 0, 0, 0)
+mesh = ExtResource("1_cgype")
+surface_material_override/0 = SubResource("ShaderMaterial_0110t")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(0.53, 0, 0, 0, 0.53, 0, 0, 0, 0.53, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_cgype")
+
+[connection signal="body_entered" from="RigidBody3D" to="RigidBody3D" method="_on_body_entered"]
