@@ -74,7 +74,7 @@ func _buy_item(item_name: String, cost: int, ball_type: String) -> void:
 		print_debug("Za mało punktów na", item_name)
 
 func _process(delta) -> void:
-	if Input.is_action_just_pressed("ui_cancel"):
+	if Input.is_action_just_pressed("pause"):
 		toggle_shop()
 
 func toggle_shop() -> void:

@@ -2,8 +2,8 @@ extends BallParent
 class_name BouncyBall
 
 # Konfiguracja
-@export var wall_bounce_multiplier: float = 2  # 2x szybciej po odbiciu od ściany
-@export var ball_impact_dampening: float = 0.5   # 0.5x prędkości po uderzeniu w inną bilę (znaczne zwolnienie)
+@export var wall_bounce_multiplier: float = 5  # 2x szybciej po odbiciu od ściany
+@export var ball_impact_dampening: float = 1.0   # 0.5x prędkości po uderzeniu w inną bilę (znaczne zwolnienie)
 @export var cooldown_time: float = 0.1           # Krótki czas, żeby nie naliczać kolizji wielokrotnie
 
 var can_apply_modifier: bool = true

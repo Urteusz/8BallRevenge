@@ -34,12 +34,24 @@ const RESOLUTIONS = [
 	Vector2i(2560, 1440),
 ]
 
+var focused = false
 
 func _ready():
 	populate_vsync_options()
 	populate_resolution_options()
 	load_current_settings()
 
+func _input(input) -> void:
+	if !focused and \
+		(input.is_action_pressed("ui_up") or input.is_action_pressed("ui_down") or \
+		input.is_action_pressed("ui_left") or input.is_action_pressed("ui_right") or \
+		input.is_action_pressed("ui_accept") or input.is_action_pressed("ui_cancel") or \
+		input.is_action_pressed("pause")):
+		resolution_button.grab_focus()
+		focused = true
+	elif input.is_action_pressed("ui_cancel"):
+		Utils.drop_focus()
+		focused = false
 
 func populate_vsync_options() -> void:
 	vsync_button.clear()
