@@ -1,7 +1,7 @@
 extends Control
 
-@onready var moves_title_label: Label = $"MovesLeftHUD/MovesTitleLabel"
-@onready var moves_count_label: Label = $"MovesLeftHUD/MovesCountLabel"
+@onready var moves_title_label: Label = $"MovesLeftHUD/MovesContainer/MovesTitleLabel"
+@onready var moves_count_label: Label = $"MovesLeftHUD/MovesContainer/MovesCountLabel"
 @onready var game_over_window: Control = $"GameOverWindow"
 @onready var win_window: Control = $"WinWindow"
 @onready var again_button: Button = $"GameOverWindow/AgainButton"
