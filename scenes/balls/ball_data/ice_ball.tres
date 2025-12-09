@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="BallData" load_steps=3 format=3 uid="uid://dmxg17koa5phk"]
+
+[ext_resource type="Script" uid="uid://cvwkj0qnv7yim" path="res://scenes/balls/scripts/ball_data.gd" id="1_0titb"]
+[ext_resource type="PackedScene" uid="uid://cf7quccjpeclc" path="res://scenes/balls/ice_ball.tscn" id="1_g30rt"]
+
+[resource]
+script = ExtResource("1_0titb")
+scene = ExtResource("1_g30rt")
+metadata/_custom_type_script = "uid://cvwkj0qnv7yim"

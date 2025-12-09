@@ -18,6 +18,7 @@ var bomb_ball_data = load("res://scenes/balls/ball_data/bomb_ball.tres")
 var speedy_ball_data = load("res://scenes/balls/ball_data/speedy_ball.tres")
 var bouncy_ball_data = load("res://scenes/balls/ball_data/bouncy_ball.tres")
 var magnetic_ball_data = load("res://scenes/balls/ball_data/magnetic_ball.tres")
+var ice_ball_data = load("res://scenes/balls/ball_data/ice_ball.tres")
 
 var ball_data_map = {
 	"red": red_ball_data,
@@ -28,7 +29,8 @@ var ball_data_map = {
 	"yellow": yellow_ball_data,
 	"bomb": bomb_ball_data,
 	"speedy": speedy_ball_data,
-	"magnetic": magnetic_ball_data
+	"magnetic": magnetic_ball_data,
+	"ice": ice_ball_data,
 }
 
 const SAVE_PATH = "user://player_progress.save"
@@ -38,7 +40,8 @@ func _ready() -> void:
 	# Ustawiam tymczasowo bo nie ma jeszcze ui do wyboru kul
 	
 
-	current_deck.append(magnetic_ball_data)
+	#current_deck.append(magnetic_ball_data)
+	current_deck.append(ice_ball_data)
 	current_deck.append(bouncy_ball_data)
 	current_deck.append(red_ball_data)
 	current_deck.append(blue_ball_data)
