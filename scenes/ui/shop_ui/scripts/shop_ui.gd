@@ -158,9 +158,7 @@ func show_score_popup(amount: int) -> void:
 		_score_tween.set_parallel(true)
 		_score_tween.tween_property(scoredLabel, "scale", Vector2(1.5, 1.5), 0.6).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 		
-		# Dodajemy lekkie bujnięcie jako osobną sekwencję wewnątrz
-		# Uwaga: W Godot 4 łączenie parallel z sekwencjami jest tricky, 
-		# więc zrobimy proste wychylenie w jedną stronę, które wygląda dynamicznie
+		
 		_score_tween.tween_property(scoredLabel, "rotation_degrees", 15, 0.2).set_ease(Tween.EASE_OUT)
 		_score_tween.set_parallel(false)
 		
@@ -177,12 +175,10 @@ func show_score_popup(amount: int) -> void:
 		
 		_score_tween.set_parallel(true)
 		
-		# 1. Skalowanie: Wydłużone do 2.0 sekund (było 0.8)
-		# Zmieniłem TRANS_BOUNCE na TRANS_ELASTIC dla płynniejszego efektu przy długim czasie
-		_score_tween.tween_property(scoredLabel, "scale", Vector2(2.5, 2.5), 2.0).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+		# 1. Skalowanie: Wydłużone do 2.0 sekund
+		_score_tween.tween_property(scoredLabel, "scale", Vector2(2.0, 2.0), 2.0).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 		
-		# 2. Obrót: Również 2.0 sekundy.
-		# Dzięki temu 720 stopni rozłoży się w czasie i będzie widać ruch.
+		# 2. Obrót: Również 2.0 sekundy
 		_score_tween.tween_property(scoredLabel, "rotation_degrees", 720, 2.0).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
 		
 		_score_tween.set_parallel(false)
