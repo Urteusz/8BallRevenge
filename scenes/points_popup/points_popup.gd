@@ -31,11 +31,11 @@ func _pretty_ball_name(raw_name: String) -> String:
 	n = n.replace("(Instance)", "")
 	# jeśli puste po czyszczeniu -> fallback
 	if n == "":
-		return "Kulka"
+		return "Ball"
 	var lower := n.to_lower()
 	# Jeżeli nazwa wygląda jak generyczny node -> fallback
 	if lower.find("rigid") != -1 or lower.find("body") != -1 or lower.find("node") != -1 or lower.find("instance") != -1:
-		return "Kulka"
+		return "Ball"
 	# zamień podkreślenia i trim
 	n = n.replace("_", " ").strip_edges()
 	var result := ""
