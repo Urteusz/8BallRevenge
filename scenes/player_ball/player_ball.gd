@@ -3,8 +3,8 @@ extends BallParent
 enum Phase { AIMING, MOVING }
 
 # Progi prędkości dla możliwości strzelania (bardziej liberalne niż pełne zatrzymanie)
-const SHOOTABLE_VELOCITY_THRESHOLD: float = 2.5 
-const SHOOTABLE_ANGULAR_THRESHOLD: float = 1.5
+const SHOOTABLE_VELOCITY_THRESHOLD: float = 3 
+const SHOOTABLE_ANGULAR_THRESHOLD: float = 2
 
 # Minimalna prędkość po której uznajemy, że kula CAŁKOWICIE stoi (dla round_ended)
 const FULL_STOP_THRESHOLD: float = 0.1
