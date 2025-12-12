@@ -17,7 +17,6 @@ const BALL_HOVER_Y_OFFSET: float = 0.5
 const BALL_ROTATION_SPEED: float = 1.0
 
 @export var camera: Camera3D
-@export var ball_scene: PackedScene
 @export var ui: CanvasLayer
 @onready var balls = $Balls
 
@@ -28,39 +27,40 @@ var ball_being_viewed: BallParent = null
 
 func _ready() -> void:
 	_spawn_balls()
+
+func _process(delta_time: float) -> void:
+	if ball_being_viewed and mode == Mode.BALL:
+		ball_being_viewed.rotate(Vector3.UP, BALL_ROTATION_SPEED * delta_time)
+
+func _spawn_balls() -> void:
+	if not PlayerData:
+		push_error("PlayerData nie istnieje!")
+		return
 	
-	# placeholder
-	for ball_position in POSITIONS:
-		var ball: BallParent = ball_scene.instantiate()
+	var deck = PlayerData.current_deck
+	
+	var balls_to_spawn = min(deck.size(), POSITIONS.size())
+	
+	for i in range(balls_to_spawn):
+		var ball_data: BallData = deck[i]
+		if not ball_data or not ball_data.scene:
+			push_warning("Brak BallData lub sceny dla kuli ", i)
+			continue
+		
+		var ball: BallParent = ball_data.scene.instantiate()
+		
 		ball.input_event.connect(_on_ball_input_event.bind(ball))
 		ball.mouse_entered.connect(_on_ball_mouse_entered.bind(ball))
 		ball.mouse_exited.connect(_on_ball_mouse_exited.bind(ball))
-		balls.add_child(ball)
-		ball.position = ball_position
-		ball.global_rotation = (Vector3(0.0, 180, 0.0)) # inshallah scena jest do tylu 
-		ball.freeze = true
-		#for ball in balls.get_children():
-			#ball.input_event.connect(_on_ball_input_event.bind(ball))
-			#ball.mouse_entered.connect(_on_ball_mouse_entered.bind(ball))
-			#ball.mouse_exited.connect(_on_ball_mouse_exited.bind(ball))
-			
-func _process(delta_time: float) -> void:
-	if ball_being_viewed and mode == Mode.BALL: # jeden z tych warunkow niby by wystarczyl...
-		ball_being_viewed.rotate(Vector3.UP, BALL_ROTATION_SPEED * delta_time)
 		
-func _spawn_balls() -> void:
-	pass
-	# TODO
-	# bierze kule z listy dostepnych do sprzedazy i losuje i spawnuje
-	#	albo kazda kula powinna miec swoja wersje specjalnie do sklepu
-	#	albo moze nie?
+		balls.add_child(ball)
+		ball.position = POSITIONS[i]
+		ball.global_rotation = Vector3(0.0, 180, 0.0)
+		ball.freeze = true
+		print(ball.name)
 
 func _on_ball_mouse_entered(ball_node: Node3D) -> void:
 	if mode == Mode.DEFAULT:
-		# bierze MeshInstance3D ze sceny kuli, jesli kula ma jakies inne efekty
-		# 	to ich ze soba nie przeniesie, wiec najlepiej by bylo wstawic wszstkie wizualne efekty
-		#	do jednego node3d i go tutaj pobierac
-		#	bomba na przyklad nie dziala
 		var mesh = ball_node.get_node_or_null("MeshInstance3D")
 		if mesh:
 			_animate_ball_height(mesh, BALL_HOVER_Y_OFFSET)
@@ -89,11 +89,10 @@ func _on_ball_input_event(camera: Node, event: InputEvent, event_position: Vecto
 				mode = Mode.BALL
 				
 				ball_original_position = ball_node.global_position
-				ball_original_position.y = 0.0 # na wypadek jakby byla w gorze...
+				ball_original_position.y = 0.0
 				ball_original_rotation = ball_node.global_rotation
 				ball_being_viewed = ball_node
 				
-				# na wypadek jesli kula byla podniesiona
 				var mesh = ball_node.get_node_or_null("MeshInstance3D")
 				if mesh:
 					_animate_ball_height(mesh, 0.0)
@@ -121,4 +120,3 @@ func _on_ball_input_event(camera: Node, event: InputEvent, event_position: Vecto
 					tween.set_ease(Tween.EASE_OUT)
 					tween.tween_property(ball_node, "global_position", ball_original_position, 0.6)
 					tween.parallel().tween_property(ball_node, "global_rotation", ball_original_rotation, 0.6)
-					

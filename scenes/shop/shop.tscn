@@ -1,8 +1,7 @@
-[gd_scene load_steps=24 format=3 uid="uid://6mbrpkr2idfw"]
+[gd_scene load_steps=23 format=3 uid="uid://6mbrpkr2idfw"]
 
 [ext_resource type="Script" uid="uid://bvl3k1v00goo2" path="res://scenes/shop/shop.gd" id="1_ctpgp"]
 [ext_resource type="PackedScene" uid="uid://byncin0n1woc0" path="res://models/triangle_rack.glb" id="1_qaxay"]
-[ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="2_7lxhl"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="3_jp048"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="4_ctpgp"]
 [ext_resource type="Script" uid="uid://dcowhvvavoqf5" path="res://scenes/balls/scripts/ball.gd" id="6_vk20h"]
@@ -64,7 +63,6 @@ bg_color = Color(0.22, 0.22, 0.22, 0.56078434)
 [node name="Shop" type="Node3D" node_paths=PackedStringArray("camera", "ui")]
 script = ExtResource("1_ctpgp")
 camera = NodePath("Camera3D")
-ball_scene = ExtResource("2_7lxhl")
 ui = NodePath("UI")
 
 [node name="triangle_rack" parent="." instance=ExtResource("1_qaxay")]
