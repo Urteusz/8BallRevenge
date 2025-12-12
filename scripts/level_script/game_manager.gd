@@ -60,7 +60,7 @@ func _process(delta: float) -> void:
 		emit_signal("charging_updated", charge_ratio)
 
 func _input(event) -> void:
-	if moves_left <= 0 and !player_ball.rolling:
+	if moves_left <= 0 and !player_ball.sleeping:
 		return
 
 	if event.is_action_pressed("push_ball") and player_ball:
