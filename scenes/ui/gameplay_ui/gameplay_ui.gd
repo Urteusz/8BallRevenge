@@ -8,6 +8,7 @@ extends Control
 @onready var exit_button: Button = $"GameOverWindow/ExitButton"
 @onready var win_label: Label = $"WinWindow/LabelWin"
 @onready var shop_button: Button = $"WinWindow/GoToShop"
+@onready var slider: HSlider = $"PowerSlider/HSlider"
 
 @export var game_manager: Node3D
 @export var shopUI: Control
@@ -19,9 +20,18 @@ func _ready() -> void:
 	exit_button.pressed.connect(_on_main_menu)
 	shop_button.pressed.connect(_on_shop_button)
 	if game_manager:
-		game_manager.connect("moves_changed", _on_moves_changed)
-		game_manager.connect("player_died", _on_game_over)
-		game_manager.connect("player_win", _on_game_win)
+		if not game_manager.is_connected("moves_changed", _on_moves_changed):
+			game_manager.connect("moves_changed", _on_moves_changed)
+		if not game_manager.is_connected("player_died", _on_game_over):
+			game_manager.connect("player_died", _on_game_over)
+		if not game_manager.is_connected("player_win", _on_game_win):
+			game_manager.connect("player_win", _on_game_win)
+		if not game_manager.is_connected("charging_started", _on_charging_started):
+			game_manager.connect("charging_started", _on_charging_started)
+		if not game_manager.is_connected("charging_updated", _on_charging_updated):
+			game_manager.connect("charging_updated", _on_charging_updated)
+		if not game_manager.is_connected("charging_released", _on_charging_released):
+			game_manager.connect("charging_released", _on_charging_released)
 		_on_moves_changed(game_manager.default_level_move_count)
 	_ignore_mouse()
 
@@ -53,6 +63,30 @@ func _on_shop_button() -> void:
 	win_window.visible = false
 	_ignore_mouse()
 	shopUI.toggle_shop()
+
+func _on_charging_started() -> void:
+	slider.visible = true
+	slider.value = 0.0
+
+func _on_charging_updated(charge_ratio: float) -> void:
+	slider.value = charge_ratio
+	_update_slider_color(charge_ratio)
+
+func _on_charging_released() -> void:
+	await get_tree().create_timer(0.1).timeout
+	slider.visible = false
+	slider.value = 0.0
+
+func _update_slider_color(ratio: float) -> void:
+	var color: Color
+	if ratio < 0.5:
+		var local_ratio = ratio * 2.0
+		color = Color(0.0, 1.0, 0.0).lerp(Color(1.0, 1.0, 0.0), local_ratio)
+	else:
+		var local_ratio = (ratio - 0.5) * 2.0
+		color = Color(1.0, 1.0, 0.0).lerp(Color(1.0, 0.0, 0.0), local_ratio)
+		
+	slider.modulate = color
 
 func _ignore_mouse() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
