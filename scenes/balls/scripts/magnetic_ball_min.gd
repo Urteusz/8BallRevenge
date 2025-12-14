@@ -1,5 +1,5 @@
 extends BallParent
-class_name MagneticBall
+class_name MagneticBallMin
 
 @export var magnet_range: float = 5.0
 @export var magnet_force: float = 10.0
@@ -40,5 +40,5 @@ func _physics_process(delta: float) -> void:
 				continue
 			var dist = global_position.distance_to(ball.global_position)
 			if dist <= magnet_range and dist > magnet_min_dist:
-				var direction = (global_position - ball.global_position).normalized()
+				var direction = (global_position + ball.global_position).normalized()
 				ball.linear_velocity += direction * magnet_force * delta

@@ -1,7 +1,6 @@
-[gd_scene load_steps=38 format=3 uid="uid://ceg8mqsg4e1r8"]
+[gd_scene load_steps=36 format=3 uid="uid://ceg8mqsg4e1r8"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_j4hya"]
-[ext_resource type="Script" uid="uid://0w37r1v4vatw" path="res://scenes/level1/displayLevel.gd" id="1_st3il"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_n15fh"]
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="3_3ks25"]
 [ext_resource type="ArrayMesh" uid="uid://dimwn5un3y3tk" path="res://models/table_with_pockets/base.obj" id="3_06ugt"]
@@ -18,7 +17,6 @@
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="12_k3l6j"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="16_5prdx"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="17_e4fnj"]
-[ext_resource type="PackedScene" uid="uid://6mbrpkr2idfw" path="res://scenes/DeckChoose/DeckChoose.tscn" id="20_vxxj1"]
 [ext_resource type="PackedScene" uid="uid://cauu31m0rk4m3" path="res://models/room_colored_v2.glb" id="22_v0ouj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
@@ -99,9 +97,6 @@ sky = SubResource("Sky_jka67")
 ambient_light_source = 3
 
 [node name="Node3D" type="Node3D"]
-script = ExtResource("1_st3il")
-
-[node name="DeckChoose" parent="." instance=ExtResource("20_vxxj1")]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 texture_filter = 1
@@ -245,6 +240,5 @@ shopUI = NodePath("../../ShopUI/ControlShop")
 [connection signal="targetting_center" from="SubViewportContainer/SubViewport/Camera3D" to="SubViewportContainer/SubViewport/Table/PlayerBall" method="_on_camera_3d_targetting_center"]
 [connection signal="ball_pushed" from="SubViewportContainer/SubViewport/Table/PlayerBall" to="GameplayUI/ControlGameplay" method="_on_move"]
 
-[editable path="DeckChoose"]
 [editable path="ShopUI"]
 [editable path="GameplayUI"]
