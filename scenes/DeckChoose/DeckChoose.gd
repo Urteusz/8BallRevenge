@@ -17,6 +17,7 @@ const POSITIONS: Array = [
 ]
 const BALL_HOVER_Y_OFFSET: float = 0.5
 const BALL_ROTATION_SPEED: float = 1.0
+const BALL_VIEW_PITCH: float = 45.0
 
 const INVENTORY_ITEM_SCENE = preload("res://scenes/DeckChoose/InventoryBallItem.tscn")
 
@@ -205,6 +206,8 @@ func _on_ball_input_event(camera: Node, event: InputEvent, event_position: Vecto
 				var camera_forward = -camera.global_transform.basis.z
 				var target_pos = camera.global_position + (camera_forward * DISTANCE_FROM_CAMERA) + OFFSET_LEFT
 				var target_rotation = camera.global_rotation
+				target_rotation.x += deg_to_rad(BALL_VIEW_PITCH)
+
 				
 				var tween = create_tween()
 				tween.set_trans(Tween.TRANS_CUBIC)
