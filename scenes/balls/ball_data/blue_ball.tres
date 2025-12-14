@@ -1,11 +1,10 @@
 [gd_resource type="Resource" script_class="BallData" load_steps=4 format=3 uid="uid://c1uwpt2obovy1"]
 
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="1_tk0di"]
-[ext_resource type="Script" uid="uid://cvwkj0qnv7yim" path="res://scenes/balls/scripts/ball_data.gd" id="1_ynj3k"]
+[ext_resource type="Script" path="res://scenes/balls/scripts/ball_data.gd" id="1_ynj3k"]
 [ext_resource type="Texture2D" uid="uid://fipg4aib8ahe" path="res://textures/balls/ball4.png" id="3_ad8jx"]
 
 [resource]
 script = ExtResource("1_ynj3k")
 scene = ExtResource("1_tk0di")
 texture = ExtResource("3_ad8jx")
-metadata/_custom_type_script = "uid://cvwkj0qnv7yim"
