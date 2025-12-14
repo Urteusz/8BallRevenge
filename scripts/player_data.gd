@@ -46,9 +46,8 @@ func _ready() -> void:
 	if current_deck.is_empty():
 		refresh_deck_from_owned()
 
-# --- ZARZĄDZANIE EKWIPUNKIEM ---
 
-# Funkcja do odblokowania nowej kuli (np. w sklepie)
+# Funkcja do odblokowania nowej kuli
 func unlock_ball(ball_type: String) -> bool:
 	if not ball_data_map.has(ball_type):
 		push_error("Nieznany typ kuli: ", ball_type)
@@ -87,7 +86,6 @@ func equip_ball_in_slot(index: int, ball_type: String) -> bool:
 	print("Wybrano kulę ", ball_type, " do slotu ", index)
 	return true
 
-# Pomocnicza funkcja startowa
 func refresh_deck_from_owned():
 	current_deck.clear()
 	for i in range(min(owned_balls.size(), MAX_DECK_SIZE)):
@@ -95,7 +93,6 @@ func refresh_deck_from_owned():
 		if ball_data_map.has(type):
 			current_deck.append(ball_data_map[type])
 
-# --- ZAPIS I ODCZYT ---
 
 func save_progress() -> void:
 	# Musimy zamienić obiekty BallData z decku z powrotem na stringi, żeby je zapisać
@@ -154,7 +151,6 @@ func load_progress() -> void:
 	else:
 		print("ERROR: Nie można otworzyć pliku zapisu")
 
-# --- POZOSTAŁE FUNKCJE (z oryginału) ---
 
 func get_level_path() -> String:
 	var expected_path = "res://scenes/level"+ str(current_level) + "/level" + str(current_level) + ".tscn"
