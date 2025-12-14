@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://coluwiu12m6uo"]
+
+[ext_resource type="Script" uid="uid://bu3dx0bpn5u6j" path="res://scenes/shop/InventoryBallItem.gd" id="1_p1yo8"]
+[ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="2_hqy4r"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kep27"]
+shader = ExtResource("2_hqy4r")
+shader_parameter/skyColor = Color(1, 1, 1, 1)
+shader_parameter/horizonColor = Color(0.17737836, 0.16961, 0.72409153, 1)
+
+[sub_resource type="Sky" id="Sky_jka67"]
+sky_material = SubResource("ShaderMaterial_kep27")
+
+[sub_resource type="Environment" id="Environment_wel6i"]
+background_mode = 2
+background_energy_multiplier = 1.34
+sky = SubResource("Sky_jka67")
+ambient_light_source = 3
+
+[node name="SubViewportContainer" type="SubViewportContainer"]
+offset_right = 100.0
+offset_bottom = 100.0
+stretch = true
+script = ExtResource("1_p1yo8")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(100, 100)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+projection = 1
+
+[node name="Pivot" type="Node3D" parent="SubViewport"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport"]
+environment = SubResource("Environment_wel6i")

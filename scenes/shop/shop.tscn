@@ -1,16 +1,9 @@
-[gd_scene load_steps=23 format=3 uid="uid://6mbrpkr2idfw"]
+[gd_scene load_steps=12 format=3 uid="uid://6mbrpkr2idfw"]
 
 [ext_resource type="Script" uid="uid://bvl3k1v00goo2" path="res://scenes/shop/shop.gd" id="1_ctpgp"]
 [ext_resource type="PackedScene" uid="uid://byncin0n1woc0" path="res://models/triangle_rack.glb" id="1_qaxay"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="3_jp048"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="4_ctpgp"]
-[ext_resource type="Script" uid="uid://dcowhvvavoqf5" path="res://scenes/balls/scripts/ball.gd" id="6_vk20h"]
-[ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="7_8qn5i"]
-[ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/hit_particles/star_particles_2.tscn" id="8_dww4p"]
-[ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/hit_particles/star_particles_3.tscn" id="9_g6lcs"]
-[ext_resource type="Texture2D" uid="uid://brxljclb4ecyg" path="res://textures/balls/ball0.png" id="10_131kw"]
-[ext_resource type="Texture2D" uid="uid://b77vw4r7h8gp5" path="res://textures/ui/Button2.png" id="11_8qn5i"]
-[ext_resource type="Texture2D" uid="uid://bspufxilq7h0d" path="res://textures/ui/Button2_pressed.png" id="12_dww4p"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -38,19 +31,6 @@ background_energy_multiplier = 1.34
 sky = SubResource("Sky_jka67")
 ambient_light_source = 3
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_svc1m"]
-bounce = 0.7
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uxwjp"]
-albedo_texture = ExtResource("10_131kw")
-
-[sub_resource type="SphereMesh" id="SphereMesh_noarx"]
-material = SubResource("StandardMaterial3D_uxwjp")
-radial_segments = 12
-rings = 6
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_a0tk4"]
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dww4p"]
 content_margin_left = 20.0
 content_margin_top = 20.0
@@ -60,10 +40,11 @@ bg_color = Color(0.22, 0.22, 0.22, 0.56078434)
 
 [sub_resource type="Theme" id="Theme_dww4p"]
 
-[node name="Shop" type="Node3D" node_paths=PackedStringArray("camera", "ui")]
+[node name="Shop" type="Node3D" node_paths=PackedStringArray("camera", "ui", "inventory_grid")]
 script = ExtResource("1_ctpgp")
 camera = NodePath("Camera3D")
 ui = NodePath("UI")
+inventory_grid = NodePath("UI/PanelContainer/HBoxContainer/VBoxContainer/ScrollContainer/InventoryGrid")
 
 [node name="triangle_rack" parent="." instance=ExtResource("1_qaxay")]
 transform = Transform3D(1, -8.742278e-08, -8.742278e-08, -8.742278e-08, -1, 0, -8.742278e-08, 7.642742e-15, -1, 0, -0.34994686, 0)
@@ -83,99 +64,36 @@ mesh = SubResource("QuadMesh_ptf86")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_xcdpw")
 
-[node name="8kulacojest0kulaboktosteksturezlezrobil" type="RigidBody3D" parent="." groups=["balls"]]
-transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0, 0)
-physics_material_override = SubResource("PhysicsMaterial_svc1m")
-gravity_scale = 1.3
-freeze = true
-continuous_cd = true
-contact_monitor = true
-max_contacts_reported = 9
-linear_damp = 0.5
-angular_damp = 0.5
-script = ExtResource("6_vk20h")
-hit_particles = ExtResource("7_8qn5i")
-hit_particles2 = ExtResource("8_dww4p")
-hit_particles3 = ExtResource("9_g6lcs")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="8kulacojest0kulaboktosteksturezlezrobil"]
-transform = Transform3D(-0.72162735, 0, -0.6922817, 0, 1, 0, 0.6922817, 0, -0.72162735, -2.887323, -0.15583372, -2.4937959)
-mesh = SubResource("SphereMesh_noarx")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="8kulacojest0kulaboktosteksturezlezrobil"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.030393125, 0, 0)
-shape = SubResource("SphereShape3D_a0tk4")
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="8kulacojest0kulaboktosteksturezlezrobil"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1228056, 0)
-volume_db = -14.545
-pitch_scale = 1.7
-max_polyphony = 3
-doppler_tracking = 2
-
 [node name="UI" type="CanvasLayer" parent="."]
 visible = false
 
 [node name="PanelContainer" type="PanelContainer" parent="UI"]
-anchors_preset = 1
+anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -561.0
-offset_bottom = 720.0
+anchor_bottom = 1.0
+offset_left = -40.4
 grow_horizontal = 0
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_dww4p")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/PanelContainer"]
 custom_minimum_size = Vector2(0.4, 0)
 layout_direction = 3
 layout_mode = 2
-size_flags_horizontal = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/PanelContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme = SubResource("Theme_dww4p")
 
-[node name="Label" type="Label" parent="UI/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/PanelContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-size_flags_horizontal = 8
-text = "TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA"
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
 
-[node name="Label2" type="Label" parent="UI/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="InventoryGrid" type="GridContainer" parent="UI/PanelContainer/HBoxContainer/VBoxContainer/ScrollContainer"]
 layout_mode = 2
-size_flags_horizontal = 8
-text = "TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA
-TU JAKIES UI CO POKAZUJE ILE KULA DAJE PUNKTOW CO ROBI I ILE KOSZSTUJE I PRZYCISK DO KUPIENIA"
-
-[node name="TextureButton" type="TextureButton" parent="UI/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-texture_normal = ExtResource("11_8qn5i")
-texture_pressed = ExtResource("12_dww4p")
+size_flags_horizontal = 3
+columns = 3
