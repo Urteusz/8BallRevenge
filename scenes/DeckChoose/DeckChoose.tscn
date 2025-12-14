@@ -1,9 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://6mbrpkr2idfw"]
+[gd_scene load_steps=15 format=3 uid="uid://6mbrpkr2idfw"]
 
 [ext_resource type="Script" uid="uid://bvl3k1v00goo2" path="res://scenes/DeckChoose/DeckChoose.gd" id="1_8c44f"]
 [ext_resource type="PackedScene" uid="uid://byncin0n1woc0" path="res://models/triangle_rack.glb" id="2_4v8kc"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="3_6fa61"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="4_jqrga"]
+[ext_resource type="ArrayMesh" uid="uid://dimwn5un3y3tk" path="res://models/table_with_pockets/base.obj" id="5_6fa61"]
+[ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="6_jqrga"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -30,6 +32,13 @@ background_mode = 2
 background_energy_multiplier = 1.34
 sky = SubResource("Sky_jka67")
 ambient_light_source = 3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l7d26"]
+albedo_color = Color(0.54901963, 0.6117647, 0.8, 1)
+albedo_texture = ExtResource("6_jqrga")
+uv1_scale = Vector3(4.515, 4.515, 4.515)
+uv1_triplanar = true
+texture_filter = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dww4p"]
 content_margin_left = 20.0
@@ -66,6 +75,11 @@ mesh = SubResource("QuadMesh_ptf86")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_xcdpw")
+
+[node name="TableBase" type="MeshInstance3D" parent="."]
+transform = Transform3D(5.9889765, 0, 0, 0, 5.9889746, 0, 0, 0, 5.9889746, 0, 0.500314, 0)
+mesh = ExtResource("5_6fa61")
+surface_material_override/0 = SubResource("StandardMaterial3D_l7d26")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
