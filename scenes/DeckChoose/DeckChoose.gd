@@ -1,6 +1,6 @@
 extends Node3D
 
-signal deck_selected  # NOWY SYGNAŁ
+signal deck_selected
 
 enum Mode {
 	DEFAULT,

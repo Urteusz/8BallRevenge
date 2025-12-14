@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="1_tk0di"]
 [ext_resource type="Script" path="res://scenes/balls/scripts/ball_data.gd" id="1_ynj3k"]
-[ext_resource type="Texture2D" uid="uid://fipg4aib8ahe" path="res://textures/balls/ball4.png" id="3_ad8jx"]
+[ext_resource type="Texture2D" uid="uid://dgo0rqyw3fpq1" path="res://textures/balls/ball_blue.png" id="3_tk0di"]
 
 [resource]
 script = ExtResource("1_ynj3k")
 scene = ExtResource("1_tk0di")
-texture = ExtResource("3_ad8jx")
+texture = ExtResource("3_tk0di")
