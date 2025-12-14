@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://coluwiu12m6uo"]
 
-[ext_resource type="Script" uid="uid://bu3dx0bpn5u6j" path="res://scenes/shop/InventoryBallItem.gd" id="1_p1yo8"]
+[ext_resource type="Script" uid="uid://bu3dx0bpn5u6j" path="res://scenes/DeckChoose/InventoryBallItem.gd" id="1_p1yo8"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="2_hqy4r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kep27"]

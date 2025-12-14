@@ -1,13 +1,13 @@
 [gd_scene load_steps=12 format=3 uid="uid://6mbrpkr2idfw"]
 
-[ext_resource type="Script" uid="uid://bvl3k1v00goo2" path="res://scenes/shop/shop.gd" id="1_ctpgp"]
-[ext_resource type="PackedScene" uid="uid://byncin0n1woc0" path="res://models/triangle_rack.glb" id="1_qaxay"]
-[ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="3_jp048"]
-[ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="4_ctpgp"]
+[ext_resource type="Script" uid="uid://bvl3k1v00goo2" path="res://scenes/DeckChoose/DeckChoose.gd" id="1_8c44f"]
+[ext_resource type="PackedScene" uid="uid://byncin0n1woc0" path="res://models/triangle_rack.glb" id="2_4v8kc"]
+[ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="3_6fa61"]
+[ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="4_jqrga"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
-shader = ExtResource("3_jp048")
+shader = ExtResource("3_6fa61")
 shader_parameter/lineHighlight = 0.2
 shader_parameter/lineShadow = 0.7
 
@@ -18,7 +18,7 @@ flip_faces = true
 size = Vector2(2, 2)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ge4d2"]
-shader = ExtResource("4_ctpgp")
+shader = ExtResource("4_jqrga")
 shader_parameter/skyColor = Color(1, 1, 1, 1)
 shader_parameter/horizonColor = Color(0.17737836, 0.16961, 0.72409153, 1)
 
@@ -40,13 +40,13 @@ bg_color = Color(0.22, 0.22, 0.22, 0.56078434)
 
 [sub_resource type="Theme" id="Theme_dww4p"]
 
-[node name="Shop" type="Node3D" node_paths=PackedStringArray("camera", "ui", "inventory_grid")]
-script = ExtResource("1_ctpgp")
+[node name="DeckChoose" type="Node3D" node_paths=PackedStringArray("camera", "ui", "inventory_grid")]
+script = ExtResource("1_8c44f")
 camera = NodePath("Camera3D")
 ui = NodePath("UI")
 inventory_grid = NodePath("UI/PanelContainer/HBoxContainer/VBoxContainer/ScrollContainer/InventoryGrid")
 
-[node name="triangle_rack" parent="." instance=ExtResource("1_qaxay")]
+[node name="triangle_rack" parent="." instance=ExtResource("2_4v8kc")]
 transform = Transform3D(1, -8.742278e-08, -8.742278e-08, -8.742278e-08, -1, 0, -8.742278e-08, 7.642742e-15, -1, 0, -0.34994686, 0)
 
 [node name="Balls" type="Node3D" parent="."]

@@ -1,0 +1,99 @@
+[gd_scene load_steps=12 format=3 uid="uid://6mbrpkr2idfw"]
+
+[ext_resource type="Script" uid="uid://bvl3k1v00goo2" path="res://scenes/DeckChoose/DeckChoose.gd" id="1_8c44f"]
+[ext_resource type="PackedScene" uid="uid://byncin0n1woc0" path="res://models/triangle_rack.glb" id="2_4v8kc"]
+[ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="3_6fa61"]
+[ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="4_jqrga"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
+render_priority = -1
+shader = ExtResource("3_6fa61")
+shader_parameter/lineHighlight = 0.2
+shader_parameter/lineShadow = 0.7
+
+[sub_resource type="QuadMesh" id="QuadMesh_ptf86"]
+lightmap_size_hint = Vector2i(12, 12)
+material = SubResource("ShaderMaterial_jsk3o")
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ge4d2"]
+shader = ExtResource("4_jqrga")
+shader_parameter/skyColor = Color(1, 1, 1, 1)
+shader_parameter/horizonColor = Color(0.17737836, 0.16961, 0.72409153, 1)
+
+[sub_resource type="Sky" id="Sky_jka67"]
+sky_material = SubResource("ShaderMaterial_ge4d2")
+
+[sub_resource type="Environment" id="Environment_xcdpw"]
+background_mode = 2
+background_energy_multiplier = 1.34
+sky = SubResource("Sky_jka67")
+ambient_light_source = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dww4p"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(0.22, 0.22, 0.22, 0.56078434)
+
+[sub_resource type="Theme" id="Theme_dww4p"]
+
+[node name="DeckChoose" type="Node3D" node_paths=PackedStringArray("camera", "ui", "inventory_grid")]
+script = ExtResource("1_8c44f")
+camera = NodePath("Camera3D")
+ui = NodePath("UI")
+inventory_grid = NodePath("UI/PanelContainer/HBoxContainer/VBoxContainer/ScrollContainer/InventoryGrid")
+
+[node name="triangle_rack" parent="." instance=ExtResource("2_4v8kc")]
+transform = Transform3D(1, -8.742278e-08, -8.742278e-08, -8.742278e-08, -1, 0, -8.742278e-08, 7.642742e-15, -1, 0, -0.34994686, 0)
+
+[node name="Balls" type="Node3D" parent="."]
+transform = Transform3D(-1.31, 0, -1.978045e-07, 0, 1.31, 0, 1.978045e-07, 0, -1.31, 1.5135888, 0, -1.3573734)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.9800706, -0.13749644, 0.14337495, 0, 0.7217482, 0.6921558, -0.19864956, -0.67836154, 0.70736414, 3.5976195, 4.8472176, 4.557745)
+fov = 40.5
+
+[node name="EdgeDetectionShader" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0011751652, -0.18365169, -0.18207455)
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_ptf86")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_xcdpw")
+
+[node name="UI" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="PanelContainer" type="PanelContainer" parent="UI"]
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.4
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dww4p")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/PanelContainer"]
+custom_minimum_size = Vector2(0.4, 0)
+layout_direction = 3
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_dww4p")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/PanelContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="InventoryGrid" type="GridContainer" parent="UI/PanelContainer/HBoxContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 3

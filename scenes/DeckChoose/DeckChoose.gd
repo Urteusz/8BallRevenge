@@ -16,7 +16,7 @@ const POSITIONS: Array = [
 const BALL_HOVER_Y_OFFSET: float = 0.5
 const BALL_ROTATION_SPEED: float = 1.0
 
-const INVENTORY_ITEM_SCENE = preload("res://scenes/shop/InventoryBallItem.tscn")
+const INVENTORY_ITEM_SCENE = preload("res://scenes/DeckChoose/InventoryBallItem.tscn")
 
 @export var camera: Camera3D
 @export var ui: CanvasLayer
