@@ -29,7 +29,7 @@ const MIN_IMPULSE: float = 0.2
 # Ścieżki
 @onready var collision_shape := $CollisionShape3D
 @onready var charge_ring: MeshInstance3D = $ChargeRing
-@onready var animation_player := $AnimationPlayer
+#@onready var animation_player := $AnimationPlayer
 # Bezpieczne pobranie control_gameplay (może nie istnieć)
 @onready var control_gameplay = get_node_or_null("/root/Node3D/GameplayUI/ControlGameplay")
 

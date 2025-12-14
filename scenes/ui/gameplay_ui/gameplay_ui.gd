@@ -65,17 +65,20 @@ func _on_shop_button() -> void:
 	shopUI.toggle_shop()
 
 func _on_charging_started() -> void:
+	print("CHARGING STARTED - showing slider")
 	slider.visible = true
+	slider.value = 0.0
+
+func _on_charging_released() -> void:
+	print("CHARGING RELEASED - hiding slider after delay")
+	await get_tree().create_timer(0.1).timeout
+	print("HIDING SLIDER NOW")
+	slider.visible = false
 	slider.value = 0.0
 
 func _on_charging_updated(charge_ratio: float) -> void:
 	slider.value = charge_ratio
 	_update_slider_color(charge_ratio)
-
-func _on_charging_released() -> void:
-	await get_tree().create_timer(0.1).timeout
-	slider.visible = false
-	slider.value = 0.0
 
 func _update_slider_color(ratio: float) -> void:
 	var color: Color

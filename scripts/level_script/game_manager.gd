@@ -64,7 +64,7 @@ func _input(event) -> void:
 		return
 
 	if event.is_action_pressed("push_ball") and player_ball:
-		if player_ball.current_phase == player_ball.Phase.AIMING:
+		if player_ball.can_shoot():
 			emit_signal("charging_started")
 
 func _on_ball_pushed(impulse_power: float) -> void:
