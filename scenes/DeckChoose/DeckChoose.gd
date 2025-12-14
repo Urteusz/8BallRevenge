@@ -1,5 +1,7 @@
 extends Node3D
 
+signal deck_selected  # NOWY SYGNAŁ
+
 enum Mode {
 	DEFAULT,
 	BALL
@@ -20,6 +22,9 @@ const INVENTORY_ITEM_SCENE = preload("res://scenes/DeckChoose/InventoryBallItem.
 
 @export var camera: Camera3D
 @export var ui: CanvasLayer
+@export var panel_container: PanelContainer
+@export var button_container: HBoxContainer
+@export var confirm_button: Button
 @onready var balls = $Balls
 
 @export var inventory_grid: Container
@@ -37,7 +42,18 @@ func _ready() -> void:
 	_spawn_balls()
 	_refresh_inventory_ui()
 	
+	if panel_container:
+		panel_container.visible = false
+	
+	if button_container:
+		button_container.visible = true
+	
+	if confirm_button:
+		confirm_button.pressed.connect(_on_confirm_button_pressed)
 
+func _on_confirm_button_pressed() -> void:
+	print("Talia potwierdzona! Rozpoczynanie gry...")
+	emit_signal("deck_selected")
 
 func _refresh_inventory_ui() -> void:
 	if not inventory_grid:
@@ -130,7 +146,7 @@ func _spawn_balls() -> void:
 			push_warning("Brak BallData lub sceny dla kuli ", i)
 			continue
 		
-		var ball: BallParent = ball_data.scene.instantiate() # 
+		var ball: BallParent = ball_data.scene.instantiate()
 		
 		if ball_data.texture:
 			var mesh = ball.get_node_or_null("MeshInstance3D")
@@ -195,12 +211,17 @@ func _on_ball_input_event(camera: Node, event: InputEvent, event_position: Vecto
 				tween.set_ease(Tween.EASE_OUT)
 				tween.tween_property(ball_node, "global_position", target_pos, 0.6)
 				tween.parallel().tween_property(ball_node, "global_rotation", -target_rotation, 0.6)
-				ui.visible = true
+				
+				if panel_container:
+					panel_container.visible = true
 				
 			Mode.BALL:
 				if ball_node == ball_being_viewed:
 					mode = Mode.DEFAULT
-					ui.visible = false
+					
+					if panel_container:
+						panel_container.visible = false
+					
 					var tween = create_tween()
 					tween.set_trans(Tween.TRANS_CUBIC)
 					tween.set_ease(Tween.EASE_OUT)

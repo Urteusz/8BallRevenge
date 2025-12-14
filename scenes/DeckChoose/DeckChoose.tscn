@@ -40,10 +40,13 @@ bg_color = Color(0.22, 0.22, 0.22, 0.56078434)
 
 [sub_resource type="Theme" id="Theme_dww4p"]
 
-[node name="DeckChoose" type="Node3D" node_paths=PackedStringArray("camera", "ui", "inventory_grid")]
+[node name="DeckChoose" type="Node3D" node_paths=PackedStringArray("camera", "ui", "panel_container", "button_container", "confirm_button", "inventory_grid")]
 script = ExtResource("1_8c44f")
 camera = NodePath("Camera3D")
 ui = NodePath("UI")
+panel_container = NodePath("UI/PanelContainer")
+button_container = NodePath("UI/ExitContainer")
+confirm_button = NodePath("UI/ExitContainer/ButtonContinue")
 inventory_grid = NodePath("UI/PanelContainer/HBoxContainer/VBoxContainer/ScrollContainer/InventoryGrid")
 
 [node name="triangle_rack" parent="." instance=ExtResource("2_4v8kc")]
@@ -65,7 +68,6 @@ mesh = SubResource("QuadMesh_ptf86")
 environment = SubResource("Environment_xcdpw")
 
 [node name="UI" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="PanelContainer" type="PanelContainer" parent="UI"]
 anchors_preset = 11
@@ -97,3 +99,16 @@ horizontal_scroll_mode = 0
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 3
+
+[node name="ExitContainer" type="HBoxContainer" parent="UI"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="ButtonContinue" type="Button" parent="UI/ExitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "EXIT"
