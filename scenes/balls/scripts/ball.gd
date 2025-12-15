@@ -21,6 +21,7 @@ var total_bounces_round: int = 0 # Suma odbic w jednej rundzie (do momentu zatrz
 var total_score_popup_instance = null
 var can_score := false
 
+var ball_data: BallData
 
 func pocketed() -> void:
 	points_scored.emit(total_points, global_position)

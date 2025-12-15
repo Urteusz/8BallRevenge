@@ -56,48 +56,41 @@ func _ready() -> void:
 		emit_signal("moves_changed", moves_left)
 
 func get_level_balls() -> Array:
-	var balls_data = []
-	print("--- ROZPOCZYNAM SZUKANIE DANYCH BIL ---")
+	var balls_data_for_ui = []
+	
+	print("--- TWORZENIE KART (METODA: CZYTANIE Z MODELU) ---")
 	
 	for ball in ball_list:
-		var final_color = Color.WHITE
-		var final_texture = null
+		var ui_color = Color.WHITE
+		var ui_texture = null
+		var ui_points = 0
 		
-		# --- NOWOŚĆ: SPRAWDZAMY METADANE ---
-		# Jeśli ustawiłeś w inspektorze "ui_color", użyj go priorytetowo!
-		if ball.has_meta("ui_color"):
-			final_color = ball.get_meta("ui_color")
-		else:
-			# Jeśli nie ma metadanych, próbujemy pobrać kolor z materiału (fallback)
-			var meshes = ball.find_children("*", "MeshInstance3D", true, false)
-			if meshes.size() > 0:
-				var mesh = meshes[0]
-				var mat = mesh.get_active_material(0)
-				if mat:
-					if mat is StandardMaterial3D:
-						final_color = mat.albedo_color
-						final_texture = mat.albedo_texture
-					elif mat is ShaderMaterial:
-						# Logika dla shadera (uproszczona)
-						var col = mat.get_shader_parameter("albedo")
-						if col is Color: final_color = col
-
-		# Próba pobrania tekstury (jeśli nie pobraliśmy jej wyżej z materiału)
-		if final_texture == null:
-			var meshes = ball.find_children("*", "MeshInstance3D", true, false)
-			if meshes.size() > 0:
-				var mat = meshes[0].get_active_material(0)
-				if mat is StandardMaterial3D:
-					final_texture = mat.albedo_texture
-
-		balls_data.append({
+		# Szukamy modelu 3D wewnątrz kuli
+		var meshes = ball.find_children("*", "MeshInstance3D", true, false)
+		
+		if meshes.size() > 0:
+			var mesh_inst = meshes[0]
+			# Pobieramy materiał z modelu
+			var mat = mesh_inst.get_active_material(0)
+			
+			if mat:
+				# Bierzemy to, co widać na stole
+				if mat is StandardMaterial3D or mat is ORMMaterial3D:
+					ui_color = mat.albedo_color
+					ui_texture = mat.albedo_texture
+		# -----------------------------------------------------------
+		
+		
+		
+		balls_data_for_ui.append({
 			"id": ball.get_instance_id(),
-			"color": final_color,   # Tu trafi Twój czerwony z Metadanych
-			"texture": final_texture, # Tu trafi tekstura z materiału
+			"color": ui_color, 
+			"texture": ui_texture,
+			"points": ui_points,
 			"name": _pretty_ball_name(ball.name)
 		})
 		
-	return balls_data
+	return balls_data_for_ui
 
 func _process(delta: float) -> void:
 	if player_ball and player_ball.charging:

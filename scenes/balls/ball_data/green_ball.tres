@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="BallData" load_steps=4 format=3 uid="uid://0n22mwo5lwvt"]
 
-[ext_resource type="Script" path="res://scenes/balls/scripts/ball_data.gd" id="1_ntorf"]
+[ext_resource type="Script" uid="uid://cvwkj0qnv7yim" path="res://scenes/balls/scripts/ball_data.gd" id="1_ntorf"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="1_sclq6"]
 [ext_resource type="Texture2D" uid="uid://c3x3iau61swqr" path="res://textures/balls/ball_green.png" id="3_sclq6"]
 
@@ -8,3 +8,4 @@
 script = ExtResource("1_ntorf")
 scene = ExtResource("1_sclq6")
 texture = ExtResource("3_sclq6")
+metadata/ui_color = Color(0.39946666, 0.56, 0.33600003, 1)

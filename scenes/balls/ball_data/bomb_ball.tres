@@ -1,8 +1,9 @@
 [gd_resource type="Resource" script_class="BallData" load_steps=3 format=3 uid="uid://6us22gvs78ew"]
 
-[ext_resource type="Script" path="res://scenes/balls/scripts/ball_data.gd" id="1_mc265"]
+[ext_resource type="Script" uid="uid://cvwkj0qnv7yim" path="res://scenes/balls/scripts/ball_data.gd" id="1_mc265"]
 [ext_resource type="PackedScene" uid="uid://bvb4maqi2qftn" path="res://scenes/balls/smily_bomb.tscn" id="1_qe54q"]
 
 [resource]
 script = ExtResource("1_mc265")
 scene = ExtResource("1_qe54q")
+metadata/ui_color = Color(0, 0, 0, 1)

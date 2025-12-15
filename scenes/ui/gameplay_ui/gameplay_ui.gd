@@ -69,18 +69,18 @@ func _initialize_ball_cards(balls_data: Array) -> void:
 	for data in balls_data:
 		# --- TO JEST KLUCZOWA ZMIANA ---
 		# Zamiast tworzyć TextureRect, tworzymy instancję Twojej sceny
-		var card_instance = BALL_CARD_SCENE.instantiate()
+		var card = BALL_CARD_SCENE.instantiate()
 		
 		# Dodajemy do drzewa sceny
-		ball_list_container.add_child(card_instance)
+		ball_list_container.add_child(card)
 		
 		# Teraz możemy użyć funkcji z Twojego skryptu BallCard.gd
 		# Upewnij się, że funkcja setup_card istnieje w BallCard.gd
-		if card_instance.has_method("setup_card"):
-			card_instance.setup_card(data["name"], data["color"])
+		if card.has_method("setup_card"):
+			card.setup_card(data["name"], data["texture"], data["color"])
 		
 		# Zapisujemy referencję
-		ball_cards[data["id"]] = card_instance
+		ball_cards[data["id"]] = card
 
 # --- ZMIANA 5: Nowa funkcja obsługująca wbicie bili ---
 func _on_ball_pocketed(ball_id: int) -> void:
