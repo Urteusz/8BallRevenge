@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://00n4v6atsrpu"]
+
+[ext_resource type="PackedScene" uid="uid://biypc7n68b7ps" path="res://models/mystery_ball.glb" id="1_8eol0"]
+
+[node name="mystery_ball" instance=ExtResource("1_8eol0")]

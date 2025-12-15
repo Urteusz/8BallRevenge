@@ -1,10 +1,10 @@
 [gd_scene load_steps=13 format=3 uid="uid://ba517yyhlau5u"]
 
-[ext_resource type="Script" uid="uid://b6nhfx7h257o8" path="res://scenes/balls/scripts/speedy_ball.gd" id="1_wln65"]
+[ext_resource type="Script" path="res://scenes/balls/scripts/speedy_ball.gd" id="1_wln65"]
 [ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="2_b22gl"]
 [ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/hit_particles/star_particles_2.tscn" id="3_nh68v"]
 [ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/hit_particles/star_particles_3.tscn" id="4_ctmrx"]
-[ext_resource type="Shader" uid="uid://b6kbsyqcwfxsp" path="res://shaders/speedy_ball.gdshader" id="5_nh68v"]
+[ext_resource type="Shader" path="res://shaders/speedy_ball.gdshader" id="5_nh68v"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nh68v"]
 bounce = 0.2
@@ -36,6 +36,8 @@ radial_segments = 8
 rings = 4
 
 [node name="SpeedyBall" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 5
 physics_material_override = SubResource("PhysicsMaterial_nh68v")
 contact_monitor = true
 max_contacts_reported = 4

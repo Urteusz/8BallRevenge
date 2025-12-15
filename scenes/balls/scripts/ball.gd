@@ -83,7 +83,8 @@ func start_being_aimed_at() -> void:
 		total_score_popup_instance = points_popup.instantiate()
 		get_parent().add_child(total_score_popup_instance)
 		total_score_popup_instance.global_position = global_position
-		total_score_popup_instance.total_points(total_points)
+		total_score_popup_instance.total_points(total_points, name)
+		
 
 
 func stop_being_aimed_at() -> void:

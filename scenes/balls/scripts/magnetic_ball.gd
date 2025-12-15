@@ -30,7 +30,7 @@ func _physics_process(delta: float) -> void:
 		magnet_timer -= delta
 		if magnet_timer <= 0.0:
 			magnet_active = false
-			# Mozna tu dodać np. dźwięk, efekt, ale nie zatrzymujemy ręcznie!
+			# Mozna tu dodać np. dźwięk, efekt
 			return
 
 		for ball in get_tree().get_nodes_in_group("balls"):
