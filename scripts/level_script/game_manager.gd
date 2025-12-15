@@ -71,6 +71,7 @@ func _on_ball_pushed(impulse_power: float) -> void:
 	emit_signal("charging_released")
 	
 	moves_left -= 1
+	moves_left = max(moves_left, 0)
 	emit_signal("moves_changed", moves_left)
 	
 	turn_move_refunded = false
@@ -79,6 +80,7 @@ func _on_ball_pocketed(ball):
 	print("Pocketed")
 	if ball == player_ball:
 		moves_left -= 1
+		moves_left = max(moves_left, 0)
 		emit_signal("moves_changed", moves_left)
 		ball.sleeping = true
 		ball.position = Vector3(0.093, 0.294, 10.219)
