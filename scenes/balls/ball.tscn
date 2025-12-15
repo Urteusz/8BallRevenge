@@ -14,6 +14,8 @@ albedo_texture = ExtResource("2_f7cbr")
 
 [sub_resource type="SphereMesh" id="SphereMesh_noarx"]
 material = SubResource("StandardMaterial3D_uxwjp")
+radial_segments = 12
+rings = 6
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a0tk4"]
 

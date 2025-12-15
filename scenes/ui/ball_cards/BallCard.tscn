@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmfdcb1iaitmu"]
+
+[ext_resource type="Script" uid="uid://dx2cskto0l8se" path="res://scenes/ui/ball_cards/ball_card.gd" id="1_4ycxe"]
+
+[node name="BallCard" type="PanelContainer"]
+script = ExtResource("1_4ycxe")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="BallIcon" type="TextureRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BallName" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Bila"
+horizontal_alignment = 1

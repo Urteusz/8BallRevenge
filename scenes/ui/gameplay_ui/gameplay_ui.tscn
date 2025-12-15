@@ -156,3 +156,17 @@ theme_override_styles/grabber_area = SubResource("StyleBoxFlat_2mbl5")
 max_value = 1.0
 step = 0.01
 editable = false
+
+[node name="BallListContainer" type="HBoxContainer" parent="ControlGameplay"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.49800003
+anchor_top = 0.86300004
+anchor_right = 0.49800003
+anchor_bottom = 0.86300004
+offset_left = -241.44006
+offset_top = -19.360046
+offset_right = 252.55994
+offset_bottom = 24.639954
+grow_horizontal = 2
+grow_vertical = 0
