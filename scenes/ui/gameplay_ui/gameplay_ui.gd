@@ -77,7 +77,7 @@ func _initialize_ball_cards(balls_data: Array) -> void:
 		# Teraz możemy użyć funkcji z Twojego skryptu BallCard.gd
 		# Upewnij się, że funkcja setup_card istnieje w BallCard.gd
 		if card.has_method("setup_card"):
-			card.setup_card(data["name"], data["texture"], data["color"])
+			card.setup_card(data["name"], data["texture"], data["color"], data["points"])
 		
 		# Zapisujemy referencję
 		ball_cards[data["id"]] = card
@@ -152,3 +152,7 @@ func _ignore_mouse() -> void:
 func _enable_mouse() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+func _on_ball_score_updated(new_points: int, ball_id: int) -> void:
+	if ball_cards.has(ball_id):
+		ball_cards[ball_id].update_points(new_points)

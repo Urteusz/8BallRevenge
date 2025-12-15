@@ -39,6 +39,9 @@ func _ready() -> void:
 			ball.ball_pocketed.connect(_on_ball_pocketed)
 		if ball.has_signal("points_scored"):
 			ball.points_scored.connect(_on_points_scored)
+		if ball.has_signal("score_updated") and gameplay_ui:
+			# bind() przesyła ID kuli, żeby UI wiedziało którą kartę zmienić
+			ball.score_updated.connect(gameplay_ui._on_ball_score_updated.bind(ball.get_instance_id()))
 	
 	if player_ball.has_signal("round_ended"):
 		player_ball.round_ended.connect(_on_round_ended)
@@ -79,7 +82,10 @@ func get_level_balls() -> Array:
 					ui_color = mat.albedo_color
 					ui_texture = mat.albedo_texture
 		# -----------------------------------------------------------
-		
+		if "total_points" in ball:
+			ui_points = ball.total_points # To będzie 0 na starcie
+		elif "base_value" in ball:
+			ui_points = 0 # Jeśli nie ma total_points, bezpiecznie ustaw 0
 		
 		
 		balls_data_for_ui.append({

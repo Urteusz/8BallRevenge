@@ -1,8 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://dmfdcb1iaitmu"]
+[gd_scene load_steps=4 format=3 uid="uid://dmfdcb1iaitmu"]
 
 [ext_resource type="Script" uid="uid://dx2cskto0l8se" path="res://scenes/ui/ball_cards/ball_card.gd" id="1_4ycxe"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_4ycxe"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4ycxe"]
 
 [node name="BallCard" type="PanelContainer"]
 custom_minimum_size = Vector2(60, 0)
@@ -10,6 +12,11 @@ script = ExtResource("1_4ycxe")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
+
+[node name="BallName" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Bila"
+horizontal_alignment = 1
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer"]
 custom_minimum_size = Vector2(40, 40)
@@ -35,7 +42,8 @@ size = 0.15
 [node name="BallMesh" type="MeshInstance3D" parent="VBoxContainer/SubViewportContainer/SubViewport/Node3D"]
 mesh = SubResource("SphereMesh_4ycxe")
 
-[node name="BallName" type="Label" parent="VBoxContainer"]
+[node name="PointsLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "Bila"
+text = "Punkty"
+label_settings = SubResource("LabelSettings_4ycxe")
 horizontal_alignment = 1

@@ -9,6 +9,7 @@ class_name BallParent
 
 signal points_scored(points, world_position)
 signal ball_pocketed(ball)
+signal score_updated(new_total_points)
 
 var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 
@@ -38,6 +39,7 @@ func on_hit() -> void:
 		var points_gained: int = _calculate_points()
 		print(points_gained)
 		total_points += points_gained
+		emit_signal("score_updated", total_points)
 		_show_popup(global_position, points_gained) # global_position -> miejsce kuli w momencie zderzenia
 		_show_particles(global_position)
 	

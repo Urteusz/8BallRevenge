@@ -4,6 +4,7 @@ extends PanelContainer
 @onready var ball_mesh: MeshInstance3D = $VBoxContainer/SubViewportContainer/SubViewport/Node3D/BallMesh
 @onready var name_label: Label = $VBoxContainer/BallName
 @onready var sub_viewport: SubViewport = $VBoxContainer/SubViewportContainer/SubViewport
+@onready var points_label: Label = $VBoxContainer/PointsLabel
 
 # Prędkość obrotu
 var rotation_speed: float = 1.0
@@ -20,9 +21,10 @@ func _process(delta: float) -> void:
 		
 
 # Funkcja konfiguracyjna (którą wywoła GameplayUI)
-func setup_card(name_text: String, texture: Texture2D, ui_color: Color) -> void:
+func setup_card(name_text: String, texture: Texture2D, ui_color: Color, points: int) -> void:
 	name_label.text = name_text
 	
+	update_points(points)
 	# Tworzymy materiał (StandardMaterial3D)
 	var mat = StandardMaterial3D.new()
 	mat.roughness = 0.2
@@ -53,3 +55,9 @@ func set_pocketed() -> void:
 	modulate = Color(0.4, 0.4, 0.4, 0.5)
 	# Zatrzymujemy obrót (opcjonalnie)
 	rotation_speed = 0.0
+	
+func update_points(new_value: int) -> void:
+	if points_label:
+		points_label.text = str(new_value)
+		# Opcjonalny kolor (złoty):
+		points_label.modulate = Color(1, 0.84, 0)
