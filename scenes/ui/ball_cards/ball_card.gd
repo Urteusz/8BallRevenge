@@ -5,7 +5,7 @@ extends PanelContainer
 @onready var name_label: Label = $VBoxContainer/BallName
 @onready var sub_viewport: SubViewport = $VBoxContainer/SubViewportContainer/SubViewport
 @onready var points_label: Label = $VBoxContainer/PointsLabel
-
+@onready var particles: CPUParticles2D = $VBoxContainer/PointsLabel/CPUParticles2D
 # Prędkość obrotu
 var rotation_speed: float = 1.0
 var is_super_charged: bool = false
@@ -70,6 +70,10 @@ func update_points(new_value: int) -> void:
 	if not points_label: return
 	
 	points_label.text = "Pts: " + str(new_value)
+	
+	if particles:
+		particles.restart() # Restart pozwala odpalić efekt raz za razem przy szybkich punktach
+		particles.emitting = true
 	
 	# Uaktualnij środek obrotu na wszelki wypadek (gdyby karta zmieniła rozmiar)
 	pivot_offset = size / 2 
