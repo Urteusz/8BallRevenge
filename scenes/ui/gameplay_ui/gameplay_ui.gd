@@ -23,6 +23,9 @@ const BALL_CARD_SCENE = preload("res://scenes/ui/ball_cards/BallCard.tscn")
 var ball_cards: Dictionary = {}
 
 func _ready() -> void:
+	if game_manager:
+		game_manager.gameplay_ui = self
+	
 	game_over_window.visible = false
 	win_window.visible = false
 	again_button.pressed.connect(_on_try_again)
@@ -52,7 +55,8 @@ func _ready() -> void:
 		
 		_on_moves_changed(game_manager.default_level_move_count)
 	_ignore_mouse()
-
+	
+	
 # --- ZMIANA 4: Nowa funkcja tworząca karty ---
 func _initialize_ball_cards(balls_data: Array) -> void:
 	# Czyścimy kontener ze starych elementów

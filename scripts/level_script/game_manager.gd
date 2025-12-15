@@ -57,40 +57,67 @@ func _ready() -> void:
 		connect("charging_released", gameplay_ui._on_charging_released)
 		connect("ball_pocketed", gameplay_ui._on_ball_pocketed)
 		emit_signal("moves_changed", moves_left)
+	print("--- PODŁĄCZANIE KUL DO UI ---")
+	for ball in ball_list:
+		print("Sprawdzam kulę: ", ball.name)
+		
+		# Logika standardowa
+		if ball.has_signal("ball_pocketed"):
+			ball.ball_pocketed.connect(_on_ball_pocketed)
+		if ball.has_signal("points_scored"):
+			ball.points_scored.connect(_on_points_scored)
+			
+		# DIAGNOSTYKA PUNKTÓW
+		if ball.has_signal("score_updated"):
+			if gameplay_ui:
+				ball.score_updated.connect(gameplay_ui._on_ball_score_updated.bind(ball.get_instance_id()))
+				print("   -> SUKCES: Podłączono sygnał punktów dla: ", ball.name)
+			else:
+				print("   -> BŁĄD: Brak GameplayUI!")
+		else:
+			print("   -> BŁĄD: Kula ", ball.name, " NIE MA sygnału score_updated! (Problem z dziedziczeniem?)")
 
 func get_level_balls() -> Array:
 	var balls_data_for_ui = []
 	
-	print("--- TWORZENIE KART (METODA: CZYTANIE Z MODELU) ---")
+	# Pobieramy świeżą listę kul z grupy
+	ball_list = get_tree().get_nodes_in_group(BALLS_GROUP)
+	
+	# --- NAPRAWA: USUWAMY GRACZA Z LISTY CELÓW ---
+	if player_ball and ball_list.has(player_ball):
+		ball_list.erase(player_ball)
+	# ---------------------------------------------
 	
 	for ball in ball_list:
 		var ui_color = Color.WHITE
 		var ui_texture = null
 		var ui_points = 0
 		
-		# Szukamy modelu 3D wewnątrz kuli
+		# 1. Wygląd
 		var meshes = ball.find_children("*", "MeshInstance3D", true, false)
-		
 		if meshes.size() > 0:
-			var mesh_inst = meshes[0]
-			# Pobieramy materiał z modelu
-			var mat = mesh_inst.get_active_material(0)
-			
-			if mat:
-				# Bierzemy to, co widać na stole
-				if mat is StandardMaterial3D or mat is ORMMaterial3D:
-					ui_color = mat.albedo_color
-					ui_texture = mat.albedo_texture
-		# -----------------------------------------------------------
-		if "total_points" in ball:
-			ui_points = ball.total_points # To będzie 0 na starcie
-		elif "base_value" in ball:
-			ui_points = 0 # Jeśli nie ma total_points, bezpiecznie ustaw 0
+			var mat = meshes[0].get_active_material(0)
+			if mat is StandardMaterial3D or mat is ORMMaterial3D:
+				ui_color = mat.albedo_color
+				ui_texture = mat.albedo_texture
+			elif mat is ShaderMaterial:
+				if mat.get_shader_parameter("albedo") is Color:
+					ui_color = mat.get_shader_parameter("albedo")
 		
+		# 2. Punkty
+		if "total_points" in ball:
+			ui_points = ball.total_points
+		elif "base_value" in ball:
+			ui_points = 0
+			
+		# 3. Podłączanie sygnałów (Race condition fix)
+		if gameplay_ui and ball.has_signal("score_updated"):
+			if not ball.score_updated.is_connected(gameplay_ui._on_ball_score_updated):
+				ball.score_updated.connect(gameplay_ui._on_ball_score_updated.bind(ball.get_instance_id()))
 		
 		balls_data_for_ui.append({
 			"id": ball.get_instance_id(),
-			"color": ui_color, 
+			"color": ui_color,
 			"texture": ui_texture,
 			"points": ui_points,
 			"name": _pretty_ball_name(ball.name)
@@ -215,3 +242,4 @@ func _pretty_ball_name(raw_name: String) -> String:
 	if n.length() > 0:
 		return n.substr(0, 1).to_upper() + n.substr(1)
 	return "Ball"
+	
