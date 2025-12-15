@@ -9,7 +9,7 @@ var can_apply_modifier = true
 func _ready():
 	super._ready()
 	contact_monitor = true
-	max_contacts_reported = 4
+	max_contacts_reported = 11
 
 func _on_body_entered(idk, body: Node, idk2, idk3) -> void:
 	if body == self or not can_apply_modifier:
@@ -28,11 +28,17 @@ func apply_freeze_sequence(target: RigidBody3D):
 	if not is_instance_valid(target):
 		return
 
-	target.set_deferred("lock_rotation", true)
+	target.lock_rotation = true
 	
 	# target.linear_damp = 1.0 
 	
 	var ice_cube_instance = ice_cube_scene.instantiate()
+	var ice_cube := ice_cube_instance as IceCube
+	if ice_cube == null:
+		ice_cube = ice_cube_instance.get_node_or_null("Area3D") as IceCube
+		
+	ice_cube.frozen_ball = target
+	
 	target.add_child(ice_cube_instance)
 	
 	ice_cube_instance.position = Vector3.ZERO

@@ -4,6 +4,8 @@ extends Area3D
 @export var break_delay: float = 0.5
 var is_breaking = false
 
+var frozen_ball: RigidBody3D
+
 func _ready():
 	monitoring = true
 	monitorable = true
@@ -24,10 +26,11 @@ func start_break_sequence():
 	break_ice()
 
 func break_ice() -> void:
-	var parent_ball = get_parent()
-	
-	if parent_ball is BallParent:
-		parent_ball.set_deferred("lock_rotation", false)
-		parent_ball.sleeping = false 
-	
+	if frozen_ball == null or not is_instance_valid(frozen_ball):
+		queue_free()
+		return
+
+	frozen_ball.lock_rotation = false
+	frozen_ball.sleeping = false
+
 	queue_free()
