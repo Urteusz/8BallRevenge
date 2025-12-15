@@ -186,6 +186,7 @@ aim_line_ray_range = 30.0
 
 [node name="PocketsHitbox" type="Area3D" parent="SubViewportContainer/SubViewport/Table" groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.699977, -0.8570008, -13.004261)
+collision_mask = 5
 script = ExtResource("8_0em4h")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/PocketsHitbox"]
