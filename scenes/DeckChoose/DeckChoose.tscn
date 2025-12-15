@@ -77,7 +77,7 @@ mesh = SubResource("QuadMesh_ptf86")
 environment = SubResource("Environment_xcdpw")
 
 [node name="TableBase" type="MeshInstance3D" parent="."]
-transform = Transform3D(5.9889765, 0, 0, 0, 5.9889746, 0, 0, 0, 5.9889746, 0, 0.500314, 0)
+transform = Transform3D(5.9889765, 0, 0, 0, 5.9889746, 0, 0, 0, 5.9889746, 0, 0.30725813, 0)
 mesh = ExtResource("5_6fa61")
 surface_material_override/0 = SubResource("StandardMaterial3D_l7d26")
 
