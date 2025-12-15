@@ -65,6 +65,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Next Level"
 
+[node name="ButtonChoose" type="Button" parent="ControlShop/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Change Deck"
+
 [node name="HBoxContainer" type="HBoxContainer" parent="ControlShop"]
 layout_mode = 1
 anchors_preset = 8

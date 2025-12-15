@@ -6,6 +6,7 @@ extends Control
 @onready var buttons_container = $HBoxContainer
 @onready var continue_container = $"HBoxContainer2"
 @onready var next_button: Button = $"HBoxContainer2/ButtonNextLevel"
+@onready var choose_button: Button = $"HBoxContainer2/ButtonChoose"
 @onready var scoredLabel = $PointsScored
 
 var shop_open := false
@@ -26,6 +27,7 @@ func _ready() -> void:
 	continue_container.visible = false
 	
 	next_button.pressed.connect(_on_next_level)
+	choose_button.pressed.connect(_on_choose)
 	
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
@@ -48,13 +50,14 @@ func _on_next_level() -> void:
 	#PlayerData.advance_level() 
 	LoadManager.load_scene(PlayerData.get_level_path())
 
+func _on_choose() -> void:
+	PlayerData.set_level(3)
+	LoadManager.load_scene(ScenePaths.DECK_CHOOSE)
+
 func _on_points_updated(new_points: int) -> void:
-	# 1. Oblicz różnicę zanim zaktualizujesz zmienną 'points'
 	var delta = new_points - points
-	# 2. Aktualizacja stanu
 	points = new_points
 	label.text = "Punkty: %d" % points
-	# 3. Jeśli punkty zostały dodane (delta > 0), pokaż animację
 	if delta > 0:
 		show_score_popup(delta)
 
@@ -68,14 +71,12 @@ func _get_item_data(button_text: String) -> Dictionary:
 		"Kulka Bomba": return {"type": "bomb", "cost": 50}
 		_: return {}
 
-# Funkcja sprawdzająca przy starcie, co jest już kupione
 func _check_already_owned() -> void:
 	for btn in buttons:
 		var data = _get_item_data(btn.text)
 		if data.is_empty(): 
 			continue
 			
-		# Jeśli gracz ma już tę kulę w 'owned_balls' (z PlayerData)
 		if PlayerData.owned_balls.has(data["type"]):
 			btn.text = "Kupione"
 			btn.disabled = true
@@ -90,18 +91,14 @@ func _on_item_pressed(btn: Button) -> void:
 	_buy_item(btn, data["cost"], data["type"])
 
 func _buy_item(btn: Button, cost: int, ball_type: String) -> void:
-	# 1. Sprawdź czy już posiada (zabezpieczenie logiczne)
 	if PlayerData.owned_balls.has(ball_type):
 		print_debug("Już posiadasz ten przedmiot!")
 		return
 
-	# 2. Sprawdź punkty
 	if points >= cost:
-		# 3. Spróbuj odblokować w PlayerData
 		var success = PlayerData.unlock_ball(ball_type)
 		
 		if success:
-			# Odejmij punkty i zaktualizuj UI
 			points -= cost
 			label.text = "Punkty: %d" % points
 			
@@ -136,7 +133,6 @@ func toggle_shop() -> void:
 			align_shop_items()
 			shop_positions_set = true
 		
-		# Odśwież stan przycisków przy otwarciu (na wypadek zmian w innym miejscu)
 		_check_already_owned()
 	else:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -149,9 +145,7 @@ func align_shop_items() -> void:
 
 func _on_quit_button_pressed() -> void:
 	LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)
-
-# Zmienna pomocnicza do przerywania poprzedniej animacji, 
-# jeśli punkty wpadają bardzo szybko
+	
 var _score_tween: Tween
 
 
@@ -169,15 +163,12 @@ func show_score_popup(amount: int) -> void:
 	scoredLabel.rotation_degrees = 0
 	scoredLabel.scale = Vector2(0, 0)
 	
-	# Zabijamy poprzednią animację (ważne!)
 	if _score_tween:
 		_score_tween.kill()
 	
 	_score_tween = create_tween()
 	
-	# --- LOGIKA PROGÓW ---
 	
-	# Zmienna, która określi, jak długo napis ma wisieć po animacji wejścia
 	var wait_time = 0.5 
 	
 	# TIER 1: Normalny (< 500)

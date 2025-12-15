@@ -55,6 +55,7 @@ func _ready() -> void:
 func _on_confirm_button_pressed() -> void:
 	print("Talia potwierdzona! Rozpoczynanie gry...")
 	emit_signal("deck_selected")
+	LoadManager.load_scene(PlayerData.get_level_path())
 
 func _refresh_inventory_ui() -> void:
 	if not inventory_grid:
