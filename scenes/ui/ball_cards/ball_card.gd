@@ -6,20 +6,28 @@ extends PanelContainer
 @onready var sub_viewport: SubViewport = $VBoxContainer/SubViewportContainer/SubViewport
 @onready var points_label: Label = $VBoxContainer/PointsLabel
 
-var original_pos: Vector2
 # Prędkość obrotu
 var rotation_speed: float = 1.0
+var is_super_charged: bool = false
 
 func _ready() -> void:
-	original_pos = position
 	# To sprawia, że każda karta jest niezależna (ważne przy wielu kartach)
+	pivot_offset = size / 2
 	if sub_viewport:
 		sub_viewport.own_world_3d = true
+	
+
 
 func _process(delta: float) -> void:
 	#Obracanie obiektu
 	if ball_mesh and rotation_speed > 0:
 		ball_mesh.rotation.y += rotation_speed * delta
+	if is_super_charged:
+		# Ciągłe wibracje (losowy obrót lewo-prawo)
+		rotation_degrees = randf_range(-3.0, 3.0)
+	else:
+		# Płynny powrót do poziomu, gdy nie trzęsie
+		rotation_degrees = lerp(rotation_degrees, 0.0, delta * 10)
 		
 
 # Funkcja konfiguracyjna (którą wywoła GameplayUI)
@@ -63,24 +71,32 @@ func update_points(new_value: int) -> void:
 	
 	points_label.text = "Pts: " + str(new_value)
 	
-	# EFEKT 1: Pulsowanie tekstu (Tween)
+	# Uaktualnij środek obrotu na wszelki wypadek (gdyby karta zmieniła rozmiar)
+	pivot_offset = size / 2 
+
+	# EFEKT 1: Pulsowanie tekstu (To działało dobrze, zostawiamy)
 	var tween = create_tween()
-	# Szybki skok do 130% wielkości
 	tween.tween_property(points_label, "scale", Vector2(1.3, 1.3), 0.05)
-	# Powrót do normy (efekt sprężynki)
 	tween.tween_property(points_label, "scale", Vector2(1.0, 1.0), 0.1).set_trans(Tween.TRANS_BOUNCE)
 
-	# EFEKT 2: "High Score" (np. powyżej 500 pkt)
-	if new_value > 500:
-		points_label.modulate = Color(1, 0.2, 0.2) # Czerwony kolor grozy
+	# EFEKT 2: "High Score" - Wściekłe trzęsienie (ROTACJA zamiast POZYCJI)
+	if new_value >= 1000:
+		# POZIOM 3: SUPER MOC (Fioletowy + Ciągłe trzęsienie)
+		is_super_charged = true
+		points_label.modulate = Color(0.8, 0.2, 1.0) # Fiolet
 		
-		# Trzęsienie kartą (Shake)
+	elif new_value > 500:
+		# POZIOM 2: WYSOKI WYNIK (Czerwony + Pojedynczy wstrząs)
+		is_super_charged = false
+		points_label.modulate = Color(1, 0.2, 0.2) # Czerwony
+		
+		# Jednorazowy wstrząs (Tween)
 		var shake = create_tween()
-		# Losowe przesunięcie o max 3 piksele
-		var offset = Vector2(randf_range(-3, 3), randf_range(-3, 3))
+		shake.tween_property(self, "rotation_degrees", 5.0, 0.05)
+		shake.tween_property(self, "rotation_degrees", -5.0, 0.05)
+		shake.tween_property(self, "rotation_degrees", 0.0, 0.05)
 		
-		# Przesuń i wróć
-		shake.tween_property(self, "position", original_pos + offset, 0.05)
-		shake.tween_property(self, "position", original_pos, 0.05)
 	else:
-		points_label.modulate = Color(1, 0.84, 0) # Normalny Złoty
+		# POZIOM 1: NORMALNY (Złoty)
+		is_super_charged = false
+		points_label.modulate = Color(1, 0.84, 0) # Złoty
