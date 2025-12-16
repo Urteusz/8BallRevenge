@@ -93,10 +93,10 @@ mesh = SubResource("QuadMesh_4arys")
 
 [node name="Bandy" parent="SubViewportContainer/SubViewport/Table5" index="1" groups=["table"]]
 
-[node name="TableWalls" parent="SubViewportContainer/SubViewport/Table5" index="5" groups=["table"]]
+[node name="TableWalls" parent="SubViewportContainer/SubViewport/Table5" index="2" groups=["table"]]
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table5" instance=ExtResource("9_ueqiu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218924)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 14.245273)
 max_charge_duration = 2.0
 max_impulse_strength = 40.0
 
