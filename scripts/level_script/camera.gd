@@ -41,6 +41,10 @@ var cursor_offset := Vector3.ZERO
 signal targetting_center
 signal game_won
 
+var spin_offset: float = 0.0
+const MAX_SPIN_OFFSET: float = 0.95
+const SPIN_ADJUST_SPEED: float = 2.0
+
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	self.position = Vector3.ZERO
@@ -54,7 +58,20 @@ func _ready() -> void:
 # do podzielenia na mniejsze funkcje
 func _process(delta: float) -> void:
 	_handle_joystick_input(delta)
+	
+	var spin_input = 0.0
+	if Input.is_physical_key_pressed(KEY_E):
+		spin_input += 1.0
+	if Input.is_physical_key_pressed(KEY_Q):
+		spin_input -= 1.0
+		
+	spin_offset += spin_input * SPIN_ADJUST_SPEED * delta
+	spin_offset = clamp(spin_offset, -MAX_SPIN_OFFSET, MAX_SPIN_OFFSET)
 
+	# Reset spin when moving camera
+	if abs(spin_input) > 0.001:
+		pass # Keep spin
+	
 	camera_current_radius = lerp(camera_current_radius, camera_target_radius, camera_lerp_speed * delta)
 	cursor_phi = clamp(cursor_phi, min_cursor_phi, max_cursor_phi)
 
