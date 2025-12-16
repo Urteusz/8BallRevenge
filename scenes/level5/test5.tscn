@@ -1,0 +1,193 @@
+[gd_scene load_steps=21 format=3 uid="uid://cxsooy44xlu3e"]
+
+[ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_4p2te"]
+[ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_jk77d"]
+[ext_resource type="PackedScene" uid="uid://ci47btwis1vfh" path="res://scenes/level5/Level5.tscn" id="3_nljyo"]
+[ext_resource type="PackedScene" uid="uid://c6j004sg52ide" path="res://models/room_colored_no_walls.glb" id="3_otlnb"]
+[ext_resource type="ArrayMesh" uid="uid://db45xddkffhuq" path="res://models/room_colored_no_wall.obj" id="4_n0c62"]
+[ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="5_nljyo"]
+[ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="6_hiwyd"]
+[ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="7_7nj3f"]
+[ext_resource type="Script" uid="uid://ddr1vvp0rplvr" path="res://scenes/level1/scripts/ball_spawner_level1.gd" id="7_hiwyd"]
+[ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="8_7nj3f"]
+[ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="8_ueqiu"]
+[ext_resource type="PackedScene" uid="uid://dlhbqkiwlq55b" path="res://models/bridge.glb" id="9_h76f0"]
+[ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="9_ueqiu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
+render_priority = -1
+shader = ExtResource("2_jk77d")
+shader_parameter/lineHighlight = 0.2
+shader_parameter/lineShadow = 0.7
+
+[sub_resource type="QuadMesh" id="QuadMesh_4arys"]
+lightmap_size_hint = Vector2i(12, 12)
+material = SubResource("ShaderMaterial_jsk3o")
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p2b0k"]
+render_priority = 1
+transparency = 1
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a011w"]
+render_priority = 1
+transparency = 1
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aj7ea"]
+shader = ExtResource("6_hiwyd")
+shader_parameter/skyColor = Color(1, 1, 1, 1)
+shader_parameter/horizonColor = Color(0, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_jka67"]
+sky_material = SubResource("ShaderMaterial_aj7ea")
+
+[sub_resource type="Environment" id="Environment_jka67"]
+background_mode = 2
+background_energy_multiplier = 1.34
+sky = SubResource("Sky_jka67")
+ambient_light_source = 3
+fog_enabled = true
+fog_light_color = Color(0, 0, 0, 1)
+
+[node name="Node3D2" type="Node3D"]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+audio_listener_enable_3d = true
+size = Vector2i(640, 360)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14432669, 1.4036087, 3.7672782)
+doppler_tracking = 2
+current = true
+script = ExtResource("1_4p2te")
+min_phi = 0.25
+min_cursor_phi = 0.2
+
+[node name="EdgeDetectionShader" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D"]
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_4arys")
+
+[node name="Table5" parent="SubViewportContainer/SubViewport" instance=ExtResource("3_nljyo")]
+
+[node name="room_colored_no_walls" parent="SubViewportContainer/SubViewport" instance=ExtResource("3_otlnb")]
+transform = Transform3D(-4.882562e-07, 0, -11.17, 0, 11.17, 0, 11.17, 0, -4.882562e-07, 0, 5.65, 0)
+visible = false
+
+[node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport"]
+
+[node name="flat2" type="Sprite3D" parent="SubViewportContainer/SubViewport/Tvs"]
+transform = Transform3D(4.182745, 0, 0, 0, 4.457193, 0, 0, 0, 1.1, -3, 12.419871, -34.573807)
+
+[node name="flat" type="SubViewport" parent="SubViewportContainer/SubViewport/Tvs"]
+size = Vector2i(426, 240)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Tvs/flat"]
+transform = Transform3D(0.8786859, 0.23918666, -0.41315958, -0.15516026, 0.9615342, 0.22666548, 0.45148242, -0.13506182, 0.88199884, -8.448279, 10.041564, 20.506062)
+
+[node name="crt" type="SubViewport" parent="SubViewportContainer/SubViewport/Tvs"]
+size = Vector2i(160, 110)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Tvs/crt"]
+transform = Transform3D(-0.98378253, 0.019382963, -0.17831567, -0.004762233, 0.9909709, 0.13399237, 0.17930281, 0.13266854, -0.9748075, 0, 5.7684393, -15.326607)
+fov = 123.75
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Tvs"]
+transform = Transform3D(-2.6299825, 0, 0.009593475, 0, 2.63, 0, -0.009593475, 0, -2.6299825, -1.1437597, 7.7539167, -4.674137)
+material_override = SubResource("StandardMaterial3D_p2b0k")
+material_overlay = SubResource("StandardMaterial3D_a011w")
+mesh = ExtResource("4_n0c62")
+skeleton = NodePath("")
+
+[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("shop_ui")]
+script = ExtResource("5_nljyo")
+shop_ui = NodePath("../../../ShopUI/ControlShop")
+
+[node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.13992116, -5.264763)
+script = ExtResource("7_hiwyd")
+ball_scene = ExtResource("8_7nj3f")
+height = 0.0
+
+[node name="PlayerBall" parent="SubViewportContainer/SubViewport" instance=ExtResource("9_ueqiu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218924)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jka67")
+
+[node name="ShopUI" parent="." instance=ExtResource("7_7nj3f")]
+
+[node name="GameplayUI" parent="." instance=ExtResource("8_ueqiu")]
+
+[node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager", "shopUI")]
+game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
+shopUI = NodePath("../../ShopUI/ControlShop")
+
+[node name="bridge3" parent="." instance=ExtResource("9_h76f0")]
+transform = Transform3D(-26.325108, 0, 11.041737, 0, 28.547, 0, -11.041737, 0, -26.325108, 1062.833, 166.87213, -1144.5442)
+
+[node name="bridge2" parent="." instance=ExtResource("9_h76f0")]
+transform = Transform3D(-16.30943, 0, 19.54118, 0, 25.453, 0, -19.54118, 0, -16.30943, 485.0287, -325.46713, -1522.0532)
+
+[node name="bridge" parent="." instance=ExtResource("9_h76f0")]
+transform = Transform3D(7.7775435, 0, 4.0308065, 0, 8.76, 0, -4.0308065, 0, 7.7775435, -89.72915, 58.265823, 64.25385)
+
+[node name="bridge" parent="bridge" instance=ExtResource("9_h76f0")]
+transform = Transform3D(0.825698, 0, 0.42792824, 0, 0.9299998, 0, -0.42792824, 0, 0.825698, -55.76588, -28.313797, 74.050705)
+
+[node name="bridge" parent="bridge/bridge" instance=ExtResource("9_h76f0")]
+transform = Transform3D(0.88971853, 0, -0.27074096, 0, 0.93, 0, 0.27074096, 0, 0.88971853, 89.3929, -17.150284, -3.073059)
+
+[node name="bridge" parent="bridge/bridge/bridge" instance=ExtResource("9_h76f0")]
+transform = Transform3D(0.045916855, 0, -0.92886555, 0, 0.9299999, 0, 0.92886555, 0, 0.045916855, 89.3929, -17.150276, -3.073059)
+visible = false
+
+[node name="bridge2" parent="bridge/bridge" instance=ExtResource("9_h76f0")]
+transform = Transform3D(0.82569814, 0, 0.4279282, 0, 0.9299999, 0, -0.4279282, 0, 0.82569814, 71.7224, -5.8787155, 192.92952)
+
+[node name="bridge" parent="bridge/bridge/bridge2" instance=ExtResource("9_h76f0")]
+transform = Transform3D(0.88971853, 0, -0.27074096, 0, 0.93, 0, 0.27074096, 0, 0.88971853, 89.3929, -17.150284, -3.073059)
+
+[node name="bridge" parent="bridge/bridge/bridge2/bridge" instance=ExtResource("9_h76f0")]
+transform = Transform3D(0.045916855, 0, -0.92886555, 0, 0.9299999, 0, 0.92886555, 0, 0.045916855, 89.3929, -17.150276, -3.073059)
+
+[node name="bridge3" parent="bridge/bridge" instance=ExtResource("9_h76f0")]
+transform = Transform3D(0.825698, 0, 0.42792824, 0, 0.9299998, 0, -0.42792824, 0, 0.825698, -55.76588, -28.313797, 74.050705)
+
+[node name="bridge" parent="bridge/bridge/bridge3" instance=ExtResource("9_h76f0")]
+transform = Transform3D(0.88971853, 0, -0.27074093, 0, 0.92999995, 0, 0.27074093, 0, 0.88971853, 236.1772, 21.961597, 152.3165)
+
+[node name="bridge" parent="bridge/bridge/bridge3/bridge" instance=ExtResource("9_h76f0")]
+transform = Transform3D(0.045916855, 0, -0.92886555, 0, 0.9299999, 0, 0.92886555, 0, 0.045916855, 89.3929, -17.150276, -3.073059)
+visible = false
+
+[node name="bridge2" parent="bridge/bridge/bridge3" instance=ExtResource("9_h76f0")]
+transform = Transform3D(0.8256981, 0, 0.4279282, 0, 0.9299999, 0, -0.4279282, 0, 0.8256981, 4.3082924, -74.39424, 97.392235)
+
+[node name="bridge" parent="bridge/bridge/bridge3/bridge2" instance=ExtResource("9_h76f0")]
+transform = Transform3D(0.88971853, 0, -0.27074096, 0, 0.93, 0, 0.27074096, 0, 0.88971853, 89.3929, -17.150284, -3.073059)
+
+[node name="bridge" parent="bridge/bridge/bridge3/bridge2/bridge" instance=ExtResource("9_h76f0")]
+transform = Transform3D(0.045916855, 0, -0.92886555, 0, 0.9299999, 0, 0.92886555, 0, 0.045916855, 89.3929, -17.150276, -3.073059)
+
+[editable path="SubViewportContainer/SubViewport/Table5"]
+[editable path="ShopUI"]
+[editable path="GameplayUI"]
