@@ -74,11 +74,12 @@ audio_listener_enable_3d = true
 size = Vector2i(640, 360)
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14432669, 1.4036087, 3.7672782)
 doppler_tracking = 2
 current = true
 script = ExtResource("1_4p2te")
+player_ball = NodePath("../Table5/PlayerBall")
 min_phi = 0.25
 min_cursor_phi = 0.2
 
@@ -87,6 +88,31 @@ extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_4arys")
 
 [node name="Table5" parent="SubViewportContainer/SubViewport" instance=ExtResource("3_nljyo")]
+
+[node name="TableBase4" parent="SubViewportContainer/SubViewport/Table5" index="0" groups=["table"]]
+
+[node name="Bandy" parent="SubViewportContainer/SubViewport/Table5" index="1" groups=["table"]]
+
+[node name="TableWalls" parent="SubViewportContainer/SubViewport/Table5" index="5" groups=["table"]]
+
+[node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table5" instance=ExtResource("9_ueqiu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218924)
+max_charge_duration = 2.0
+max_impulse_strength = 40.0
+
+[node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table5" node_paths=PackedStringArray("game_manager", "player_ball")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.13992116, 0.12947655)
+script = ExtResource("7_hiwyd")
+game_manager = NodePath("../GameManager")
+ball_scene = ExtResource("8_7nj3f")
+player_ball = NodePath("../PlayerBall")
+height = 0.0
+
+[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport/Table5" node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui")]
+script = ExtResource("5_nljyo")
+player_ball = NodePath("../PlayerBall")
+shop_ui = NodePath("../../../../ShopUI/ControlShop")
+gameplay_ui = NodePath("../../../../GameplayUI/ControlGameplay")
 
 [node name="room_colored_no_walls" parent="SubViewportContainer/SubViewport" instance=ExtResource("3_otlnb")]
 transform = Transform3D(-4.882562e-07, 0, -11.17, 0, 11.17, 0, 11.17, 0, -4.882562e-07, 0, 5.65, 0)
@@ -117,19 +143,6 @@ material_overlay = SubResource("StandardMaterial3D_a011w")
 mesh = ExtResource("4_n0c62")
 skeleton = NodePath("")
 
-[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("shop_ui")]
-script = ExtResource("5_nljyo")
-shop_ui = NodePath("../../../ShopUI/ControlShop")
-
-[node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.13992116, -5.264763)
-script = ExtResource("7_hiwyd")
-ball_scene = ExtResource("8_7nj3f")
-height = 0.0
-
-[node name="PlayerBall" parent="SubViewportContainer/SubViewport" instance=ExtResource("9_ueqiu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218924)
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jka67")
 
@@ -138,7 +151,7 @@ environment = SubResource("Environment_jka67")
 [node name="GameplayUI" parent="." instance=ExtResource("8_ueqiu")]
 
 [node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager", "shopUI")]
-game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
+game_manager = NodePath("../../SubViewportContainer/SubViewport/Table5/GameManager")
 shopUI = NodePath("../../ShopUI/ControlShop")
 
 [node name="bridge3" parent="." instance=ExtResource("9_h76f0")]
