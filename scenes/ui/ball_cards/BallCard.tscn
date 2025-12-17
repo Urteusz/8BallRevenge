@@ -1,0 +1,63 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmfdcb1iaitmu"]
+
+[ext_resource type="Script" uid="uid://dx2cskto0l8se" path="res://scenes/ui/ball_cards/ball_card.gd" id="1_4ycxe"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_4ycxe"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4ycxe"]
+
+[node name="BallCard" type="PanelContainer"]
+custom_minimum_size = Vector2(60, 0)
+script = ExtResource("1_4ycxe")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="BallName" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Bila"
+horizontal_alignment = 1
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="VBoxContainer/SubViewportContainer"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(60, 40)
+render_target_update_mode = 4
+
+[node name="Node3D" type="Node3D" parent="VBoxContainer/SubViewportContainer/SubViewport"]
+
+[node name="Camera3D" type="Camera3D" parent="VBoxContainer/SubViewportContainer/SubViewport/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+projection = 1
+size = 0.15
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="VBoxContainer/SubViewportContainer/SubViewport/Node3D"]
+
+[node name="BallMesh" type="MeshInstance3D" parent="VBoxContainer/SubViewportContainer/SubViewport/Node3D"]
+mesh = SubResource("SphereMesh_4ycxe")
+
+[node name="PointsLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Punkty"
+label_settings = SubResource("LabelSettings_4ycxe")
+horizontal_alignment = 1
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="VBoxContainer/PointsLabel"]
+show_behind_parent = true
+position = Vector2(30, 8)
+emitting = false
+amount = 20
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+initial_velocity_min = 51.55
+initial_velocity_max = 123.72
+scale_amount_min = 4.0
+scale_amount_max = 4.0
+color = Color(1, 0.9835, 0.00999999, 1)
