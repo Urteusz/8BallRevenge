@@ -31,11 +31,11 @@ material = SubResource("StandardMaterial3D_828j1")
 [node name="StarParticles" type="GPUParticles3D"]
 emitting = false
 amount = 10
-lifetime = 0.34
+lifetime = 0.9400000000000001
 one_shot = true
 explosiveness = 1.0
 randomness = 1.0
-fixed_fps = 60
+fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_uic6d")
 draw_pass_1 = SubResource("QuadMesh_yfye5")
 script = ExtResource("4_tnp03")
