@@ -231,9 +231,6 @@ environment = SubResource("Environment_jka67")
 
 [node name="ShopUI" parent="." instance=ExtResource("12_k3l6j")]
 
-[node name="SubViewport" parent="ShopUI/ControlShop/SubViewportContainer" index="0"]
-size = Vector2i(341, 192)
-
 [node name="GameplayUI" parent="." instance=ExtResource("17_e4fnj")]
 
 [node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager", "shopUI")]

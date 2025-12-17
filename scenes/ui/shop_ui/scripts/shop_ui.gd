@@ -3,10 +3,10 @@ extends Control
 @onready var shop_camera = $SubViewportContainer/SubViewport/Camera3D
 @onready var shop_balls = $SubViewportContainer/SubViewport/ShopBalls
 @onready var label = $LabelPoints
-@onready var buttons_container = $HBoxContainer
-@onready var continue_container = $"HBoxContainer2"
-@onready var next_button: Button = $"HBoxContainer2/ButtonNextLevel"
-@onready var choose_button: Button = $"HBoxContainer2/ButtonChoose"
+@onready var buttons_container = %ButtonsContainer
+@onready var continue_container = $ContinueContainer
+@onready var next_button: Button = %ButtonNextLevel
+@onready var choose_button: Button = %ButtonChoose
 @onready var scoredLabel = $PointsScored
 
 var shop_open := false
