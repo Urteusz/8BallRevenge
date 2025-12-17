@@ -10,8 +10,6 @@ extends Control
 @onready var shop_button: Button = $"WinWindow/GoToShop"
 @onready var slider: HSlider = $"PowerSlider/HSlider"
 
-# --- ZMIANA 1: Referencja do kontenera na bile ---
-# Upewnij się, że w edytorze dodałeś HBoxContainer i nazwałeś go "BallListContainer"
 @onready var ball_list_container: Container = $"BallListContainer"
 
 @export var game_manager: Node3D
@@ -19,7 +17,6 @@ extends Control
 
 const BALL_CARD_SCENE = preload("res://scenes/ui/ball_cards/BallCard.tscn")
 
-# --- ZMIANA 2: Słownik do trzymania ikonek ---
 var ball_cards: Dictionary = {}
 
 func _ready() -> void:
@@ -31,6 +28,7 @@ func _ready() -> void:
 	again_button.pressed.connect(_on_try_again)
 	exit_button.pressed.connect(_on_main_menu)
 	shop_button.pressed.connect(_on_shop_button)
+	
 	if game_manager:
 		if not game_manager.is_connected("moves_changed", _on_moves_changed):
 			game_manager.connect("moves_changed", _on_moves_changed)
@@ -45,11 +43,9 @@ func _ready() -> void:
 		if not game_manager.is_connected("charging_released", _on_charging_released):
 			game_manager.connect("charging_released", _on_charging_released)
 			
-		# --- ZMIANA 3: Połączenie sygnału wbicia bili i tworzenie kart ---
 		if not game_manager.is_connected("ball_pocketed", _on_ball_pocketed):
 			game_manager.connect("ball_pocketed", _on_ball_pocketed)
 			
-		# Pobieramy dane o bilach i rysujemy je
 		if game_manager.has_method("get_level_balls"):
 			_initialize_ball_cards(game_manager.get_level_balls())
 		
@@ -57,9 +53,9 @@ func _ready() -> void:
 	_ignore_mouse()
 	
 	
-# --- ZMIANA 4: Nowa funkcja tworząca karty ---
 func _initialize_ball_cards(balls_data: Array) -> void:
-	# Czyścimy kontener ze starych elementów
+	print("🎴 Inicjalizacja kart... Liczba kul: ", balls_data.size())
+	
 	if ball_list_container:
 		for child in ball_list_container.get_children():
 			child.queue_free()
@@ -71,22 +67,29 @@ func _initialize_ball_cards(balls_data: Array) -> void:
 		return
 
 	for data in balls_data:
-		# --- TO JEST KLUCZOWA ZMIANA ---
-		# Zamiast tworzyć TextureRect, tworzymy instancję Twojej sceny
+		print("📋 Tworzę kartę dla: ", data.get("name", "???"))
 		var card = BALL_CARD_SCENE.instantiate()
 		
-		# Dodajemy do drzewa sceny
 		ball_list_container.add_child(card)
 		
-		# Teraz możemy użyć funkcji z Twojego skryptu BallCard.gd
-		# Upewnij się, że funkcja setup_card istnieje w BallCard.gd
 		if card.has_method("setup_card"):
-			card.setup_card(data["name"], data["texture"], data["color"], data["points"])
+			# KLUCZOWE: Przekazuj ball_scene (może być null dla zwykłych kul)
+			var ball_scene = data.get("scene", null)
+			var ball_texture = data.get("texture", null)
+			var ball_color = data.get("color", Color.WHITE)
+			var ball_points = data.get("points", 0)
+			var ball_name = data.get("name", "???")
+			
+			print("   🔹 Scene: ", ball_scene)
+			print("   🔹 Texture: ", ball_texture)
+			
+			card.setup_card(ball_name, ball_texture, ball_color, ball_points, ball_scene)
 		
 		# Zapisujemy referencję
 		ball_cards[data["id"]] = card
+	
+	print("✅ Karty zainicjalizowane!")
 
-# --- ZMIANA 5: Nowa funkcja obsługująca wbicie bili ---
 func _on_ball_pocketed(ball_id: int) -> void:
 	if ball_cards.has(ball_id):
 		ball_cards[ball_id].set_pocketed()
@@ -105,7 +108,7 @@ func _on_game_over() -> void:
 	
 func _on_game_win() -> void:
 	win_window.visible = true
-	win_label.text = "Poziom ukończony! Gratulację!"
+	win_label.text = "Poziom ukończony! GratulacjÄ™!"
 	PlayerData.set_level(3)
 	_enable_mouse()
 	if ball_list_container:
