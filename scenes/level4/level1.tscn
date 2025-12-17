@@ -108,7 +108,7 @@ stretch_shrink = 2
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
 audio_listener_enable_3d = true
-size = Vector2i(640, 360)
+size = Vector2i(683, 384)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball")]
@@ -216,6 +216,9 @@ shop_ui = NodePath("../../../ShopUI/ControlShop")
 environment = SubResource("Environment_jka67")
 
 [node name="ShopUI" parent="." instance=ExtResource("17_3yldh")]
+
+[node name="SubViewport" parent="ShopUI/ControlShop/SubViewportContainer" index="0"]
+size = Vector2i(341, 192)
 
 [node name="GameplayUI" parent="." instance=ExtResource("18_4skx5")]
 
