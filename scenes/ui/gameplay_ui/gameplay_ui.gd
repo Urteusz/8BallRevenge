@@ -10,15 +10,25 @@ extends Control
 @onready var shop_button: Button = $"WinWindow/GoToShop"
 @onready var slider: HSlider = $"PowerSlider/HSlider"
 
+@onready var ball_list_container: Container = $"BallListContainer"
+
 @export var game_manager: Node3D
 @export var shopUI: Control
 
+const BALL_CARD_SCENE = preload("res://scenes/ui/ball_cards/BallCard.tscn")
+
+var ball_cards: Dictionary = {}
+
 func _ready() -> void:
+	if game_manager:
+		game_manager.gameplay_ui = self
+	
 	game_over_window.visible = false
 	win_window.visible = false
 	again_button.pressed.connect(_on_try_again)
 	exit_button.pressed.connect(_on_main_menu)
 	shop_button.pressed.connect(_on_shop_button)
+	
 	if game_manager:
 		if not game_manager.is_connected("moves_changed", _on_moves_changed):
 			game_manager.connect("moves_changed", _on_moves_changed)
@@ -32,8 +42,57 @@ func _ready() -> void:
 			game_manager.connect("charging_updated", _on_charging_updated)
 		if not game_manager.is_connected("charging_released", _on_charging_released):
 			game_manager.connect("charging_released", _on_charging_released)
+			
+		if not game_manager.is_connected("ball_pocketed", _on_ball_pocketed):
+			game_manager.connect("ball_pocketed", _on_ball_pocketed)
+			
+		if game_manager.has_method("get_level_balls"):
+			_initialize_ball_cards(game_manager.get_level_balls())
+		
 		_on_moves_changed(game_manager.default_level_move_count)
 	_ignore_mouse()
+	
+	
+func _initialize_ball_cards(balls_data: Array) -> void:
+	print("🎴 Inicjalizacja kart... Liczba kul: ", balls_data.size())
+	
+	if ball_list_container:
+		for child in ball_list_container.get_children():
+			child.queue_free()
+	
+	ball_cards.clear()
+	
+	if not ball_list_container:
+		print("Błąd: Brak kontenera BallListContainer")
+		return
+
+	for data in balls_data:
+		print("📋 Tworzę kartę dla: ", data.get("name", "???"))
+		var card = BALL_CARD_SCENE.instantiate()
+		
+		ball_list_container.add_child(card)
+		
+		if card.has_method("setup_card"):
+			# KLUCZOWE: Przekazuj ball_scene (może być null dla zwykłych kul)
+			var ball_scene = data.get("scene", null)
+			var ball_texture = data.get("texture", null)
+			var ball_color = data.get("color", Color.WHITE)
+			var ball_points = data.get("points", 0)
+			var ball_name = data.get("name", "???")
+			
+			print("   🔹 Scene: ", ball_scene)
+			print("   🔹 Texture: ", ball_texture)
+			
+			card.setup_card(ball_name, ball_texture, ball_color, ball_points, ball_scene)
+		
+		# Zapisujemy referencję
+		ball_cards[data["id"]] = card
+	
+	print("✅ Karty zainicjalizowane!")
+
+func _on_ball_pocketed(ball_id: int) -> void:
+	if ball_cards.has(ball_id):
+		ball_cards[ball_id].set_pocketed()
 
 func _on_moves_changed(value: int) -> void:
 	if(value<=3):
@@ -49,9 +108,11 @@ func _on_game_over() -> void:
 	
 func _on_game_win() -> void:
 	win_window.visible = true
-	win_label.text = "Gratuluję ukończyłeś poziom"
+	win_label.text = "Poziom ukończony! GratulacjÄ™!"
 	PlayerData.set_level(3)
 	_enable_mouse()
+	if ball_list_container:
+		ball_list_container.visible = false
 
 func _on_try_again() -> void:
 	LoadManager.load_scene(PlayerData.get_level_path())
@@ -98,3 +159,7 @@ func _ignore_mouse() -> void:
 func _enable_mouse() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+func _on_ball_score_updated(new_points: int, ball_id: int) -> void:
+	if ball_cards.has(ball_id):
+		ball_cards[ball_id].update_points(new_points)

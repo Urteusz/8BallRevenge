@@ -7,3 +7,4 @@
 script = ExtResource("1_0titb")
 scene = ExtResource("1_g30rt")
 metadata/_custom_type_script = "uid://cvwkj0qnv7yim"
+metadata/ui_color = Color(0.07999998, 0.69333315, 1, 1)

@@ -9,3 +9,4 @@ script = ExtResource("1_gwoop")
 scene = ExtResource("1_5rb1n")
 texture = ExtResource("3_122ua")
 metadata/_custom_type_script = "uid://cvwkj0qnv7yim"
+metadata/ui_color = Color(0.64, 0.10880001, 0.10880001, 1)

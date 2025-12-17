@@ -136,7 +136,7 @@ shadow_mesh = SubResource("ArrayMesh_svn6p")
 [sub_resource type="SphereShape3D" id="SphereShape3D_lgfus"]
 radius = 0.5085822
 
-[node name="smiley_bomb" type="RigidBody3D" node_paths=PackedStringArray("smoke_effect", "shockwave_effect", "fuze_effect")]
+[node name="smiley_bomb" type="RigidBody3D" node_paths=PackedStringArray("smoke_effect", "shockwave_effect", "fuze_effect") groups=["balls"]]
 collision_layer = 4
 collision_mask = 5
 physics_material_override = SubResource("PhysicsMaterial_hafg3")

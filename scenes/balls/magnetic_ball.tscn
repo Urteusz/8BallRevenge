@@ -1,20 +1,23 @@
-[gd_scene load_steps=8 format=3 uid="uid://cvnfjdk8w4xmw"]
+[gd_scene load_steps=9 format=3 uid="uid://cvnfjdk8w4xmw"]
 
 [ext_resource type="Script" uid="uid://b708i5vqbdg13" path="res://scenes/balls/scripts/magnetic_ball.gd" id="1_25lsb"]
 [ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="2_ntpfr"]
 [ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/hit_particles/star_particles_2.tscn" id="3_12743"]
 [ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/hit_particles/star_particles_3.tscn" id="4_1fjgl"]
+[ext_resource type="Texture2D" uid="uid://bdkeashrdtvd4" path="res://textures/balls/ball_magnet.png" id="5_12743"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_m23fj"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_25lsb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_25lsb"]
+albedo_texture = ExtResource("5_12743")
+albedo_texture_force_srgb = true
 metallic = 1.0
 metallic_specular = 0.65
 roughness = 0.15
 
-[node name="MagneticBall" type="RigidBody3D"]
+[node name="MagneticBall" type="RigidBody3D" groups=["balls"]]
 collision_layer = 4
 collision_mask = 5
 contact_monitor = true
@@ -30,6 +33,7 @@ hit_particles3 = ExtResource("4_1fjgl")
 shape = SubResource("SphereShape3D_m23fj")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 mesh = SubResource("SphereMesh_25lsb")
 surface_material_override/0 = SubResource("StandardMaterial3D_25lsb")
 
