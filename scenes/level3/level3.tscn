@@ -9,7 +9,7 @@
 [ext_resource type="ArrayMesh" uid="uid://c45k7ub6bpejj" path="res://models/table/Walls.obj" id="7_gte40"]
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="8_cwvdl"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/level_script/walls.gd" id="9_jc0vr"]
-[ext_resource type="Script" path="res://scenes/level1/scripts/ball_spawner_level1.gd" id="10_oi5cx"]
+[ext_resource type="Script" uid="uid://ddr1vvp0rplvr" path="res://scenes/level1/scripts/ball_spawner_level1.gd" id="10_oi5cx"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="11_cmsc5"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_6axdp"]
 [ext_resource type="PackedScene" uid="uid://c6j004sg52ide" path="res://models/room_colored_no_walls.glb" id="13_jglet"]
@@ -123,7 +123,7 @@ stretch_shrink = 2
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
 audio_listener_enable_3d = true
-size = Vector2i(640, 360)
+size = Vector2i(683, 384)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball")]
@@ -242,6 +242,9 @@ shop_ui = NodePath("../../../ShopUI/ControlShop")
 environment = SubResource("Environment_jka67")
 
 [node name="ShopUI" parent="." instance=ExtResource("18_kse3a")]
+
+[node name="SubViewport" parent="ShopUI/ControlShop/SubViewportContainer" index="0"]
+size = Vector2i(341, 192)
 
 [node name="GameplayUI" parent="." instance=ExtResource("19_lsmej")]
 

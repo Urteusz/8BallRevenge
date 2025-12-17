@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_j4hya"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_n15fh"]
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="4_gv02k"]
-[ext_resource type="Script" path="res://scenes/level1/scripts/ball_spawner_level1.gd" id="5_ritex"]
+[ext_resource type="Script" uid="uid://ddr1vvp0rplvr" path="res://scenes/level1/scripts/ball_spawner_level1.gd" id="5_ritex"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="6_y6x3d"]
 [ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="8_0em4h"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/level_script/walls.gd" id="9_gv02k"]
@@ -206,7 +206,7 @@ stretch_shrink = 2
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
 audio_listener_enable_3d = true
-size = Vector2i(640, 360)
+size = Vector2i(683, 384)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball")]
@@ -327,6 +327,9 @@ shop_ui = NodePath("../../../ShopUI/ControlShop")
 environment = SubResource("Environment_jka67")
 
 [node name="ShopUI" parent="." instance=ExtResource("12_k3l6j")]
+
+[node name="SubViewport" parent="ShopUI/ControlShop/SubViewportContainer" index="0"]
+size = Vector2i(341, 192)
 
 [node name="GameplayUI" parent="." instance=ExtResource("17_e4fnj")]
 
