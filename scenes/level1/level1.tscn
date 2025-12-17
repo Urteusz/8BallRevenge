@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://d2ttxhcg4hvv1"]
+[gd_scene load_steps=36 format=3 uid="uid://ceg8mqsg4e1r8"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_j4hya"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_n15fh"]
@@ -11,9 +11,8 @@
 [ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="8_0em4h"]
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="8_n1moy"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/level_script/walls.gd" id="9_wi5kd"]
-[ext_resource type="Script" uid="uid://ddr1vvp0rplvr" path="res://scenes/level2/scripts/ball_spawner_level2.gd" id="10_5prdx"]
+[ext_resource type="Script" uid="uid://bdvel67ub340k" path="res://scripts/level_script/ball_spawner.gd" id="10_e4fnj"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="11_uj67f"]
-[ext_resource type="PackedScene" uid="uid://bvb4maqi2qftn" path="res://scenes/balls/smily_bomb.tscn" id="12_06ugt"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_e4fnj"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="12_k3l6j"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="16_5prdx"]
@@ -155,7 +154,7 @@ surface_material_override/0 = SubResource("ShaderMaterial_jw3ls")
 transform = Transform3D(5.83, 0, 0, 0, 5.83, 0, 0, 0, 5.83, 11.29156, -0.31067014, 0)
 shape = SubResource("ConcavePolygonShape3D_v0ouj")
 
-[node name="Walls" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["table"]]
+[node name="Walls" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["walls"]]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 8.168132, 16.172523)
 physics_material_override = SubResource("PhysicsMaterial_e4fnj")
 
@@ -173,23 +172,22 @@ shape = SubResource("ConcavePolygonShape3D_st3il")
 
 [node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" node_paths=PackedStringArray("player_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.264763)
-script = ExtResource("10_5prdx")
+script = ExtResource("10_e4fnj")
+game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("6_y6x3d")
 player_ball = NodePath("../PlayerBall")
-spread = 1.1
-depth = 1.1
-ball_radius = 1.0
-
-[node name="smiley_bomb" parent="SubViewportContainer/SubViewport/Table" groups=["balls"] instance=ExtResource("12_06ugt")]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0.68769264, 0.2331419, 2.2595236)
+num_rows = 2
+height = 0.0
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_e4fnj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218924)
 max_charge_duration = 2.0
+max_impulse_strength = 40.0
 aim_line_ray_range = 30.0
 
 [node name="PocketsHitbox" type="Area3D" parent="SubViewportContainer/SubViewport/Table" groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.699977, -0.8570008, -13.004261)
+collision_mask = 5
 script = ExtResource("8_0em4h")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/PocketsHitbox"]
@@ -222,10 +220,11 @@ size = Vector2i(160, 110)
 transform = Transform3D(-0.98378253, 0.019382963, -0.17831567, -0.004762233, 0.9909709, 0.13399237, 0.17930281, 0.13266854, -0.9748075, 0, 5.7684393, -15.326607)
 fov = 123.75
 
-[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball", "shop_ui")]
+[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui")]
 script = ExtResource("16_5prdx")
 player_ball = NodePath("../Table/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
+gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jka67")
@@ -234,8 +233,9 @@ environment = SubResource("Environment_jka67")
 
 [node name="GameplayUI" parent="." instance=ExtResource("17_e4fnj")]
 
-[node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager")]
+[node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager", "shopUI")]
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
+shopUI = NodePath("../../ShopUI/ControlShop")
 
 [connection signal="game_won" from="SubViewportContainer/SubViewport/Camera3D" to="GameplayUI/ControlGameplay" method="_on_game_win"]
 [connection signal="targetting_center" from="SubViewportContainer/SubViewport/Camera3D" to="SubViewportContainer/SubViewport/Table/PlayerBall" method="_on_camera_3d_targetting_center"]

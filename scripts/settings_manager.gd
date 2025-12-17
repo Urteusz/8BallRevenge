@@ -9,6 +9,9 @@ const DEFAULTS = {
 		"vsync_mode": DisplayServer.VSYNC_ENABLED,
 		"fullscreen": true,
 	},
+	"controls": {
+		"inverted_mouse": false,
+	}
 }
 
 
@@ -17,20 +20,23 @@ func _ready():
 
 
 func load_settings():
+	settings_data = DEFAULTS.duplicate(true)
 	var config = ConfigFile.new()
 	var err = config.load(SETTINGS_PATH)
 
-	if err != OK or config.get_sections().is_empty():
-		print("No settings file found, loading defaults.")
-		settings_data = DEFAULTS
+	if err != OK:
+		print("No settings file found or file corrupted. Using defaults.")
 		save_settings()
+		apply_graphics_settings()
 		return
 
 	for section in config.get_sections():
-		settings_data[section] = { }
-		for key in config.get_section_keys(section):
-			settings_data[section][key] = config.get_value(section, key)
+		if settings_data.has(section):
+			for key in config.get_section_keys(section):
+				if settings_data[section].has(key):
+					settings_data[section][key] = config.get_value(section, key)
 
+	save_settings()
 	apply_graphics_settings()
 
 
@@ -46,7 +52,6 @@ func save_settings():
 
 func apply_graphics_settings():
 	var gfx = settings_data["graphics"]
-
 	DisplayServer.window_set_vsync_mode(gfx["vsync_mode"])
 
 	if gfx["fullscreen"]:
