@@ -22,6 +22,7 @@ var speedy_ball_data = load("res://scenes/balls/ball_data/speedy_ball.tres")
 var bouncy_ball_data = load("res://scenes/balls/ball_data/bouncy_ball.tres")
 var magnetic_ball_data = load("res://scenes/balls/ball_data/magnetic_ball.tres")
 var ice_ball_data = load("res://scenes/balls/ball_data/ice_ball.tres")
+var magneticmin_ball_data = load("res://scenes/balls/magnetic_ball_min.tscn")
 
 var ball_data_map = {
 	"red": red_ball_data,
@@ -33,6 +34,7 @@ var ball_data_map = {
 	"bomb": bomb_ball_data,
 	"speedy": speedy_ball_data,
 	"magnetic": magnetic_ball_data,
+	"magnetic-": magneticmin_ball_data,
 	"ice": ice_ball_data,
 	"bouncy": bouncy_ball_data
 }
