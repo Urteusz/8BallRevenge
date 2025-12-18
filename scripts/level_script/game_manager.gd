@@ -28,11 +28,29 @@ signal charging_paused
 func _ready() -> void:
 	moves_left = default_level_move_count
 	
-	ball_list = get_tree().get_nodes_in_group(BALLS_GROUP)
+	# --- POPRAWKA: Filtrowanie kulek ---
+	# Pobieramy wszystkie nody z grupy, ale filtrujemy te, które są w UI
+	var all_balls = get_tree().get_nodes_in_group(BALLS_GROUP)
+	ball_list = []
 	
-	if ball_list.has(player_ball):
-		ball_list.erase(player_ball)
-	
+	for ball in all_balls:
+		# Ignorujemy kulę gracza
+		if ball == player_ball:
+			continue
+			
+		# Ignorujemy kulki w UI (te, które są dziećmi SubViewport)
+		if ball.get_parent() is Node3D and ball.get_parent().get_parent() is SubViewport:
+			continue
+			
+		# Dodatkowe zabezpieczenie: Sprawdź czy kula jest "zamrożona" (UI kulki są freeze=true)
+		# Jeśli w grze używasz freeze, usuń ten warunek.
+		# if ball is RigidBody3D and ball.freeze:
+		# 	continue
+
+		ball_list.append(ball)
+	# -----------------------------------
+
+	# Reszta logiki podłączania sygnałów (używamy już przefiltrowanej listy ball_list)
 	if player_ball:
 		if player_ball.has_signal("ball_pocketed"):
 			player_ball.ball_pocketed.connect(_on_ball_pocketed)
@@ -54,9 +72,9 @@ func _ready() -> void:
 		connect("ball_pocketed", gameplay_ui._on_ball_pocketed)
 		emit_signal("moves_changed", moves_left)
 	
-	print("--- PODŁĄCZANIE KUL DO UI ---")
+	print("--- PODŁĄCZANIE KUL DO UI (Znaleziono: ", ball_list.size(), ") ---")
 	for ball in ball_list:
-		print("Sprawdzam kulę: ", ball.name)
+		# print("Sprawdzam kulę: ", ball.name) # Opcjonalnie odkomentuj
 		
 		if ball.has_signal("ball_pocketed"):
 			ball.ball_pocketed.connect(_on_ball_pocketed)
@@ -67,8 +85,7 @@ func _ready() -> void:
 				ball.score_updated.connect(gameplay_ui._on_ball_score_updated.bind(ball.get_instance_id()))
 			else:
 				print("BŁĄD: Brak GameplayUI!")
-		else:
-			print("BŁĄD: Kula ", ball.name, " NIE MA sygnału score_updated!")
+		# else: print("Info: Kula ", ball.name, " nie ma sygnału score_updated")
 
 func _on_charging_cancelled() -> void:
 	emit_signal("charging_paused")
@@ -76,16 +93,30 @@ func _on_charging_cancelled() -> void:
 func get_level_balls() -> Array:
 	var balls_data_for_ui = []
 	
-	ball_list = get_tree().get_nodes_in_group(BALLS_GROUP)
-	
-	if player_ball and ball_list.has(player_ball):
-		ball_list.erase(player_ball)
+	# --- POPRAWKA: Używamy już przefiltrowanej listy ball_list z _ready ---
+	# Nie pobieramy get_nodes_in_group ponownie, bo znowu wzięlibyśmy śmieci z UI!
+	# Zakładamy, że ta funkcja jest wołana na starcie, kiedy ball_list jest pełna.
+	var balls_to_process = []
+	if ball_list.is_empty():
+		# Fallback na wypadek gdyby funkcja była wołana przed _ready (mało prawdopodobne)
+		var all = get_tree().get_nodes_in_group(BALLS_GROUP)
+		for b in all:
+			if b != player_ball and not (b.get_parent() is Node3D and b.get_parent().get_parent() is SubViewport):
+				balls_to_process.append(b)
+	else:
+		balls_to_process = ball_list.duplicate()
+	# ----------------------------------------------------------------------
+
 	var deck = PlayerData.current_deck
 	
-	for i in range(min(ball_list.size(), deck.size())):
-		var ball = ball_list[i]
+	# Zabezpieczenie przed błędem indeksu (gdy kul na stole jest mniej niż w decku)
+	var count = min(balls_to_process.size(), deck.size())
+	
+	for i in range(count):
+		var ball = balls_to_process[i]
 		var ball_data: BallData = deck[i]
 		
+		# ... (Reszta funkcji bez zmian - pobieranie kolorów, tworzenie słownika) ...
 		var ui_color = Color.WHITE
 		var ui_texture = null
 		var ui_scene = null
@@ -95,13 +126,10 @@ func get_level_balls() -> Array:
 			ui_scene = ball_data.scene
 			ui_texture = ball_data.texture
 			
-			# OPCJA 1: Jeśli BallData ma @export var ui_color
 			if "ui_color" in ball_data:
 				ui_color = ball_data.ui_color
-			# OPCJA 2: Jeśli zapisane jako metadata
 			elif ball_data.has_meta("ui_color"):
 				ui_color = ball_data.get_meta("ui_color")
-			# OPCJA 3: Pobierz z meshu w grze (stara logika)
 			else:
 				var meshes = ball.find_children("*", "MeshInstance3D", true, false)
 				if meshes.size() > 0:
@@ -114,6 +142,7 @@ func get_level_balls() -> Array:
 		elif "base_value" in ball:
 			ui_points = 0
 		
+		# UWAGA: To podłączenie było już w _ready, ale zostawiamy dla pewności UI
 		if gameplay_ui and ball.has_signal("score_updated"):
 			if not ball.score_updated.is_connected(gameplay_ui._on_ball_score_updated):
 				ball.score_updated.connect(gameplay_ui._on_ball_score_updated.bind(ball.get_instance_id()))
