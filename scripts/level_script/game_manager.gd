@@ -6,6 +6,7 @@ const BALLS_GROUP = "balls"
 @export var player_ball: RigidBody3D
 @export var shop_ui: Control
 @export var gameplay_ui: Control
+@export var returnPoint: Node3D
 
 var moves_left: int
 var game_over := false
@@ -159,7 +160,7 @@ func _on_ball_pocketed(ball):
 		moves_left = max(moves_left, 0)
 		emit_signal("moves_changed", moves_left)
 		ball.sleeping = true
-		ball.position = Vector3(0.093, 0.294, 10.219)
+		ball.position = returnPoint.position
 	else:
 		if not turn_move_refunded:
 			moves_left += 1

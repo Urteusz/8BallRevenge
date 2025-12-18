@@ -190,10 +190,11 @@ script = ExtResource("10_oi5cx")
 game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("11_cmsc5")
 player_ball = NodePath("../PlayerBall")
+spread = 1.1
 height = 0.0
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_6axdp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218924)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 10.219)
 
 [node name="PocketsHitbox" type="Area3D" parent="SubViewportContainer/SubViewport/Table" groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.699977, -0.8570008, -13.004261)
@@ -203,6 +204,9 @@ script = ExtResource("16_fnoi6")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/PocketsHitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.82, -2.4804516, 13.176)
 shape = SubResource("BoxShape3D_mqi1c")
+
+[node name="ReturnPosition" type="Node3D" parent="SubViewportContainer/SubViewport/Table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 10.219)
 
 [node name="room_colored_no_walls" parent="SubViewportContainer/SubViewport" instance=ExtResource("13_jglet")]
 transform = Transform3D(-4.882562e-07, 0, -11.17, 0, 11.17, 0, 11.17, 0, -4.882562e-07, 0, 5.65, 0)
@@ -233,18 +237,17 @@ material_overlay = SubResource("StandardMaterial3D_a011w")
 mesh = ExtResource("14_ep42e")
 skeleton = NodePath("")
 
-[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball", "shop_ui")]
+[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui", "returnPoint")]
 script = ExtResource("15_4o785")
 player_ball = NodePath("../Table/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
+gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
+returnPoint = NodePath("../Table/ReturnPosition")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jka67")
 
 [node name="ShopUI" parent="." instance=ExtResource("18_kse3a")]
-
-[node name="SubViewport" parent="ShopUI/ControlShop/SubViewportContainer" index="0"]
-size = Vector2i(341, 192)
 
 [node name="GameplayUI" parent="." instance=ExtResource("19_lsmej")]
 
