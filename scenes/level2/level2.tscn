@@ -294,15 +294,16 @@ script = ExtResource("9_gv02k")
 object_node = NodePath("../../../PlayerBall")
 
 [node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" node_paths=PackedStringArray("game_manager", "player_ball")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.1897335, -6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.1847053, -6)
 script = ExtResource("5_ritex")
 game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("6_y6x3d")
 player_ball = NodePath("../PlayerBall")
-ball_radius = 1.0
+spread = 1.1
+height = 0.0
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_e4fnj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 5.7493763, 10.218924)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.749, 10.219)
 max_charge_duration = 2.0
 max_impulse_strength = 40.0
 aim_line_ray_range = 30.0
@@ -316,11 +317,15 @@ script = ExtResource("8_0em4h")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22415543, -0.522686, 1.3050327)
 shape = SubResource("BoxShape3D_k3l6j")
 
-[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui")]
+[node name="ReturnPosition" type="Node3D" parent="SubViewportContainer/SubViewport/Table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.749, 10.219)
+
+[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui", "returnPoint")]
 script = ExtResource("16_5prdx")
 player_ball = NodePath("../Table/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
+returnPoint = NodePath("../Table/ReturnPosition")
 
 [node name="Dunes" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]
 transform = Transform3D(22.16, 0, 0, 0, 22.16, 0, 0, 0, 22.16, 72.9116, 9.730457, 2.8128471)

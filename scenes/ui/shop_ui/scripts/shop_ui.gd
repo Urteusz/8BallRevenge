@@ -8,6 +8,7 @@ extends Control
 @onready var next_button: Button = %ButtonNextLevel
 @onready var choose_button: Button = %ButtonChoose
 @onready var scoredLabel = $PointsScored
+@onready var quitButton = $QuitButton
 
 var shop_open := false
 var shop_positions_set := false
@@ -26,6 +27,7 @@ func _ready() -> void:
 	
 	buttons_container.visible = false
 	continue_container.visible = false
+	quitButton.visible = false
 	
 	next_button.pressed.connect(_on_next_level)
 	choose_button.pressed.connect(_on_choose)
@@ -47,11 +49,9 @@ func _ready() -> void:
 func _on_next_level() -> void:
 	toggle_shop()
 	continue_container.visible = false
-	PlayerData.advance_level() 
 	LoadManager.load_scene(PlayerData.get_level_path())
 
 func _on_choose() -> void:
-	PlayerData.advance_level()
 	LoadManager.load_scene(ScenePaths.DECK_CHOOSE)
 
 func _on_points_updated(new_points: int) -> void:
@@ -119,6 +119,7 @@ func toggle_shop() -> void:
 	shop_open = !shop_open
 	continue_container.visible = shop_open
 	buttons_container.visible = shop_open
+	quitButton.visible = shop_open
 	
 	if has_node("QuitButton"):
 		$QuitButton.visible = shop_open

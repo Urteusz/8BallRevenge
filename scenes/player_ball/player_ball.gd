@@ -19,6 +19,12 @@ const MIN_IMPULSE: float = 0.2
 @export var max_charge_duration: float = 1.0
 @export var max_impulse_strength: float = 30.0
 
+# Ustawienia podkręcenia (uderzenie w prawo/lewo na bili)
+@export var max_spin_offset: float = 0.7 
+@export var spin_change_speed: float = 1.8 
+@export var spin_indicator_max_offset_visual: float = 0.5 # Zwiększono zakres ruchu wskaźnika
+@export var side_spin_curve_strength: float = 20000 
+
 # Kolory pierścienia ładowania strzału (słaby -> średni -> mocny)
 @export var weak_charge_color := Color(0.0, 1.0, 0.0, 1.0)
 @export var medium_charge_color := Color(1.0, 1.0, 0.0, 1.0)
@@ -35,8 +41,10 @@ const MIN_IMPULSE: float = 0.2
 
 @onready var ball_radius: float = get_ball_radius()
 @onready var aim_line: MeshInstance3D = null
+# @onready var spin_indicator: MeshInstance3D = null # Removed in favor of charge_ring
 
 var ring_material: StandardMaterial3D = null
+# var spin_indicator_material: StandardMaterial3D = null
 var hit_position: Vector3 # Pozycja kursora/kamery w momencie rozpoczęcia ładowania strzału
 var charging: bool = false
 var charge_timer: float = 0.0
@@ -45,6 +53,14 @@ var camera: Camera3D = null
 var current_phase: Phase = Phase.AIMING
 var stop_timer: float = 0.0 # patrzy STOP_DELAY wyżej
 var is_grounded: bool = false  # Czy piłka dotyka podłoża
+
+var spin_factor: float = 0.0 # -1.0 (left) to 1.0 (right) stored from camera at shot time
+var spin_active: bool = false
+
+# Stałe fizyki podkręcania
+const SPIN_CURVE_FORCE: float = 6.0 # Siła "skręcania" (Drastycznie zmniejszono)
+const SPIN_DECAY: float = 0.5 # Jak szybko wygasa podkręcenie
+const SPIN_TORQUE_MULT: float = 0.02 # Przelicznik offsetu na rotację piłki (Zmniejszono z 0.15)
 
 signal ball_pushed(impulse_power: float)
 signal round_ended
@@ -73,6 +89,7 @@ func _process(delta: float) -> void:
 
 	_check_ground_contact()
 
+
 	if !is_fully_stopped():
 		if current_phase == Phase.AIMING:
 			_enter_moving_state()
@@ -88,6 +105,24 @@ func _process(delta: float) -> void:
 				_enter_aiming_state()
 		if camera.is_looking_at_player():
 			_setup_aim_line()
+			
+	# Spin decay
+	if spin_active:
+		spin_factor = move_toward(spin_factor, 0.0, SPIN_DECAY * delta)
+		if is_equal_approx(spin_factor, 0.0):
+			spin_active = false
+
+
+func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+	if spin_active and !sleeping:
+		var lv = state.linear_velocity
+		var speed = lv.length()
+		if speed > 0.5:
+
+			var curve_dir = lv.cross(Vector3.UP).normalized()
+			var force = -curve_dir * spin_factor * SPIN_CURVE_FORCE
+			
+			state.apply_central_force(force)
 
 
 func _input(event) -> void:
@@ -150,12 +185,44 @@ func _enter_moving_state() -> void:
 	emit_signal("aiming_state_changed", false)
 
 
+
+# ... (rest of file until _animate_charge_ring)
+
 func _animate_charge_ring(delta: float) -> void:
 	hit_position = camera.cursor_position
 	var direction_to_camera: Vector3 = (camera.cursor_position - global_position).normalized()
-	charge_ring.global_position = global_position + direction_to_camera * 1.0
-	charge_ring.look_at(camera.cursor_position, Vector3.UP)
+
+	# Kierunek prawej/lewej względem kierunku strzału (po płaszczyźnie stołu)
+	var forward_visual: Vector3 = direction_to_camera
+	var right_visual: Vector3 = Vector3.UP.cross(forward_visual).normalized()
+	if right_visual.length_squared() == 0.0:
+		right_visual = Vector3.RIGHT
+		
+	# Get spin offset from camera (keeping our input logic)
+	var current_spin_offset: float = 0.0
+	if "spin_offset" in camera:
+		current_spin_offset = camera.spin_offset
+
+	# Orbital movement: Rotate the forward vector around UP axis
+	# Max angle: spin_indicator_max_offset_visual (interpreted as radians or scale factor)
+	# Increased to 1.2 (~70 degrees) for better visibility as requested ("weak").
+	
+	# We want: Hit Right (spin_offset > 0) -> Indicator moves Right.
+	# direction_to_camera is roughly Back.
+	# Rotating around UP: Positive angle is CCW.
+	# If we look FROM camera at ball: Right is ...
+	# Let's try positive offset for positive spin.
+	var angle_offset = current_spin_offset * spin_indicator_max_offset_visual
+	
+	var orbital_direction = forward_visual.rotated(Vector3.UP, angle_offset)
+	
+	# Floating billboard style, but orbiting position
+	charge_ring.global_position = global_position + orbital_direction * 1.0 # Radius 1.0
+	
+	# User request: "Look at the ball"
+	charge_ring.look_at(global_position, Vector3.UP)
 	charge_ring.rotate_object_local(Vector3.RIGHT, deg_to_rad(90.0))
+
 	charge_timer += delta
 	var ratio: float = clamp(charge_timer / max_charge_duration, 0.0, 1.0)
 	if ring_material:
@@ -213,6 +280,22 @@ func push_ball(impulse_power: float) -> void:
 	var impulse_vector = direction_to_camera * impulse_power
 
 	print_debug("Impulse_vector: ", impulse_vector)
+	
+	# Logic for spin
+	if camera and "spin_offset" in camera:
+		spin_factor = camera.spin_offset
+		spin_active = abs(spin_factor) > 0.05
+		# Reset camera spin after shooting
+		camera.spin_offset = 0.0
+	else:
+		spin_factor = 0.0
+		spin_active = false
+		
+	if spin_active:
+		# Apply explicit torque impulse for stronger effect if needed
+		# spin_factor > 0 (Right hit) -> Torque +Y
+		apply_torque_impulse(Vector3.UP * spin_factor * max_impulse_strength * SPIN_TORQUE_MULT)
+
 	apply_impulse(-impulse_vector, impulse_position)
 	emit_signal("ball_pushed", impulse_power)
 
@@ -225,8 +308,24 @@ func setup_charge_ring() -> void:
 		color.a = 0.0
 		ring_material.albedo_color = color
 	else:
-		push_error("Error: ChargeRing has no material!")
-		return
+		# Fallback just in case, or we can push_error like in snippet
+		# push_error("Error: ChargeRing has no material!")
+		# But for safety, let's keep basic creation if missing, but prioritized what snippet did.
+		# Snippet uses get_surface_override_material.
+		
+		# Proba pobrania z mesha jesli override nie ma
+		var mesh = charge_ring.mesh
+		if mesh:
+			var mat = mesh.surface_get_material(0)
+			if mat:
+				ring_material = mat.duplicate()
+				charge_ring.set_surface_override_material(0, ring_material)
+				var color = ring_material.albedo_color
+				color.a = 0.0
+				ring_material.albedo_color = color
+				return
+				
+		push_error("Error: ChargeRing has no material to setup!")
 
 
 func create_aim_line_mesh() -> void:
@@ -286,6 +385,10 @@ func _setup_aim_line() -> void:
 		if new_aimed_at_ball:
 			new_aimed_at_ball.start_being_aimed_at()
 		aimed_at_ball = new_aimed_at_ball
+
+
+
+
 
 
 # --- LOGIKA STANU FIZYKI ---

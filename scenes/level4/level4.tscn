@@ -64,7 +64,7 @@ uv1_scale = Vector3(8.515, 8.515, 8.515)
 uv1_offset = Vector3(0, 0.61, 0)
 texture_filter = 0
 
-[node name="Node3D" type="Node3D"]
+[node name="Node3D2" type="Node3D"]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 texture_filter = 1
@@ -107,10 +107,11 @@ script = ExtResource("4_ydtoy")
 game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("5_eofyo")
 player_ball = NodePath("../PlayerBall")
+spread = 1.1
 height = 0.0
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/TableCircle2" instance=ExtResource("6_3eqw4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218924)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 10.219)
 max_charge_duration = 2.0
 max_impulse_strength = 40.0
 aim_line_ray_range = 30.0
@@ -175,6 +176,9 @@ spot_range = 100.777
 spot_attenuation = 0.83
 spot_angle = 57.58
 
+[node name="ReturnPosition" type="Node3D" parent="SubViewportContainer/SubViewport/TableCircle2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 10.219)
+
 [node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport"]
 
 [node name="crt2" type="Sprite3D" parent="SubViewportContainer/SubViewport/Tvs"]
@@ -194,11 +198,12 @@ size = Vector2i(160, 110)
 transform = Transform3D(-0.98378253, 0.019382963, -0.17831567, -0.004762233, 0.9909709, 0.13399237, 0.17930281, 0.13266854, -0.9748075, 0, 5.7684393, -15.326607)
 fov = 123.75
 
-[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui")]
+[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui", "returnPoint")]
 script = ExtResource("8_2psii")
 player_ball = NodePath("../TableCircle2/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
+returnPoint = NodePath("../TableCircle2/ReturnPosition")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jka67")

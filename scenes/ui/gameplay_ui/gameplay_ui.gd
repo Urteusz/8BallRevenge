@@ -115,8 +115,7 @@ func _on_game_over() -> void:
 	
 func _on_game_win() -> void:
 	win_window.visible = true
-	win_label.text = "Poziom ukończony! Gratulacje!"
-	PlayerData.set_level(3)
+	win_label.text = "Poziom ukończony! GratulacjÄ™!"
 	_enable_mouse()
 	if ball_list_container:
 		ball_list_container.visible = false
@@ -136,15 +135,12 @@ func _on_shop_button() -> void:
 	shopUI.toggle_shop()
 
 func _on_charging_started() -> void:
-	print("CHARGING STARTED - showing slider")
 	slider.visible = true
 	slider.value = 0.0
 	_show_hint("Ruszaj myszą: Wybierz punkt uderzenia\nPuść LPM: UDERZ!\nNaciśnij PPM: Anuluj")
 
 func _on_charging_released() -> void:
-	print("CHARGING RELEASED - hiding slider after delay")
 	await get_tree().create_timer(0.1).timeout
-	print("HIDING SLIDER NOW")
 	slider.visible = false
 	slider.value = 0.0
 
