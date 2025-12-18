@@ -7,10 +7,10 @@
 [ext_resource type="Script" uid="uid://cndjgyoi38fel" path="res://scenes/ui/shop_ui/scripts/shop_ball.gd" id="4_l0xgo"]
 [ext_resource type="SphereMesh" uid="uid://dmrktstgmfnv6" path="res://scenes/balls/shop_ui_speedy.tres" id="5_5c60p"]
 [ext_resource type="SphereMesh" uid="uid://bebkqg2relac3" path="res://scenes/balls/shop_ui_blue.tres" id="5_lbg84"]
-[ext_resource type="Texture2D" uid="uid://dwk3egkgbtwmf" path="res://textures/ui/Button2_quit.png" id="6_daov2"]
 [ext_resource type="SphereMesh" uid="uid://b7ow3a5vk1da1" path="res://scenes/balls/shop_ui_green.tres" id="7_5c60p"]
-[ext_resource type="Texture2D" uid="uid://dqkftrx7p0k6b" path="res://textures/ui/Button2_quit_pressed.png" id="7_jjtc3"]
 [ext_resource type="SphereMesh" uid="uid://bgjs6uerwg33g" path="res://scenes/balls/shop_ui_bomb.tres" id="8_v1umv"]
+[ext_resource type="Texture2D" uid="uid://brp2du77yob0s" path="res://textures/ui/ButtonV3Quit.png" id="10_v1umv"]
+[ext_resource type="Texture2D" uid="uid://dd1lojh7crfxr" path="res://textures/ui/ButtonV3QuitPressed.png" id="11_p6g4p"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k0lrw"]
 shader = ExtResource("4_daov2")
@@ -202,8 +202,8 @@ anchor_bottom = 1.0
 offset_top = -128.0
 offset_right = 128.0
 grow_vertical = 0
-texture_normal = ExtResource("6_daov2")
-texture_pressed = ExtResource("7_jjtc3")
+texture_normal = ExtResource("10_v1umv")
+texture_pressed = ExtResource("11_p6g4p")
 
 [node name="PointsScored" type="Label" parent="ControlShop"]
 layout_mode = 1

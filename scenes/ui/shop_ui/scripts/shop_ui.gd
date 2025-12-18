@@ -8,6 +8,7 @@ extends Control
 @onready var next_button: Button = %ButtonNextLevel
 @onready var choose_button: Button = %ButtonChoose
 @onready var scoredLabel = $PointsScored
+@onready var quitButton = $QuitButton
 
 var shop_open := false
 var shop_positions_set := false
@@ -25,6 +26,7 @@ func _ready() -> void:
 	
 	buttons_container.visible = false
 	continue_container.visible = false
+	quitButton.visible = false
 	
 	next_button.pressed.connect(_on_next_level)
 	choose_button.pressed.connect(_on_choose)
@@ -116,6 +118,7 @@ func toggle_shop() -> void:
 	shop_open = !shop_open
 	continue_container.visible = shop_open
 	buttons_container.visible = shop_open
+	quitButton.visible = shop_open
 	
 	if has_node("QuitButton"):
 		$QuitButton.visible = shop_open
