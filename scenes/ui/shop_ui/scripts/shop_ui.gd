@@ -13,7 +13,7 @@ extends Control
 var shop_open := false
 var shop_positions_set := false
 var points: int = 0
-
+var default_score_y: float = 0.0
 # Tablica przycisków
 var buttons: Array[Button] = []
 
@@ -21,6 +21,7 @@ func _ready() -> void:
 	label.add_theme_color_override("font_color", Color.WHITE)
 	
 	if scoredLabel:
+		default_score_y = scoredLabel.position.y
 		scoredLabel.visible = false
 		scoredLabel.modulate.a = 0.0 # Przezroczystość na 0
 	
@@ -156,7 +157,8 @@ func show_score_popup(amount: int) -> void:
 	scoredLabel.text = "+%d" % amount
 	scoredLabel.reset_size()
 	scoredLabel.pivot_offset = scoredLabel.size / 2
-	scoredLabel.position = (size / 2) - (scoredLabel.size / 2)
+	var center_x = (size.x / 2) - (scoredLabel.size.x / 2)
+	scoredLabel.position = Vector2(center_x, default_score_y)
 	
 	scoredLabel.visible = true
 	scoredLabel.modulate = Color.WHITE
