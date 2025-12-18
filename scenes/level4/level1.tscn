@@ -81,8 +81,8 @@ viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/crt")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_aj7ea"]
 shader = ExtResource("16_ohe1b")
-shader_parameter/skyColor = Color(1, 1, 1, 1)
-shader_parameter/horizonColor = Color(0.17737836, 0.16961, 0.72409153, 1)
+shader_parameter/skyColor = Color(0.026314687, 0.031572547, 0.06518303, 1)
+shader_parameter/horizonColor = Color(0.54367524, 0.20795193, 0.89552945, 1)
 
 [sub_resource type="Sky" id="Sky_jka67"]
 sky_material = SubResource("ShaderMaterial_aj7ea")
@@ -92,6 +92,14 @@ background_mode = 2
 background_energy_multiplier = 1.34
 sky = SubResource("Sky_jka67")
 ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+glow_levels/1 = 11.25
+glow_levels/2 = 13.5
+glow_levels/3 = 15.0
+glow_levels/7 = 4.75
+fog_light_color = Color(0.053076, 1.2914082e-05, 0.07270341, 1)
+fog_sky_affect = 0.276
+fog_height_density = 0.3105
 
 [node name="Node3D" type="Node3D"]
 
@@ -188,10 +196,56 @@ script = ExtResource("13_bangt")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.82, -2.4804516, 13.176)
 shape = SubResource("BoxShape3D_k3l6j")
 
+[node name="SpotLight3D" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table"]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -8.869635, 7.2413635, -13.646689)
+light_energy = 8.59
+light_specular = 0.0
+light_bake_mode = 1
+spot_range = 100.777
+spot_attenuation = 0.83
+spot_angle = 57.58
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table"]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 9.123747, 7.2413635, -13.03521)
+light_energy = 8.59
+light_specular = 0.0
+light_bake_mode = 1
+spot_range = 100.777
+spot_attenuation = 0.83
+spot_angle = 57.58
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table"]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 9.123747, 7.2413635, 12.697918)
+light_energy = 8.59
+light_specular = 0.0
+light_bake_mode = 1
+spot_range = 100.777
+spot_attenuation = 0.83
+spot_angle = 57.58
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table"]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -9.016834, 7.2413635, 12.850788)
+light_energy = 8.59
+light_specular = 0.0
+light_bake_mode = 1
+spot_range = 100.777
+spot_attenuation = 0.83
+spot_angle = 57.58
+
+[node name="SpotLight3D5" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table"]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 0, 7.241, 0)
+light_energy = 8.59
+light_specular = 0.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 100.777
+spot_attenuation = 0.83
+spot_angle = 57.58
+
 [node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport"]
 
 [node name="crt2" type="Sprite3D" parent="SubViewportContainer/SubViewport/Tvs"]
-transform = Transform3D(4.208984, 0, 0.16800232, 0, 5.2094846, 0, 1.884974, 0, -0.3751347, 12.982579, 6.9397554, -28.291208)
+transform = Transform3D(4.2360706, 0, 0.16250448, 0, 5.2094855, 0, 1.8232888, 0, -0.3775489, 14.7416315, 7.986644, -29.54263)
 texture = SubResource("ViewportTexture_aj7ea")
 
 [node name="flat" type="SubViewport" parent="SubViewportContainer/SubViewport/Tvs"]
@@ -217,9 +271,6 @@ environment = SubResource("Environment_jka67")
 
 [node name="ShopUI" parent="." instance=ExtResource("17_3yldh")]
 
-[node name="SubViewport" parent="ShopUI/ControlShop/SubViewportContainer" index="0"]
-size = Vector2i(341, 192)
-
 [node name="GameplayUI" parent="." instance=ExtResource("18_4skx5")]
 
 [node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager", "shopUI")]
@@ -227,7 +278,7 @@ game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
 shopUI = NodePath("../../ShopUI/ControlShop")
 
 [node name="room_colored_no_walls_no_guitar_array" parent="." instance=ExtResource("18_3s6wb")]
-transform = Transform3D(-5.1142325e-07, 0, -11.7, 0, 11.7, 0, 11.7, 0, -5.1142325e-07, 0, 5.65, 0)
+transform = Transform3D(-5.1142325e-07, 0, -11.7, 0, 11.7, 0, 11.7, 0, -5.1142325e-07, 13.789251, -0.90031195, -28.694431)
 
 [connection signal="game_won" from="SubViewportContainer/SubViewport/Camera3D" to="GameplayUI/ControlGameplay" method="_on_game_win"]
 [connection signal="targetting_center" from="SubViewportContainer/SubViewport/Camera3D" to="SubViewportContainer/SubViewport/Table/PlayerBall" method="_on_camera_3d_targetting_center"]
