@@ -48,6 +48,7 @@ var is_grounded: bool = false  # Czy piłka dotyka podłoża
 
 signal ball_pushed(impulse_power: float)
 signal round_ended
+signal charging_cancelled
 
 
 func _ready() -> void:
@@ -96,6 +97,8 @@ func _input(event) -> void:
 		if event.is_action_pressed("cancel_charging"):
 			charge_ring.visible = false
 			charging = false
+			charge_timer = 0.0
+			emit_signal("charging_cancelled")
 
 	# Można strzelać gdy piłka jest wystarczająco wolna, dotyka podłoża i kamera patrzy na gracza
 	if event.is_action_pressed("push_ball") and can_shoot() and !charging:

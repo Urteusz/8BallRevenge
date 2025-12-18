@@ -22,6 +22,7 @@ signal charging_started
 signal charging_updated(charge_ratio: float)
 signal charging_released
 signal ball_pocketed(ball_id: int)
+signal charging_paused
 
 func _ready() -> void:
 	moves_left = default_level_move_count
@@ -38,6 +39,8 @@ func _ready() -> void:
 			player_ball.round_ended.connect(_on_round_ended)
 		if player_ball.has_signal("ball_pushed"):
 			player_ball.ball_pushed.connect(_on_ball_pushed)
+		if player_ball.has_signal("charging_cancelled"):
+			player_ball.charging_cancelled.connect(_on_charging_cancelled)
 	
 	if shop_ui:
 		connect("points_changed", shop_ui._on_points_updated)
@@ -63,6 +66,9 @@ func _ready() -> void:
 				print("BŁĄD: Brak GameplayUI!")
 		else:
 			print("BŁĄD: Kula ", ball.name, " NIE MA sygnału score_updated!")
+
+func _on_charging_cancelled() -> void:
+	emit_signal("charging_paused")
 
 func get_level_balls() -> Array:
 	var balls_data_for_ui = []

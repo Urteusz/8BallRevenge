@@ -42,9 +42,10 @@ func _ready() -> void:
 			game_manager.connect("charging_updated", _on_charging_updated)
 		if not game_manager.is_connected("charging_released", _on_charging_released):
 			game_manager.connect("charging_released", _on_charging_released)
-			
 		if not game_manager.is_connected("ball_pocketed", _on_ball_pocketed):
 			game_manager.connect("ball_pocketed", _on_ball_pocketed)
+		if not game_manager.is_connected("charging_paused",_on_charging_paused):
+			game_manager.connect("charging_paused",_on_charging_paused)
 			
 		if game_manager.has_method("get_level_balls"):
 			_initialize_ball_cards(game_manager.get_level_balls())
@@ -52,9 +53,13 @@ func _ready() -> void:
 		_on_moves_changed(game_manager.default_level_move_count)
 	_ignore_mouse()
 	
-	
+
+func _on_charging_paused() -> void:
+	slider.visible = false
+	slider.value = 0.0
+
 func _initialize_ball_cards(balls_data: Array) -> void:
-	print("🎴 Inicjalizacja kart... Liczba kul: ", balls_data.size())
+	print("Inicjalizacja kart... Liczba kul: ", balls_data.size())
 	
 	if ball_list_container:
 		for child in ball_list_container.get_children():
@@ -73,7 +78,6 @@ func _initialize_ball_cards(balls_data: Array) -> void:
 		ball_list_container.add_child(card)
 		
 		if card.has_method("setup_card"):
-			# KLUCZOWE: Przekazuj ball_scene (może być null dla zwykłych kul)
 			var ball_scene = data.get("scene", null)
 			var ball_texture = data.get("texture", null)
 			var ball_color = data.get("color", Color.WHITE)
@@ -88,7 +92,7 @@ func _initialize_ball_cards(balls_data: Array) -> void:
 		# Zapisujemy referencję
 		ball_cards[data["id"]] = card
 	
-	print("✅ Karty zainicjalizowane!")
+	print("Karty zainicjalizowane!")
 
 func _on_ball_pocketed(ball_id: int) -> void:
 	if ball_cards.has(ball_id):

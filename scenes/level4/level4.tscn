@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://d3yctdgsrhiyc"]
+[gd_scene load_steps=24 format=3 uid="uid://d3yctdgsrhiyc"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_v1bi6"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_5gynx"]
@@ -26,6 +26,8 @@ lightmap_size_hint = Vector2i(12, 12)
 material = SubResource("ShaderMaterial_jsk3o")
 flip_faces = true
 size = Vector2(2, 2)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_v1bi6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_k3l6j"]
 size = Vector3(38.535522, 1, 70.246826)
@@ -93,8 +95,8 @@ mesh = SubResource("QuadMesh_4arys")
 
 [node name="TableCircle2" parent="SubViewportContainer/SubViewport" instance=ExtResource("3_3g6gy")]
 
-[node name="Model" parent="SubViewportContainer/SubViewport/TableCircle2/Base/Rim" index="1"]
-skeleton = NodePath("../../../../TableCircle2")
+[node name="Base" parent="SubViewportContainer/SubViewport/TableCircle2" index="0"]
+physics_material_override = SubResource("PhysicsMaterial_v1bi6")
 
 [node name="TableCircleWalls" parent="SubViewportContainer/SubViewport/TableCircle2/Walls" index="1" node_paths=PackedStringArray("object_node")]
 object_node = NodePath("../../PlayerBall")
@@ -110,10 +112,12 @@ height = 0.0
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/TableCircle2" instance=ExtResource("6_3eqw4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.2935791, 10.218924)
 max_charge_duration = 2.0
+max_impulse_strength = 40.0
 aim_line_ray_range = 30.0
 
 [node name="PocketsHitbox" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2" groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.699977, -0.8570008, -13.004261)
+collision_mask = 5
 script = ExtResource("7_els6h")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/PocketsHitbox"]
@@ -190,10 +194,11 @@ size = Vector2i(160, 110)
 transform = Transform3D(-0.98378253, 0.019382963, -0.17831567, -0.004762233, 0.9909709, 0.13399237, 0.17930281, 0.13266854, -0.9748075, 0, 5.7684393, -15.326607)
 fov = 123.75
 
-[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball", "shop_ui")]
+[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui")]
 script = ExtResource("8_2psii")
 player_ball = NodePath("../TableCircle2/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
+gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jka67")
