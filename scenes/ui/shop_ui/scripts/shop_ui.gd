@@ -46,11 +46,9 @@ func _ready() -> void:
 func _on_next_level() -> void:
 	toggle_shop()
 	continue_container.visible = false
-	PlayerData.advance_level() 
 	LoadManager.load_scene(PlayerData.get_level_path())
 
 func _on_choose() -> void:
-	PlayerData.advance_level()
 	LoadManager.load_scene(ScenePaths.DECK_CHOOSE)
 
 func _on_points_updated(new_points: int) -> void:

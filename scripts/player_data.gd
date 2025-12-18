@@ -39,7 +39,6 @@ var ball_data_map = {
 const SAVE_PATH = "user://player_progress.save"
 
 func _ready() -> void:
-	
 	# Domyślny start (jeśli nie ma zapisu)
 	if owned_balls.is_empty():
 		owned_balls = ["ice", "blue", "green", "yellow", "bomb", "magnetic"]
@@ -47,7 +46,7 @@ func _ready() -> void:
 	# Jeśli deck jest pusty, wypełnij go pierwszymi dostępnymi kulami
 	if current_deck.is_empty():
 		refresh_deck_from_owned()
-
+	print("Dupa: "+str(current_level))
 
 # Funkcja do odblokowania nowej kuli
 func unlock_ball(ball_type: String) -> bool:

@@ -192,7 +192,7 @@ func _check_win_condition() -> bool:
 		if !game_win and !game_over:
 			game_win = true
 			points = points * max(moves_left + 1, 1) 
-			PlayerData.set_level(3)
+			PlayerData.advance_level()
 			emit_signal("points_changed", points)
 			emit_signal("player_win")
 			print("WYGRANA! Pozostałe ruchy: ", moves_left)
