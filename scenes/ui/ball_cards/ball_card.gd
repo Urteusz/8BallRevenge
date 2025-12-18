@@ -28,7 +28,7 @@ func setup_card(name_text: String, texture: Texture2D, ui_color: Color, points: 
 	update_points(points)
 	
 	if ball_scene != null:
-		print("🎱 Ładowanie custom scene dla: ", name_text)
+		print("Ładowanie custom scene dla: ", name_text)
 		
 		if ball_mesh:
 			ball_mesh.queue_free()

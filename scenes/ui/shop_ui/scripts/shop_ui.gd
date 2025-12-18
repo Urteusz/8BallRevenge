@@ -1,50 +1,136 @@
 extends Control
 
-@onready var shop_camera = $SubViewportContainer/SubViewport/Camera3D
-@onready var shop_balls = $SubViewportContainer/SubViewport/ShopBalls
-@onready var label = $LabelPoints
-@onready var buttons_container = %ButtonsContainer
+@export var shop_card_scene: PackedScene
+@export var items_to_sell: Array[String] = ["bomb", "speedy", "magnetic", "blue", "green"]
+
+@onready var label_points = $LabelPoints
+@onready var buttons_container = %ButtonsContainer 
 @onready var continue_container = $ContinueContainer
 @onready var next_button: Button = %ButtonNextLevel
 @onready var choose_button: Button = %ButtonChoose
-@onready var scoredLabel = $PointsScored
-@onready var quitButton = $QuitButton
+@onready var quit_button = $QuitButton
+@onready var scored_label = $PointsScored
+
 
 var shop_open := false
-var shop_positions_set := false
 var points: int = 0
 var default_score_y: float = 0.0
-# Tablica przycisków
-var buttons: Array[Button] = []
+var generated_cards: Array = []
+
+var _score_tween: Tween
 
 func _ready() -> void:
-	label.add_theme_color_override("font_color", Color.WHITE)
+	label_points.add_theme_color_override("font_color", Color.WHITE)
 	
-	if scoredLabel:
-		default_score_y = scoredLabel.position.y
-		scoredLabel.visible = false
-		scoredLabel.modulate.a = 0.0 # Przezroczystość na 0
+	if scored_label:
+		default_score_y = scored_label.position.y
+		scored_label.visible = false
+		scored_label.modulate.a = 0.0
 	
 	buttons_container.visible = false
 	continue_container.visible = false
-	quitButton.visible = false
+	if quit_button: quit_button.visible = false
 	
-	next_button.pressed.connect(_on_next_level)
-	choose_button.pressed.connect(_on_choose)
+	if not next_button.pressed.is_connected(_on_next_level):
+		next_button.pressed.connect(_on_next_level)
+		
+	if not choose_button.pressed.is_connected(_on_choose):
+		choose_button.pressed.connect(_on_choose)
+		
+	if quit_button: 
+		if not quit_button.pressed.is_connected(_on_quit_button_pressed):
+			quit_button.pressed.connect(_on_quit_button_pressed)
 	
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
-	# Pobieramy przyciski i podłączamy sygnały
-	for item_button in buttons_container.get_children():
-		if item_button is Button:
-			buttons.append(item_button)
-			item_button.pressed.connect(_on_item_pressed.bind(item_button))
+	_generate_shop_cards()
 	
-	# Sprawdź, co gracz już posiada (żeby nie mógł kupić dwa razy tego samego)
-	_check_already_owned()
+	_update_points_display()
+
+func _generate_shop_cards() -> void:
+	for child in buttons_container.get_children():
+		child.queue_free()
+	generated_cards.clear()
 	
-	# Inicjalizacja punktów (możesz tu pobrać punkty z PlayerData jeśli tam są trzymane)
-	_on_points_updated(points) 
+	if not shop_card_scene:
+		push_error("ShopUI: Nie przypisano sceny ShopCard w inspektorze!")
+		return
+
+	for ball_id in items_to_sell:
+		if not PlayerData.ball_data_map.has(ball_id):
+			push_warning("ShopUI: Nieznane ID kuli w PlayerData: " + ball_id)
+			continue
+			
+		var data = PlayerData.ball_data_map[ball_id]
+		
+		var card = shop_card_scene.instantiate()
+		buttons_container.add_child(card)
+		generated_cards.append(card)
+		
+		var is_owned = PlayerData.owned_balls.has(ball_id)
+		if card.has_method("setup_shop_item"):
+			card.setup_shop_item(ball_id, data, is_owned, points)
+		
+		if card.has_signal("purchase_requested"):
+			card.purchase_requested.connect(_on_card_purchase_requested)
+
+func _on_card_purchase_requested(ball_id: String, cost: int) -> void:
+	if points >= cost:
+		if PlayerData.unlock_ball(ball_id):
+			points -= cost
+			_update_points_display()
+			
+			print("Kupiono: ", ball_id)
+			
+			_refresh_all_cards_state()
+			
+			for card in generated_cards:
+				if card.ball_id == ball_id and card.has_method("play_success_anim"):
+					card.play_success_anim()
+		else:
+			print("Błąd: Nie udało się odblokować kuli (już posiadana?)")
+	else:
+		print("Za mało punktów! Masz: ", points, " Potrzeba: ", cost)
+
+func _refresh_all_cards_state() -> void:
+	for card in generated_cards:
+		if card.has_method("update_state"):
+			var is_owned = PlayerData.owned_balls.has(card.ball_id)
+			card.update_state(is_owned, points)
+
+func _on_points_updated(new_points: int) -> void:
+	var delta = new_points - points
+	points = new_points
+	_update_points_display()
+	
+	if delta > 0:
+		show_score_popup(delta)
+	
+	if shop_open:
+		_refresh_all_cards_state()
+
+func _update_points_display() -> void:
+	label_points.text = "Punkty: %d" % points
+
+func toggle_shop() -> void:
+	shop_open = !shop_open
+	
+	continue_container.visible = shop_open
+	buttons_container.visible = shop_open
+	if quit_button: quit_button.visible = shop_open
+	
+	if shop_open:
+		mouse_filter = Control.MOUSE_FILTER_STOP
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		
+		_refresh_all_cards_state()
+	else:
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("pause"):
+		toggle_shop()
+
 
 func _on_next_level() -> void:
 	toggle_shop()
@@ -54,171 +140,62 @@ func _on_next_level() -> void:
 func _on_choose() -> void:
 	LoadManager.load_scene(ScenePaths.DECK_CHOOSE)
 
-func _on_points_updated(new_points: int) -> void:
-	var delta = new_points - points
-	points = new_points
-	label.text = "Punkty: %d" % points
-	if delta > 0:
-		show_score_popup(delta)
-
-# Helper do mapowania nazwy przycisku na typ kuli i koszt
-func _get_item_data(button_text: String) -> Dictionary:
-	match button_text:
-		"Kulka Magnetyczna": return {"type": "magnetic", "cost": 10}
-		"Kulka Zielona": return {"type": "green", "cost": 20}
-		"Kulka Niebieska": return {"type": "blue", "cost": 30}
-		"Kulka Szybka": return {"type": "speedy", "cost": 40}
-		"Kulka Bomba": return {"type": "bomb", "cost": 50}
-		_: return {}
-
-func _check_already_owned() -> void:
-	for btn in buttons:
-		var data = _get_item_data(btn.text)
-		if data.is_empty(): 
-			continue
-			
-		if PlayerData.owned_balls.has(data["type"]):
-			btn.text = "Kupione"
-			btn.disabled = true
-
-func _on_item_pressed(btn: Button) -> void:
-	var data = _get_item_data(btn.text)
-	
-	if data.is_empty():
-		print_debug("Nieznany przedmiot: ", btn.text)
-		return
-
-	_buy_item(btn, data["cost"], data["type"])
-
-func _buy_item(btn: Button, cost: int, ball_type: String) -> void:
-	if PlayerData.owned_balls.has(ball_type):
-		print_debug("Już posiadasz ten przedmiot!")
-		return
-
-	if points >= cost:
-		var success = PlayerData.unlock_ball(ball_type)
-		
-		if success:
-			points -= cost
-			label.text = "Punkty: %d" % points
-			
-			btn.text = "Kupione"
-			btn.disabled = true
-			
-			print_debug("Kupiono:", ball_type)
-		else:
-			print_debug("Błąd przy odblokowywaniu kuli (może błędna nazwa?)")
-	else:
-		print_debug("Za mało punktów! Wymagane: ", cost, ", Posiadane: ", points)
-
-func _process(delta) -> void:
-	if Input.is_action_just_pressed("pause"):
-		toggle_shop()
-
-func toggle_shop() -> void:
-	shop_open = !shop_open
-	continue_container.visible = shop_open
-	buttons_container.visible = shop_open
-	quitButton.visible = shop_open
-	
-	if has_node("QuitButton"):
-		$QuitButton.visible = shop_open
-
-	for shop_ball in shop_balls.get_children():
-		shop_ball.visible = shop_open
-
-	if shop_open:
-		mouse_filter = Control.MOUSE_FILTER_STOP
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		if not shop_positions_set:
-			align_shop_items()
-			shop_positions_set = true
-		
-		_check_already_owned()
-	else:
-		mouse_filter = Control.MOUSE_FILTER_IGNORE
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
-func align_shop_items() -> void:
-	await get_tree().process_frame
-
-
-
 func _on_quit_button_pressed() -> void:
 	LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)
-	
-var _score_tween: Tween
 
 
 func show_score_popup(amount: int) -> void:
-	if not scoredLabel: return
+	if not scored_label: return
 	
-	# 1. Reset
-	scoredLabel.text = "+%d" % amount
-	scoredLabel.reset_size()
-	scoredLabel.pivot_offset = scoredLabel.size / 2
-	var center_x = (size.x / 2) - (scoredLabel.size.x / 2)
-	scoredLabel.position = Vector2(center_x, default_score_y)
+	scored_label.text = "+%d" % amount
+	scored_label.reset_size()
+	scored_label.pivot_offset = scored_label.size / 2
+	var center_x = (size.x / 2) - (scored_label.size.x / 2)
+	scored_label.position = Vector2(center_x, default_score_y)
 	
-	scoredLabel.visible = true
-	scoredLabel.modulate = Color.WHITE
-	scoredLabel.rotation_degrees = 0
-	scoredLabel.scale = Vector2(0, 0)
+	scored_label.visible = true
+	scored_label.modulate = Color.WHITE
+	scored_label.rotation_degrees = 0
+	scored_label.scale = Vector2(0, 0)
 	
 	if _score_tween:
 		_score_tween.kill()
 	
 	_score_tween = create_tween()
 	
-	
 	var wait_time = 0.5 
 	
-	# TIER 1: Normalny (< 500)
 	if amount < 500:
-		_score_tween.tween_property(scoredLabel, "scale", Vector2(1.0, 1.0), 0.4).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+		_score_tween.tween_property(scored_label, "scale", Vector2(1.0, 1.0), 0.4).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 		wait_time = 0.5
 		
-	# TIER 2: Epicki (500 - 3000)
 	elif amount >= 500 and amount < 3000:
-		scoredLabel.modulate = Color(1, 0.84, 0) # Gold
+		scored_label.modulate = Color(1, 0.84, 0)
 		
 		_score_tween.set_parallel(true)
-		_score_tween.tween_property(scoredLabel, "scale", Vector2(1.5, 1.5), 0.6).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
-		
-		
-		_score_tween.tween_property(scoredLabel, "rotation_degrees", 15, 0.2).set_ease(Tween.EASE_OUT)
+		_score_tween.tween_property(scored_label, "scale", Vector2(1.5, 1.5), 0.6).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+		_score_tween.tween_property(scored_label, "rotation_degrees", 15, 0.2).set_ease(Tween.EASE_OUT)
 		_score_tween.set_parallel(false)
 		
-		# Powrót rotacji do 0 (już sekwencyjnie)
-		_score_tween.tween_property(scoredLabel, "rotation_degrees", 0, 0.2).set_trans(Tween.TRANS_BOUNCE)
+		_score_tween.tween_property(scored_label, "rotation_degrees", 0, 0.2).set_trans(Tween.TRANS_BOUNCE)
 		
 		wait_time = 1.0
 
-	# TIER 3: Legendarny (> 3000) - TU ZMIENIAMY CZASY
 	else:
-		scoredLabel.modulate = Color(1, 0.2, 0.4) # Red/Pink
+		scored_label.modulate = Color(1, 0.2, 0.4)
 		
-		wait_time = 2.0 # Napis będzie wisiał przez 2 sekundy po zakończeniu obrotu
+		wait_time = 2.0 
 		
 		_score_tween.set_parallel(true)
-		
-		# 1. Skalowanie: Wydłużone do 2.0 sekund
-		_score_tween.tween_property(scoredLabel, "scale", Vector2(2.0, 2.0), 2.0).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
-		
-		# 2. Obrót: Również 2.0 sekundy
-		_score_tween.tween_property(scoredLabel, "rotation_degrees", 720, 2.0).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
-		
+		_score_tween.tween_property(scored_label, "scale", Vector2(2.0, 2.0), 2.0).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+		_score_tween.tween_property(scored_label, "rotation_degrees", 720, 2.0).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
 		_score_tween.set_parallel(false)
 
-	# --- ZNIKANIE (Wspólne) ---
-	
-	# Czekaj (wartość ustawiona w if/else powyżej)
 	_score_tween.tween_interval(wait_time)
 	
-	# Zanikanie i lot w górę
 	_score_tween.set_parallel(true)
-	_score_tween.tween_property(scoredLabel, "modulate:a", 0.0, 0.8) # Powolne znikanie (0.8s)
-	_score_tween.tween_property(scoredLabel, "position:y", scoredLabel.position.y - 80, 0.8) # Wyższy lot
+	_score_tween.tween_property(scored_label, "modulate:a", 0.0, 0.8) 
+	_score_tween.tween_property(scored_label, "position:y", scored_label.position.y - 80, 0.8) 
 	
 	_score_tween.set_parallel(false)
-	_score_tween.tween_callback(scoredLabel.hide)
+	_score_tween.tween_callback(scored_label.hide)

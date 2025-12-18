@@ -41,7 +41,7 @@ const SAVE_PATH = "user://player_progress.save"
 func _ready() -> void:
 	# Domyślny start (jeśli nie ma zapisu)
 	if owned_balls.is_empty():
-		owned_balls = ["ice", "blue", "green", "yellow", "bomb", "magnetic"]
+		owned_balls = ["red", "blue", "purple", "yellow", "speedy", "green"]
 	
 	# Jeśli deck jest pusty, wypełnij go pierwszymi dostępnymi kulami
 	if current_deck.is_empty():

@@ -6,4 +6,6 @@
 [resource]
 script = ExtResource("1_ojgbi")
 scene = ExtResource("1_cuwtl")
+base_value = 2000
+shop_description = "Kula, która odbija się mocniej od band"
 metadata/_custom_type_script = "uid://cvwkj0qnv7yim"

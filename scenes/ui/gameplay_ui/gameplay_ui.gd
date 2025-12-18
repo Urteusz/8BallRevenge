@@ -75,7 +75,7 @@ func _initialize_ball_cards(balls_data: Array) -> void:
 		return
 
 	for data in balls_data:
-		print("📋 Tworzę kartę dla: ", data.get("name", "???"))
+		print("Tworzę kartę dla: ", data.get("name", "???"))
 		var card = BALL_CARD_SCENE.instantiate()
 		
 		ball_list_container.add_child(card)
@@ -87,8 +87,8 @@ func _initialize_ball_cards(balls_data: Array) -> void:
 			var ball_points = data.get("points", 0)
 			var ball_name = data.get("name", "???")
 			
-			print("   🔹 Scene: ", ball_scene)
-			print("   🔹 Texture: ", ball_texture)
+			print("Scene: ", ball_scene)
+			print("Texture: ", ball_texture)
 			
 			card.setup_card(ball_name, ball_texture, ball_color, ball_points, ball_scene)
 		

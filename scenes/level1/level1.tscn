@@ -236,6 +236,9 @@ environment = SubResource("Environment_jka67")
 
 [node name="ShopUI" parent="." instance=ExtResource("12_k3l6j")]
 
+[node name="ControlShop" parent="ShopUI" index="0"]
+items_to_sell = Array[String](["purple", "speedy", "magnetic", "ice", "bomb"])
+
 [node name="GameplayUI" parent="." instance=ExtResource("17_e4fnj")]
 
 [node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager", "shopUI")]
