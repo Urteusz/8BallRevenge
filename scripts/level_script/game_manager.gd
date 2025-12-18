@@ -41,6 +41,8 @@ func _ready() -> void:
 			player_ball.ball_pushed.connect(_on_ball_pushed)
 		if player_ball.has_signal("charging_cancelled"):
 			player_ball.charging_cancelled.connect(_on_charging_cancelled)
+		if gameplay_ui and player_ball.has_signal("aiming_state_changed"):
+			player_ball.aiming_state_changed.connect(gameplay_ui._on_aiming_state_changed)
 	
 	if shop_ui:
 		connect("points_changed", shop_ui._on_points_updated)
