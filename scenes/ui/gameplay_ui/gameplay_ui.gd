@@ -11,6 +11,7 @@ extends Control
 @onready var slider: HSlider = $"PowerSlider/HSlider"
 @onready var hint_label: Label = $"HintLabel"
 @onready var ball_list_container: Container = $"BallListContainer"
+@onready var win_confetti: CPUParticles2D = $WinConfetti
 
 @export var game_manager: Node3D
 @export var shopUI: Control
@@ -119,6 +120,9 @@ func _on_game_win() -> void:
 	_enable_mouse()
 	if ball_list_container:
 		ball_list_container.visible = false
+	if win_confetti:
+		win_confetti.restart()
+		win_confetti.emitting = true
 
 func _on_try_again() -> void:
 	LoadManager.load_scene(PlayerData.get_level_path())
