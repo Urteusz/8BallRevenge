@@ -1,18 +1,20 @@
-[gd_scene load_steps=38 format=4 uid="uid://dlnhsxxyfvc15"]
+[gd_scene load_steps=40 format=4 uid="uid://dlnhsxxyfvc15"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_j4hya"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_n15fh"]
+[ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="3_gv02k"]
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="4_gv02k"]
 [ext_resource type="Script" uid="uid://ddr1vvp0rplvr" path="res://scenes/level1/scripts/ball_spawner_level1.gd" id="5_ritex"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="6_y6x3d"]
 [ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="8_0em4h"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/level_script/walls.gd" id="9_gv02k"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="11_uj67f"]
+[ext_resource type="ArrayMesh" uid="uid://bred5srnkyl76" path="res://models/dunes.obj" id="11_xqajj"]
+[ext_resource type="Texture2D" uid="uid://ryuc7kw1tsg3" path="res://textures/dunes_normal.png" id="12_71hwt"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_e4fnj"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="12_k3l6j"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="16_5prdx"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="17_e4fnj"]
-[ext_resource type="PackedScene" uid="uid://cauu31m0rk4m3" path="res://models/room_colored_v2.glb" id="22_v0ouj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -70,6 +72,14 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_xqajj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mersw"]
+albedo_color = Color(0.85377234, 0.6370134, 0.4470799, 1)
+albedo_texture = ExtResource("3_gv02k")
+uv1_scale = Vector3(-0.125, -0.125, -0.125)
+uv1_triplanar = true
+uv2_scale = Vector3(-5.76, -5.76, -5.76)
+texture_filter = 0
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mersw"]
 friction = 0.1
@@ -171,16 +181,16 @@ shader_parameter/invisible_distance = 6.7490003205775
 [sub_resource type="BoxShape3D" id="BoxShape3D_k3l6j"]
 size = Vector3(25.520683, 0.32065582, 47.221966)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_aj7ea"]
-viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/crt")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_1enmr"]
-viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/flat")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a011w"]
+albedo_color = Color(0.4541009, 0.35983774, 0.15194741, 1)
+roughness = 0.7
+normal_enabled = true
+normal_texture = ExtResource("12_71hwt")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_aj7ea"]
 shader = ExtResource("11_uj67f")
 shader_parameter/skyColor = Color(1, 1, 1, 1)
-shader_parameter/horizonColor = Color(0.30277222, 0.29178274, 0.21370703, 1)
+shader_parameter/horizonColor = Color(0.7607843, 0.69803923, 0.5019608, 1)
 
 [sub_resource type="Sky" id="Sky_jka67"]
 sky_material = SubResource("ShaderMaterial_aj7ea")
@@ -220,10 +230,11 @@ player_ball = NodePath("../Table/PlayerBall")
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_4arys")
 
-[node name="Table" type="Node" parent="SubViewportContainer/SubViewport"]
+[node name="Table" type="Node3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.5948095, 0)
 
 [node name="TableBase" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["table"]]
-transform = Transform3D(-6.556708e-07, 0, -15, 0, 15, 0, 15, 0, -6.556708e-07, 0, 0, 0)
+transform = Transform3D(-6.556708e-07, 0, -15, 0, 15, 0, 15, 0, -6.556708e-07, 0, 5.0723343, 0)
 physics_material_override = SubResource("PhysicsMaterial_ritex")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/TableBase"]
@@ -237,9 +248,10 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, -0.562383, 0, -0.1754192)
 transform = Transform3D(0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, 0)
 mesh = SubResource("ArrayMesh_71hwt")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_mersw")
 
 [node name="TableRim" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["table"]]
-transform = Transform3D(-6.556708e-07, 0, -15, 0, 15, 0, 15, 0, -6.556708e-07, 0, 0, 0)
+transform = Transform3D(-6.556708e-07, 0, -15, 0, 15, 0, 15, 0, -6.556708e-07, 0, 5.0723343, 0)
 physics_material_override = SubResource("PhysicsMaterial_mersw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/TableRim"]
@@ -254,7 +266,7 @@ transform = Transform3D(0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, 0)
 mesh = SubResource("ArrayMesh_55rpr")
 
 [node name="TableWalls" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" groups=["table"]]
-transform = Transform3D(-6.556708e-07, 0, -15, 0, 15, 0, 15, 0, -6.556708e-07, 0, 0, 0)
+transform = Transform3D(-6.556708e-07, 0, -15, 0, 15, 0, 15, 0, -6.556708e-07, 0, 5.0723343, 0)
 physics_material_override = SubResource("PhysicsMaterial_kdd1l")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/TableWalls"]
@@ -273,7 +285,7 @@ script = ExtResource("9_gv02k")
 object_node = NodePath("../../../PlayerBall")
 
 [node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" node_paths=PackedStringArray("game_manager", "player_ball")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3257387, -6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.1897335, -6)
 script = ExtResource("5_ritex")
 game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("6_y6x3d")
@@ -281,49 +293,30 @@ player_ball = NodePath("../PlayerBall")
 ball_radius = 1.0
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" instance=ExtResource("12_e4fnj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 0.9246943, 10.218924)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09263587, 5.7493763, 10.218924)
 max_charge_duration = 2.0
 max_impulse_strength = 40.0
 aim_line_ray_range = 30.0
 
 [node name="PocketsHitbox" type="Area3D" parent="SubViewportContainer/SubViewport/Table" groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8826995, 0)
+collision_mask = 5
 script = ExtResource("8_0em4h")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/PocketsHitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22415543, -0.522686, 1.3050327)
 shape = SubResource("BoxShape3D_k3l6j")
 
-[node name="room" parent="SubViewportContainer/SubViewport" instance=ExtResource("22_v0ouj")]
-transform = Transform3D(-4.882562e-07, 0, -11.17, 0, 11.17, 0, 11.17, 0, -4.882562e-07, 0, 5.65, 0)
-
-[node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport"]
-
-[node name="crt2" type="Sprite3D" parent="SubViewportContainer/SubViewport/Tvs"]
-transform = Transform3D(4.275712, 0, 0.15403676, 0, 5.209484, 0, 1.7282813, 0, -0.381082, 12.16015, 6.5438347, -27.183935)
-texture = SubResource("ViewportTexture_aj7ea")
-
-[node name="flat2" type="Sprite3D" parent="SubViewportContainer/SubViewport/Tvs"]
-transform = Transform3D(4.182745, 0, 0, 0, 4.457193, 0, 0, 0, 1.1, -3, 12.419871, -34.573807)
-texture = SubResource("ViewportTexture_1enmr")
-
-[node name="flat" type="SubViewport" parent="SubViewportContainer/SubViewport/Tvs"]
-size = Vector2i(426, 240)
-
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Tvs/flat"]
-transform = Transform3D(0.8786859, 0.23918666, -0.41315958, -0.15516026, 0.9615342, 0.22666548, 0.45148242, -0.13506182, 0.88199884, -8.448279, 10.041564, 20.506062)
-
-[node name="crt" type="SubViewport" parent="SubViewportContainer/SubViewport/Tvs"]
-size = Vector2i(160, 110)
-
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Tvs/crt"]
-transform = Transform3D(-0.98378253, 0.019382963, -0.17831567, -0.004762233, 0.9909709, 0.13399237, 0.17930281, 0.13266854, -0.9748075, 0, 5.7684393, -15.326607)
-fov = 123.75
-
 [node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui")]
 script = ExtResource("16_5prdx")
 player_ball = NodePath("../Table/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
+
+[node name="Dunes" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(22.16, 0, 0, 0, 22.16, 0, 0, 0, 22.16, 72.9116, 9.730457, 2.8128471)
+mesh = ExtResource("11_xqajj")
+surface_material_override/0 = SubResource("StandardMaterial3D_a011w")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jka67")
