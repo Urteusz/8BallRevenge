@@ -74,6 +74,7 @@ func _ready() -> void:
 		game_manager.ball_list.append(new_instance)
 		new_instance.base_value = ball_data.base_value
 		new_instance.global_position = ball_position
+		new_instance.sleeping = true 
 		
 		if ball_data.texture:
 			apply_texture_to_ball(new_instance, ball_data.texture)
