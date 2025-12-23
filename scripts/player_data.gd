@@ -157,7 +157,7 @@ func load_progress() -> void:
 
 
 func get_level_path() -> String:
-	var expected_path = "res://scenes/level"+ str(current_level) + "/level" + str(current_level) + ".tscn"
+	var expected_path = "res://scenes/levels/level"+ str(current_level) + "/level" + str(current_level) + ".tscn"
 
 	if ResourceLoader.exists(expected_path):
 		return expected_path
@@ -165,7 +165,7 @@ func get_level_path() -> String:
 		push_warning("Poziom " + str(current_level) + " nie istnieje! Wracam do poziomu 1.")
 		current_level = 1
 		save_progress() 
-		return "res://scenes/level1/level1.tscn"
+		return "res://scenes/levels/level1/level1.tscn"
 
 func set_level(level: int) -> void:
 	current_level = level
