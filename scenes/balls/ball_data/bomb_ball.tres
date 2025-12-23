@@ -6,4 +6,6 @@
 [resource]
 script = ExtResource("1_mc265")
 scene = ExtResource("1_qe54q")
+shop_cost = 5000
+shop_description = "Kula wybuchowa, która detonuje przy zderzeniu, odrzucając pobliskie kule falą uderzeniową."
 metadata/ui_color = Color(0, 0, 0, 1)

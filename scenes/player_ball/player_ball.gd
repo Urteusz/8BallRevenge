@@ -65,6 +65,7 @@ const SPIN_TORQUE_MULT: float = 0.02 # Przelicznik offsetu na rotację piłki (Z
 signal ball_pushed(impulse_power: float)
 signal round_ended
 signal charging_cancelled
+signal aiming_state_changed(is_aiming: bool)
 
 
 func _ready() -> void:
@@ -175,11 +176,13 @@ func _enter_aiming_state() -> void:
 	sleeping = true
 	current_phase = Phase.AIMING
 	stop_timer = 0.0
+	emit_signal("aiming_state_changed", true)
 
 
 func _enter_moving_state() -> void:
 	sleeping = false
 	current_phase = Phase.MOVING
+	emit_signal("aiming_state_changed", false)
 
 
 

@@ -1,23 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://dmfdcb1iaitmu"]
+[gd_scene load_steps=3 format=3 uid="uid://bj6sgmi0t46x6"]
 
-[ext_resource type="Script" uid="uid://dx2cskto0l8se" path="res://scenes/ui/ball_cards/ball_card.gd" id="1_4ycxe"]
+[ext_resource type="Script" uid="uid://ct1jxvdwgq4ba" path="res://scenes/ui/shop_ui/scripts/shop_card.gd" id="1_rfiiw"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_4ycxe"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_4ycxe"]
-
-[node name="BallCard" type="PanelContainer"]
-custom_minimum_size = Vector2(60, 0)
-script = ExtResource("1_4ycxe")
+[node name="ShopCard" type="PanelContainer"]
+custom_minimum_size = Vector2(120, 100)
+offset_right = 180.0
+offset_bottom = 220.0
+script = ExtResource("1_rfiiw")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="BallName" type="Label" parent="VBoxContainer"]
+[node name="NameLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "Bila"
 horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer"]
 custom_minimum_size = Vector2(40, 40)
@@ -28,7 +27,7 @@ stretch = true
 own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(60, 40)
+size = Vector2i(180, 40)
 render_target_update_mode = 4
 
 [node name="Node3D" type="Node3D" parent="VBoxContainer/SubViewportContainer/SubViewport"]
@@ -43,23 +42,9 @@ size = 0.15
 [node name="BallMesh" type="MeshInstance3D" parent="VBoxContainer/SubViewportContainer/SubViewport/Node3D"]
 mesh = SubResource("SphereMesh_4ycxe")
 
-[node name="PointsLabel" type="Label" parent="VBoxContainer"]
+[node name="PriceLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "Punkty"
-label_settings = SubResource("LabelSettings_4ycxe")
-horizontal_alignment = 1
-vertical_alignment = 1
+theme_override_font_sizes/font_size = 20
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="VBoxContainer/PointsLabel"]
-show_behind_parent = true
-position = Vector2(30, 8)
-emitting = false
-amount = 20
-one_shot = true
-explosiveness = 1.0
-spread = 180.0
-initial_velocity_min = 51.55
-initial_velocity_max = 123.72
-scale_amount_min = 4.0
-scale_amount_max = 4.0
-color = Color(1, 0.9835, 0.00999999, 1)
+[node name="BuyLabel" type="Button" parent="VBoxContainer"]
+layout_mode = 2

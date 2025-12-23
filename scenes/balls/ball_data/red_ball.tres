@@ -8,4 +8,7 @@
 script = ExtResource("1_il4ku")
 scene = ExtResource("1_s4don")
 texture = ExtResource("3_s4don")
+base_value = 50
+shop_cost = 1000
+shop_description = "Typowa kolorowa kula, nic wielkiego."
 metadata/ui_color = Color(1.3655106, 0.12677146, 0.12677146, 1)
