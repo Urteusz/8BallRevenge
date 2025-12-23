@@ -78,11 +78,6 @@ func _ready() -> void:
 		if ball_data.texture:
 			apply_texture_to_ball(new_instance, ball_data.texture)
 		
-		if new_instance.has_method("_on_round_ended"):
-			player_ball.round_ended.connect(new_instance._on_round_ended)
-		else:
-			push_warning("Warning: Ball instance does not have 'on_round_ended'")
-		
 		i += 1
 	await get_tree().create_timer(0.3).timeout
 	_enable_scoring_for_all_balls()
