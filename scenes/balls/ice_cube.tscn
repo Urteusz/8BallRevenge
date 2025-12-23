@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://qixaw057h83p"]
 
 [ext_resource type="ArrayMesh" uid="uid://c54k7fcsvd8yl" path="res://models/ice_cube.obj" id="1_cgype"]
-[ext_resource type="Script" uid="uid://eqwmgb8nqnos" path="res://scenes/balls/scripts/ice_cube.gd" id="1_d5alu"]
+[ext_resource type="Script" uid="uid://eqwmgb8nqnos" path="res://scenes/balls/ice_cube.gd" id="1_d5alu"]
 [ext_resource type="Shader" uid="uid://djlyuw2r6bpxp" path="res://shaders/ice_ball.gdshader" id="2_d5alu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0110t"]
