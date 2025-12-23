@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cf7quccjpeclc"]
 
-[ext_resource type="Script" uid="uid://4xhn1y11l535" path="res://scenes/balls/ice_ball.gd" id="1_cvm7g"]
+[ext_resource type="Script" uid="uid://4xhn1y11l535" path="res://scenes/balls/scripts/ice_ball.gd" id="1_cvm7g"]
 [ext_resource type="Shader" uid="uid://djlyuw2r6bpxp" path="res://shaders/ice_ball.gdshader" id="5_qh7hg"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_svc1m"]
