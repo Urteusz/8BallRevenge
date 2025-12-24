@@ -127,6 +127,8 @@ func _on_ball_pocketed(ball):
 			turn_move_refunded = true
 			emit_signal("moves_changed", moves_left)
 			print("Bila wbita! Ruch zwrócony. Ruchy: ", moves_left)
+		if moves_left > 0 and player_ball:
+			player_ball.allow_shooting(true)
 		
 		emit_signal("ball_pocketed", ball.get_instance_id())
 		
