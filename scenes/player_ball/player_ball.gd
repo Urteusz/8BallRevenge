@@ -39,6 +39,7 @@ const SPIN_TORQUE_MULT: float = 0.02
 @onready var charge_ring: MeshInstance3D = $ChargeRing
 @onready var ball_radius: float = get_ball_radius()
 @onready var aim_line: MeshInstance3D = null
+@onready var audioStream = $AudioStreamPlayer3D
 
 var camera: Camera3D = null
 
@@ -159,6 +160,16 @@ func push_ball(impulse_power: float) -> void:
 	var impulse_vector = direction_to_camera * impulse_power
 
 	print_debug("Impulse_vector: ", impulse_vector)
+	
+	if audioStream:
+		var power_ratio = impulse_power / max_impulse_strength
+		
+		var min_volume_db = -40.0  # Ciche uderzenie
+		var max_volume_db = 0.0    # Głośne uderzenie
+		
+		audioStream.volume_db = lerp(min_volume_db, max_volume_db, power_ratio)
+		print("Volume:", audioStream.volume_db)
+		audioStream.play()
 	
 	# Logic for spin
 	if camera and "spin_offset" in camera:
