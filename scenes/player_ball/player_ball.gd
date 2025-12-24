@@ -164,8 +164,8 @@ func push_ball(impulse_power: float) -> void:
 	if audioStream:
 		var power_ratio = impulse_power / max_impulse_strength
 		
-		var min_volume_db = -40.0  # Ciche uderzenie
-		var max_volume_db = 0.0    # Głośne uderzenie
+		var min_volume_db = -20.0  # Ciche uderzenie
+		var max_volume_db = 2.0    # Głośne uderzenie
 		
 		audioStream.volume_db = lerp(min_volume_db, max_volume_db, power_ratio)
 		print("Volume:", audioStream.volume_db)
