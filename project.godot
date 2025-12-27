@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="8 Ball Revenge"
-run/main_scene="uid://b0a6ch7y3umcj"
+run/main_scene="uid://llnnq31pjuch"
 config/features=PackedStringArray("4.5", "Forward Plus")
 boot_splash/bg_color=Color(0.4745098, 0.52156866, 0.9843137, 1)
 boot_splash/show_image=false
@@ -27,9 +27,8 @@ Utils="*res://scripts/utils.gd"
 
 [display]
 
-window/size/viewport_width=1366
-window/size/viewport_height=768
-window/size/mode=3
+window/size/viewport_width=1280
+window/size/viewport_height=720
 window/size/resizable=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"

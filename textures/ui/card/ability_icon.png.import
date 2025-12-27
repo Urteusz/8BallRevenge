@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://h68cek51vakm"
-path.bptc="res://.godot/imported/icon.png-487276ed1e3a0c39cad0279d744ee560.bptc.ctex"
+uid="uid://d3qey8cts4l0c"
+path.s3tc="res://.godot/imported/ability_icon.png-39cd5ab1a1d6ea16e51e707b79f69f25.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,18 +11,18 @@ metadata={
 
 [deps]
 
-source_file="res://icon.png"
-dest_files=["res://.godot/imported/icon.png-487276ed1e3a0c39cad0279d744ee560.bptc.ctex"]
+source_file="res://textures/ui/card/ability_icon.png"
+dest_files=["res://.godot/imported/ability_icon.png-39cd5ab1a1d6ea16e51e707b79f69f25.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=true
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
-compress/normal_map=2
+compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1

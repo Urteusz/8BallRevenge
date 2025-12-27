@@ -1,0 +1,288 @@
+[gd_scene load_steps=30 format=3 uid="uid://llnnq31pjuch"]
+
+[ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_lbstg"]
+[ext_resource type="Script" uid="uid://unpugqfa43f" path="res://scenes/ui/card/ball.gd" id="3_fqdgi"]
+[ext_resource type="Texture2D" uid="uid://c4jraj5gbkx5q" path="res://textures/ui/card/card.png" id="3_lbstg"]
+[ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="3_oic6p"]
+[ext_resource type="Script" uid="uid://cul5khlq0sb3x" path="res://scenes/ui/card/card.gd" id="4_oic6p"]
+[ext_resource type="Shader" uid="uid://cr63kprmyipui" path="res://shaders/edge_detection_2.gdshader" id="4_xlr6i"]
+[ext_resource type="Shader" uid="uid://bvoh43dcinv1c" path="res://card_shine.gdshader" id="7_vr5dq"]
+[ext_resource type="Texture2D" uid="uid://d3qey8cts4l0c" path="res://textures/ui/card/ability_icon.png" id="7_xlr6i"]
+[ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="8_qvlte"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xlr6i"]
+shader = ExtResource("3_oic6p")
+shader_parameter/skyColor = Color(1, 1, 1, 1)
+shader_parameter/horizonColor = Color(0.1764706, 0.16862746, 0.7254902, 1)
+
+[sub_resource type="Sky" id="Sky_xlr6i"]
+sky_material = SubResource("ShaderMaterial_xlr6i")
+
+[sub_resource type="Environment" id="Environment_vr5dq"]
+background_mode = 2
+background_energy_multiplier = 1.34
+sky = SubResource("Sky_xlr6i")
+sky_rotation = Vector3(1.6842427, 0, 0)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lbstg"]
+load_path = "res://.godot/imported/icon.svg-3540dd99eafb6c4e602e8c59cee418fa.s3tc.ctex"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lbstg"]
+render_priority = 1
+shader = ExtResource("4_xlr6i")
+shader_parameter/shadows_enabled = true
+shader_parameter/highlights_enabled = true
+shader_parameter/shadow_strength = 0.4
+shader_parameter/highlight_strength = 0.1
+shader_parameter/highlight_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vr5dq"]
+render_priority = 2
+next_pass = SubResource("ShaderMaterial_lbstg")
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+grow = true
+grow_amount = 0.035
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fqdgi"]
+render_priority = 1
+next_pass = SubResource("StandardMaterial3D_vr5dq")
+transparency = 1
+albedo_texture = SubResource("CompressedTexture2D_lbstg")
+stencil_mode = 1
+stencil_flags = 2
+stencil_outline_thickness = 0.035
+
+[sub_resource type="SphereMesh" id="SphereMesh_xlr6i"]
+material = SubResource("StandardMaterial3D_fqdgi")
+radial_segments = 12
+rings = 6
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
+render_priority = -1
+shader = ExtResource("2_lbstg")
+shader_parameter/lineHighlight = 0.2
+shader_parameter/lineShadow = 0.7
+
+[sub_resource type="QuadMesh" id="QuadMesh_fqdgi"]
+lightmap_size_hint = Vector2i(12, 12)
+material = SubResource("ShaderMaterial_jsk3o")
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qvlte"]
+render_priority = 3
+shader = ExtResource("7_vr5dq")
+shader_parameter/albedo_texture = ExtResource("8_qvlte")
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/view_sharpness = 2.00000009174012
+shader_parameter/base_opacity = 0.0
+shader_parameter/uv_scale = 14.45600068340012
+shader_parameter/holo_intensity = 0.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pkhjp"]
+material = SubResource("ShaderMaterial_qvlte")
+size = Vector2(0.955, 1.205)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oic6p"]
+transparency = 1
+albedo_color = Color(0, 0, 0, 0)
+stencil_mode = 3
+stencil_flags = 2
+
+[sub_resource type="QuadMesh" id="QuadMesh_xlr6i"]
+material = SubResource("StandardMaterial3D_oic6p")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vr5dq"]
+load_path = "res://.godot/imported/icon.svg-3540dd99eafb6c4e602e8c59cee418fa.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qvlte"]
+render_priority = 1
+transparency = 1
+albedo_texture = SubResource("CompressedTexture2D_vr5dq")
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 2
+
+[sub_resource type="SphereMesh" id="SphereMesh_noarx"]
+material = SubResource("StandardMaterial3D_qvlte")
+radial_segments = 12
+rings = 6
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_oic6p"]
+viewport_path = NodePath("Card/SubViewportContainer/SubViewport/SubViewport2")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xlr6i"]
+resource_local_to_scene = true
+render_priority = 1
+transparency = 1
+albedo_texture = SubResource("ViewportTexture_oic6p")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_vr5dq"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_xlr6i")
+
+[node name="Node" type="Node"]
+
+[node name="Card" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Card" node_paths=PackedStringArray("card", "camera", "ball")]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 2
+script = ExtResource("4_oic6p")
+card = NodePath("SubViewport/Card")
+camera = NodePath("SubViewport/Camera3D")
+ball = NodePath("SubViewport/Card/Ball")
+
+[node name="SubViewport" type="SubViewport" parent="Card/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(640, 360)
+render_target_update_mode = 4
+
+[node name="SubViewport2" type="SubViewport" parent="Card/SubViewportContainer/SubViewport"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(32, 32)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Card/SubViewportContainer/SubViewport/SubViewport2"]
+environment = SubResource("Environment_vr5dq")
+
+[node name="Ball" type="Node3D" parent="Card/SubViewportContainer/SubViewport/SubViewport2" groups=["balls"]]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0, -0.49)
+script = ExtResource("3_fqdgi")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Card/SubViewportContainer/SubViewport/SubViewport2/Ball"]
+mesh = SubResource("SphereMesh_xlr6i")
+
+[node name="Camera3D" type="Camera3D" parent="Card/SubViewportContainer/SubViewport/SubViewport2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.8399042)
+fov = 55.4
+
+[node name="Camera3D" type="Camera3D" parent="Card/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5943346)
+fov = 55.4
+
+[node name="EdgeDetectionShader" type="MeshInstance3D" parent="Card/SubViewportContainer/SubViewport/Camera3D"]
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_fqdgi")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Card/SubViewportContainer/SubViewport"]
+environment = SubResource("Environment_vr5dq")
+
+[node name="Card" type="Sprite3D" parent="Card/SubViewportContainer/SubViewport"]
+shaded = true
+texture_filter = 0
+render_priority = 3
+texture = ExtResource("3_lbstg")
+region_enabled = true
+region_rect = Rect2(0, 0, 90, 128)
+
+[node name="ShineEffect" type="MeshInstance3D" parent="Card/SubViewportContainer/SubViewport/Card"]
+transform = Transform3D(0.87379694, 0, 0, 0, -5.3739104e-08, -1, 0, 1.2294074, -4.371139e-08, 0, 0, -0.0054369867)
+mesh = SubResource("PlaneMesh_pkhjp")
+
+[node name="StencilQuad" type="MeshInstance3D" parent="Card/SubViewportContainer/SubViewport/Card"]
+transform = Transform3D(0.82931876, 0, 0, 0, 1.2013617, 0, 0, 0, 1, 0, 0, -0.014705509)
+mesh = SubResource("QuadMesh_xlr6i")
+
+[node name="Ball" type="Node3D" parent="Card/SubViewportContainer/SubViewport/Card" groups=["balls"]]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0.22587633, -0.80165935)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Card/SubViewportContainer/SubViewport/Card/Ball"]
+mesh = SubResource("SphereMesh_noarx")
+
+[node name="Contents" type="Node3D" parent="Card/SubViewportContainer/SubViewport/Card"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.019672185)
+
+[node name="Mult" type="Label3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.9023083, -0.307, -0.511, 0)
+texture_filter = 0
+render_priority = 2
+outline_render_priority = 1
+text = "1x"
+outline_size = 4
+
+[node name="MultLabel" type="Label3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents"]
+transform = Transform3D(0.375, 0, 0, 0, 0.375, 0, 0, 0, 0.375, -0.21995443, -0.5394636, 0)
+texture_filter = 0
+render_priority = 2
+outline_render_priority = 1
+text = "mult"
+outline_size = 4
+
+[node name="Points" type="Label3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.379242, 0.3066361, -0.5106868, 0)
+texture_filter = 0
+render_priority = 2
+outline_render_priority = 1
+modulate = Color(0.58400005, 0.8, 0.512, 1)
+text = "100"
+outline_size = 4
+
+[node name="PointsLabel" type="Label3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents"]
+transform = Transform3D(0.375, 0, 0, 0, 0.375, 0, 0, 0, 0.375, 0.2604351, -0.44735003, 0)
+texture_filter = 0
+render_priority = 2
+outline_render_priority = 1
+text = "points"
+outline_size = 4
+
+[node name="Name" type="Label3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.1744113, -0.03228332, 0.44827944, 0)
+texture_filter = 0
+render_priority = 2
+outline_render_priority = 1
+text = "Ball"
+outline_size = 4
+
+[node name="IconQuad" type="MeshInstance3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents"]
+transform = Transform3D(0.27712524, 0, 0, 0, 0.27712524, 0, 0, 0, 1, -0.2754609, 0.44689935, 0)
+mesh = SubResource("QuadMesh_vr5dq")
+skeleton = NodePath("../..")
+
+[node name="AbilityIcon" type="Sprite3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents"]
+transform = Transform3D(0.445, 0, 0, 0, 0.445, 0, 0, 0, 0.445, -0.30798995, -0.06469199, 0)
+shaded = true
+texture_filter = 0
+render_priority = 2
+texture = ExtResource("7_xlr6i")
+
+[node name="Ability" type="Label3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents"]
+transform = Transform3D(0.855, 0, 0, 0, 0.855, 0, 0, 0, 0.855, -0.086, -0.058, 0)
+texture_filter = 0
+render_priority = 2
+outline_render_priority = 1
+text = "-"
+outline_size = 4
+
+[node name="Description" type="Label3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents"]
+transform = Transform3D(0.855, 0, 0, 0, 0.855, 0, 0, 0, 0.855, -0.086, -0.21976082, 0)
+texture_filter = 0
+render_priority = 2
+outline_render_priority = 1
+text = "Zwykła kula"
+outline_size = 4
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Card/SubViewportContainer"]
+transform = Transform3D(1, 0, 0, 0, 0.92998195, -0.3676052, 0, 0.3676052, 0.92998195, 0, 4.7247677, 0)
