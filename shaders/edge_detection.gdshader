@@ -8,6 +8,12 @@ uniform sampler2D NORMAL_TEXTURE : hint_normal_roughness_texture,
 uniform float lineHighlight = 0.2;
 uniform float lineShadow = 0.55;
 
+uniform float pixel_factor = 200.0;
+uniform float depth_scale = 0.5;
+uniform float depth_curve = 1.0;
+uniform bool use_depth_pixelization = true;
+uniform float min_pixel_size = 2.0;
+
 float GetLinearDepth(vec2 sUV, sampler2D depthTexture, mat4 invProjectionMat) {
   float depth = texture(depthTexture, sUV).x;
   vec3 ndc = vec3(sUV * 2.0 - 1.0, depth);
@@ -34,18 +40,28 @@ float NormalEdgeIndicator(vec3 normalEdgeBias, vec3 normal, vec3 neighborNormal,
 void vertex() { POSITION = vec4(VERTEX.xy, 1.0, 1.0); }
 
 void fragment() {
-  vec2 texelSize = 1.0 / VIEWPORT_SIZE.xy;
+  float depth = GetLinearDepth(SCREEN_UV, DEPTH_TEXTURE, INV_PROJECTION_MATRIX);
+
+  float grid = pixel_factor;
+  if (use_depth_pixelization) {
+    float curved_depth = pow(depth, depth_curve);
+    grid = pixel_factor / (curved_depth * depth_scale * 0.001);
+    grid = clamp(grid, 10.0, VIEWPORT_SIZE.y / min_pixel_size);
+  }
+  vec2 pixel_size = vec2(1.0) / vec2(grid * (VIEWPORT_SIZE.x / VIEWPORT_SIZE.y), grid);
+  vec2 pixel_uv = floor(SCREEN_UV / pixel_size) * pixel_size;
+  pixel_uv += pixel_size * 0.5;
+
+  depth = GetLinearDepth(pixel_uv, DEPTH_TEXTURE, INV_PROJECTION_MATRIX);
 
   vec2 UVOffsets[4];
-  UVOffsets[0] = SCREEN_UV + vec2(0.0, -1.0) * texelSize;
-  UVOffsets[1] = SCREEN_UV + vec2(0.0, 1.0) * texelSize;
-  UVOffsets[2] = SCREEN_UV + vec2(1.0, 0.0) * texelSize;
-  UVOffsets[3] = SCREEN_UV + vec2(-1.0, 0.0) * texelSize;
+  UVOffsets[0] = pixel_uv + vec2(0.0, -1.0) * pixel_size;
+  UVOffsets[1] = pixel_uv + vec2(0.0, 1.0) * pixel_size;
+  UVOffsets[2] = pixel_uv + vec2(1.0, 0.0) * pixel_size;
+  UVOffsets[3] = pixel_uv + vec2(-1.0, 0.0) * pixel_size;
 
   float depthDifference = 0.0;
   float invDepthDifference = 0.5;
-  float depth = GetLinearDepth(SCREEN_UV, DEPTH_TEXTURE, INV_PROJECTION_MATRIX);
-
   float safeDepth = depth + 0.0001;
 
   for (int i = 0; i < UVOffsets.length(); i++) {
@@ -65,7 +81,7 @@ void fragment() {
   depthDifference = smoothstep(0.25, 0.3, depthDifference);
 
   float normalDifference = 0.0;
-  vec3 normal = GetNormal(SCREEN_UV, NORMAL_TEXTURE);
+  vec3 normal = GetNormal(pixel_uv, NORMAL_TEXTURE);
   vec3 normalEdgeBias = (vec3(1.0, 1.0, 1.0));
   for (int i = 0; i < UVOffsets.length(); i++) {
     vec3 nOff = GetNormal(UVOffsets[i], NORMAL_TEXTURE);
@@ -76,7 +92,7 @@ void fragment() {
   normalDifference = clamp(normalDifference - invDepthDifference, 0.0, 1.0);
 
   float innerLines = clamp(normalDifference - depthDifference, 0.0, 1.0);
-  ALBEDO = texture(SCREEN_TEXTURE, SCREEN_UV).rgb;
+  ALBEDO = texture(SCREEN_TEXTURE, pixel_uv).rgb;
 
   ALBEDO += innerLines * lineHighlight;
   ALBEDO -= depthDifference * lineShadow;
