@@ -19,13 +19,15 @@
 render_priority = -1
 shader = ExtResource("2_5gynx")
 shader_parameter/lineHighlight = 0.2
-shader_parameter/lineShadow = 1.0
+shader_parameter/lineShadow = 0.55
+shader_parameter/line_thickness_start = 3.0000001425
+shader_parameter/line_thickness_end = 1.0
 shader_parameter/use_depth_pixelization = true
 shader_parameter/min_pixel_size = 1.0
-shader_parameter/pixelation_start_dist = 2.0
-shader_parameter/pixelation_end_dist = 20.0
-shader_parameter/pixel_density_start = 300.0
-shader_parameter/pixel_density_end = 50.0
+shader_parameter/pixelation_start_dist = 0.0
+shader_parameter/pixelation_end_dist = 100.0
+shader_parameter/pixel_density_start = 800.0
+shader_parameter/pixel_density_end = 400.0
 shader_parameter/distance_curve = 1.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_4arys"]
