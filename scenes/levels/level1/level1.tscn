@@ -191,8 +191,6 @@ height = 0.0
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" unique_id=1194765611 instance=ExtResource("12_e4fnj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 5.986272)
-max_charge_duration = 1.5
-max_impulse_strength = 4.0
 aim_line_ray_range = 30.0
 
 [node name="ReturnPosition" type="Node3D" parent="SubViewportContainer/SubViewport/Table" unique_id=946241637]
@@ -238,7 +236,6 @@ shape = SubResource("BoxShape3D_ei1ye")
 
 [node name="room" parent="SubViewportContainer/SubViewport" unique_id=26455145 instance=ExtResource("22_v0ouj")]
 transform = Transform3D(-4.882562e-07, 0, -11.17, 0, 11.17, 0, 11.17, 0, -4.882562e-07, 0, 5.65, 0)
-visible = false
 
 [node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport" unique_id=1620794859]
 

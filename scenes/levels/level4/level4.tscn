@@ -32,6 +32,18 @@ size = Vector2(2, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_k3l6j"]
 size = Vector3(38.535522, 1, 70.246826)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_3jq6i"]
+size = Vector3(4.189209, 1, 3.668579)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wocd4"]
+size = Vector3(4.20105, 1, 3.66156)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6w5mp"]
+size = Vector3(4.201355, 1, 3.6976929)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_doaon"]
+size = Vector3(2.6020508, 1, 2.5028076)
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_aj7ea"]
 viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/crt")
 
@@ -112,8 +124,6 @@ height = 0.0
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=898237223 instance=ExtResource("6_3eqw4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 10.219)
-max_charge_duration = 1.5
-max_impulse_strength = 4.0
 aim_line_ray_range = 30.0
 
 [node name="PocketsHitbox" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=1761862061 groups=["pockets"]]
@@ -178,6 +188,71 @@ spot_angle = 57.58
 
 [node name="ReturnPosition" type="Node3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=1907272141]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 10.219)
+
+[node name="Pockets" type="Node3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=360772031]
+
+[node name="Pocket0" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets" unique_id=228984691 groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02098322, -2, -13.377079)
+collision_mask = 5
+script = ExtResource("7_els6h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets/Pocket0" unique_id=1745937279]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04724121, 0, -0.10223389)
+shape = SubResource("BoxShape3D_3jq6i")
+
+[node name="Pocket1" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets" unique_id=1723835466 groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.439915, -2, -9.518261)
+collision_mask = 5
+script = ExtResource("7_els6h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets/Pocket1" unique_id=1649119399]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04724121, 0, -0.10223389)
+shape = SubResource("BoxShape3D_3jq6i")
+
+[node name="Pocket2" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets" unique_id=1939257554 groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.492776, -2, -9.499376)
+collision_mask = 5
+script = ExtResource("7_els6h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets/Pocket2" unique_id=202032439]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.048206806, 0, -0.0975647)
+shape = SubResource("BoxShape3D_wocd4")
+
+[node name="Pocket3" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets" unique_id=1565437456 groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.318109, -2, -0.01488781)
+collision_mask = 5
+script = ExtResource("7_els6h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets/Pocket3" unique_id=1612789436]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.041778564, 0, 0.11685181)
+shape = SubResource("BoxShape3D_6w5mp")
+
+[node name="Pocket4" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets" unique_id=502885680 groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.4377365, -2, -0.012871861)
+collision_mask = 5
+script = ExtResource("7_els6h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets/Pocket4" unique_id=266905020]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
+shape = SubResource("BoxShape3D_doaon")
+
+[node name="Pocket5" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets" unique_id=965215609 groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.449223, -2, 9.445588)
+collision_mask = 5
+script = ExtResource("7_els6h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets/Pocket5" unique_id=1478045293]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
+shape = SubResource("BoxShape3D_doaon")
+
+[node name="Pocket6" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets" unique_id=1502185059 groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.487967, -2, 9.406605)
+collision_mask = 5
+script = ExtResource("7_els6h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets/Pocket6" unique_id=836845203]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
+shape = SubResource("BoxShape3D_doaon")
 
 [node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport" unique_id=1793227647]
 
