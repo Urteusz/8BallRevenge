@@ -5,6 +5,7 @@
 .vscode/
 .idea
 *.tmp
+*.md
 
 # Nix
 .gcroots
