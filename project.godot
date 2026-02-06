@@ -33,7 +33,6 @@ Utils="*res://scripts/utils.gd"
 
 window/size/viewport_width=1366
 window/size/viewport_height=768
-window/size/mode=3
 window/size/resizable=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
