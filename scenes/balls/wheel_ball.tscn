@@ -8,7 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://kdsx5gv4esrg" path="res://models/Opona_plastic_0022_normal_4k.jpg" id="6_lg0b5"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rqvfc"]
-bounce = 0.3
+bounce = 0.5
+friction = 0.08
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sty5l"]
 resource_name = "Material.001"
@@ -138,11 +139,13 @@ points = PackedVector3Array(-0.50793654, -0.920607, -0.85708076, -0.09523809, -0
 
 [node name="BouncyBall" type="RigidBody3D"]
 transform = Transform3D(-0.99999434, -0.0033510625, 0, 0.0033510625, -0.99999434, 0, 0, 0, 1, 0, 0, 0)
+mass = 0.17
 physics_material_override = SubResource("PhysicsMaterial_rqvfc")
+gravity_scale = 1.0
 contact_monitor = true
 max_contacts_reported = 4
-linear_damp = 0.5
-angular_damp = 0.5
+linear_damp = 0.15
+angular_damp = 0.4
 script = ExtResource("1_ethup")
 hit_particles = ExtResource("2_akojh")
 hit_particles2 = ExtResource("3_jxina")

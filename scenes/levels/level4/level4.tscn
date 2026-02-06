@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://d3yctdgsrhiyc"]
+[gd_scene format=3 uid="uid://d3yctdgsrhiyc"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_v1bi6"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_5gynx"]
@@ -64,9 +64,9 @@ uv1_scale = Vector3(8.515, 8.515, 8.515)
 uv1_offset = Vector3(0, 0.61, 0)
 texture_filter = 0
 
-[node name="Node3D2" type="Node3D"]
+[node name="Node3D2" type="Node3D" unique_id=2031770271]
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=58865027]
 texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -76,24 +76,24 @@ grow_vertical = 2
 stretch = true
 stretch_shrink = 2
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=573835112]
 handle_input_locally = false
 audio_listener_enable_3d = true
 size = Vector2i(683, 384)
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball")]
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=1745560294 node_paths=PackedStringArray("player_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14432669, 1.4036087, 3.7672782)
 doppler_tracking = 2
 current = true
 script = ExtResource("1_v1bi6")
 player_ball = NodePath("../TableCircle2/PlayerBall")
 
-[node name="EdgeDetectionShader" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D"]
+[node name="EdgeDetectionShader" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D" unique_id=1911777402]
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_4arys")
 
-[node name="TableCircle2" parent="SubViewportContainer/SubViewport" instance=ExtResource("3_3g6gy")]
+[node name="TableCircle2" parent="SubViewportContainer/SubViewport" unique_id=937576895 instance=ExtResource("3_3g6gy")]
 
 [node name="Base" parent="SubViewportContainer/SubViewport/TableCircle2" index="0"]
 physics_material_override = SubResource("PhysicsMaterial_v1bi6")
@@ -101,7 +101,7 @@ physics_material_override = SubResource("PhysicsMaterial_v1bi6")
 [node name="TableCircleWalls" parent="SubViewportContainer/SubViewport/TableCircle2/Walls" index="1" node_paths=PackedStringArray("object_node")]
 object_node = NodePath("../../PlayerBall")
 
-[node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/TableCircle2" node_paths=PackedStringArray("game_manager", "player_ball")]
+[node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=42338452 node_paths=PackedStringArray("game_manager", "player_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55177164, 0)
 script = ExtResource("4_ydtoy")
 game_manager = NodePath("../../GameManager")
@@ -110,20 +110,22 @@ player_ball = NodePath("../PlayerBall")
 spread = 1.1
 height = 0.0
 
-[node name="PlayerBall" parent="SubViewportContainer/SubViewport/TableCircle2" instance=ExtResource("6_3eqw4")]
+[node name="PlayerBall" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=898237223 instance=ExtResource("6_3eqw4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 10.219)
+max_charge_duration = 1.5
+max_impulse_strength = 4.0
 aim_line_ray_range = 30.0
 
-[node name="PocketsHitbox" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2" groups=["pockets"]]
+[node name="PocketsHitbox" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=1761862061 groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.699977, -0.8570008, -13.004261)
 collision_mask = 5
 script = ExtResource("7_els6h")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/PocketsHitbox"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/PocketsHitbox" unique_id=689083971]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.82, -2.4804516, 13.176)
 shape = SubResource("BoxShape3D_k3l6j")
 
-[node name="SpotLight3D" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2"]
+[node name="SpotLight3D" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=1011121550]
 transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -9.815323, 7.2413635, -9.458632)
 light_color = Color(1, 1, 0.90588236, 1)
 light_energy = 8.59
@@ -133,7 +135,7 @@ spot_range = 100.777
 spot_attenuation = 0.83
 spot_angle = 57.58
 
-[node name="SpotLight3D2" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2"]
+[node name="SpotLight3D2" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=428616611]
 transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 9.425688, 7.2413635, -9.512537)
 light_color = Color(1, 1, 0.90588236, 1)
 light_energy = 8.59
@@ -143,7 +145,7 @@ spot_range = 100.777
 spot_attenuation = 0.83
 spot_angle = 57.58
 
-[node name="SpotLight3D3" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2"]
+[node name="SpotLight3D3" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=1389083224]
 transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 9.123747, 7.2413635, 9.0732155)
 light_color = Color(1, 1, 0.90588236, 1)
 light_energy = 8.59
@@ -153,7 +155,7 @@ spot_range = 100.777
 spot_attenuation = 0.83
 spot_angle = 57.58
 
-[node name="SpotLight3D4" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2"]
+[node name="SpotLight3D4" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=986860881]
 transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -9.280451, 7.2413635, 9.4897)
 light_color = Color(1, 1, 0.90588236, 1)
 light_energy = 8.59
@@ -163,7 +165,7 @@ spot_range = 100.777
 spot_attenuation = 0.83
 spot_angle = 57.58
 
-[node name="SpotLight3D5" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2"]
+[node name="SpotLight3D5" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=1073258702]
 transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 0, 7.241, 0)
 light_color = Color(1, 1, 0.90588236, 1)
 light_energy = 8.59
@@ -174,50 +176,50 @@ spot_range = 100.777
 spot_attenuation = 0.83
 spot_angle = 57.58
 
-[node name="ReturnPosition" type="Node3D" parent="SubViewportContainer/SubViewport/TableCircle2"]
+[node name="ReturnPosition" type="Node3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=1907272141]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 10.219)
 
-[node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport"]
+[node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport" unique_id=1793227647]
 
-[node name="crt2" type="Sprite3D" parent="SubViewportContainer/SubViewport/Tvs"]
+[node name="crt2" type="Sprite3D" parent="SubViewportContainer/SubViewport/Tvs" unique_id=2140353733]
 transform = Transform3D(4.2360706, 0, 0.16250448, 0, 5.2094855, 0, 1.8232888, 0, -0.3775489, 14.7416315, 7.986644, -29.54263)
 texture = SubResource("ViewportTexture_aj7ea")
 
-[node name="flat" type="SubViewport" parent="SubViewportContainer/SubViewport/Tvs"]
+[node name="flat" type="SubViewport" parent="SubViewportContainer/SubViewport/Tvs" unique_id=1334084159]
 size = Vector2i(426, 240)
 
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Tvs/flat"]
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Tvs/flat" unique_id=882220117]
 transform = Transform3D(0.8786859, 0.23918666, -0.41315958, -0.15516026, 0.9615342, 0.22666548, 0.45148242, -0.13506182, 0.88199884, -8.448279, 10.041564, 20.506062)
 
-[node name="crt" type="SubViewport" parent="SubViewportContainer/SubViewport/Tvs"]
+[node name="crt" type="SubViewport" parent="SubViewportContainer/SubViewport/Tvs" unique_id=285848808]
 size = Vector2i(160, 110)
 
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Tvs/crt"]
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Tvs/crt" unique_id=458007488]
 transform = Transform3D(-0.98378253, 0.019382963, -0.17831567, -0.004762233, 0.9909709, 0.13399237, 0.17930281, 0.13266854, -0.9748075, 0, 5.7684393, -15.326607)
 fov = 123.75
 
-[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui", "returnPoint")]
+[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=1490450740 node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui", "returnPoint")]
 script = ExtResource("8_2psii")
 player_ball = NodePath("../TableCircle2/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
 returnPoint = NodePath("../TableCircle2/ReturnPosition")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=607035429]
 environment = SubResource("Environment_jka67")
 
-[node name="ShopUI" parent="." instance=ExtResource("10_l0b7s")]
+[node name="ShopUI" parent="." unique_id=83626306 instance=ExtResource("10_l0b7s")]
 
-[node name="GameplayUI" parent="." instance=ExtResource("11_cuf1e")]
+[node name="GameplayUI" parent="." unique_id=160693144 instance=ExtResource("11_cuf1e")]
 
 [node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager", "shopUI")]
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
 shopUI = NodePath("../../ShopUI/ControlShop")
 
-[node name="room_colored_no_walls_no_guitar_array" parent="." instance=ExtResource("12_qoqow")]
+[node name="room_colored_no_walls_no_guitar_array" parent="." unique_id=1503506355 instance=ExtResource("12_qoqow")]
 transform = Transform3D(-5.1142325e-07, 0, -11.7, 0, 11.7, 0, 11.7, 0, -5.1142325e-07, 13.789251, -0.90031195, -28.744755)
 
-[node name="TableCircle" type="MeshInstance3D" parent="."]
+[node name="TableCircle" type="MeshInstance3D" parent="." unique_id=1160568923]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2181623, -1.586576, -3.3794482)
 mesh = ExtResource("13_67qms")
 surface_material_override/0 = SubResource("StandardMaterial3D_57pbt")

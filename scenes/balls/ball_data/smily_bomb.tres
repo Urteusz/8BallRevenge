@@ -1,4 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=6 format=4 uid="uid://bonj4bpc7rtmd"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://bonj4bpc7rtmd"]
 
 [ext_resource type="Shader" path="res://shaders/outline.gdshader" id="1_od3og"]
 

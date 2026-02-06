@@ -13,7 +13,7 @@ signal score_updated(new_total_points)
 var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 
 @export var base_value: int = 100
-@export var hit_cooldown: float = 0.1  # Czas w sekundach między zliczaniem zderzeń
+@export var hit_cooldown: float = 0.35  # Czas w sekundach między zliczaniem zderzeń
 
 var total_points: int = 0
 var total_bounces_round: int = 0

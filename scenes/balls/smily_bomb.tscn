@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=4 uid="uid://bvb4maqi2qftn"]
+[gd_scene format=4 uid="uid://bvb4maqi2qftn"]
 
 [ext_resource type="Script" uid="uid://daqmlvtkpk5vy" path="res://scenes/balls/scripts/explosive_bomb.gd" id="1_lgfus"]
 [ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="2_etd6p"]
@@ -11,7 +11,8 @@
 [ext_resource type="ArrayMesh" uid="uid://bonj4bpc7rtmd" path="res://scenes/balls/ball_data/smily_bomb.tres" id="9_etd6p"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hafg3"]
-bounce = 0.3
+friction = 0.05
+bounce = 0.5
 
 [sub_resource type="Gradient" id="Gradient_2vxl7"]
 offsets = PackedFloat32Array(0, 0.21501707, 0.8088737, 1)
@@ -136,16 +137,19 @@ shadow_mesh = SubResource("ArrayMesh_svn6p")
 [sub_resource type="SphereShape3D" id="SphereShape3D_lgfus"]
 radius = 0.5085822
 
-[node name="smiley_bomb" type="RigidBody3D" node_paths=PackedStringArray("smoke_effect", "shockwave_effect", "fuze_effect") groups=["balls"]]
+[node name="smiley_bomb" type="RigidBody3D" unique_id=281584411 node_paths=PackedStringArray("smoke_effect", "shockwave_effect", "fuze_effect") groups=["balls"]]
 collision_layer = 4
 collision_mask = 5
+mass = 0.17
 physics_material_override = SubResource("PhysicsMaterial_hafg3")
 continuous_cd = true
 contact_monitor = true
 max_contacts_reported = 4
-linear_damp = 0.5
-angular_damp = 0.5
+linear_damp = 0.15
+angular_damp = 0.4
 script = ExtResource("1_lgfus")
+extra_speed = 5.0
+explosion_force = 2.0
 smoke_effect = NodePath("Particles/SmokeBOOM")
 shockwave_effect = NodePath("Particles/WaveBOOM")
 fuze_effect = NodePath("Particles/fuzeParticle")
@@ -153,9 +157,9 @@ hit_particles = ExtResource("2_etd6p")
 hit_particles2 = ExtResource("3_y5st0")
 hit_particles3 = ExtResource("4_x2os8")
 
-[node name="Particles" type="Node3D" parent="."]
+[node name="Particles" type="Node3D" parent="." unique_id=933615368]
 
-[node name="SmokeBOOM" type="GPUParticles3D" parent="Particles"]
+[node name="SmokeBOOM" type="GPUParticles3D" parent="Particles" unique_id=1590480038]
 emitting = false
 amount = 50
 one_shot = true
@@ -165,7 +169,7 @@ process_material = SubResource("ParticleProcessMaterial_6mal5")
 draw_pass_1 = SubResource("QuadMesh_etd6p")
 script = ExtResource("3_kee82")
 
-[node name="WaveBOOM" type="GPUParticles3D" parent="Particles"]
+[node name="WaveBOOM" type="GPUParticles3D" parent="Particles" unique_id=1505871726]
 emitting = false
 amount = 500
 one_shot = true
@@ -174,7 +178,7 @@ process_material = SubResource("ShaderMaterial_2vxl7")
 draw_pass_1 = SubResource("QuadMesh_y3ptt")
 script = ExtResource("5_y3ptt")
 
-[node name="fuzeParticle" type="GPUParticles3D" parent="Particles"]
+[node name="fuzeParticle" type="GPUParticles3D" parent="Particles" unique_id=1308189455]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.46922243, 0.74374145, -0.008247852)
 amount = 25
 lifetime = 0.06999999999999999
@@ -184,20 +188,20 @@ collision_base_size = 0.5
 process_material = SubResource("ParticleProcessMaterial_y1nh3")
 draw_pass_1 = SubResource("QuadMesh_kee82")
 
-[node name="MeshInstance3D" type="Node3D" parent="."]
+[node name="MeshInstance3D" type="Node3D" parent="." unique_id=328959893]
 transform = Transform3D(1.25, 0, 0, 0, -5.4639237e-08, 1.25, 0, -1.25, -5.4639237e-08, 0, 0, 0)
 
-[node name="Sphere001" type="MeshInstance3D" parent="MeshInstance3D"]
+[node name="Sphere001" type="MeshInstance3D" parent="MeshInstance3D" unique_id=956250455]
 transform = Transform3D(0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, 0)
 mesh = ExtResource("9_etd6p")
 skeleton = NodePath("")
 
-[node name="Cylinder004" type="MeshInstance3D" parent="MeshInstance3D"]
+[node name="Cylinder004" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1007300883]
 transform = Transform3D(0.0254, 0, 0, 0, 0.0254, 0, 0, 0, 0.0254, 0, 0, 0)
 mesh = SubResource("ArrayMesh_lgfus")
 skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=470919516]
 shape = SubResource("SphereShape3D_lgfus")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1266938876]

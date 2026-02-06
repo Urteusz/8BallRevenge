@@ -42,7 +42,9 @@ signal targetting_center
 signal game_won
 
 var spin_offset: float = 0.0
+var vertical_spin_offset: float = 0.0
 const MAX_SPIN_OFFSET: float = 0.95
+const MAX_VERTICAL_SPIN_OFFSET: float = 0.95
 const SPIN_ADJUST_SPEED: float = 2.0
 
 func _ready() -> void:
@@ -64,13 +66,18 @@ func _process(delta: float) -> void:
 		spin_input += 1.0
 	if Input.is_physical_key_pressed(KEY_Q):
 		spin_input -= 1.0
-		
+
 	spin_offset += spin_input * SPIN_ADJUST_SPEED * delta
 	spin_offset = clamp(spin_offset, -MAX_SPIN_OFFSET, MAX_SPIN_OFFSET)
 
-	# Reset spin when moving camera
-	if abs(spin_input) > 0.001:
-		pass # Keep spin
+	var vertical_spin_input = 0.0
+	if Input.is_physical_key_pressed(KEY_W):
+		vertical_spin_input += 1.0
+	if Input.is_physical_key_pressed(KEY_S):
+		vertical_spin_input -= 1.0
+
+	vertical_spin_offset += vertical_spin_input * SPIN_ADJUST_SPEED * delta
+	vertical_spin_offset = clamp(vertical_spin_offset, -MAX_VERTICAL_SPIN_OFFSET, MAX_VERTICAL_SPIN_OFFSET)
 	
 	camera_current_radius = lerp(camera_current_radius, camera_target_radius, camera_lerp_speed * delta)
 	cursor_phi = clamp(cursor_phi, min_cursor_phi, max_cursor_phi)

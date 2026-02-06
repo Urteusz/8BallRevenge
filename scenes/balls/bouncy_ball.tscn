@@ -8,7 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://rch6oodcggpm" path="res://models/bouncy_ball_plastic_0022_normal_4k.jpg" id="6_213mc"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rqvfc"]
-bounce = 0.3
+bounce = 0.7
+friction = 0.05
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jbkhv"]
 albedo_texture = ExtResource("5_4lglp")
@@ -23,11 +24,13 @@ rings = 6
 
 [node name="BouncyBall" type="RigidBody3D"]
 transform = Transform3D(-0.99999994, 0, 8.742278e-08, 0, 0.99999994, 0, -8.742277e-08, 0, -1, 0, 0, 0)
+mass = 0.17
 physics_material_override = SubResource("PhysicsMaterial_rqvfc")
+gravity_scale = 1.0
 contact_monitor = true
 max_contacts_reported = 4
-linear_damp = 0.5
-angular_damp = 0.5
+linear_damp = 0.15
+angular_damp = 0.4
 script = ExtResource("1_rqvfc")
 hit_particles = ExtResource("2_213mc")
 hit_particles2 = ExtResource("3_jbkhv")

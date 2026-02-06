@@ -6,6 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/hit_particles/star_particles_3.tscn" id="4_1fjgl"]
 [ext_resource type="Texture2D" uid="uid://bdkeashrdtvd4" path="res://textures/balls/ball_magnet.png" id="5_12743"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mag01"]
+bounce = 0.5
+friction = 0.05
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_m23fj"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_25lsb"]
@@ -20,10 +24,13 @@ roughness = 0.15
 [node name="MagneticBall" type="RigidBody3D" groups=["balls"]]
 collision_layer = 4
 collision_mask = 5
+mass = 0.17
+physics_material_override = SubResource("PhysicsMaterial_mag01")
+gravity_scale = 1.0
 contact_monitor = true
 max_contacts_reported = 4
-linear_damp = 0.5
-angular_damp = 0.5
+linear_damp = 0.15
+angular_damp = 0.4
 script = ExtResource("1_25lsb")
 hit_particles = ExtResource("2_ntpfr")
 hit_particles2 = ExtResource("3_12743")

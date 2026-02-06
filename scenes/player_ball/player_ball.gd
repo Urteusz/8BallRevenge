@@ -13,9 +13,11 @@ const RING_ALPHA: float = 0.7
 const MIN_IMPULSE: float = 0.2
 
 # Stałe fizyki podkręcania
-const SPIN_CURVE_FORCE: float = 6.0
-const SPIN_DECAY: float = 0.5
-const SPIN_TORQUE_MULT: float = 0.02
+const SPIN_CURVE_FORCE: float = 4.5
+const SPIN_DECAY: float = 0.4
+const SPIN_TORQUE_MULT: float = 0.015
+const VERTICAL_SPIN_FORCE: float = 3.0
+const ROLLING_RESISTANCE_FACTOR: float = 0.15
 
 # Ustawienia uderzenia
 @export var max_charge_duration: float = 2.0
@@ -53,6 +55,7 @@ var can_shoot_flag: bool = true
 
 # Zmienne podkręcenia
 var spin_factor: float = 0.0
+var vertical_spin_factor: float = 0.0
 var spin_active: bool = false
 
 # Sygnały
@@ -87,7 +90,8 @@ func _process(delta: float) -> void:
 	
 	if spin_active:
 		spin_factor = move_toward(spin_factor, 0.0, SPIN_DECAY * delta)
-		if is_equal_approx(spin_factor, 0.0):
+		vertical_spin_factor = move_toward(vertical_spin_factor, 0.0, SPIN_DECAY * delta)
+		if is_equal_approx(spin_factor, 0.0) and is_equal_approx(vertical_spin_factor, 0.0):
 			spin_active = false
 
 func _input(event) -> void:
@@ -108,13 +112,37 @@ func _input(event) -> void:
 			emit_signal("shoot_requested")
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
-	if spin_active and !sleeping:
-		var lv = state.linear_velocity
-		var speed = lv.length()
-		if speed > 0.5:
-			var curve_dir = lv.cross(Vector3.UP).normalized()
-			var force = -curve_dir * spin_factor * SPIN_CURVE_FORCE
-			state.apply_central_force(force)
+	if sleeping:
+		return
+
+	var lv = state.linear_velocity
+	var speed = lv.length()
+	var angular_speed = angular_velocity.length()
+
+	# Automatyczne zatrzymanie przy bardzo niskich prędkościach
+	if speed < FULL_STOP_THRESHOLD and angular_speed < FULL_STOP_ANGULAR_THRESHOLD:
+		state.linear_velocity = Vector3.ZERO
+		state.angular_velocity = Vector3.ZERO
+		return
+
+	# Spin effects
+	if spin_active and speed > 0.5:
+		var forward_dir = lv.normalized()
+		var curve_dir = lv.cross(Vector3.UP).normalized()
+		state.apply_central_force(-curve_dir * spin_factor * SPIN_CURVE_FORCE)
+
+		if abs(vertical_spin_factor) > 0.05:
+			state.apply_central_force(forward_dir * vertical_spin_factor * VERTICAL_SPIN_FORCE)
+
+	# Rolling resistance
+	if speed > 0.5 and is_grounded:
+		var forward_dir = lv.normalized()
+		var rotation_axis = forward_dir.cross(Vector3.UP).normalized()
+		var target_angular = speed / ball_radius
+		var current_angular = angular_velocity.dot(rotation_axis)
+		var angular_diff = target_angular - current_angular
+		if abs(angular_diff) > 0.2:
+			state.apply_torque(rotation_axis * angular_diff * ROLLING_RESISTANCE_FACTOR)
 
 func can_shoot() -> bool:
 	if !camera:
@@ -174,16 +202,27 @@ func push_ball(impulse_power: float) -> void:
 	# Logic for spin
 	if camera and "spin_offset" in camera:
 		spin_factor = camera.spin_offset
-		spin_active = abs(spin_factor) > 0.05
-		# Reset camera spin after shooting
+		if "vertical_spin_offset" in camera:
+			vertical_spin_factor = camera.vertical_spin_offset
+			camera.vertical_spin_offset = 0.0
+		else:
+			vertical_spin_factor = 0.0
+		spin_active = abs(spin_factor) > 0.05 or abs(vertical_spin_factor) > 0.05
 		camera.spin_offset = 0.0
 	else:
 		spin_factor = 0.0
+		vertical_spin_factor = 0.0
 		spin_active = false
-		
+
 	if spin_active:
-		# spin_factor > 0 (Right hit) -> Torque +Y
-		apply_torque_impulse(Vector3.UP * spin_factor * max_impulse_strength * SPIN_TORQUE_MULT)
+		if abs(spin_factor) > 0.05:
+			apply_torque_impulse(Vector3.UP * spin_factor * max_impulse_strength * SPIN_TORQUE_MULT)
+		if abs(vertical_spin_factor) > 0.05:
+			var shot_dir = (camera.cursor_position - global_position).normalized()
+			shot_dir.y = 0
+			shot_dir = shot_dir.normalized()
+			var rotation_axis = shot_dir.cross(Vector3.UP).normalized()
+			apply_torque_impulse(rotation_axis * vertical_spin_factor * max_impulse_strength * SPIN_TORQUE_MULT)
 
 	apply_impulse(-impulse_vector, impulse_position)
 	emit_signal("ball_pushed", impulse_power)
