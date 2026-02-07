@@ -182,7 +182,7 @@ game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("11_cmsc5")
 player_ball = NodePath("../PlayerBall")
 spread = 1.1
-height = 0.0
+height = 0.1
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" unique_id=1253605234 instance=ExtResource("12_6axdp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 10.219)

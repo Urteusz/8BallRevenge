@@ -7,6 +7,7 @@ const BALLS_GROUP = "balls"
 @export var shop_ui: Control
 @export var gameplay_ui: Control
 @export var returnPoint: Node3D
+@export var star_score_treshold = 25000
 
 var moves_left: int
 var game_over := false
@@ -24,6 +25,7 @@ signal charging_updated(charge_ratio: float)
 signal charging_released
 signal ball_pocketed(ball_id: int)
 signal charging_paused
+signal player_win_with_score(score: int, treshould: int)
 
 func _ready() -> void:
 	moves_left = default_level_move_count
@@ -144,6 +146,7 @@ func _check_win_condition() -> bool:
 			PlayerData.advance_level()
 			emit_signal("points_changed", points)
 			emit_signal("player_win")
+			emit_signal("player_win_with_score",points,star_score_treshold)
 			print("WYGRANA! Pozostałe ruchy: ", moves_left)
 		return true
 	return false

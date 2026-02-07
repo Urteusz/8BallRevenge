@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://db71sbrfnx3y4"]
+[gd_scene load_steps=8 format=3 uid="uid://db71sbrfnx3y4"]
 
 [ext_resource type="Script" uid="uid://ctvxoy867ts7e" path="res://scenes/ui/gameplay_ui/gameplay_ui.gd" id="1_kgdaj"]
 [ext_resource type="FontFile" uid="uid://vcecbwh0vav0" path="res://fonts/BridgeParapet.ttf" id="3_2mbl5"]
@@ -29,6 +29,22 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 expand_margin_top = 4.0
 expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_win_bg"]
+bg_color = Color(0.08, 0.08, 0.12, 0.88)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.85, 0.3, 0.7)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+content_margin_left = 24.0
+content_margin_top = 20.0
+content_margin_right = 24.0
+content_margin_bottom = 20.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_vh4xn"]
 font_size = 27
@@ -110,32 +126,42 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Main Menu"
 
-[node name="WinWindow" type="VBoxContainer" parent="ControlGameplay"]
+[node name="WinWindow" type="PanelContainer" parent="ControlGameplay"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -217.5
-offset_top = -54.5
-offset_right = 217.5
-offset_bottom = 54.5
+offset_left = -220.0
+offset_top = -130.0
+offset_right = 220.0
+offset_bottom = 130.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_win_bg")
 
-[node name="LabelWin" type="Label" parent="ControlGameplay/WinWindow"]
+[node name="VBox" type="VBoxContainer" parent="ControlGameplay/WinWindow"]
 layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="LabelWin" type="Label" parent="ControlGameplay/WinWindow/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
+theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("3_2mbl5")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 44
+horizontal_alignment = 1
 
-[node name="GoToShop" type="Button" parent="ControlGameplay/WinWindow"]
+[node name="GoToShop" type="Button" parent="ControlGameplay/WinWindow/VBox"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "Przejdź do sklepu"
+size_flags_horizontal = 4
+custom_minimum_size = Vector2(200, 40)
+theme_override_fonts/font = ExtResource("3_2mbl5")
+theme_override_font_sizes/font_size = 22
+text = "Continue"
 
 [node name="PowerSlider" type="VBoxContainer" parent="ControlGameplay"]
 layout_mode = 1

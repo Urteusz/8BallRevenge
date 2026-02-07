@@ -6,8 +6,8 @@ extends Control
 @onready var win_window: Control = $"WinWindow"
 @onready var again_button: Button = $"GameOverWindow/AgainButton"
 @onready var exit_button: Button = $"GameOverWindow/ExitButton"
-@onready var win_label: Label = $"WinWindow/LabelWin"
-@onready var shop_button: Button = $"WinWindow/GoToShop"
+@onready var win_label: Label = $"WinWindow/VBox/LabelWin"
+@onready var shop_button: Button = $"WinWindow/VBox/GoToShop"
 @onready var slider: HSlider = $"PowerSlider/HSlider"
 @onready var hint_label: Label = $"HintLabel"
 @onready var ball_list_container: Container = $"BallListContainer"
@@ -36,8 +36,8 @@ func _ready() -> void:
 			game_manager.connect("moves_changed", _on_moves_changed)
 		if not game_manager.is_connected("player_died", _on_game_over):
 			game_manager.connect("player_died", _on_game_over)
-		if not game_manager.is_connected("player_win", _on_game_win):
-			game_manager.connect("player_win", _on_game_win)
+		if not game_manager.is_connected("player_win", _on_game_win_simple):
+			game_manager.connect("player_win", _on_game_win_simple)
 		if not game_manager.is_connected("charging_started", _on_charging_started):
 			game_manager.connect("charging_started", _on_charging_started)
 		if not game_manager.is_connected("charging_updated", _on_charging_updated):
@@ -48,6 +48,8 @@ func _ready() -> void:
 			game_manager.connect("ball_pocketed", _on_ball_pocketed)
 		if not game_manager.is_connected("charging_paused",_on_charging_paused):
 			game_manager.connect("charging_paused",_on_charging_paused)
+		if not game_manager.is_connected("player_win_with_score",_on_game_win):
+			game_manager.connect("player_win_with_score",_on_game_win)
 		if game_manager.has_method("get_level_balls"):
 			_initialize_ball_cards(game_manager.get_level_balls())
 		
@@ -113,15 +115,84 @@ func _on_game_over() -> void:
 	moves_count_label.text = ""
 	_enable_mouse()
 	
-func _on_game_win() -> void:
+func _on_game_win_simple() -> void:
+	pass
+
+func _on_game_win(score: int, threshold: int) -> void:
 	win_window.visible = true
-	win_label.text = "Poziom ukończony! GratulacjÄ™!"
+	win_label.text = "Level Complete!"
+	win_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_enable_mouse()
 	if ball_list_container:
 		ball_list_container.visible = false
 	if win_confetti:
 		win_confetti.restart()
 		win_confetti.emitting = true
+
+	# Oblicz gwiazdki
+	var star_count = 0
+	if threshold > 0:
+		var ratio = float(score) / float(threshold)
+		if ratio >= 1.0:
+			star_count = 3
+		elif ratio >= 0.66:
+			star_count = 2
+		elif ratio >= 0.33:
+			star_count = 1
+
+	# Label z wynikiem
+	var score_label = Label.new()
+	score_label.text = str(score) + " / " + str(threshold) + " pts"
+	score_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	score_label.add_theme_font_override("font", win_label.get_theme_font("font"))
+	score_label.add_theme_font_size_override("font_size", 26)
+	score_label.add_theme_color_override("font_color", Color(1.0, 0.9, 0.5, 1.0))
+	score_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	score_label.add_theme_constant_override("outline_size", 3)
+
+	# Kontener gwiazdek
+	var star_texture = preload("res://textures/star_texture.png")
+	var stars_container = HBoxContainer.new()
+	stars_container.alignment = BoxContainer.ALIGNMENT_CENTER
+	stars_container.add_theme_constant_override("separation", 12)
+
+	for i in 3:
+		var star = TextureRect.new()
+		star.texture = star_texture
+		star.custom_minimum_size = Vector2(72, 72)
+		star.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		star.pivot_offset = Vector2(36, 36)
+		if i < star_count:
+			star.modulate = Color(1.0, 0.95, 0.4, 1.0)
+		else:
+			star.modulate = Color(0.2, 0.2, 0.2, 0.35)
+		star.scale = Vector2.ZERO
+		stars_container.add_child(star)
+
+	# Separator przed przyciskiem
+	var spacer = Control.new()
+	spacer.custom_minimum_size = Vector2(0, 8)
+
+	# Wstaw elementy do VBox: LabelWin (0) -> score (1) -> stars (2) -> spacer (3) -> GoToShop (4)
+	var vbox = win_window.get_node("VBox")
+	vbox.add_child(score_label)
+	vbox.move_child(score_label, 1)
+	vbox.add_child(stars_container)
+	vbox.move_child(stars_container, 2)
+	vbox.add_child(spacer)
+	vbox.move_child(spacer, 3)
+
+	# Animacja gwiazdek - pojawiają się po kolei z efektem bounce
+	for i in 3:
+		var star = stars_container.get_child(i)
+		var delay = 0.3 + i * 0.25
+		var tween = create_tween()
+		tween.tween_interval(delay)
+		if i < star_count:
+			tween.tween_property(star, "scale", Vector2(1.3, 1.3), 0.2).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+			tween.tween_property(star, "scale", Vector2(1.0, 1.0), 0.15).set_ease(Tween.EASE_IN_OUT)
+		else:
+			tween.tween_property(star, "scale", Vector2(1.0, 1.0), 0.2).set_ease(Tween.EASE_OUT)
 
 func _on_try_again() -> void:
 	LoadManager.load_scene(PlayerData.get_level_path())

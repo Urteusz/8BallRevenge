@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cg7kh67k5p3w7"]
 
-[ext_resource type="Texture2D" uid="uid://crdq125c4lj8q" path="res://textures/Sprite-0001.png" id="1_7c1p3"]
+[ext_resource type="Texture2D" uid="uid://crdq125c4lj8q" path="res://textures/star_texture_old.png" id="1_7c1p3"]
 
 [sub_resource type="Curve" id="Curve_noarx"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.6, 0.81633925), -1.2293097, -1.2293097, 0, 0, Vector2(1, 0.08169544), 0.0, 0.0, 0, 0]

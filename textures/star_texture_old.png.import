@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://crdq125c4lj8q"
-path.s3tc="res://.godot/imported/Sprite-0001.png-c6fc72efb16a19d80d6e1c0c29270911.s3tc.ctex"
+path.s3tc="res://.godot/imported/star_texture_old.png-10d8eb17eddddfa2103109d6f73be1ee.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://textures/Sprite-0001.png"
-dest_files=["res://.godot/imported/Sprite-0001.png-c6fc72efb16a19d80d6e1c0c29270911.s3tc.ctex"]
+source_file="res://textures/star_texture_old.png"
+dest_files=["res://.godot/imported/star_texture_old.png-10d8eb17eddddfa2103109d6f73be1ee.s3tc.ctex"]
 
 [params]
 
