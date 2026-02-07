@@ -12,7 +12,7 @@ extends Marker3D
 @export var depth: float = 1.0  # Vertical (z-axis) distance between rows
 @export var height: float = 1.0 # Base height offset from the Marker3D
 
-@export var ball_radius: float = 0.05
+@export var ball_radius: float = 0.5
 
 func _ready() -> void:
 	if !ball_scene:

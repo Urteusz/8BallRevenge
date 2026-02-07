@@ -4,6 +4,12 @@ extends Area3D
 @export var uniParticles: UniParticles3D
 @export var start_color_entered: Color = Color.DARK_GREEN
 @export var end_color_entered: Color = Color.GREEN
+
+@export_group("Pocket Assist")
+@export var assist_radius: float = 1.5
+@export var assist_strength: float = 2.0
+@export var assist_max_speed: float = 1.0
+
 var og_gradient_texture
 var color_changed = false
 
@@ -11,6 +17,26 @@ func _ready() -> void:
 	body_entered.connect(_on_pocket_body_entered)
 	og_gradient_texture = GradientTexture1D.new()
 	print("Pocket ready, effect assigned: ", pocket_effect != null)
+
+func _physics_process(_delta: float) -> void:
+	if !uniParticles:
+		return
+
+	var target = uniParticles.global_position
+	for ball in get_tree().get_nodes_in_group("balls"):
+		if !is_instance_valid(ball) or !(ball is RigidBody3D):
+			continue
+
+		var distance = ball.global_position.distance_to(target)
+		if distance > assist_radius or distance < 0.01:
+			continue
+
+		if ball.linear_velocity.length() > assist_max_speed:
+			continue
+
+		var factor = 1.0 - (distance / assist_radius)
+		var direction = (target - ball.global_position).normalized()
+		ball.apply_central_force(direction * assist_strength * factor)
 
 func _on_pocket_body_entered(body: Node3D) -> void:
 	print("Body entered pocket: ", body.name, self.name)
