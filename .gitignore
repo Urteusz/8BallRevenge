@@ -6,6 +6,7 @@
 .idea
 *.tmp
 *.md
+*.dll
 
 # Nix
 .gcroots
