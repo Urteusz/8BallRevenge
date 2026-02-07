@@ -35,6 +35,7 @@ func _process(delta: float) -> void:
 	if color_changed && uniParticles:
 		await get_tree().create_timer(5.0).timeout
 		uniParticles.color_over_lifetime = og_gradient_texture
+		color_changed = false
 
 func _show_pocket_effect(pocket_position: Vector3) -> void:
 	if !pocket_effect:
