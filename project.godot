@@ -45,6 +45,12 @@ enabled=PackedStringArray("res://addons/UniParticles3D/plugin.cfg", "res://addon
 
 import/blender/enabled=false
 
+[global_group]
+
+table=""
+balls=""
+pockets=""
+
 [gui]
 
 theme/custom_font="uid://vcecbwh0vav0"

@@ -12,8 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="10_l0b7s"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="11_cuf1e"]
 [ext_resource type="PackedScene" uid="uid://cmg38wrvkqomi" path="res://models/room_colored_no_walls_no_guitar_array.glb" id="12_qoqow"]
-[ext_resource type="ArrayMesh" uid="uid://c225jign8gb1d" path="res://models/table_circle.obj" id="13_67qms"]
-[ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="14_d3s1f"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -65,13 +63,6 @@ glow_levels/7 = 4.75
 fog_light_color = Color(0.053076, 1.2914082e-05, 0.07270341, 1)
 fog_sky_affect = 0.276
 fog_height_density = 0.3105
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57pbt"]
-albedo_color = Color(7.3957176, 7.3957176, 7.3957176, 0.7019608)
-albedo_texture = ExtResource("14_d3s1f")
-uv1_scale = Vector3(8.515, 8.515, 8.515)
-uv1_offset = Vector3(0, 0.61, 0)
-texture_filter = 0
 
 [node name="Node3D2" type="Node3D" unique_id=2031770271]
 
@@ -175,7 +166,7 @@ spot_attenuation = 0.83
 spot_angle = 57.58
 
 [node name="ReturnPosition" type="Node3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=1907272141]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 10.219)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 7.4167576)
 
 [node name="Pockets" type="Node3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=360772031]
 
@@ -281,11 +272,6 @@ shopUI = NodePath("../../ShopUI/ControlShop")
 
 [node name="room_colored_no_walls_no_guitar_array" parent="." unique_id=1503506355 instance=ExtResource("12_qoqow")]
 transform = Transform3D(-5.1142325e-07, 0, -11.7, 0, 11.7, 0, 11.7, 0, -5.1142325e-07, 13.789251, -0.90031195, -28.744755)
-
-[node name="TableCircle" type="MeshInstance3D" parent="." unique_id=1160568923]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2181623, -1.586576, -3.3794482)
-mesh = ExtResource("13_67qms")
-surface_material_override/0 = SubResource("StandardMaterial3D_57pbt")
 
 [connection signal="game_won" from="SubViewportContainer/SubViewport/Camera3D" to="GameplayUI/ControlGameplay" method="_on_game_win"]
 [connection signal="targetting_center" from="SubViewportContainer/SubViewport/Camera3D" to="SubViewportContainer/SubViewport/TableCircle2/PlayerBall" method="_on_camera_3d_targetting_center"]
