@@ -20,7 +20,16 @@
 render_priority = -1
 shader = ExtResource("2_5gynx")
 shader_parameter/lineHighlight = 0.2
-shader_parameter/lineShadow = 0.7
+shader_parameter/lineShadow = 0.55
+shader_parameter/line_thickness_start = 3.0000001425
+shader_parameter/line_thickness_end = 1.0
+shader_parameter/use_depth_pixelization = true
+shader_parameter/min_pixel_size = 1.0
+shader_parameter/pixelation_start_dist = 1.0
+shader_parameter/pixelation_end_dist = 10.0
+shader_parameter/pixel_density_start = 300.0
+shader_parameter/pixel_density_end = 600.0
+shader_parameter/distance_curve = 1.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_4arys"]
 lightmap_size_hint = Vector2i(12, 12)
@@ -55,12 +64,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
-stretch_shrink = 2
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=573835112]
 handle_input_locally = false
 audio_listener_enable_3d = true
-size = Vector2i(683, 384)
+size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=1745560294 node_paths=PackedStringArray("player_ball")]
