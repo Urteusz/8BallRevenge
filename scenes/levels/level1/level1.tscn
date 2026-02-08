@@ -16,9 +16,8 @@
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_e4fnj"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="12_k3l6j"]
 [ext_resource type="PackedScene" uid="uid://bybt7gul7ksft" path="res://scenes/particles/pocketedBallEffect.tscn" id="14_lv1b3"]
-[ext_resource type="PackedScene" uid="uid://c5p7wknwk3n87" path="res://scenes/particles/particlePocketLoop1.tscn" id="15_or0go"]
+[ext_resource type="Texture2D" uid="uid://b3qrjp3b4ol7y" path="res://scenes/particles/level1_gradient.tres" id="15_ei1ye"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="16_5prdx"]
-[ext_resource type="AudioStream" uid="uid://r70yi321jyxk" path="res://sounds/Pocketed.wav" id="16_ei1ye"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="17_e4fnj"]
 [ext_resource type="PackedScene" uid="uid://cauu31m0rk4m3" path="res://models/room_colored_v2.glb" id="22_v0ouj"]
 
@@ -206,69 +205,44 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6, -2, -10.6)
 collision_mask = 5
 script = ExtResource("8_0em4h")
 pocket_effect = ExtResource("14_lv1b3")
+og_gradient_texture = ExtResource("15_ei1ye")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket1" unique_id=1042169933]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04724121, 0, -0.10223389)
 shape = SubResource("BoxShape3D_ke34q")
 
-[node name="UniParticles3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket1" unique_id=647004748 instance=ExtResource("15_or0go")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket1" unique_id=2061902239]
-stream = ExtResource("16_ei1ye")
-volume_db = 10.0
-
 [node name="Pocket2" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=1488209846 groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.6, -2, -10.6)
 collision_mask = 5
 script = ExtResource("8_0em4h")
+og_gradient_texture = ExtResource("15_ei1ye")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket2" unique_id=1472610125]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.048206806, 0, -0.0975647)
 shape = SubResource("BoxShape3D_lv1b3")
 
-[node name="UniParticles3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket2" unique_id=272305235 instance=ExtResource("15_or0go")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket2" unique_id=233494164]
-stream = ExtResource("16_ei1ye")
-volume_db = 10.0
-
 [node name="Pocket3" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=462342226 groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6, -2, 10.6)
 collision_mask = 5
 script = ExtResource("8_0em4h")
+og_gradient_texture = ExtResource("15_ei1ye")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket3" unique_id=458877571]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.041778564, 0, 0.11685181)
 shape = SubResource("BoxShape3D_or0go")
 
-[node name="UniParticles3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket3" unique_id=291871252 instance=ExtResource("15_or0go")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket3" unique_id=1255661428]
-stream = ExtResource("16_ei1ye")
-volume_db = 10.0
-
 [node name="Pocket4" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=59818240 groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.6, -2, 10.6)
 collision_mask = 5
 script = ExtResource("8_0em4h")
+og_gradient_texture = ExtResource("15_ei1ye")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket4" unique_id=1870221952]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
 shape = SubResource("BoxShape3D_ei1ye")
 
-[node name="UniParticles3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket4" unique_id=882019836 instance=ExtResource("15_or0go")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket4" unique_id=1940329750]
-stream = ExtResource("16_ei1ye")
-volume_db = 10.0
-
 [node name="room" parent="SubViewportContainer/SubViewport" unique_id=26455145 instance=ExtResource("22_v0ouj")]
 transform = Transform3D(-4.882562e-07, 0, -11.17, 0, 11.17, 0, 11.17, 0, -4.882562e-07, 0, 5.65, 0)
-visible = false
 
 [node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport" unique_id=1620794859]
 
