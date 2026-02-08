@@ -7,7 +7,8 @@ extends Control
 @onready var again_button: Button = $"GameOverWindow/AgainButton"
 @onready var exit_button: Button = $"GameOverWindow/ExitButton"
 @onready var win_label: Label = $"WinWindow/VBox/LabelWin"
-@onready var shop_button: Button = $"WinWindow/VBox/GoToShop"
+@onready var shop_button: Button = $"WinWindow/VBox/WinButtons/GoToShop"
+@onready var win_try_again_button: Button = $"WinWindow/VBox/WinButtons/TryAgainButton"
 @onready var slider: HSlider = $"PowerSlider/HSlider"
 @onready var hint_label: Label = $"HintLabel"
 @onready var ball_list_container: Container = $"BallListContainer"
@@ -29,6 +30,7 @@ func _ready() -> void:
 	again_button.pressed.connect(_on_try_again)
 	exit_button.pressed.connect(_on_main_menu)
 	shop_button.pressed.connect(_on_shop_button)
+	win_try_again_button.pressed.connect(_on_try_again)
 	_show_hint("Przytrzymaj LPM, aby naciągnąć siłę")
 	
 	if game_manager:
@@ -237,7 +239,15 @@ func _ignore_mouse() -> void:
 func _enable_mouse() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	_disable_camera_input()
 	
+func _disable_camera_input() -> void:
+	if !game_manager:
+		return
+	var camera = game_manager.get_viewport().get_camera_3d()
+	if camera and "input_enabled" in camera:
+		camera.input_enabled = false
+
 func _on_ball_score_updated(new_points: int, ball_id: int) -> void:
 	if ball_cards.has(ball_id):
 		ball_cards[ball_id].update_points(new_points)
