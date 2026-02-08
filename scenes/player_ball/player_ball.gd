@@ -20,8 +20,8 @@ const VERTICAL_SPIN_FORCE: float = 3.0
 const ROLLING_RESISTANCE_FACTOR: float = 0.15
 
 # Ustawienia uderzenia
-@export var max_charge_duration: float = 2.0
-@export var max_impulse_strength: float = 40.0
+@export var max_charge_duration: float = 1.5
+@export var max_impulse_strength: float = 4.0
 
 # Ustawienia podkręcenia
 @export var max_spin_offset: float = 0.7 

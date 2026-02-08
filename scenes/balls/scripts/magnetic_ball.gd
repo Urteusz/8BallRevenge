@@ -2,7 +2,7 @@ extends BallParent
 class_name MagneticBall
 
 @export var magnet_range: float = 5.0
-@export var magnet_force: float = 10.0
+@export var magnet_force: float = 1.0
 @export var magnet_time: float = 2.0
 @export var magnet_min_dist: float = 2.0
 

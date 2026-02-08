@@ -2,8 +2,8 @@ extends BallParent
 class_name BouncyBall
 
 # Konfiguracja
-@export var wall_bounce_multiplier: float = 2.0
-@export var ball_impact_dampening: float = 0.5
+@export var wall_bounce_multiplier: float = 1.3
+@export var ball_impact_dampening: float = 0.6
 @export var cooldown_time: float = 0.1
 @export var start_delay: float = 2.0 
 
@@ -59,7 +59,7 @@ func _on_body_entered(body_rid: RID, body: Node, body_shape_index: int, local_sh
 		
 		if abilities_enabled:
 			# Sprawdzenie prędkości, żeby nie przyspieszała przy toczeniu
-			if linear_velocity.length() > 2.0:
+			if linear_velocity.length() > 1.0:
 				linear_velocity = linear_velocity * wall_bounce_multiplier
 				print("Boost od ściany!")
 				_start_cooldown()
