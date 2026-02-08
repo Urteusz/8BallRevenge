@@ -29,6 +29,15 @@ render_priority = -1
 shader = ExtResource("2_awq8j")
 shader_parameter/lineHighlight = 0.2
 shader_parameter/lineShadow = 0.7
+shader_parameter/line_thickness_start = 3.0
+shader_parameter/line_thickness_end = 1.0
+shader_parameter/use_depth_pixelization = true
+shader_parameter/min_pixel_size = 1.0
+shader_parameter/pixelation_start_dist = 1.0
+shader_parameter/pixelation_end_dist = 10.0
+shader_parameter/pixel_density_start = 800.0
+shader_parameter/pixel_density_end = 650.0
+shader_parameter/distance_curve = 1.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_4arys"]
 lightmap_size_hint = Vector2i(12, 12)
