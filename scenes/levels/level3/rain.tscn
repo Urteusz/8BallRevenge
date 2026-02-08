@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://dw6wdal23hfvb"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_j3ki3"]
+particle_flag_align_y = true
+emission_shape = 3
+emission_box_extents = Vector3(10, 1, 15)
+gravity = Vector3(0, -20, 0)
+collision_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fp520"]
+render_priority = 2
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.22745098, 0, 0, 0.60784316)
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_fv0u7"]
+material = SubResource("StandardMaterial3D_fp520")
+size = Vector2(0.15, 1)
+
+[node name="Node3D" type="Node3D" unique_id=633303949]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=66863782]
+amount = 200
+lifetime = 2.0
+visibility_aabb = AABB(-10.983215, -42.4775, -15.971619, 21.977108, 44.468037, 31.970703)
+process_material = SubResource("ParticleProcessMaterial_j3ki3")
+draw_pass_1 = SubResource("QuadMesh_fv0u7")
