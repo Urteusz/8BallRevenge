@@ -12,13 +12,13 @@
 [ext_resource type="Shader" uid="uid://clb574yehf8oi" path="res://shaders/walls.gdshader" id="8_n1moy"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/level_script/walls.gd" id="9_wi5kd"]
 [ext_resource type="Script" uid="uid://bdvel67ub340k" path="res://scripts/level_script/ball_spawner.gd" id="10_e4fnj"]
-[ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="11_uj67f"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_e4fnj"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="12_k3l6j"]
 [ext_resource type="PackedScene" uid="uid://bybt7gul7ksft" path="res://scenes/particles/pocketedBallEffect.tscn" id="14_lv1b3"]
 [ext_resource type="Texture2D" uid="uid://b3qrjp3b4ol7y" path="res://scenes/particles/level1_gradient.tres" id="15_ei1ye"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="16_5prdx"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="17_e4fnj"]
+[ext_resource type="Environment" uid="uid://djfhsep4ykllx" path="res://scenes/levels/level1/blue_environment.tres" id="18_or0go"]
 [ext_resource type="PackedScene" uid="uid://cauu31m0rk4m3" path="res://models/room_colored_v2.glb" id="22_v0ouj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
@@ -92,20 +92,6 @@ viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/crt")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_1enmr"]
 viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/flat")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_aj7ea"]
-shader = ExtResource("11_uj67f")
-shader_parameter/skyColor = Color(1, 1, 1, 1)
-shader_parameter/horizonColor = Color(0.17737836, 0.16961, 0.72409153, 1)
-
-[sub_resource type="Sky" id="Sky_jka67"]
-sky_material = SubResource("ShaderMaterial_aj7ea")
-
-[sub_resource type="Environment" id="Environment_jka67"]
-background_mode = 2
-background_energy_multiplier = 1.34
-sky = SubResource("Sky_jka67")
-ambient_light_source = 3
 
 [node name="Node3D" type="Node3D" unique_id=1062246699]
 
@@ -275,7 +261,7 @@ gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
 returnPoint = NodePath("../Table/ReturnPosition")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=834417071]
-environment = SubResource("Environment_jka67")
+environment = ExtResource("18_or0go")
 
 [node name="ShopUI" parent="." unique_id=1101322657 instance=ExtResource("12_k3l6j")]
 
