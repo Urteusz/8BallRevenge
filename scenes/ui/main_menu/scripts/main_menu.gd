@@ -23,7 +23,7 @@ func _on_play_button_pressed() -> void:
 	await get_tree().create_timer(0.15).timeout
 	_lock_buttons()
 	play_button.set_pressed_no_signal(true)
-	LoadManager.load_scene(PlayerData.get_level_path())
+	LoadManager.load_scene(ScenePaths.LEVEL_SELECT_MAP)
 
 
 # moze lepiej by bylo sobie darowac ten loading screen tutaj

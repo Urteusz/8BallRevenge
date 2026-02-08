@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://dqiaw6l7xdlmq"]
+
+[ext_resource type="Script" uid="uid://cq3wpiv3jdl7r" path="res://scenes/ui/level_picker/LevelSelectMap.gd" id="1_v1yt6"]
+[ext_resource type="PackedScene" uid="uid://dn0f8x2al34c" path="res://scenes/ui/level_picker/level_node.tscn" id="2_c8iwr"]
+[ext_resource type="Texture2D" uid="uid://b8t6tcqys3kpe" path="res://textures/icon.png" id="3_c8iwr"]
+[ext_resource type="Texture2D" uid="uid://0vsg43jg66jo" path="res://textures/ui/sky.jpg" id="4_3w87r"]
+[ext_resource type="Texture2D" uid="uid://bprm7tbtkqlqu" path="res://textures/Level1.png" id="4_42bys"]
+[ext_resource type="Texture2D" uid="uid://dwmumqo6ck2at" path="res://textures/Level2.png" id="5_u1a7q"]
+[ext_resource type="Texture2D" uid="uid://c3ogfnoe7boj1" path="res://textures/Level4.png" id="6_umtao"]
+
+[node name="LevelSelectMap" type="Node2D" unique_id=1659165851 node_paths=PackedStringArray("start_node", "player_cursor", "line_drawer")]
+script = ExtResource("1_v1yt6")
+start_node = NodePath("LevelNode")
+player_cursor = NodePath("PlayerCursor")
+line_drawer = NodePath("ConnectionsLine")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=281847630]
+z_index = -2
+position = Vector2(688, 360)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_3w87r")
+
+[node name="ConnectionsLine" type="Line2D" parent="." unique_id=1021390176]
+z_index = -1
+width = 3.0
+default_color = Color(0.5, 0.5, 0.5, 0.6)
+
+[node name="LevelNode" parent="." unique_id=1985807940 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+position = Vector2(683, 650)
+level_scene_path = "res://scenes/levels/level1/level1.tscn"
+icon_texture = ExtResource("4_42bys")
+neighbors = [NodePath("../LevelNode2")]
+
+[node name="LevelNode2" parent="." unique_id=1251535289 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+position = Vector2(683, 451)
+level_number = 2
+level_scene_path = "res://scenes/levels/level2/level2.tscn"
+icon_texture = ExtResource("5_u1a7q")
+neighbors = [NodePath("../LevelNode3"), NodePath("../LevelNode4"), NodePath("../LevelNode")]
+
+[node name="LevelNode3" parent="." unique_id=271403790 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+position = Vector2(883, 200)
+level_number = 3
+level_scene_path = "res://scenes/levels/level3/level3.tscn"
+neighbors = [NodePath("../LevelNode2")]
+
+[node name="LevelNode4" parent="." unique_id=1154560400 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+position = Vector2(483, 200)
+level_number = 4
+level_scene_path = "res://scenes/levels/level4/level4.tscn"
+icon_texture = ExtResource("6_umtao")
+neighbors = [NodePath("../LevelNode2")]
+
+[node name="PlayerCursor" type="Sprite2D" parent="." unique_id=1856796641]
+z_index = 1
+position = Vector2(546, 650)
+texture = ExtResource("3_c8iwr")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1344224455]
+
+[node name="TotalStarsPanel" type="PanelContainer" parent="UI" unique_id=1222333444]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 80.0
+
+[node name="VBox" type="VBoxContainer" parent="UI/TotalStarsPanel" unique_id=1333444555]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/TotalStarsPanel/VBox" unique_id=1444555666]
+layout_mode = 2
+text = "Total Stars"
+horizontal_alignment = 1
+
+[node name="StarsLabel" type="Label" parent="UI/TotalStarsPanel/VBox" unique_id=1555666777]
+layout_mode = 2
+text = "0 / 12"
+horizontal_alignment = 1
+
+[node name="HintLabel" type="Label" parent="UI" unique_id=1666777888]
+offset_left = 20.0
+offset_top = 680.0
+offset_right = 450.0
+offset_bottom = 750.0
+text = "Arrow Keys / Click - Navigate
+Enter / Double-Click - Select Level
+ESC - Back to Menu"

@@ -10,6 +10,8 @@ const MAX_DECK_SIZE = 6
 
 var current_level: int = 1
 
+# Gwiazdki dla każdego poziomu {level_number: stars_earned}
+var level_stars: Dictionary = {}
 
 var red_ball_data = load("res://scenes/balls/ball_data/red_ball.tres")
 var black_ball_data = load("res://scenes/balls/ball_data/black_ball.tres")
@@ -115,7 +117,8 @@ func save_progress() -> void:
 	var save_data = {
 		"current_level": current_level,
 		"owned_balls": owned_balls,      # Zapisujemy listę stringów
-		"current_deck_ids": deck_as_strings # Zapisujemy listę stringów
+		"current_deck_ids": deck_as_strings, # Zapisujemy listę stringów
+		"level_stars": level_stars # Zapisujemy słownik gwiazdek
 	}
 	
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -148,7 +151,11 @@ func load_progress() -> void:
 				for ball_id in save_data.current_deck_ids:
 					if ball_data_map.has(ball_id):
 						current_deck.append(ball_data_map[ball_id])
-						
+
+			# Wczytaj gwiazdki
+			if save_data.has("level_stars"):
+				level_stars = save_data.level_stars
+
 			print("Wczytano postęp: Poziom ", current_level)
 		else:
 			print("ERROR: Uszkodzony plik zapisu")
@@ -174,3 +181,22 @@ func set_level(level: int) -> void:
 func advance_level() -> void:
 	current_level += 1
 	save_progress()
+
+# Zapisz gwiazdki dla danego poziomu (tylko jeśli jest lepszy wynik)
+func save_level_stars(level: int, stars: int) -> void:
+	stars = clamp(stars, 0, 3)
+	if not level_stars.has(level) or level_stars[level] < stars:
+		level_stars[level] = stars
+		save_progress()
+		print("Zapisano %d gwiazdek dla poziomu %d" % [stars, level])
+
+# Pobierz liczbę gwiazdek dla danego poziomu (0 jeśli nigdy nie ukończono)
+func get_level_stars(level: int) -> int:
+	return level_stars.get(level, 0)
+
+# Pobierz całkowitą liczbę gwiazdek
+func get_total_stars() -> int:
+	var total = 0
+	for stars in level_stars.values():
+		total += stars
+	return total

@@ -142,8 +142,9 @@ func _check_win_condition() -> bool:
 	if ball_list.size() == 0:
 		if !game_win and !game_over:
 			game_win = true
-			points = points * max(moves_left + 1, 1) 
-			PlayerData.advance_level()
+			points = points * max(moves_left + 1, 1)
+			# NIE inkrementujemy current_level tutaj - gwiazdki muszą być zapisane najpierw!
+			# PlayerData.advance_level() wywoła się w gameplay_ui po zapisaniu gwiazdek
 			emit_signal("points_changed", points)
 			emit_signal("player_win")
 			emit_signal("player_win_with_score",points,star_score_treshold)

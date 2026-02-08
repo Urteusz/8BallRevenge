@@ -5,7 +5,6 @@ extends Marker3D
 @export var ball_scene: PackedScene
 @export var player_ball: RigidBody3D
 
-# --- New variable to control the triangle size ---
 @export var num_rows: int = 3 # Defines the number of rows (e.g., 3 rows = 1+2+3=6 balls total)
 
 @export var spread: float = 1.0 # Horizontal distance between balls in a row

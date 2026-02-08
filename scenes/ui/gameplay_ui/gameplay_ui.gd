@@ -20,8 +20,12 @@ extends Control
 const BALL_CARD_SCENE = preload("res://scenes/ui/ball_cards/BallCard.tscn")
 
 var ball_cards: Dictionary = {}
+var played_level_number: int = 0
 
 func _ready() -> void:
+	# Zapisz numer poziomu na którym zaczynamy grać
+	played_level_number = PlayerData.current_level
+
 	if game_manager:
 		game_manager.gameplay_ui = self
 	
@@ -131,7 +135,6 @@ func _on_game_win(score: int, threshold: int) -> void:
 		win_confetti.restart()
 		win_confetti.emitting = true
 
-	# Oblicz gwiazdki
 	var star_count = 0
 	if threshold > 0:
 		var ratio = float(score) / float(threshold)
@@ -141,6 +144,11 @@ func _on_game_win(score: int, threshold: int) -> void:
 			star_count = 2
 		elif ratio >= 0.33:
 			star_count = 1
+
+	PlayerData.save_level_stars(played_level_number, star_count)
+
+	# Teraz możemy przejść do następnego poziomu
+	PlayerData.advance_level()
 
 	# Label z wynikiem
 	var score_label = Label.new()
@@ -156,14 +164,15 @@ func _on_game_win(score: int, threshold: int) -> void:
 	var star_texture = preload("res://textures/star_texture.png")
 	var stars_container = HBoxContainer.new()
 	stars_container.alignment = BoxContainer.ALIGNMENT_CENTER
-	stars_container.add_theme_constant_override("separation", 12)
+	stars_container.add_theme_constant_override("separation", 0)
 
 	for i in 3:
 		var star = TextureRect.new()
 		star.texture = star_texture
-		star.custom_minimum_size = Vector2(72, 72)
+		star.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		star.custom_minimum_size = Vector2(70, 70)
+		star.pivot_offset = Vector2(35, 35)
 		star.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		star.pivot_offset = Vector2(36, 36)
 		if i < star_count:
 			star.modulate = Color(1.0, 0.95, 0.4, 1.0)
 		else:
@@ -191,12 +200,14 @@ func _on_game_win(score: int, threshold: int) -> void:
 		var tween = create_tween()
 		tween.tween_interval(delay)
 		if i < star_count:
-			tween.tween_property(star, "scale", Vector2(1.3, 1.3), 0.2).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+			tween.tween_property(star, "scale", Vector2(1.2, 1.2), 0.2).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 			tween.tween_property(star, "scale", Vector2(1.0, 1.0), 0.15).set_ease(Tween.EASE_IN_OUT)
 		else:
+			# Szara gwiazdka
 			tween.tween_property(star, "scale", Vector2(1.0, 1.0), 0.2).set_ease(Tween.EASE_OUT)
-
 func _on_try_again() -> void:
+	# Wróć do poziomu na którym graliśmy (played_level_number został zapisany w _ready)
+	PlayerData.set_level(played_level_number)
 	LoadManager.load_scene(PlayerData.get_level_path())
 
 func _on_main_menu() -> void:
