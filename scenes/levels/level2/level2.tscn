@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="6_y6x3d"]
 [ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="8_0em4h"]
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/level_script/walls.gd" id="9_gv02k"]
+[ext_resource type="PackedScene" uid="uid://clx24yv8toc7u" path="res://scenes/particles/particlePocketLoop1_dust.tscn" id="10_ntc21"]
 [ext_resource type="ArrayMesh" uid="uid://bred5srnkyl76" path="res://models/dunes.obj" id="11_xqajj"]
 [ext_resource type="Texture2D" uid="uid://ryuc7kw1tsg3" path="res://textures/dunes_normal.png" id="12_71hwt"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_e4fnj"]
@@ -288,7 +289,7 @@ player_ball = NodePath("../PlayerBall")
 spread = 1.1
 height = 0.05
 
-[node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" unique_id=2136683101 instance=ExtResource("12_e4fnj")]
+[node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" unique_id=2136683101 groups=["playerBall"] instance=ExtResource("12_e4fnj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.749, 10.219)
 aim_line_ray_range = 30.0
 
@@ -307,6 +308,11 @@ script = ExtResource("8_0em4h")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04724121, 0, -0.10223389)
 shape = SubResource("BoxShape3D_ntc21")
 
+[node name="UniParticles3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket1" unique_id=647004748 instance=ExtResource("10_ntc21")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket1" unique_id=1065371304]
+
 [node name="Pocket2" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=1232067944 groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.259005, -3, -20.193884)
 collision_mask = 5
@@ -315,6 +321,11 @@ script = ExtResource("8_0em4h")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket2" unique_id=193642547]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.048206806, 0, -0.0975647)
 shape = SubResource("BoxShape3D_1d62k")
+
+[node name="UniParticles3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket2" unique_id=1586151616 instance=ExtResource("10_ntc21")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket2" unique_id=293518443]
 
 [node name="Pocket3" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=1816358065 groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.130113, -3, -0.005815983)
@@ -325,6 +336,11 @@ script = ExtResource("8_0em4h")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.041778564, 0, 0.11685181)
 shape = SubResource("BoxShape3D_385ab")
 
+[node name="UniParticles3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket3" unique_id=1020545301 instance=ExtResource("10_ntc21")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket3" unique_id=2107540266]
+
 [node name="Pocket4" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=905502849 groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.296869, -3, -0.0011827946)
 collision_mask = 5
@@ -333,6 +349,11 @@ script = ExtResource("8_0em4h")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket4" unique_id=315749926]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
 shape = SubResource("BoxShape3D_i8ch4")
+
+[node name="UniParticles3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket4" unique_id=32407909 instance=ExtResource("10_ntc21")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket4" unique_id=548840780]
 
 [node name="Pocket5" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=1042507805 groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.075001, -3, 20.465685)
@@ -343,6 +364,11 @@ script = ExtResource("8_0em4h")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
 shape = SubResource("BoxShape3D_i8ch4")
 
+[node name="UniParticles3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket5" unique_id=1330784796 instance=ExtResource("10_ntc21")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket5" unique_id=542450471]
+
 [node name="Pocket6" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=1362133255 groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.296869, -3, 20.44469)
 collision_mask = 5
@@ -351,6 +377,11 @@ script = ExtResource("8_0em4h")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket6" unique_id=1739333827]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
 shape = SubResource("BoxShape3D_i8ch4")
+
+[node name="UniParticles3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket6" unique_id=377903027 instance=ExtResource("10_ntc21")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket6" unique_id=1454360993]
 
 [node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=69998455 node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui", "returnPoint")]
 script = ExtResource("16_5prdx")
@@ -371,7 +402,7 @@ environment = ExtResource("13_pwggy")
 
 [node name="GameplayUI" parent="." unique_id=1501012411 instance=ExtResource("17_e4fnj")]
 
-[node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager", "shopUI")]
+[node name="ControlGameplay" parent="GameplayUI" index="0" unique_id=1377833409 node_paths=PackedStringArray("game_manager", "shopUI")]
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
 shopUI = NodePath("../../ShopUI/ControlShop")
 

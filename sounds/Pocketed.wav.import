@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://dtwieedoj8h0f"
-path="res://.godot/imported/Hit.wav-0eaad59a3b0deafb80a92c10d27bfc0e.sample"
+uid="uid://r70yi321jyxk"
+path="res://.godot/imported/Pocketed.wav-ed54ea27d3c28b9a10327a8738595042.sample"
 
 [deps]
 
-source_file="res://scenes/balls/sounds/Hit.wav"
-dest_files=["res://.godot/imported/Hit.wav-0eaad59a3b0deafb80a92c10d27bfc0e.sample"]
+source_file="res://sounds/Pocketed.wav"
+dest_files=["res://.godot/imported/Pocketed.wav-ed54ea27d3c28b9a10327a8738595042.sample"]
 
 [params]
 

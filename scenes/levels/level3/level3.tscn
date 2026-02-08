@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="11_cmsc5"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_6axdp"]
 [ext_resource type="ArrayMesh" uid="uid://db45xddkffhuq" path="res://models/room_colored_no_wall.obj" id="14_ep42e"]
+[ext_resource type="PackedScene" uid="uid://dk17qoap366eq" path="res://scenes/particles/particlePocketLoop1_hell.tscn" id="14_inyut"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="15_4o785"]
 [ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="16_fnoi6"]
 [ext_resource type="Environment" uid="uid://bfsgyk688j570" path="res://scenes/levels/level3/dark_red_environment.tres" id="16_w2rca"]
@@ -201,6 +202,9 @@ script = ExtResource("16_fnoi6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04724121, 0, -0.10223389)
 shape = SubResource("BoxShape3D_w2rca")
 
+[node name="UniParticles3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket1" unique_id=647004748 instance=ExtResource("14_inyut")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
 [node name="Pocket2" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=721833180 groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.6, -2, -10.6)
 collision_mask = 5
@@ -209,6 +213,9 @@ script = ExtResource("16_fnoi6")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket2" unique_id=485127445]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.048206806, 0, -0.0975647)
 shape = SubResource("BoxShape3D_inyut")
+
+[node name="UniParticles3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket2" unique_id=1500102450 instance=ExtResource("14_inyut")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Pocket3" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=1702289639 groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6, -2, 10.6)
@@ -219,6 +226,9 @@ script = ExtResource("16_fnoi6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.041778564, 0, 0.11685181)
 shape = SubResource("BoxShape3D_mn25p")
 
+[node name="UniParticles3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket3" unique_id=1420460930 instance=ExtResource("14_inyut")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
 [node name="Pocket4" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=1568401490 groups=["pockets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.6, -2, 10.6)
 collision_mask = 5
@@ -227,6 +237,9 @@ script = ExtResource("16_fnoi6")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket4" unique_id=1080371427]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
 shape = SubResource("BoxShape3D_wnlg8")
+
+[node name="UniParticles3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket4" unique_id=991053252 instance=ExtResource("14_inyut")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport" unique_id=948753180]
 
@@ -267,7 +280,7 @@ environment = ExtResource("16_w2rca")
 
 [node name="GameplayUI" parent="." unique_id=1082512869 instance=ExtResource("19_lsmej")]
 
-[node name="ControlGameplay" parent="GameplayUI" index="0" node_paths=PackedStringArray("game_manager", "shopUI")]
+[node name="ControlGameplay" parent="GameplayUI" index="0" unique_id=1377833409 node_paths=PackedStringArray("game_manager", "shopUI")]
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
 shopUI = NodePath("../../ShopUI/ControlShop")
 

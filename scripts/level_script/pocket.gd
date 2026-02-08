@@ -1,9 +1,12 @@
 extends Area3D
 
 @export var pocket_effect: PackedScene
-@export var uniParticles: UniParticles3D
-@export var start_color_entered: Color = Color.DARK_GREEN
-@export var end_color_entered: Color = Color.GREEN
+@onready var uniParticles = $UniParticles3D
+@onready var soundPocket = $AudioStreamPlayer3D 
+@export var firstColorBall: Color = Color.DARK_GREEN
+@export var lastColorBall: Color = Color.GREEN
+@export var firstColorPlayerBall: Color = Color.WEB_MAROON
+@export var lastColorPlayerBall: Color = Color.ORANGE_RED
 
 @export_group("Pocket Assist")
 @export var assist_radius: float = 1.5
@@ -11,11 +14,14 @@ extends Area3D
 @export var assist_max_speed: float = 1.0
 
 var og_gradient_texture
-var color_changed = false
+var color_reset_timer: SceneTreeTimer
+
+var snd_pocket = preload("res://sounds/Pocketed.wav")
+var snd_player = preload("res://sounds/Pocketed_player.wav")
 
 func _ready() -> void:
 	body_entered.connect(_on_pocket_body_entered)
-	og_gradient_texture = GradientTexture1D.new()
+	og_gradient_texture = uniParticles.color_over_lifetime
 	print("Pocket ready, effect assigned: ", pocket_effect != null)
 
 func _physics_process(_delta: float) -> void:
@@ -42,26 +48,28 @@ func _on_pocket_body_entered(body: Node3D) -> void:
 	print("Body entered pocket: ", body.name, self.name)
 	
 	if body is BallParent:
-		print("Body is BallParent!")
 		_show_pocket_effect(body.global_position)
-		
 		if uniParticles:
-			og_gradient_texture = uniParticles.color_over_lifetime
-			_set_particle_gradient_transition(uniParticles, start_color_entered, end_color_entered)
-		
-		
+			if body not in get_tree().get_nodes_in_group("playerBall"):
+				change_and_play_sound(snd_pocket)
+				_set_particle_gradient_transition(uniParticles, firstColorBall, lastColorBall)
+			else:
+				change_and_play_sound(snd_player)
+				_set_particle_gradient_transition(uniParticles, firstColorPlayerBall, lastColorPlayerBall)
+			_reset_particle_color_after_delay()
+			
+			
 		if body.has_method("pocketed"):
 			body.pocketed()
 		else:
 			push_warning("BallParent doesn't have pocketed() method")
-	else:
-		print("Body is NOT BallParent, it's: ", body.get_class())
 
-func _process(delta: float) -> void:
-	if color_changed && uniParticles:
-		await get_tree().create_timer(5.0).timeout
+func _reset_particle_color_after_delay():
+	color_reset_timer = get_tree().create_timer(5.0)
+	await color_reset_timer.timeout
+	color_reset_timer = null
+	if uniParticles:
 		uniParticles.color_over_lifetime = og_gradient_texture
-		color_changed = false
 
 func _show_pocket_effect(pocket_position: Vector3) -> void:
 	if !pocket_effect:
@@ -69,7 +77,7 @@ func _show_pocket_effect(pocket_position: Vector3) -> void:
 		return
 	
 	var effect_instance = pocket_effect.instantiate()
-	get_tree().root.add_child(effect_instance)
+	get_parent().add_child(effect_instance)
 	effect_instance.global_position = pocket_position
 
 	
@@ -86,4 +94,7 @@ func _set_particle_gradient_transition(particles: UniParticles3D, start_color: C
 	var gradient_texture = GradientTexture1D.new()
 	gradient_texture.gradient = gradient
 	particles.color_over_lifetime = gradient_texture
-	color_changed = true
+
+func change_and_play_sound(sound: AudioStream):
+	soundPocket.stream = sound
+	soundPocket.play()

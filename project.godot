@@ -50,6 +50,7 @@ import/blender/enabled=false
 table=""
 balls=""
 pockets=""
+playerBall=""
 
 [gui]
 
