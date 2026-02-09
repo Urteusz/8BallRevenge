@@ -26,9 +26,13 @@ func _on_body_entered(body_rid: RID, body: Node, body_shape_index: int, local_sh
 
 	if body.is_in_group("table"):
 		return
-	if not (body.is_in_group("balls") and body != self):
-		return
+
+	# If player ball, just score points without ninja mechanics (no stacks, no killing)
 	if body.name == "PlayerBall":
+		on_hit()  # Score points like normal ball
+		return
+
+	if not (body.is_in_group("balls") and body != self):
 		return
 
 	on_hit()
