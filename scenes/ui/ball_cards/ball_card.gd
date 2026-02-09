@@ -49,7 +49,7 @@ func setup_card(name_text: String, texture: Texture2D, ui_color: Color, points: 
 		
 		if texture != null:
 			var mesh = custom_ball.get_node_or_null("MeshInstance3D")
-			if mesh:
+			if mesh and mesh is MeshInstance3D:
 				var new_mat = StandardMaterial3D.new()
 				new_mat.albedo_texture = texture
 				mesh.material_override = new_mat
