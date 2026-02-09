@@ -27,14 +27,9 @@ func setup(ball_data: BallData) -> void:
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		clicked.emit(my_ball_data)
-
-func _process(delta: float) -> void:
-	if pivot.get_child_count() > 0:
-		pivot.rotate_y(0.5 * delta)
 		
 func _ready() -> void:
 	custom_minimum_size = Vector2(100, 100) 
-	stretch = true 
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	size_flags_vertical = Control.SIZE_EXPAND_FILL
 	mouse_filter = Control.MOUSE_FILTER_STOP

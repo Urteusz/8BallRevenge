@@ -6,7 +6,6 @@ extends PanelContainer
 @onready var points_label: Label = $VBoxContainer/PointsLabel
 @onready var particles: CPUParticles2D = $VBoxContainer/PointsLabel/CPUParticles2D
 
-var rotation_speed: float = 0.5
 var is_super_charged: bool = false
 
 func _ready() -> void:
@@ -15,8 +14,6 @@ func _ready() -> void:
 		sub_viewport.own_world_3d = true
 
 func _process(delta: float) -> void:
-	if ball_mesh and rotation_speed > 0:
-		ball_mesh.rotation.y += rotation_speed * delta
 	
 	if is_super_charged:
 		rotation_degrees = randf_range(-3.0, 3.0)
@@ -76,7 +73,6 @@ func setup_card(name_text: String, texture: Texture2D, ui_color: Color, points: 
 
 func set_pocketed() -> void:
 	modulate = Color(0.4, 0.4, 0.4, 0.5)
-	rotation_speed = 0.0
 
 func update_points(new_value: int) -> void:
 	if not points_label:

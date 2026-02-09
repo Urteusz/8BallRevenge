@@ -31,6 +31,8 @@ func _on_body_entered(body_rid: RID, body: Node, body_shape_index: int, local_sh
 	if body.name == "PlayerBall":
 		return
 
+	on_hit()
+
 	if charged:
 		# Charged - kill this ball
 		charged = false

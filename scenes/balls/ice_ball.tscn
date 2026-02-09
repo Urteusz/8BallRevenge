@@ -1,11 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://cf7quccjpeclc"]
+[gd_scene format=3 uid="uid://cf7quccjpeclc"]
 
 [ext_resource type="Script" uid="uid://4xhn1y11l535" path="res://scenes/balls/scripts/ice_ball.gd" id="1_cvm7g"]
 [ext_resource type="Shader" uid="uid://djlyuw2r6bpxp" path="res://shaders/ice_ball.gdshader" id="5_qh7hg"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_svc1m"]
-bounce = 0.5
 friction = 0.03
+bounce = 0.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_eie3b"]
 render_priority = 0
@@ -22,13 +22,11 @@ rings = 3
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a0tk4"]
 
-[node name="IceBall" type="RigidBody3D" groups=["balls"]]
-transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0, 0)
+[node name="IceBall" type="RigidBody3D" unique_id=48090986 groups=["balls"]]
 collision_layer = 4
 collision_mask = 5
 mass = 0.17
 physics_material_override = SubResource("PhysicsMaterial_svc1m")
-gravity_scale = 1.0
 continuous_cd = true
 contact_monitor = true
 max_contacts_reported = 9
@@ -36,15 +34,15 @@ linear_damp = 0.1
 angular_damp = 0.3
 script = ExtResource("1_cvm7g")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03813243, 0, 0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1262096670]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.03813243, 0, 0)
 mesh = SubResource("SphereMesh_noarx")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2070718771]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.030393125, 0, 0)
 shape = SubResource("SphereShape3D_a0tk4")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1948231978]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1228056, 0)
 volume_db = -14.545
 pitch_scale = 1.7

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://df2gj0u6puakx"]
+[gd_scene format=3 uid="uid://df2gj0u6puakx"]
 
 [ext_resource type="Script" uid="uid://ck73uptij78gx" path="res://scenes/balls/scripts/bouncy_ball.gd" id="1_rqvfc"]
 [ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="2_213mc"]
@@ -8,8 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://rch6oodcggpm" path="res://models/bouncy_ball_plastic_0022_normal_4k.jpg" id="6_213mc"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rqvfc"]
-bounce = 0.7
 friction = 0.05
+bounce = 0.7
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jbkhv"]
 albedo_texture = ExtResource("5_4lglp")
@@ -22,11 +22,10 @@ rings = 6
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_taxpf"]
 
-[node name="BouncyBall" type="RigidBody3D"]
-transform = Transform3D(-0.99999994, 0, 8.742278e-08, 0, 0.99999994, 0, -8.742277e-08, 0, -1, 0, 0, 0)
+[node name="BouncyBall" type="RigidBody3D" unique_id=387341127]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
 mass = 0.17
 physics_material_override = SubResource("PhysicsMaterial_rqvfc")
-gravity_scale = 1.0
 contact_monitor = true
 max_contacts_reported = 4
 linear_damp = 0.15
@@ -36,11 +35,12 @@ hit_particles = ExtResource("2_213mc")
 hit_particles2 = ExtResource("3_jbkhv")
 hit_particles3 = ExtResource("4_fb0j7")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=407152732]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=841872]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 layers = 4
 mesh = SubResource("SphereMesh_fb0j7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1400188947]
 shape = SubResource("SphereShape3D_taxpf")

@@ -205,9 +205,10 @@ script = ExtResource("1_ninja")
 hit_particles = ExtResource("2_ninja")
 hit_particles2 = ExtResource("3_ninja")
 hit_particles3 = ExtResource("4_ninja")
+base_value = 150
 
 [node name="NinjaMeshContainer" type="Node3D" parent="." unique_id=1501502849]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+transform = Transform3D(-2.1855694e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.1855694e-08, 0, 0, 0)
 
 [node name="Sphere" type="MeshInstance3D" parent="NinjaMeshContainer" unique_id=1975104484]
 mesh = SubResource("ArrayMesh_ird2t")

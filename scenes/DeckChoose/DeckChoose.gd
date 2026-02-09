@@ -16,8 +16,7 @@ const POSITIONS: Array = [
 	Vector3(0.0, 0.0, 0.0),
 ]
 const BALL_HOVER_Y_OFFSET: float = 0.5
-const BALL_ROTATION_SPEED: float = 1.0
-const BALL_VIEW_PITCH: float = 45.0
+const BALL_VIEW_PITCH: float = 70.0
 
 const INVENTORY_ITEM_SCENE = preload("res://scenes/DeckChoose/InventoryBallItem.tscn")
 
@@ -31,9 +30,42 @@ const INVENTORY_ITEM_SCENE = preload("res://scenes/DeckChoose/InventoryBallItem.
 @export var inventory_grid: Container
 
 var mode = Mode.DEFAULT
-var ball_original_position = Vector3.ZERO
+var ball_original_position_index: int = -1
 var ball_original_rotation = Vector3.ZERO
+var ball_original_local_rotation = Vector3.ZERO
 var ball_being_viewed: BallParent = null
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		if mode == Mode.BALL:
+			# Check if click is outside inventory panel
+			if panel_container and not _is_mouse_over_panel():
+				_return_ball_to_rack()
+				get_viewport().set_input_as_handled()
+
+func _is_mouse_over_panel() -> bool:
+	if not panel_container or not panel_container.visible:
+		return false
+	var mouse_pos = get_viewport().get_mouse_position()
+	var panel_rect = panel_container.get_global_rect()
+	return panel_rect.has_point(mouse_pos)
+
+func _return_ball_to_rack() -> void:
+	if not ball_being_viewed or ball_original_position_index == -1:
+		return
+
+	mode = Mode.DEFAULT
+	if panel_container:
+		panel_container.visible = false
+
+	# Get original position from POSITIONS array
+	var target_position = balls.to_global(POSITIONS[ball_original_position_index])
+
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_CUBIC)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(ball_being_viewed, "global_position", target_position, 0.6)
+	tween.parallel().tween_property(ball_being_viewed, "rotation", ball_original_local_rotation, 0.6)
 
 func _ready() -> void:
 	if "black" not in PlayerData.owned_balls:
@@ -114,12 +146,6 @@ func _swap_viewed_ball(new_ball_data: BallData) -> void:
 	ball_being_viewed = new_ball
 	_refresh_inventory_ui()
 
-func _process(delta_time: float) -> void:
-	if ball_being_viewed and mode == Mode.BALL:
-		var mesh = ball_being_viewed.get_node_or_null("MeshInstance3D")
-		if mesh:
-			mesh.rotate(Vector3.UP, BALL_ROTATION_SPEED * delta_time)
-
 func _spawn_balls() -> void:
 	if not PlayerData:
 		return
@@ -146,7 +172,16 @@ func _spawn_balls() -> void:
 
 		balls.add_child(ball)
 		ball.position = POSITIONS[i]
-		ball.global_rotation = Vector3(0.0, PI, 0.0)
+
+		# Reset rotation to zero first
+		ball.rotation = Vector3.ZERO
+
+		# Calculate direction to camera
+		var dir_to_cam = (camera.global_position - ball.global_position).normalized()
+		var angle_y = atan2(dir_to_cam.x, dir_to_cam.z) + PI
+		var angle_x = -asin(dir_to_cam.y)  # Pitch up towards camera
+
+		ball.rotation = Vector3(angle_x, angle_y, 0.0)
 		ball.freeze = true
 
 func _on_ball_mouse_entered(ball_node: Node3D) -> void:
@@ -178,9 +213,11 @@ func _on_ball_input_event(camera_node: Node, event: InputEvent, _pos: Vector3, _
 		match mode:
 			Mode.DEFAULT:
 				mode = Mode.BALL
-				ball_original_position = ball_node.global_position
-				ball_original_position.y = 0.0
+				# Find ball index in balls container
+				var ball_index = balls.get_children().find(ball_node)
+				ball_original_position_index = ball_index
 				ball_original_rotation = ball_node.global_rotation
+				ball_original_local_rotation = ball_node.rotation
 				ball_being_viewed = ball_node
 
 				var mesh = ball_node.get_node_or_null("MeshInstance3D")
@@ -189,26 +226,23 @@ func _on_ball_input_event(camera_node: Node, event: InputEvent, _pos: Vector3, _
 
 				var camera_forward = -camera.global_transform.basis.z
 				var target_pos = camera.global_position + (camera_forward * 3.0) + Vector3(-1.0, 0.0, 0.0)
-				var target_rotation = camera.global_rotation
-				target_rotation.x += deg_to_rad(BALL_VIEW_PITCH)
+
+				# Calculate simple rotation facing camera
+				var dir_to_cam = (camera.global_position - target_pos).normalized()
+				var target_angle_y = atan2(dir_to_cam.x, dir_to_cam.z) + PI
+				var target_angle_x = -asin(dir_to_cam.y)  # Pitch up towards camera
+
+				var target_rotation = Vector3(target_angle_x, target_angle_y, 0.0)
 
 				var tween = create_tween()
 				tween.set_trans(Tween.TRANS_CUBIC)
 				tween.set_ease(Tween.EASE_OUT)
 				tween.tween_property(ball_node, "global_position", target_pos, 0.6)
-				tween.parallel().tween_property(ball_node, "global_rotation", -target_rotation, 0.6)
+				tween.parallel().tween_property(ball_node, "rotation", target_rotation, 0.6)
 
 				if panel_container:
 					panel_container.visible = true
 
 			Mode.BALL:
 				if ball_node == ball_being_viewed:
-					mode = Mode.DEFAULT
-					if panel_container:
-						panel_container.visible = false
-
-					var tween = create_tween()
-					tween.set_trans(Tween.TRANS_CUBIC)
-					tween.set_ease(Tween.EASE_OUT)
-					tween.tween_property(ball_node, "global_position", ball_original_position, 0.6)
-					tween.parallel().tween_property(ball_node, "global_rotation", ball_original_rotation, 0.6)
+					_return_ball_to_rack()
