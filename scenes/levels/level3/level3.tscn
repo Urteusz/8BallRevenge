@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="18_kse3a"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="19_lsmej"]
 [ext_resource type="PackedScene" uid="uid://dlhbqkiwlq55b" path="res://models/bridge.glb" id="20_13qfw"]
+[ext_resource type="Script" uid="uid://cskdfigevu0cw" path="res://scenes/levels/level3/level3.gd" id="21_level3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -116,6 +117,7 @@ stencil_flags = 1
 stencil_compare = 2
 
 [node name="Node3D2" type="Node3D" unique_id=1727114999]
+script = ExtResource("21_level3")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1067483620]
 texture_filter = 1
@@ -287,7 +289,7 @@ shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
 returnPoint = NodePath("../Table/ReturnPosition")
 
-[node name="Node3D" parent="SubViewportContainer/SubViewport" unique_id=633303949 instance=ExtResource("17_mn25p")]
+[node name="RainParticle" parent="SubViewportContainer/SubViewport" unique_id=633303949 instance=ExtResource("17_mn25p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1778344470]
