@@ -13,9 +13,10 @@ var rotation_speed: float = 0.5
 var ball_id: String = ""
 var cost: int = 0
 
-func _process(delta: float) -> void:
-	if ball_mesh_node and rotation_speed > 0:
-		ball_mesh_node.rotation.y += rotation_speed * delta
+# Rotation disabled so ball textures are visible
+#func _process(delta: float) -> void:
+#	if ball_mesh_node and rotation_speed > 0:
+#		ball_mesh_node.rotation.y += rotation_speed * delta
 
 func setup_shop_item(id: String, data: Resource, is_owned: bool, player_points: int) -> void:
 	if not $VBoxContainer.has_node("Spacer"):
@@ -50,7 +51,7 @@ func setup_shop_item(id: String, data: Resource, is_owned: bool, player_points: 
 		ball_parent.add_child(custom_ball) 
 		
 		custom_ball.position = Vector3.ZERO
-		custom_ball.scale = Vector3(0.12, 0.12, 0.12)
+		custom_ball.scale = Vector3(0.15, 0.15, 0.15)
 		
 		if custom_ball is RigidBody3D:
 			custom_ball.freeze = true
