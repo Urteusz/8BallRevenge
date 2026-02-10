@@ -90,8 +90,91 @@ physics_material_override = SubResource("PhysicsMaterial_v1bi6")
 [node name="TableCircleWalls" parent="SubViewportContainer/SubViewport/TableCircle2/Walls" index="1" node_paths=PackedStringArray("object_node")]
 object_node = NodePath("../../PlayerBall")
 
+[node name="Lights" type="Node3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=181004710]
+
+[node name="SpotLight3D0" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2/Lights" unique_id=1011121550]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 0.021, 4, -13.377)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D1" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2/Lights" unique_id=428616611]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -9.44, 4, -9.518)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2/Lights" unique_id=1389083224]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 9.493, 4, -9.499)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2/Lights" unique_id=986860881]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -13.318, 4, -0.015)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2/Lights" unique_id=1073258702]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 13.438, 4, -0.013)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D5" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2/Lights" unique_id=1013743359]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -9.449, 4, 9.446)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D6" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2/Lights" unique_id=667491624]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 9.488, 4, 9.407)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D7" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2/Lights" unique_id=698166861]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 0.041, 4, 13.304)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLightCenter" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2/Lights" unique_id=1109794863]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 0, 4, 0)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 50.0
+spot_attenuation = 0.5
+spot_angle = 75.0
+
 [node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=42338452 node_paths=PackedStringArray("game_manager", "player_ball")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55177164, 0)
 script = ExtResource("4_ydtoy")
 game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("5_eofyo")
@@ -102,57 +185,6 @@ height = 0.0
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=898237223 groups=["playerBall"] instance=ExtResource("6_3eqw4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 10.219)
 aim_line_ray_range = 30.0
-
-[node name="SpotLight3D" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=1011121550]
-transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -9.815323, 7.2413635, -9.458632)
-light_color = Color(1, 1, 0.90588236, 1)
-light_energy = 8.59
-light_specular = 0.0
-light_bake_mode = 1
-spot_range = 100.777
-spot_attenuation = 0.5
-spot_angle = 57.58
-
-[node name="SpotLight3D2" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=428616611]
-transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 9.425688, 7.2413635, -9.512537)
-light_color = Color(1, 1, 0.90588236, 1)
-light_energy = 8.59
-light_specular = 0.0
-light_bake_mode = 1
-spot_range = 100.777
-spot_attenuation = 0.5
-spot_angle = 57.58
-
-[node name="SpotLight3D3" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=1389083224]
-transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 9.123747, 7.2413635, 9.0732155)
-light_color = Color(1, 1, 0.90588236, 1)
-light_energy = 8.59
-light_specular = 0.0
-light_bake_mode = 1
-spot_range = 100.777
-spot_attenuation = 0.5
-spot_angle = 57.58
-
-[node name="SpotLight3D4" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=986860881]
-transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -9.280451, 7.2413635, 9.4897)
-light_color = Color(1, 1, 0.90588236, 1)
-light_energy = 8.59
-light_specular = 0.0
-light_bake_mode = 1
-spot_range = 100.777
-spot_attenuation = 0.5
-spot_angle = 57.58
-
-[node name="SpotLight3D5" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=1073258702]
-transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 0, 7.241, 0)
-light_color = Color(1, 1, 0.90588236, 1)
-light_energy = 8.59
-light_specular = 0.0
-light_bake_mode = 1
-shadow_enabled = true
-spot_range = 100.777
-spot_attenuation = 0.5
-spot_angle = 57.58
 
 [node name="ReturnPosition" type="Node3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=1907272141]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 7.4167576)

@@ -5,6 +5,7 @@ extends Node
 @onready var sand_particles = $SubViewportContainer/SubViewport/Sandstorm/SandParticles
 @onready var world_env: WorldEnvironment = $WorldEnvironment
 @onready var wind_audio: AudioStreamPlayer3D = $SubViewportContainer/SubViewport/AudioStreamPlayer3D
+@onready var player = $SubViewportContainer/SubViewport/Table/PlayerBall
 
 const SANDSTORM_START_MOVE: int = 6
 const SANDSTORM_END_MOVE: int = 3
@@ -91,6 +92,8 @@ func _set_fog_density(density: float) -> void:
 		world_env.environment.fog_density = density
 
 func _process(delta: float) -> void:
+	if player:
+		wind_audio.global_position = player.global_transform.origin
 	# Płynne przejście mgły
 	if absf(current_fog - target_fog) > 0.0001:
 		current_fog = lerp(current_fog, target_fog, FOG_LERP_SPEED * delta)
