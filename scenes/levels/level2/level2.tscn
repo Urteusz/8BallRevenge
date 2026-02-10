@@ -188,7 +188,7 @@ shadow_mesh = SubResource("ArrayMesh_y0sjp")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ab27k"]
 render_priority = 0
 shader = ExtResource("4_gv02k")
-shader_parameter/albedo_color = Color(0.6, 0.5019608, 0, 1)
+shader_parameter/albedo_color = Color(0.6, 0.5019608, 0, 0.39215687)
 shader_parameter/object_position = Vector3(0, 0, 0)
 shader_parameter/visible_distance = 0.690000032775
 shader_parameter/invisible_distance = 6.7490003205775
