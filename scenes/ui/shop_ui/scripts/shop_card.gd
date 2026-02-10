@@ -80,14 +80,14 @@ func setup_shop_item(id: String, data: Resource, is_owned: bool, player_points: 
 
 func update_state(is_owned: bool, current_points: int) -> void:
 	if is_owned:
-		buy_button.text = "POSIADASZ"
+		buy_button.text = "OWNED"
 		buy_button.disabled = true
-		price_label.text = str(cost) + " pkt"
+		price_label.text = str(cost) + " pts"
 		# Fix zielonego odcienia:
 		modulate = Color.WHITE 
 	else:
-		buy_button.text = "KUP"
-		price_label.text = str(cost) + " pkt"
+		buy_button.text = "BUY"
+		price_label.text = str(cost) + " pts"
 		modulate = Color.WHITE
 		buy_button.disabled = (current_points < cost)
 

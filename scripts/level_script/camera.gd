@@ -64,10 +64,10 @@ func _process(delta: float) -> void:
 		_handle_joystick_input(delta)
 
 		var spin_input = 0.0
-		if Input.is_physical_key_pressed(KEY_E):
-			spin_input += 1.0
-		if Input.is_physical_key_pressed(KEY_Q):
+		if Input.is_physical_key_pressed(KEY_D):
 			spin_input -= 1.0
+		if Input.is_physical_key_pressed(KEY_A):
+			spin_input += 1.0
 
 		spin_offset += spin_input * SPIN_ADJUST_SPEED * delta
 		spin_offset = clamp(spin_offset, -MAX_SPIN_OFFSET, MAX_SPIN_OFFSET)

@@ -15,7 +15,7 @@ layout_mode = 2
 
 [node name="BallName" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "Bila"
+text = "Ball"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -45,7 +45,7 @@ mesh = SubResource("SphereMesh_4ycxe")
 
 [node name="PointsLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "Punkty"
+text = "Points"
 label_settings = SubResource("LabelSettings_4ycxe")
 horizontal_alignment = 1
 vertical_alignment = 1

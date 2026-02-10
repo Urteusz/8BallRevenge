@@ -110,7 +110,7 @@ func _on_points_updated(new_points: int) -> void:
 		_refresh_all_cards_state()
 
 func _update_points_display() -> void:
-	label_points.text = "Punkty: %d" % points
+	label_points.text = "Points: %d" % points
 
 func toggle_shop() -> void:
 	shop_open = !shop_open

@@ -185,7 +185,7 @@ size_flags_stretch_ratio = 0.05
 [node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
-text = "Nie ballatro"
+text = "Not Ballatro"
 horizontal_alignment = 1
 
 [node name="PlayButton" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]

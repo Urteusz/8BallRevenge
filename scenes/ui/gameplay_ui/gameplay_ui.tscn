@@ -197,7 +197,7 @@ offset_left = -40.0
 offset_top = -14.0
 grow_horizontal = 0
 grow_vertical = 0
-text = "Instrukcje"
+text = "Instructions"
 label_settings = SubResource("LabelSettings_vh4xn")
 
 [node name="WinConfetti" type="CPUParticles2D" parent="ControlGameplay" unique_id=1412567298]

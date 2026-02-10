@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/player_ball/spin_crosshair.gd" id="1_script"]
+
+[node name="SpinCrosshair" type="MeshInstance3D"]
+visible = false
+script = ExtResource("1_script")

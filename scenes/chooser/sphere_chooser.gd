@@ -29,7 +29,7 @@ func _process(delta: float) -> void:
 
 func _on_mouse_entered():
 	start_particles()
-	get_tree().call_group("tooltip_popup", "show_message", "BOMBA\nPo zderzeniu z innymi kulami wysyła fale uderzeniową.")
+	get_tree().call_group("tooltip_popup", "show_message", "BOMB\nOn collision with other balls, sends a shockwave.")
 	var current_mat = get_active_material(0)
 	
 	if current_mat and current_mat.next_pass and current_mat.next_pass.next_pass:

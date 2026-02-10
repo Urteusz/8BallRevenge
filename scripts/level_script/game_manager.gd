@@ -115,6 +115,8 @@ func _on_shoot_requested() -> void:
 			player_ball.charging = false
 			if player_ball.power_bar_root:
 				player_ball.power_bar_root.visible = false
+			if player_ball.crosshair:
+				player_ball.crosshair.visible = false
 			player_ball.charge_timer = 0.0
 			player_ball.current_power_ratio = 0.0
 			print("Brak ruchów! Poczekaj aż piłki staną.")
