@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="10_l0b7s"]
 [ext_resource type="Environment" uid="uid://cy12cdkgj0j71" path="res://scenes/levels/level4/purple_environment.tres" id="10_rnqjc"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="11_cuf1e"]
+[ext_resource type="PackedScene" uid="uid://llnnq31pjuch" path="res://scenes/ui/card/card.tscn" id="12_6w5mp"]
 [ext_resource type="PackedScene" uid="uid://cmg38wrvkqomi" path="res://models/room_colored_no_walls_no_guitar_array.glb" id="12_qoqow"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
@@ -21,15 +22,6 @@ render_priority = -1
 shader = ExtResource("2_5gynx")
 shader_parameter/lineHighlight = 0.2
 shader_parameter/lineShadow = 0.55
-shader_parameter/line_thickness_start = 3.0000001425
-shader_parameter/line_thickness_end = 1.0
-shader_parameter/use_depth_pixelization = true
-shader_parameter/min_pixel_size = 1.0
-shader_parameter/pixelation_start_dist = 1.0
-shader_parameter/pixelation_end_dist = 10.0
-shader_parameter/pixel_density_start = 800.0
-shader_parameter/pixel_density_end = 650.0
-shader_parameter/distance_curve = 1.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_4arys"]
 lightmap_size_hint = Vector2i(12, 12)
@@ -312,6 +304,11 @@ player_ball = NodePath("../TableCircle2/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
 returnPoint = NodePath("../TableCircle2/ReturnPosition")
+
+[node name="Card" parent="SubViewportContainer/SubViewport" unique_id=1279301074 node_paths=PackedStringArray("second_camera", "target") instance=ExtResource("12_6w5mp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.094708, 0)
+second_camera = NodePath("../Camera3D")
+target = NodePath("../Camera3D")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=607035429]
 environment = ExtResource("10_rnqjc")
