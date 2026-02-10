@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dwvvsp8vlx6fg"]
+[gd_scene format=3 uid="uid://cu8kb6pqex3my"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_25oin"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_256we"]
@@ -24,7 +24,6 @@
 [ext_resource type="ArrayMesh" uid="uid://0lxkj2gtk607" path="res://models/table5/Table 5 Fan.obj" id="20_j4hik"]
 [ext_resource type="Script" uid="uid://c1oek3r24c3fe" path="res://scenes/levels/level5/background.gd" id="21_auayw"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="21_n138t"]
-[ext_resource type="Shader" uid="uid://djlyuw2r6bpxp" path="res://shaders/ice_ball.gdshader" id="22_hjl00"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="22_tsu05"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
@@ -109,33 +108,6 @@ albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cc776"]
 albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_auayw"]
-load_path = "res://.godot/imported/icon.svg-3540dd99eafb6c4e602e8c59cee418fa.s3tc.ctex"
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hjl00"]
-albedo_texture = SubResource("CompressedTexture2D_auayw")
-emission_enabled = true
-emission = Color(0.09066976, 0.37184572, 0.62242526, 1)
-emission_energy_multiplier = 9.61
-
-[sub_resource type="SphereMesh" id="SphereMesh_slr8f"]
-material = SubResource("StandardMaterial3D_hjl00")
-radial_segments = 12
-rings = 6
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_eie3b"]
-render_priority = 0
-shader = ExtResource("22_hjl00")
-shader_parameter/base_color = Color(0.2, 0.6, 1, 1)
-shader_parameter/fresnel_power = 2.0
-shader_parameter/fresnel_intensity = 1.5
-shader_parameter/opacity = 0.842000039995
-
-[sub_resource type="SphereMesh" id="SphereMesh_noarx"]
-material = SubResource("ShaderMaterial_eie3b")
-radial_segments = 5
-rings = 3
 
 [node name="Node3D" type="Node3D" unique_id=1062246699]
 
@@ -363,32 +335,6 @@ max_emission_energy = 10.0
 star_distance_min = 3500.0
 star_distance_max = 3500.0
 star_base_size = 12.0
-
-[node name="root" type="Node3D" parent="SubViewportContainer/SubViewport/Background" unique_id=1061158029]
-
-[node name="planet1_pivot" type="Node3D" parent="SubViewportContainer/SubViewport/Background/root" unique_id=103472296]
-unique_name_in_owner = true
-
-[node name="planet1" type="Node3D" parent="SubViewportContainer/SubViewport/Background/root/planet1_pivot" unique_id=27658858]
-unique_name_in_owner = true
-transform = Transform3D(9.305, 0, 0, 0, 9.305, 0, 0, 0, 9.305, 0, 0, 36.15644)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Background/root/planet1_pivot/planet1" unique_id=721474558]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.03813243, 0, 0)
-mesh = SubResource("SphereMesh_slr8f")
-skeleton = NodePath("")
-
-[node name="planet2_pivot" type="Node3D" parent="SubViewportContainer/SubViewport/Background/root" unique_id=832562996]
-unique_name_in_owner = true
-
-[node name="planet2" type="Node3D" parent="SubViewportContainer/SubViewport/Background/root/planet2_pivot" unique_id=1977697930]
-unique_name_in_owner = true
-transform = Transform3D(17.555, 0, 0, 0, 17.555, 0, 0, 0, 17.555, 0, 0, 63.355778)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Background/root/planet2_pivot/planet2" unique_id=1262096670]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.03813243, 0, 0)
-mesh = SubResource("SphereMesh_noarx")
-skeleton = NodePath("")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=834417071]
 environment = ExtResource("19_7pm65")

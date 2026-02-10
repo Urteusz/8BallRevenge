@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://kvfi6lfgn235"]
+[gd_scene format=3 uid="uid://kvfi6lfgn235"]
 
 [ext_resource type="Script" uid="uid://bx3yeygfw7ttj" path="res://scenes/ui/shop_ui/scripts/shop_ui.gd" id="1_67u7h"]
 [ext_resource type="FontFile" uid="uid://vcecbwh0vav0" path="res://fonts/BridgeParapet.ttf" id="2_lbg84"]
@@ -9,9 +9,9 @@
 [sub_resource type="LabelSettings" id="LabelSettings_v1umv"]
 font_size = 45
 
-[node name="CanvasLayer" type="CanvasLayer"]
+[node name="CanvasLayer" type="CanvasLayer" unique_id=259890105]
 
-[node name="ControlShop" type="Control" parent="."]
+[node name="ControlShop" type="Control" parent="." unique_id=109149566]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,7 +22,7 @@ script = ExtResource("1_67u7h")
 shop_card_scene = ExtResource("2_p6g4p")
 items_to_sell = Array[String](["bomb", "speedy", "magnetic", "blue", "green", "magnetic_min"])
 
-[node name="LabelPoints" type="Label" parent="ControlShop"]
+[node name="LabelPoints" type="Label" parent="ControlShop" unique_id=1339122172]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
@@ -32,7 +32,7 @@ theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("2_lbg84")
 theme_override_font_sizes/font_size = 40
 
-[node name="ContinueContainer" type="VBoxContainer" parent="ControlShop"]
+[node name="ContinueContainer" type="VBoxContainer" parent="ControlShop" unique_id=935740085]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -45,28 +45,28 @@ offset_right = 76.5
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ControlShop/ContinueContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlShop/ContinueContainer" unique_id=2035332176]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ButtonNextLevel" type="Button" parent="ControlShop/ContinueContainer/HBoxContainer"]
+[node name="ButtonNextLevel" type="Button" parent="ControlShop/ContinueContainer/HBoxContainer" unique_id=1287452392]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Next Level"
 
-[node name="ButtonChoose" type="Button" parent="ControlShop/ContinueContainer/HBoxContainer"]
+[node name="ButtonChoose" type="Button" parent="ControlShop/ContinueContainer/HBoxContainer" unique_id=757927756]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Change Deck"
 
-[node name="MarginContainer" type="MarginContainer" parent="ControlShop/ContinueContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ControlShop/ContinueContainer" unique_id=1760195571]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.9
 
-[node name="ButtonsContainer" type="HBoxContainer" parent="ControlShop"]
+[node name="ButtonsContainer" type="HBoxContainer" parent="ControlShop" unique_id=437224440]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
@@ -83,7 +83,7 @@ grow_vertical = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="QuitButton" type="TextureButton" parent="ControlShop"]
+[node name="QuitButton" type="TextureButton" parent="ControlShop" unique_id=32830485]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 2
@@ -95,7 +95,7 @@ grow_vertical = 0
 texture_normal = ExtResource("10_v1umv")
 texture_pressed = ExtResource("11_p6g4p")
 
-[node name="PointsScored" type="Label" parent="ControlShop"]
+[node name="PointsScored" type="Label" parent="ControlShop" unique_id=1178252832]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
