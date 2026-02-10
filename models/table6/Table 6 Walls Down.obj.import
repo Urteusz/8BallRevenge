@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://561k8jx7u4wj"
+path="res://.godot/imported/Table 6 Walls Down.obj-35dc77a1d5ab6a9e9dfd1c8b73ba4dd5.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Table 6 Walls Down.obj-35dc77a1d5ab6a9e9dfd1c8b73ba4dd5.mesh"]
+
+source_file="res://models/table6/Table 6 Walls Down.obj"
+dest_files=["res://.godot/imported/Table 6 Walls Down.obj-35dc77a1d5ab6a9e9dfd1c8b73ba4dd5.mesh", "res://.godot/imported/Table 6 Walls Down.obj-35dc77a1d5ab6a9e9dfd1c8b73ba4dd5.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
