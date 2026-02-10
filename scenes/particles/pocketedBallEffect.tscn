@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bybt7gul7ksft"]
+
+[ext_resource type="Script" uid="uid://c2ja1eugyxfeq" path="res://addons/UniParticles3D/UniParticles3D.gd" id="1_h1wx6"]
+
+[sub_resource type="Curve" id="Curve_or0go"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.47293448, 0.48991036), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_ei1ye"]
+offsets = PackedFloat32Array(0, 0.31347963, 0.78369904)
+colors = PackedColorArray(0.62356675, 0.7731671, 0.027141508, 1, 0.7137255, 0.49411765, 0, 1, 0.77254903, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_m6d3i"]
+gradient = SubResource("Gradient_ei1ye")
+
+[node name="UniParticles3D" type="Node3D" unique_id=647004748]
+script = ExtResource("1_h1wx6")
+start_size_constant = Vector2(0.1, 0.15)
+enable_play_behavior = Vector2i(1, 1)
+loop = false
+enable_emission = Vector2i(1, 1)
+rate_over_time = 100.0
+rate_over_distance = 50.0
+enable_shape = Vector2i(1, 0)
+radius = 1.0
+enable_size_over_lifetime = Vector2i(1, 0)
+size_over_lifetime = SubResource("Curve_or0go")
+enable_color_over_lifetime = Vector2i(1, 1)
+color_over_lifetime = SubResource("GradientTexture1D_m6d3i")
+enable_rendering = Vector2i(1, 1)
+render_priority = 2
+metadata/_custom_type_script = "uid://c2ja1eugyxfeq"

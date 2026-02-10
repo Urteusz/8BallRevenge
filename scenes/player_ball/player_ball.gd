@@ -1,54 +1,68 @@
 extends BallParent
 
-enum Phase { AIMING, MOVING }
+# Progi prędkości dla możliwości strzelania
+const SHOOTABLE_VELOCITY_THRESHOLD: float = 3.0
+const SHOOTABLE_ANGULAR_THRESHOLD: float = 2.0
 
-# Progi prędkości dla możliwości strzelania (bardziej liberalne niż pełne zatrzymanie)
-const SHOOTABLE_VELOCITY_THRESHOLD: float = 3 
-const SHOOTABLE_ANGULAR_THRESHOLD: float = 2
-
-# Minimalna prędkość po której uznajemy, że kula CAŁKOWICIE stoi (dla round_ended)
+# Minimalna prędkość po której uznajemy, że kula CAŁKOWICIE stoi
 const FULL_STOP_THRESHOLD: float = 0.1
 const FULL_STOP_ANGULAR_THRESHOLD: float = 0.15
 
-# Ile czasu program czeka aby uznać, że kula na pewno się zatrzymała
-const STOP_DELAY: float = 0.4
+# Stałe uderzenia
 const RING_ALPHA: float = 0.7
 const MIN_IMPULSE: float = 0.2
 
-# Ustawienia uderzenia
-@export var max_charge_duration: float = 1.0
-@export var max_impulse_strength: float = 30.0
+# Stałe fizyki podkręcania
+const SPIN_CURVE_FORCE: float = 4.5
+const SPIN_DECAY: float = 0.4
+const SPIN_TORQUE_MULT: float = 0.015
+const VERTICAL_SPIN_FORCE: float = 3.0
+const ROLLING_RESISTANCE_FACTOR: float = 0.15
 
-# Kolory pierścienia ładowania strzału (słaby -> średni -> mocny)
+# Ustawienia uderzenia
+@export var max_charge_duration: float = 1.5
+@export var max_impulse_strength: float = 4.0
+
+# Ustawienia podkręcenia
+@export var max_spin_offset: float = 0.7 
+@export var spin_change_speed: float = 1.8 
+@export var spin_indicator_max_offset_visual: float = 0.5
+
+# Kolory pierścienia ładowania strzału
 @export var weak_charge_color := Color(0.0, 1.0, 0.0, 1.0)
 @export var medium_charge_color := Color(1.0, 1.0, 0.0, 1.0)
 @export var strong_charge_color := Color(1.0, 0.0, 0.0, 1.0)
 
+# Długość lini pomocniczej
 @export var aim_line_ray_range: float = 20.0
 
 # Ścieżki
 @onready var collision_shape := $CollisionShape3D
 @onready var charge_ring: MeshInstance3D = $ChargeRing
-#@onready var animation_player := $AnimationPlayer
-# Bezpieczne pobranie control_gameplay (może nie istnieć)
-@onready var control_gameplay = get_node_or_null("/root/Node3D/GameplayUI/ControlGameplay")
-
 @onready var ball_radius: float = get_ball_radius()
 @onready var aim_line: MeshInstance3D = null
+@onready var audioStream = $AudioStreamPlayer3D
+
+var camera: Camera3D = null
 
 var ring_material: StandardMaterial3D = null
-var hit_position: Vector3 # Pozycja kursora/kamery w momencie rozpoczęcia ładowania strzału
 var charging: bool = false
 var charge_timer: float = 0.0
+var hit_position: Vector3
 var aimed_at_ball: BallParent = null
-var camera: Camera3D = null
-var current_phase: Phase = Phase.AIMING
-var stop_timer: float = 0.0 # patrzy STOP_DELAY wyżej
-var is_grounded: bool = false  # Czy piłka dotyka podłoża
+var is_grounded: bool = false
+var can_shoot_flag: bool = true
 
+# Zmienne podkręcenia
+var spin_factor: float = 0.0
+var vertical_spin_factor: float = 0.0
+var spin_active: bool = false
+
+# Sygnały
 signal ball_pushed(impulse_power: float)
-signal round_ended
-
+signal charging_cancelled
+signal turn_started
+signal shoot_requested
 
 func _ready() -> void:
 	camera = get_viewport().get_camera_3d()
@@ -61,32 +75,24 @@ func _ready() -> void:
 
 	setup_charge_ring()
 	create_aim_line_mesh()
-	# Wejście w stan AIMING na starcie
-	_enter_aiming_state()
-
+	sleeping = true
 
 func _process(delta: float) -> void:
 	if charging and camera and charge_ring:
 		_animate_charge_ring(delta)
-
+	
 	_check_ground_contact()
-
-	if !is_fully_stopped():
-		if current_phase == Phase.AIMING:
-			_enter_moving_state()
-		stop_timer = 0.0
-		if can_shoot() and camera.is_looking_at_player():
-			_setup_aim_line()
-		else:
-			_clear_aim_line()
+	
+	if camera.is_looking_at_player() and (can_shoot() or charging):
+		_setup_aim_line()
 	else:
-		if current_phase == Phase.MOVING:
-			stop_timer += delta
-			if stop_timer >= STOP_DELAY:
-				_enter_aiming_state()
-		if camera.is_looking_at_player():
-			_setup_aim_line()
-
+		_clear_aim_line()
+	
+	if spin_active:
+		spin_factor = move_toward(spin_factor, 0.0, SPIN_DECAY * delta)
+		vertical_spin_factor = move_toward(vertical_spin_factor, 0.0, SPIN_DECAY * delta)
+		if is_equal_approx(spin_factor, 0.0) and is_equal_approx(vertical_spin_factor, 0.0):
+			spin_active = false
 
 func _input(event) -> void:
 	if !is_inside_tree():
@@ -96,84 +102,59 @@ func _input(event) -> void:
 		if event.is_action_pressed("cancel_charging"):
 			charge_ring.visible = false
 			charging = false
+			charge_timer = 0.0
+			emit_signal("charging_cancelled")
 
-	# Można strzelać gdy piłka jest wystarczająco wolna, dotyka podłoża i kamera patrzy na gracza
-	if event.is_action_pressed("push_ball") and can_shoot() and !charging:
+	if event.is_action_pressed("push_ball") and can_shoot():
 		start_charging()
 	elif event.is_action_released("push_ball"):
-		release_push()
+		if charging:
+			emit_signal("shoot_requested")
 
+func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+	if sleeping:
+		return
+
+	var lv = state.linear_velocity
+	var speed = lv.length()
+	var angular_speed = angular_velocity.length()
+
+	# Automatyczne zatrzymanie przy bardzo niskich prędkościach
+	if speed < FULL_STOP_THRESHOLD and angular_speed < FULL_STOP_ANGULAR_THRESHOLD:
+		state.linear_velocity = Vector3.ZERO
+		state.angular_velocity = Vector3.ZERO
+		return
+
+	# Spin effects
+	if spin_active and speed > 0.5:
+		var forward_dir = lv.normalized()
+		var curve_dir = lv.cross(Vector3.UP).normalized()
+		state.apply_central_force(-curve_dir * spin_factor * SPIN_CURVE_FORCE)
+
+		if abs(vertical_spin_factor) > 0.05:
+			state.apply_central_force(forward_dir * vertical_spin_factor * VERTICAL_SPIN_FORCE)
+
+	# Rolling resistance
+	if speed > 0.5 and is_grounded:
+		var forward_dir = lv.normalized()
+		var rotation_axis = forward_dir.cross(Vector3.UP).normalized()
+		var target_angular = speed / ball_radius
+		var current_angular = angular_velocity.dot(rotation_axis)
+		var angular_diff = target_angular - current_angular
+		if abs(angular_diff) > 0.2:
+			state.apply_torque(rotation_axis * angular_diff * ROLLING_RESISTANCE_FACTOR)
 
 func can_shoot() -> bool:
 	if !camera:
 		return false
 	
-	return is_shootable_speed() and is_grounded and camera.current_target_index == 0
-
-
-func is_shootable_speed() -> bool:
-	# Sprawdza czy piłka jest wystarczająco wolna aby można było strzelać
 	return (
-		linear_velocity.length() < SHOOTABLE_VELOCITY_THRESHOLD
-		and angular_velocity.length() < SHOOTABLE_ANGULAR_THRESHOLD
+		can_shoot_flag
+		and is_shootable_speed() 
+		and is_grounded 
+		and camera.current_target_index == 0
+		and !charging
 	)
-
-
-func _check_ground_contact() -> void:
-	var space_state := get_world_3d().direct_space_state
-	var ray_origin := global_position
-	var ray_target := ray_origin + Vector3.DOWN * (ball_radius + 0.1)
-	
-	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_target)
-	query.exclude = [self]
-	
-	var result := space_state.intersect_ray(query)
-	is_grounded = result.size() > 0
-
-
-func _enter_aiming_state() -> void:
-	linear_velocity = Vector3.ZERO
-	angular_velocity = Vector3.ZERO
-	sleeping = true
-	current_phase = Phase.AIMING
-	stop_timer = 0.0
-
-
-func _enter_moving_state() -> void:
-	sleeping = false
-	current_phase = Phase.MOVING
-
-
-func _animate_charge_ring(delta: float) -> void:
-	hit_position = camera.cursor_position
-	var direction_to_camera: Vector3 = (camera.cursor_position - global_position).normalized()
-	charge_ring.global_position = global_position + direction_to_camera * 1.0
-	charge_ring.look_at(camera.cursor_position, Vector3.UP)
-	charge_ring.rotate_object_local(Vector3.RIGHT, deg_to_rad(90.0))
-	charge_timer += delta
-	var ratio: float = clamp(charge_timer / max_charge_duration, 0.0, 1.0)
-	if ring_material:
-		var current_color := get_charge_color(ratio)
-		current_color.a = RING_ALPHA
-		ring_material.albedo_color = current_color
-
-
-func get_charge_color(ratio: float) -> Color:
-	# Gradient: zielony -> żółty -> czerwony
-	if ratio < 0.5:
-		var local_ratio = ratio * 2.0
-		return weak_charge_color.lerp(medium_charge_color, local_ratio)
-	else:
-		var local_ratio = (ratio - 0.5) * 2.0
-		return medium_charge_color.lerp(strong_charge_color, local_ratio)
-
-
-func start_charging() -> void:
-	camera.cursor_phi = camera.phi
-	charging = true
-	charge_timer = 0.0
-	charge_ring.visible = true
-
 
 func release_push() -> void:
 	if !charging:
@@ -181,17 +162,17 @@ func release_push() -> void:
 
 	charging = false
 	charge_ring.visible = false
-
 	charge_timer = clamp(charge_timer, 0.0, max_charge_duration)
 	var impulse_power: float = clamp(charge_timer / max_charge_duration, MIN_IMPULSE, 1.0) * max_impulse_strength
 
-	if current_phase == Phase.MOVING or stop_timer >= STOP_DELAY:
-		emit_signal("round_ended")
-		print("Zakończono rundę (nowym uderzeniem)")
-
+	emit_signal("turn_started")
 	push_ball(impulse_power)
-	_enter_moving_state()
 
+func execute_shot() -> void:
+	release_push()
+
+func allow_shooting(allowed: bool) -> void:
+	can_shoot_flag = allowed
 
 func push_ball(impulse_power: float) -> void:
 	if !camera:
@@ -207,9 +188,53 @@ func push_ball(impulse_power: float) -> void:
 	var impulse_vector = direction_to_camera * impulse_power
 
 	print_debug("Impulse_vector: ", impulse_vector)
+	
+	if audioStream:
+		var power_ratio = impulse_power / max_impulse_strength
+		
+		var min_volume_db = -20.0  # Ciche uderzenie
+		var max_volume_db = 2.0    # Głośne uderzenie
+		
+		audioStream.volume_db = lerp(min_volume_db, max_volume_db, power_ratio)
+		print("Volume:", audioStream.volume_db)
+		audioStream.play()
+	
+	# Logic for spin
+	if camera and "spin_offset" in camera:
+		spin_factor = camera.spin_offset
+		if "vertical_spin_offset" in camera:
+			vertical_spin_factor = camera.vertical_spin_offset
+			camera.vertical_spin_offset = 0.0
+		else:
+			vertical_spin_factor = 0.0
+		spin_active = abs(spin_factor) > 0.05 or abs(vertical_spin_factor) > 0.05
+		camera.spin_offset = 0.0
+	else:
+		spin_factor = 0.0
+		vertical_spin_factor = 0.0
+		spin_active = false
+
+	if spin_active:
+		if abs(spin_factor) > 0.05:
+			apply_torque_impulse(Vector3.UP * spin_factor * max_impulse_strength * SPIN_TORQUE_MULT)
+		if abs(vertical_spin_factor) > 0.05:
+			var shot_dir = (camera.cursor_position - global_position).normalized()
+			shot_dir.y = 0
+			shot_dir = shot_dir.normalized()
+			var rotation_axis = shot_dir.cross(Vector3.UP).normalized()
+			apply_torque_impulse(rotation_axis * vertical_spin_factor * max_impulse_strength * SPIN_TORQUE_MULT)
+
 	apply_impulse(-impulse_vector, impulse_position)
 	emit_signal("ball_pushed", impulse_power)
 
+func get_charge_color(ratio: float) -> Color:
+	# Gradient: zielony -> żółty -> czerwony
+	if ratio < 0.5:
+		var local_ratio = ratio * 2.0
+		return weak_charge_color.lerp(medium_charge_color, local_ratio)
+	else:
+		var local_ratio = (ratio - 0.5) * 2.0
+		return medium_charge_color.lerp(strong_charge_color, local_ratio)
 
 func setup_charge_ring() -> void:
 	if charge_ring.get_surface_override_material(0):
@@ -219,9 +244,56 @@ func setup_charge_ring() -> void:
 		color.a = 0.0
 		ring_material.albedo_color = color
 	else:
-		push_error("Error: ChargeRing has no material!")
-		return
+		# Proba pobrania z mesha jesli override nie ma
+		var mesh = charge_ring.mesh
+		if mesh:
+			var mat = mesh.surface_get_material(0)
+			if mat:
+				ring_material = mat.duplicate()
+				charge_ring.set_surface_override_material(0, ring_material)
+				var color = ring_material.albedo_color
+				color.a = 0.0
+				ring_material.albedo_color = color
+				return
+				
+		push_error("Error: ChargeRing has no material to setup!")
 
+func _animate_charge_ring(delta: float) -> void:
+	hit_position = camera.cursor_position
+	var direction_to_camera: Vector3 = (camera.cursor_position - global_position).normalized()
+
+	# Kierunek prawej/lewej względem kierunku strzału (po płaszczyźnie stołu)
+	var forward_visual: Vector3 = direction_to_camera
+	var right_visual: Vector3 = Vector3.UP.cross(forward_visual).normalized()
+	if right_visual.length_squared() == 0.0:
+		right_visual = Vector3.RIGHT
+		
+	# Get spin offset from camera (keeping our input logic)
+	var current_spin_offset: float = 0.0
+	if "spin_offset" in camera:
+		current_spin_offset = camera.spin_offset
+
+	var angle_offset = current_spin_offset * spin_indicator_max_offset_visual
+	
+	var orbital_direction = forward_visual.rotated(Vector3.UP, angle_offset)
+	
+	charge_ring.global_position = global_position + orbital_direction * 1.0
+	
+	charge_ring.look_at(global_position, Vector3.UP)
+	charge_ring.rotate_object_local(Vector3.RIGHT, deg_to_rad(90.0))
+
+	charge_timer += delta
+	var ratio: float = clamp(charge_timer / max_charge_duration, 0.0, 1.0)
+	if ring_material:
+		var current_color := get_charge_color(ratio)
+		current_color.a = RING_ALPHA
+		ring_material.albedo_color = current_color
+
+func start_charging() -> void:
+	camera.cursor_phi = camera.phi
+	charging = true
+	charge_timer = 0.0
+	charge_ring.visible = true
 
 func create_aim_line_mesh() -> void:
 	var mesh := ImmediateMesh.new()
@@ -235,14 +307,12 @@ func create_aim_line_mesh() -> void:
 	aim_line.material_override = line_material
 	add_child(aim_line)
 
-
 func _clear_aim_line() -> void:
 	if aimed_at_ball != null:
 		aimed_at_ball.stop_being_aimed_at()
 		aimed_at_ball = null
 	if aim_line:
 		(aim_line.mesh as ImmediateMesh).clear_surfaces()
-
 
 func _setup_aim_line() -> void:
 	var draw = func _draw_aim_line(to: Vector3):
@@ -281,7 +351,6 @@ func _setup_aim_line() -> void:
 			new_aimed_at_ball.start_being_aimed_at()
 		aimed_at_ball = new_aimed_at_ball
 
-
 # --- LOGIKA STANU FIZYKI ---
 
 func is_fully_stopped() -> bool:
@@ -290,6 +359,22 @@ func is_fully_stopped() -> bool:
 		and angular_velocity.length_squared() < FULL_STOP_ANGULAR_THRESHOLD * FULL_STOP_ANGULAR_THRESHOLD
 	)
 
+func is_shootable_speed() -> bool:
+	return (
+		linear_velocity.length() < SHOOTABLE_VELOCITY_THRESHOLD
+		and angular_velocity.length() < SHOOTABLE_ANGULAR_THRESHOLD
+	)
+
+func _check_ground_contact() -> void:
+	var space_state := get_world_3d().direct_space_state
+	var ray_origin := global_position
+	var ray_target := ray_origin + Vector3.DOWN * (ball_radius + 0.1)
+	
+	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_target)
+	query.exclude = [self]
+	
+	var result := space_state.intersect_ray(query)
+	is_grounded = result.size() > 0
 
 func get_ball_radius() -> float:
 	if !collision_shape:

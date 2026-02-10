@@ -5,14 +5,13 @@ extends Marker3D
 @export var ball_scene: PackedScene
 @export var player_ball: RigidBody3D
 
-# --- New variable to control the triangle size ---
 @export var num_rows: int = 3 # Defines the number of rows (e.g., 3 rows = 1+2+3=6 balls total)
 
 @export var spread: float = 1.0 # Horizontal distance between balls in a row
 @export var depth: float = 1.0  # Vertical (z-axis) distance between rows
 @export var height: float = 1.0 # Base height offset from the Marker3D
 
-@export var ball_radius: float = 0.05
+@export var ball_radius: float = 0.5
 
 func _ready() -> void:
 	if !ball_scene:
@@ -77,11 +76,6 @@ func _ready() -> void:
 		
 		if ball_data.texture:
 			apply_texture_to_ball(new_instance, ball_data.texture)
-		
-		if new_instance.has_method("_on_round_ended"):
-			player_ball.round_ended.connect(new_instance._on_round_ended)
-		else:
-			push_warning("Warning: Ball instance does not have 'on_round_ended'")
 		
 		i += 1
 	await get_tree().create_timer(0.3).timeout

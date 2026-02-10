@@ -8,12 +8,18 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
-config/name="Ballatro"
+config/name="8 Ball Revenge"
 run/main_scene="uid://b0a6ch7y3umcj"
-config/features=PackedStringArray("4.5", "Forward Plus")
-config/icon="res://textures/icon.svg"
+config/features=PackedStringArray("4.6", "Forward Plus")
+boot_splash/bg_color=Color(0.4745098, 0.52156866, 0.9843137, 1)
+boot_splash/show_image=false
+config/icon="uid://b8t6tcqys3kpe"
 
 [autoload]
 
@@ -27,18 +33,24 @@ Utils="*res://scripts/utils.gd"
 
 window/size/viewport_width=1366
 window/size/viewport_height=768
-window/size/mode=3
 window/size/resizable=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/UniParticles3D/plugin.cfg")
+enabled=PackedStringArray("res://addons/UniParticles3D/plugin.cfg", "res://addons/terrain_3d/plugin.cfg")
 
 [filesystem]
 
 import/blender/enabled=false
+
+[global_group]
+
+table=""
+balls=""
+pockets=""
+playerBall=""
 
 [gui]
 

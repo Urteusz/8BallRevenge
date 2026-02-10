@@ -1,49 +1,52 @@
-[gd_scene load_steps=10 format=3 uid="uid://br6fw3sedv0yn"]
+[gd_scene format=3 uid="uid://br6fw3sedv0yn"]
 
 [ext_resource type="Script" uid="uid://dcowhvvavoqf5" path="res://scenes/balls/scripts/ball.gd" id="1_cxlvu"]
 [ext_resource type="Texture2D" uid="uid://bqmhekyijn2be" path="res://textures/icon.svg" id="2_f7cbr"]
 [ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="3_svc1m"]
 [ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/hit_particles/star_particles_2.tscn" id="3_wehov"]
 [ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/hit_particles/star_particles_3.tscn" id="4_jd46c"]
+[ext_resource type="AudioStream" uid="uid://dtwieedoj8h0f" path="res://sounds/Hit_ball.wav" id="6_jd46c"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_svc1m"]
-bounce = 0.7
+friction = 0.05
+bounce = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uxwjp"]
 albedo_texture = ExtResource("2_f7cbr")
 
 [sub_resource type="SphereMesh" id="SphereMesh_noarx"]
 material = SubResource("StandardMaterial3D_uxwjp")
+radial_segments = 12
+rings = 6
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a0tk4"]
 
-[node name="Ball2" type="RigidBody3D" groups=["balls"]]
-transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0, 0)
+[node name="Ball2" type="RigidBody3D" unique_id=1350176786 groups=["balls"]]
 collision_layer = 4
 collision_mask = 5
+mass = 0.17
 physics_material_override = SubResource("PhysicsMaterial_svc1m")
-gravity_scale = 1.3
 continuous_cd = true
 contact_monitor = true
 max_contacts_reported = 9
-linear_damp = 0.5
-angular_damp = 0.5
+linear_damp = 0.15
+angular_damp = 0.4
 script = ExtResource("1_cxlvu")
 hit_particles = ExtResource("3_svc1m")
 hit_particles2 = ExtResource("3_wehov")
 hit_particles3 = ExtResource("4_jd46c")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03813243, 0, 0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=721474558]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.03813243, 0, 0)
 mesh = SubResource("SphereMesh_noarx")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1035594071]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.030393125, 0, 0)
 shape = SubResource("SphereShape3D_a0tk4")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1428046392]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1228056, 0)
-volume_db = -14.545
+stream = ExtResource("6_jd46c")
 pitch_scale = 1.7
 max_polyphony = 3
 doppler_tracking = 2

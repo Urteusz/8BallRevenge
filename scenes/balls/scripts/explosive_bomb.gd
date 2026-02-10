@@ -3,7 +3,7 @@ class_name ExplosiveBomb
 
 @export var extra_speed: float = 10.0
 @export var explosion_radius: float = 5.0
-@export var explosion_force: float = 20.0
+@export var explosion_force: float = 2.0
 @export var explosion_cooldown: float = 0.4 
 @export var smoke_effect: GPUParticles3D
 @export var shockwave_effect: GPUParticles3D

@@ -6,6 +6,8 @@ extends PanelContainer
 @onready var apply_button = $HBoxContainer/Graphics/HBoxContainer/ApplyButton
 
 @onready var inverted_mouse_button = $HBoxContainer/Controls/InvertedMouseButton
+@onready var volume_slider = $HBoxContainer/Controls/Volume/VolumeSlider
+@onready var volume_value_label = $HBoxContainer/Controls/Volume/VolumeValue
 
 const VSYNC_MODES = {
 	"Disabled": DisplayServer.VSYNC_DISABLED,
@@ -86,6 +88,18 @@ func load_current_settings() -> void:
 	fullscreen_button.button_pressed = fullscreen
 	inverted_mouse_button.button_pressed = inverted_mouse
 
+	var master_volume = SettingsManager.get_setting("audio", "master_volume")
+	if master_volume != null:
+		volume_slider.value = master_volume * 100.0
+		volume_value_label.text = "%d%%" % int(master_volume * 100.0)
+
+
+func _on_volume_slider_value_changed(value: float) -> void:
+	var linear_volume = value / 100.0
+	volume_value_label.text = "%d%%" % int(value)
+	SettingsManager.set_setting("audio", "master_volume", linear_volume)
+	SettingsManager.apply_audio_settings()
+
 
 func _on_apply_pressed() -> void:
 	var resolution_id: int = resolution_button.get_selected_id()
@@ -105,6 +119,7 @@ func _on_apply_pressed() -> void:
 	SettingsManager.set_setting("controls", "inverted_mouse", new_inverted_mouse)
 
 	SettingsManager.apply_graphics_settings()
+	SettingsManager.apply_audio_settings()
 	SettingsManager.save_settings()
 
 	print("Settings Applied and Saved!")

@@ -1,7 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://db71sbrfnx3y4"]
+[gd_scene format=3 uid="uid://db71sbrfnx3y4"]
 
 [ext_resource type="Script" uid="uid://ctvxoy867ts7e" path="res://scenes/ui/gameplay_ui/gameplay_ui.gd" id="1_kgdaj"]
 [ext_resource type="FontFile" uid="uid://vcecbwh0vav0" path="res://fonts/BridgeParapet.ttf" id="3_2mbl5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_win_bg"]
+content_margin_left = 24.0
+content_margin_top = 20.0
+content_margin_right = 24.0
+content_margin_bottom = 20.0
+bg_color = Color(0.08, 0.08, 0.12, 0.88)
+border_width_top = 3
+border_width_bottom = 3
+border_color = Color(1, 0.85, 0.3, 0.7)
 
 [sub_resource type="MeshTexture" id="MeshTexture_vh4xn"]
 
@@ -30,10 +40,14 @@ corner_radius_bottom_left = 4
 expand_margin_top = 4.0
 expand_margin_bottom = 4.0
 
-[node name="GameplayUI" type="CanvasLayer"]
+[sub_resource type="LabelSettings" id="LabelSettings_vh4xn"]
+font_size = 27
+outline_size = 1
+
+[node name="GameplayUI" type="CanvasLayer" unique_id=313784389]
 process_mode = 3
 
-[node name="ControlGameplay" type="Control" parent="."]
+[node name="ControlGameplay" type="Control" parent="." unique_id=1377833409]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 8
@@ -47,9 +61,10 @@ offset_right = 640.0
 offset_bottom = 360.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_kgdaj")
 
-[node name="MovesLeftHUD" type="VBoxContainer" parent="ControlGameplay"]
+[node name="MovesLeftHUD" type="VBoxContainer" parent="ControlGameplay" unique_id=1638581209]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -59,7 +74,7 @@ offset_right = 100.0
 offset_bottom = 100.0
 grow_horizontal = 2
 
-[node name="MovesTitleLabel" type="Label" parent="ControlGameplay/MovesLeftHUD"]
+[node name="MovesTitleLabel" type="Label" parent="ControlGameplay/MovesLeftHUD" unique_id=1748109945]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -69,7 +84,7 @@ theme_override_font_sizes/font_size = 40
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="MovesCountLabel" type="Label" parent="ControlGameplay/MovesLeftHUD"]
+[node name="MovesCountLabel" type="Label" parent="ControlGameplay/MovesLeftHUD" unique_id=320168100]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -78,7 +93,7 @@ theme_override_fonts/font = ExtResource("3_2mbl5")
 theme_override_font_sizes/font_size = 40
 horizontal_alignment = 1
 
-[node name="GameOverWindow" type="HBoxContainer" parent="ControlGameplay"]
+[node name="GameOverWindow" type="HBoxContainer" parent="ControlGameplay" unique_id=2023829344]
 process_mode = 3
 layout_mode = 1
 anchors_preset = 8
@@ -93,46 +108,67 @@ offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="AgainButton" type="Button" parent="ControlGameplay/GameOverWindow"]
+[node name="AgainButton" type="Button" parent="ControlGameplay/GameOverWindow" unique_id=1079722405]
 process_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Try again"
 
-[node name="ExitButton" type="Button" parent="ControlGameplay/GameOverWindow"]
+[node name="ExitButton" type="Button" parent="ControlGameplay/GameOverWindow" unique_id=559210674]
 process_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Main Menu"
 
-[node name="WinWindow" type="VBoxContainer" parent="ControlGameplay"]
+[node name="WinWindow" type="PanelContainer" parent="ControlGameplay" unique_id=272990186]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -217.5
-offset_top = -54.5
-offset_right = 217.5
-offset_bottom = 54.5
+offset_left = -683.0
+offset_top = -130.0
+offset_right = 683.0
+offset_bottom = 130.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_win_bg")
 
-[node name="LabelWin" type="Label" parent="ControlGameplay/WinWindow"]
+[node name="VBox" type="VBoxContainer" parent="ControlGameplay/WinWindow" unique_id=1582611662]
 layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="LabelWin" type="Label" parent="ControlGameplay/WinWindow/VBox" unique_id=466233652]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
+theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("3_2mbl5")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 44
+horizontal_alignment = 1
 
-[node name="GoToShop" type="Button" parent="ControlGameplay/WinWindow"]
+[node name="WinButtons" type="HBoxContainer" parent="ControlGameplay/WinWindow/VBox" unique_id=1485176516]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "Przejdź do sklepu"
+theme_override_constants/separation = 12
+alignment = 1
 
-[node name="PowerSlider" type="VBoxContainer" parent="ControlGameplay"]
+[node name="TryAgainButton" type="Button" parent="ControlGameplay/WinWindow/VBox/WinButtons" unique_id=1924255962]
+custom_minimum_size = Vector2(160, 40)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_2mbl5")
+theme_override_font_sizes/font_size = 22
+text = "Try Again"
+
+[node name="GoToShop" type="Button" parent="ControlGameplay/WinWindow/VBox/WinButtons" unique_id=1172631810]
+custom_minimum_size = Vector2(160, 40)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_2mbl5")
+theme_override_font_sizes/font_size = 22
+text = "Continue"
+
+[node name="PowerSlider" type="VBoxContainer" parent="ControlGameplay" unique_id=228208955]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -147,12 +183,60 @@ grow_vertical = 0
 theme_override_constants/separation = 5
 alignment = 1
 
-[node name="HSlider" type="HSlider" parent="ControlGameplay/PowerSlider"]
+[node name="HSlider" type="HSlider" parent="ControlGameplay/PowerSlider" unique_id=2063732135]
 layout_mode = 2
 size_flags_vertical = 4
+mouse_filter = 2
 theme_override_icons/grabber_disabled = SubResource("MeshTexture_vh4xn")
 theme_override_styles/slider = SubResource("StyleBoxFlat_vh4xn")
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_2mbl5")
 max_value = 1.0
 step = 0.01
 editable = false
+scrollable = false
+
+[node name="BallListContainer" type="HBoxContainer" parent="ControlGameplay" unique_id=3461045]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.92100006
+anchor_right = 0.5
+anchor_bottom = 0.92100006
+offset_left = -245.0
+offset_top = -22.120056
+offset_right = 249.0
+offset_bottom = 21.879944
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="HintLabel" type="Label" parent="ControlGameplay" unique_id=1081873546]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -14.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Instrukcje"
+label_settings = SubResource("LabelSettings_vh4xn")
+
+[node name="WinConfetti" type="CPUParticles2D" parent="ControlGameplay" unique_id=1412567298]
+position = Vector2(640, 0)
+emitting = false
+amount = 300
+lifetime = 4.0
+one_shot = true
+explosiveness = 0.9
+emission_shape = 3
+emission_rect_extents = Vector2(640, 1)
+direction = Vector2(0, 1)
+spread = 60.0
+initial_velocity_min = 100.0
+initial_velocity_max = 250.0
+scale_amount_min = 8.0
+scale_amount_max = 10.0
+color = Color(0.98333335, 1, 0, 1)

@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dn0f8x2al34c"]
+
+[ext_resource type="Script" uid="uid://dj746aq822g24" path="res://scenes/ui/level_picker/LevelNode.gd" id="1_o5ii7"]
+[ext_resource type="Texture2D" uid="uid://btsaqkm4vl44j" path="res://textures/Level3.png" id="2_mvfmt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_click"]
+radius = 70.0
+
+[node name="LevelNode" type="Node2D" unique_id=1985807940]
+z_index = 1
+script = ExtResource("1_o5ii7")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=876376772]
+texture = ExtResource("2_mvfmt")
+
+[node name="ClickArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea"]
+shape = SubResource("CircleShape2D_click")

@@ -6,4 +6,6 @@
 [resource]
 script = ExtResource("1_ia05r")
 scene = ExtResource("1_xodlh")
+shop_cost = 2000
+shop_description = "Speedy Ball – kula, która nadaje prędkość innym kulom przy zderzeniu."
 metadata/_custom_type_script = "uid://cvwkj0qnv7yim"

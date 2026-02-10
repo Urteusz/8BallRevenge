@@ -11,12 +11,16 @@ const DEFAULTS = {
 	},
 	"controls": {
 		"inverted_mouse": false,
+	},
+	"audio": {
+		"master_volume": 1.0,
 	}
 }
 
 
 func _ready():
 	load_settings()
+	apply_audio_settings()
 
 
 func load_settings():
@@ -60,6 +64,16 @@ func apply_graphics_settings():
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
 	DisplayServer.window_set_size(gfx["resolution"])
+
+
+func apply_audio_settings():
+	var volume = settings_data["audio"]["master_volume"]
+	var bus_index = AudioServer.get_bus_index("Master")
+	if volume <= 0.0:
+		AudioServer.set_bus_mute(bus_index, true)
+	else:
+		AudioServer.set_bus_mute(bus_index, false)
+		AudioServer.set_bus_volume_db(bus_index, linear_to_db(volume))
 
 
 func set_setting(section, key, value):

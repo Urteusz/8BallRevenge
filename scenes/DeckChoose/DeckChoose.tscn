@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://6mbrpkr2idfw"]
+[gd_scene format=3 uid="uid://6mbrpkr2idfw"]
 
 [ext_resource type="Script" uid="uid://bvl3k1v00goo2" path="res://scenes/DeckChoose/DeckChoose.gd" id="1_8c44f"]
 [ext_resource type="PackedScene" uid="uid://byncin0n1woc0" path="res://models/triangle_rack.glb" id="2_4v8kc"]
@@ -10,8 +10,17 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
 shader = ExtResource("3_6fa61")
-shader_parameter/lineHighlight = 0.2
-shader_parameter/lineShadow = 0.7
+shader_parameter/lineHighlight = 0.005
+shader_parameter/lineShadow = 0.03
+shader_parameter/line_thickness_start = 0.15
+shader_parameter/line_thickness_end = 0.15
+shader_parameter/use_depth_pixelization = false
+shader_parameter/min_pixel_size = 2.0
+shader_parameter/pixelation_start_dist = 2.0
+shader_parameter/pixelation_end_dist = 20.0
+shader_parameter/pixel_density_start = 300.0
+shader_parameter/pixel_density_end = 50.0
+shader_parameter/distance_curve = 1.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_ptf86"]
 lightmap_size_hint = Vector2i(12, 12)
@@ -49,7 +58,7 @@ bg_color = Color(0.22, 0.22, 0.22, 0.56078434)
 
 [sub_resource type="Theme" id="Theme_dww4p"]
 
-[node name="DeckChoose" type="Node3D" node_paths=PackedStringArray("camera", "ui", "panel_container", "button_container", "confirm_button", "inventory_grid")]
+[node name="DeckChoose" type="Node3D" unique_id=543178278 node_paths=PackedStringArray("camera", "ui", "panel_container", "button_container", "confirm_button", "inventory_grid")]
 script = ExtResource("1_8c44f")
 camera = NodePath("Camera3D")
 ui = NodePath("UI")
@@ -58,32 +67,32 @@ button_container = NodePath("UI/ExitContainer")
 confirm_button = NodePath("UI/ExitContainer/ButtonContinue")
 inventory_grid = NodePath("UI/PanelContainer/HBoxContainer/VBoxContainer/ScrollContainer/InventoryGrid")
 
-[node name="triangle_rack" parent="." instance=ExtResource("2_4v8kc")]
+[node name="triangle_rack" parent="." unique_id=323873409 instance=ExtResource("2_4v8kc")]
 transform = Transform3D(1, -8.742278e-08, -8.742278e-08, -8.742278e-08, -1, 0, -8.742278e-08, 7.642742e-15, -1, 0, -0.34994686, 0)
 
-[node name="Balls" type="Node3D" parent="."]
+[node name="Balls" type="Node3D" parent="." unique_id=2139913156]
 transform = Transform3D(-1.31, 0, -1.978045e-07, 0, 1.31, 0, 1.978045e-07, 0, -1.31, 1.5135888, 0, -1.3573734)
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=852035814]
 transform = Transform3D(0.9800706, -0.13749644, 0.14337495, 0, 0.7217482, 0.6921558, -0.19864956, -0.67836154, 0.70736414, 3.5976195, 4.8472176, 4.557745)
 fov = 40.5
 
-[node name="EdgeDetectionShader" type="MeshInstance3D" parent="Camera3D"]
+[node name="EdgeDetectionShader" type="MeshInstance3D" parent="Camera3D" unique_id=1426538516]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0011751652, -0.18365169, -0.18207455)
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_ptf86")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=293452273]
 environment = SubResource("Environment_xcdpw")
 
-[node name="TableBase" type="MeshInstance3D" parent="."]
+[node name="TableBase" type="MeshInstance3D" parent="." unique_id=1794407613]
 transform = Transform3D(5.9889765, 0, 0, 0, 5.9889746, 0, 0, 0, 5.9889746, 0, 0.30725813, 0)
 mesh = ExtResource("5_6fa61")
 surface_material_override/0 = SubResource("StandardMaterial3D_l7d26")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1667556495]
 
-[node name="PanelContainer" type="PanelContainer" parent="UI"]
+[node name="PanelContainer" type="PanelContainer" parent="UI" unique_id=2034324645]
 anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
@@ -93,28 +102,28 @@ grow_horizontal = 0
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_dww4p")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/PanelContainer" unique_id=10609860]
 custom_minimum_size = Vector2(0.4, 0)
 layout_direction = 3
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PanelContainer/HBoxContainer" unique_id=83677496]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_dww4p")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="UI/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/PanelContainer/HBoxContainer/VBoxContainer" unique_id=1285612688]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="InventoryGrid" type="GridContainer" parent="UI/PanelContainer/HBoxContainer/VBoxContainer/ScrollContainer"]
+[node name="InventoryGrid" type="GridContainer" parent="UI/PanelContainer/HBoxContainer/VBoxContainer/ScrollContainer" unique_id=880355338]
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 3
 
-[node name="ExitContainer" type="HBoxContainer" parent="UI"]
+[node name="ExitContainer" type="HBoxContainer" parent="UI" unique_id=349330068]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -122,7 +131,7 @@ offset_top = -40.0
 offset_right = 40.0
 grow_vertical = 0
 
-[node name="ButtonContinue" type="Button" parent="UI/ExitContainer"]
+[node name="ButtonContinue" type="Button" parent="UI/ExitContainer" unique_id=1712260813]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "EXIT"

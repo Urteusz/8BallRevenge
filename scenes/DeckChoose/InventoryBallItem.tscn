@@ -20,7 +20,6 @@ ambient_light_source = 3
 [node name="SubViewportContainer" type="SubViewportContainer"]
 offset_right = 100.0
 offset_bottom = 100.0
-stretch = true
 script = ExtResource("1_p1yo8")
 
 [node name="SubViewport" type="SubViewport" parent="."]

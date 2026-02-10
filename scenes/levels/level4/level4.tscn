@@ -1,0 +1,304 @@
+[gd_scene format=3 uid="uid://d3yctdgsrhiyc"]
+
+[ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_v1bi6"]
+[ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_5gynx"]
+[ext_resource type="PackedScene" uid="uid://b6sl1551kxo1e" path="res://scenes/levels/level4/table_circle.tscn" id="3_3g6gy"]
+[ext_resource type="Script" uid="uid://bdvel67ub340k" path="res://scripts/level_script/ball_spawner.gd" id="4_ydtoy"]
+[ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="5_eofyo"]
+[ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="6_3eqw4"]
+[ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="7_els6h"]
+[ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="8_2psii"]
+[ext_resource type="Texture2D" uid="uid://cuoequdn0i3v0" path="res://scenes/particles/level4_gradient.tres" id="8_rnqjc"]
+[ext_resource type="Texture2D" uid="uid://dk2pdlthkn7hb" path="res://scenes/particles/ball_pocketed_gradient.tres" id="9_wocd4"]
+[ext_resource type="Texture2D" uid="uid://pxoipevsp7bc" path="res://scenes/particles/player_pocketed_gradient.tres" id="10_6w5mp"]
+[ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="10_l0b7s"]
+[ext_resource type="Environment" uid="uid://cy12cdkgj0j71" path="res://scenes/levels/level4/purple_environment.tres" id="10_rnqjc"]
+[ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="11_cuf1e"]
+[ext_resource type="PackedScene" uid="uid://cmg38wrvkqomi" path="res://models/room_colored_no_walls_no_guitar_array.glb" id="12_qoqow"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
+render_priority = -1
+shader = ExtResource("2_5gynx")
+shader_parameter/lineHighlight = 0.2
+shader_parameter/lineShadow = 0.55
+shader_parameter/line_thickness_start = 3.0000001425
+shader_parameter/line_thickness_end = 1.0
+shader_parameter/use_depth_pixelization = true
+shader_parameter/min_pixel_size = 1.0
+shader_parameter/pixelation_start_dist = 1.0
+shader_parameter/pixelation_end_dist = 10.0
+shader_parameter/pixel_density_start = 800.0
+shader_parameter/pixel_density_end = 650.0
+shader_parameter/distance_curve = 1.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_4arys"]
+lightmap_size_hint = Vector2i(12, 12)
+material = SubResource("ShaderMaterial_jsk3o")
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_v1bi6"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3jq6i"]
+size = Vector3(4.189209, 1, 3.668579)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wocd4"]
+size = Vector3(4.20105, 1, 3.66156)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6w5mp"]
+size = Vector3(4.201355, 1, 3.6976929)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_doaon"]
+size = Vector3(2.6020508, 1, 2.5028076)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_aj7ea"]
+viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/crt")
+
+[node name="Node3D2" type="Node3D" unique_id=2031770271]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=58865027]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=573835112]
+handle_input_locally = false
+audio_listener_enable_3d = true
+size = Vector2i(1366, 768)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=1745560294 node_paths=PackedStringArray("player_ball")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14432669, 1.4036087, 3.7672782)
+doppler_tracking = 2
+current = true
+script = ExtResource("1_v1bi6")
+player_ball = NodePath("../TableCircle2/PlayerBall")
+
+[node name="EdgeDetectionShader" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D" unique_id=1911777402]
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_4arys")
+
+[node name="TableCircle2" parent="SubViewportContainer/SubViewport" unique_id=937576895 instance=ExtResource("3_3g6gy")]
+
+[node name="Base" parent="SubViewportContainer/SubViewport/TableCircle2" index="0"]
+physics_material_override = SubResource("PhysicsMaterial_v1bi6")
+
+[node name="TableCircleWalls" parent="SubViewportContainer/SubViewport/TableCircle2/Walls" index="1" node_paths=PackedStringArray("object_node")]
+object_node = NodePath("../../PlayerBall")
+
+[node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=42338452 node_paths=PackedStringArray("game_manager", "player_ball")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55177164, 0)
+script = ExtResource("4_ydtoy")
+game_manager = NodePath("../../GameManager")
+ball_scene = ExtResource("5_eofyo")
+player_ball = NodePath("../PlayerBall")
+spread = 1.1
+height = 0.0
+
+[node name="PlayerBall" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=898237223 groups=["playerBall"] instance=ExtResource("6_3eqw4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 10.219)
+aim_line_ray_range = 30.0
+
+[node name="SpotLight3D" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=1011121550]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -9.815323, 7.2413635, -9.458632)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 8.59
+light_specular = 0.0
+light_bake_mode = 1
+spot_range = 100.777
+spot_attenuation = 0.5
+spot_angle = 57.58
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=428616611]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 9.425688, 7.2413635, -9.512537)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 8.59
+light_specular = 0.0
+light_bake_mode = 1
+spot_range = 100.777
+spot_attenuation = 0.5
+spot_angle = 57.58
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=1389083224]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 9.123747, 7.2413635, 9.0732155)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 8.59
+light_specular = 0.0
+light_bake_mode = 1
+spot_range = 100.777
+spot_attenuation = 0.5
+spot_angle = 57.58
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=986860881]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -9.280451, 7.2413635, 9.4897)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 8.59
+light_specular = 0.0
+light_bake_mode = 1
+spot_range = 100.777
+spot_attenuation = 0.5
+spot_angle = 57.58
+
+[node name="SpotLight3D5" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=1073258702]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 0, 7.241, 0)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 8.59
+light_specular = 0.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 100.777
+spot_attenuation = 0.5
+spot_angle = 57.58
+
+[node name="ReturnPosition" type="Node3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=1907272141]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.294, 7.4167576)
+
+[node name="Pockets" type="Node3D" parent="SubViewportContainer/SubViewport/TableCircle2" unique_id=360772031]
+
+[node name="Pocket0" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets" unique_id=228984691 groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02098322, -2, -13.377079)
+collision_mask = 5
+script = ExtResource("7_els6h")
+og_gradient_texture = ExtResource("8_rnqjc")
+ball_pocketed_gradient = ExtResource("9_wocd4")
+player_pocketed_gradient = ExtResource("10_6w5mp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets/Pocket0" unique_id=1745937279]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04724121, 0, -0.10223389)
+shape = SubResource("BoxShape3D_3jq6i")
+
+[node name="Pocket1" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets" unique_id=1723835466 groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.439915, -2, -9.518261)
+collision_mask = 5
+script = ExtResource("7_els6h")
+og_gradient_texture = ExtResource("8_rnqjc")
+ball_pocketed_gradient = ExtResource("9_wocd4")
+player_pocketed_gradient = ExtResource("10_6w5mp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets/Pocket1" unique_id=1649119399]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04724121, 0, -0.10223389)
+shape = SubResource("BoxShape3D_3jq6i")
+
+[node name="Pocket2" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets" unique_id=1939257554 groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.492776, -2, -9.499376)
+collision_mask = 5
+script = ExtResource("7_els6h")
+og_gradient_texture = ExtResource("8_rnqjc")
+ball_pocketed_gradient = ExtResource("9_wocd4")
+player_pocketed_gradient = ExtResource("10_6w5mp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets/Pocket2" unique_id=202032439]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.048206806, 0, -0.0975647)
+shape = SubResource("BoxShape3D_wocd4")
+
+[node name="Pocket3" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets" unique_id=1565437456 groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.318109, -2, -0.01488781)
+collision_mask = 5
+script = ExtResource("7_els6h")
+og_gradient_texture = ExtResource("8_rnqjc")
+ball_pocketed_gradient = ExtResource("9_wocd4")
+player_pocketed_gradient = ExtResource("10_6w5mp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets/Pocket3" unique_id=1612789436]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.041778564, 0, 0.11685181)
+shape = SubResource("BoxShape3D_6w5mp")
+
+[node name="Pocket4" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets" unique_id=502885680 groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.4377365, -2, -0.012871861)
+collision_mask = 5
+script = ExtResource("7_els6h")
+og_gradient_texture = ExtResource("8_rnqjc")
+ball_pocketed_gradient = ExtResource("9_wocd4")
+player_pocketed_gradient = ExtResource("10_6w5mp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets/Pocket4" unique_id=266905020]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
+shape = SubResource("BoxShape3D_doaon")
+
+[node name="Pocket5" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets" unique_id=965215609 groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.449223, -2, 9.445588)
+collision_mask = 5
+script = ExtResource("7_els6h")
+og_gradient_texture = ExtResource("8_rnqjc")
+ball_pocketed_gradient = ExtResource("9_wocd4")
+player_pocketed_gradient = ExtResource("10_6w5mp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets/Pocket5" unique_id=1478045293]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
+shape = SubResource("BoxShape3D_doaon")
+
+[node name="Pocket6" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets" unique_id=1502185059 groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.487967, -2, 9.406605)
+collision_mask = 5
+script = ExtResource("7_els6h")
+og_gradient_texture = ExtResource("8_rnqjc")
+ball_pocketed_gradient = ExtResource("9_wocd4")
+player_pocketed_gradient = ExtResource("10_6w5mp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets/Pocket6" unique_id=836845203]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
+shape = SubResource("BoxShape3D_doaon")
+
+[node name="Pocket7" type="Area3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets" unique_id=1642619686 groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.040667623, -2, 13.30352)
+collision_mask = 5
+script = ExtResource("7_els6h")
+og_gradient_texture = ExtResource("8_rnqjc")
+ball_pocketed_gradient = ExtResource("9_wocd4")
+player_pocketed_gradient = ExtResource("10_6w5mp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/TableCircle2/Pockets/Pocket7" unique_id=882169426]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04724121, 0, -0.10223389)
+shape = SubResource("BoxShape3D_3jq6i")
+
+[node name="Tvs" type="Node" parent="SubViewportContainer/SubViewport" unique_id=1793227647]
+
+[node name="crt2" type="Sprite3D" parent="SubViewportContainer/SubViewport/Tvs" unique_id=2140353733]
+transform = Transform3D(4.2360706, 0, 0.16250448, 0, 5.2094855, 0, 1.8232888, 0, -0.3775489, 14.7416315, 7.986644, -29.54263)
+texture = SubResource("ViewportTexture_aj7ea")
+
+[node name="flat" type="SubViewport" parent="SubViewportContainer/SubViewport/Tvs" unique_id=1334084159]
+size = Vector2i(426, 240)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Tvs/flat" unique_id=882220117]
+transform = Transform3D(0.8786859, 0.23918666, -0.41315958, -0.15516026, 0.9615342, 0.22666548, 0.45148242, -0.13506182, 0.88199884, -8.448279, 10.041564, 20.506062)
+
+[node name="crt" type="SubViewport" parent="SubViewportContainer/SubViewport/Tvs" unique_id=285848808]
+size = Vector2i(160, 110)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Tvs/crt" unique_id=458007488]
+transform = Transform3D(-0.98378253, 0.019382963, -0.17831567, -0.004762233, 0.9909709, 0.13399237, 0.17930281, 0.13266854, -0.9748075, 0, 5.7684393, -15.326607)
+fov = 123.75
+
+[node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=1490450740 node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui", "returnPoint")]
+script = ExtResource("8_2psii")
+player_ball = NodePath("../TableCircle2/PlayerBall")
+shop_ui = NodePath("../../../ShopUI/ControlShop")
+gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
+returnPoint = NodePath("../TableCircle2/ReturnPosition")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=607035429]
+environment = ExtResource("10_rnqjc")
+
+[node name="ShopUI" parent="." unique_id=83626306 instance=ExtResource("10_l0b7s")]
+
+[node name="GameplayUI" parent="." unique_id=160693144 instance=ExtResource("11_cuf1e")]
+
+[node name="ControlGameplay" parent="GameplayUI" index="0" unique_id=1377833409 node_paths=PackedStringArray("game_manager", "shopUI")]
+game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
+shopUI = NodePath("../../ShopUI/ControlShop")
+
+[node name="room_colored_no_walls_no_guitar_array" parent="." unique_id=1503506355 instance=ExtResource("12_qoqow")]
+transform = Transform3D(-5.1142325e-07, 0, -11.7, 0, 11.7, 0, 11.7, 0, -5.1142325e-07, 13.789251, -0.90031195, -28.744755)
+
+[connection signal="game_won" from="SubViewportContainer/SubViewport/Camera3D" to="GameplayUI/ControlGameplay" method="_on_game_win"]
+[connection signal="targetting_center" from="SubViewportContainer/SubViewport/Camera3D" to="SubViewportContainer/SubViewport/TableCircle2/PlayerBall" method="_on_camera_3d_targetting_center"]
+[connection signal="ball_pushed" from="SubViewportContainer/SubViewport/TableCircle2/PlayerBall" to="GameplayUI/ControlGameplay" method="_on_move"]
+
+[editable path="SubViewportContainer/SubViewport/TableCircle2"]
+[editable path="ShopUI"]
+[editable path="GameplayUI"]

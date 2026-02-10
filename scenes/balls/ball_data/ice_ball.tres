@@ -6,4 +6,8 @@
 [resource]
 script = ExtResource("1_0titb")
 scene = ExtResource("1_g30rt")
+base_value = 50
+shop_cost = 4000
+shop_description = "Kula mrożąca, która zamraża przy zderzeniu, zmieniając inne kule w kostki lodu."
 metadata/_custom_type_script = "uid://cvwkj0qnv7yim"
+metadata/ui_color = Color(0.07999998, 0.69333315, 1, 1)

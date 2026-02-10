@@ -1,4 +1,5 @@
 extends Node3D
 
-func _process(delta: float) -> void:
-	rotation.y += delta
+# Rotation disabled so ball textures are visible
+#func _process(delta: float) -> void:
+#	rotation.y += delta

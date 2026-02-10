@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://c4opo3nd0oeav"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kxefv"]
+spread = 180.0
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_22klw"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.80784315, 0, 0, 0.69803923)
+
+[sub_resource type="QuadMesh" id="QuadMesh_8ikxw"]
+material = SubResource("StandardMaterial3D_22klw")
+size = Vector2(0.1, 0.1)
+
+[node name="GPUParticles3D" type="GPUParticles3D" unique_id=1975245414]
+emitting = false
+amount = 40
+lifetime = 0.5
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_kxefv")
+draw_pass_1 = SubResource("QuadMesh_8ikxw")

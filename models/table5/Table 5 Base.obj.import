@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://16o5i7c5ipiq"
+path="res://.godot/imported/Table 5 Base.obj-abfa25e8482d63d05ea99fa1195a928e.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Table 5 Base.obj-abfa25e8482d63d05ea99fa1195a928e.mesh"]
+
+source_file="res://models/table5/Table 5 Base.obj"
+dest_files=["res://.godot/imported/Table 5 Base.obj-abfa25e8482d63d05ea99fa1195a928e.mesh", "res://.godot/imported/Table 5 Base.obj-abfa25e8482d63d05ea99fa1195a928e.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

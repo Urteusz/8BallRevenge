@@ -3,6 +3,10 @@
 /android/
 .direnv
 .vscode/
+.idea
+*.tmp
+*.md
+*.dll
 
 # Nix
 .gcroots

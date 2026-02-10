@@ -10,6 +10,10 @@ const MAX_DECK_SIZE = 6
 
 var current_level: int = 1
 
+# Gwiazdki dla każdego poziomu {level_number: stars_earned}
+var level_stars: Dictionary = {}
+
+var ninja_ball_data = load("res://scenes/balls/ball_data/ninja_ball.tres")
 var red_ball_data = load("res://scenes/balls/ball_data/red_ball.tres")
 var black_ball_data = load("res://scenes/balls/ball_data/black_ball.tres")
 var blue_ball_data = load("res://scenes/balls/ball_data/blue_ball.tres")
@@ -21,8 +25,10 @@ var speedy_ball_data = load("res://scenes/balls/ball_data/speedy_ball.tres")
 var bouncy_ball_data = load("res://scenes/balls/ball_data/bouncy_ball.tres")
 var magnetic_ball_data = load("res://scenes/balls/ball_data/magnetic_ball.tres")
 var ice_ball_data = load("res://scenes/balls/ball_data/ice_ball.tres")
+var magnetic_min_ball_data = load("res://scenes/balls/ball_data/magnetic_ball_min.tres")
 
 var ball_data_map = {
+	"ninja": ninja_ball_data,
 	"red": red_ball_data,
 	"black": black_ball_data,
 	"blue": blue_ball_data,
@@ -32,6 +38,7 @@ var ball_data_map = {
 	"bomb": bomb_ball_data,
 	"speedy": speedy_ball_data,
 	"magnetic": magnetic_ball_data,
+	"magnetic_min": magnetic_min_ball_data,
 	"ice": ice_ball_data,
 	"bouncy": bouncy_ball_data
 }
@@ -39,15 +46,14 @@ var ball_data_map = {
 const SAVE_PATH = "user://player_progress.save"
 
 func _ready() -> void:
-	
 	# Domyślny start (jeśli nie ma zapisu)
 	if owned_balls.is_empty():
-		owned_balls = ["ice", "blue", "green", "yellow", "bomb", "magnetic"]
+		owned_balls = ["ninja", "red", "blue", "purple", "yellow", "speedy", "green"]
 	
 	# Jeśli deck jest pusty, wypełnij go pierwszymi dostępnymi kulami
 	if current_deck.is_empty():
 		refresh_deck_from_owned()
-
+	print("Dupa: "+str(current_level))
 
 # Funkcja do odblokowania nowej kuli
 func unlock_ball(ball_type: String) -> bool:
@@ -113,7 +119,8 @@ func save_progress() -> void:
 	var save_data = {
 		"current_level": current_level,
 		"owned_balls": owned_balls,      # Zapisujemy listę stringów
-		"current_deck_ids": deck_as_strings # Zapisujemy listę stringów
+		"current_deck_ids": deck_as_strings, # Zapisujemy listę stringów
+		"level_stars": level_stars # Zapisujemy słownik gwiazdek
 	}
 	
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -146,7 +153,11 @@ func load_progress() -> void:
 				for ball_id in save_data.current_deck_ids:
 					if ball_data_map.has(ball_id):
 						current_deck.append(ball_data_map[ball_id])
-						
+
+			# Wczytaj gwiazdki
+			if save_data.has("level_stars"):
+				level_stars = save_data.level_stars
+
 			print("Wczytano postęp: Poziom ", current_level)
 		else:
 			print("ERROR: Uszkodzony plik zapisu")
@@ -155,7 +166,7 @@ func load_progress() -> void:
 
 
 func get_level_path() -> String:
-	var expected_path = "res://scenes/level"+ str(current_level) + "/level" + str(current_level) + ".tscn"
+	var expected_path = "res://scenes/levels/level"+ str(current_level) + "/level" + str(current_level) + ".tscn"
 
 	if ResourceLoader.exists(expected_path):
 		return expected_path
@@ -163,7 +174,7 @@ func get_level_path() -> String:
 		push_warning("Poziom " + str(current_level) + " nie istnieje! Wracam do poziomu 1.")
 		current_level = 1
 		save_progress() 
-		return "res://scenes/level1/level1.tscn"
+		return "res://scenes/levels/level1/level1.tscn"
 
 func set_level(level: int) -> void:
 	current_level = level
@@ -172,3 +183,22 @@ func set_level(level: int) -> void:
 func advance_level() -> void:
 	current_level += 1
 	save_progress()
+
+# Zapisz gwiazdki dla danego poziomu (tylko jeśli jest lepszy wynik)
+func save_level_stars(level: int, stars: int) -> void:
+	stars = clamp(stars, 0, 3)
+	if not level_stars.has(level) or level_stars[level] < stars:
+		level_stars[level] = stars
+		save_progress()
+		print("Zapisano %d gwiazdek dla poziomu %d" % [stars, level])
+
+# Pobierz liczbę gwiazdek dla danego poziomu (0 jeśli nigdy nie ukończono)
+func get_level_stars(level: int) -> int:
+	return level_stars.get(level, 0)
+
+# Pobierz całkowitą liczbę gwiazdek
+func get_total_stars() -> int:
+	var total = 0
+	for stars in level_stars.values():
+		total += stars
+	return total

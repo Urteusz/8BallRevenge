@@ -17,6 +17,7 @@ scale_max = 0.59999996
 render_priority = 1
 transparency = 1
 blend_mode = 1
+no_depth_test = true
 albedo_texture = ExtResource("1_wr13f")
 emission = Color(0.53298104, 0.30579165, 0.99177235, 1)
 texture_filter = 0
@@ -30,11 +31,11 @@ material = SubResource("StandardMaterial3D_828j1")
 
 [node name="StarParticles" type="GPUParticles3D"]
 emitting = false
-lifetime = 0.34
+lifetime = 0.66
 one_shot = true
 explosiveness = 1.0
 randomness = 1.0
-fixed_fps = 60
+fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_uic6d")
 draw_pass_1 = SubResource("QuadMesh_yfye5")
 script = ExtResource("4_n2ce3")
