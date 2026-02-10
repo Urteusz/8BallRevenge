@@ -233,7 +233,7 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 shape = SubResource("CylinderShape3D_j1k2u")
 
 [node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" unique_id=205270197 node_paths=PackedStringArray("game_manager", "player_ball")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.822899, 10.94)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.6, -13)
 script = ExtResource("10_jrims")
 game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("11_xppjr")
@@ -243,11 +243,11 @@ spread = 1.1
 height = 0.0
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" unique_id=1194765611 groups=["playerBall"] instance=ExtResource("12_7ke3c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.5, -13)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.5, 13)
 aim_line_ray_range = 30.0
 
 [node name="ReturnPosition" type="Node3D" parent="SubViewportContainer/SubViewport/Table" unique_id=946241637]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.5, -13)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.5, 13)
 
 [node name="Pockets" type="Node3D" parent="SubViewportContainer/SubViewport/Table" unique_id=433575070]
 
