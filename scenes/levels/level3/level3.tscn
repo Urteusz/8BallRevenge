@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="19_lsmej"]
 [ext_resource type="PackedScene" uid="uid://dlhbqkiwlq55b" path="res://models/bridge.glb" id="20_13qfw"]
 [ext_resource type="Script" uid="uid://cskdfigevu0cw" path="res://scenes/levels/level3/level3.gd" id="21_level3"]
+[ext_resource type="PackedScene" uid="uid://b6x5y4z3w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -298,6 +299,9 @@ environment = ExtResource("16_w2rca")
 [node name="ShopUI" parent="." unique_id=1775798783 instance=ExtResource("18_kse3a")]
 
 [node name="GameplayUI" parent="." unique_id=1082512869 instance=ExtResource("19_lsmej")]
+
+[node name="PauseMenu" parent="." node_paths=PackedStringArray("shop_ui") instance=ExtResource("23_pause")]
+shop_ui = NodePath("../ShopUI/ControlShop")
 
 [node name="ControlGameplay" parent="GameplayUI" index="0" unique_id=1377833409 node_paths=PackedStringArray("game_manager", "shopUI")]
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")

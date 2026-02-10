@@ -118,7 +118,7 @@ text = "Try again"
 process_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Main Menu"
+text = "Change Level"
 
 [node name="WinWindow" type="PanelContainer" parent="ControlGameplay" unique_id=272990186]
 layout_mode = 1

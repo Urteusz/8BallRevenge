@@ -39,9 +39,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -76.5
+offset_left = -200.0
 offset_top = -302.0
-offset_right = 76.5
+offset_right = 200.0
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -53,13 +53,8 @@ size_flags_vertical = 3
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 40
 text = "Next Level"
-
-[node name="ButtonChoose" type="Button" parent="ControlShop/ContinueContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Change Deck"
 
 [node name="MarginContainer" type="MarginContainer" parent="ControlShop/ContinueContainer"]
 layout_mode = 2
@@ -83,17 +78,7 @@ grow_vertical = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="QuitButton" type="TextureButton" parent="ControlShop"]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -128.0
-offset_right = 128.0
-grow_vertical = 0
-texture_normal = ExtResource("10_v1umv")
-texture_pressed = ExtResource("11_p6g4p")
+
 
 [node name="PointsScored" type="Label" parent="ControlShop"]
 layout_mode = 1
@@ -113,4 +98,4 @@ label_settings = SubResource("LabelSettings_v1umv")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="ControlShop/QuitButton" to="ControlShop" method="_on_quit_button_pressed"]
+

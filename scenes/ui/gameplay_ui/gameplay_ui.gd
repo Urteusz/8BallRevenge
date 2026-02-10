@@ -32,7 +32,7 @@ func _ready() -> void:
 	game_over_window.visible = false
 	win_window.visible = false
 	again_button.pressed.connect(_on_try_again)
-	exit_button.pressed.connect(_on_main_menu)
+	exit_button.pressed.connect(_on_change_level)
 	shop_button.pressed.connect(_on_shop_button)
 	win_try_again_button.pressed.connect(_on_try_again)
 	_show_hint("Hold LMB to charge\nTab: Change view")
@@ -208,8 +208,8 @@ func _on_try_again() -> void:
 	PlayerData.set_level(played_level_number)
 	LoadManager.load_scene(PlayerData.get_level_path())
 
-func _on_main_menu() -> void:
-	LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)
+func _on_change_level() -> void:
+	LoadManager.load_scene(ScenePaths.LEVEL_SELECT_MAP)
 	
 func _on_shop_button() -> void:
 	win_window.visible = false

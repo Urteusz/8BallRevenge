@@ -7,8 +7,6 @@ extends Control
 @onready var buttons_container = %ButtonsContainer 
 @onready var continue_container = $ContinueContainer
 @onready var next_button: Button = %ButtonNextLevel
-@onready var choose_button: Button = %ButtonChoose
-@onready var quit_button = $QuitButton
 @onready var scored_label = $PointsScored
 
 
@@ -29,17 +27,8 @@ func _ready() -> void:
 	
 	buttons_container.visible = false
 	continue_container.visible = false
-	if quit_button: quit_button.visible = false
-	
 	if not next_button.pressed.is_connected(_on_next_level):
 		next_button.pressed.connect(_on_next_level)
-		
-	if not choose_button.pressed.is_connected(_on_choose):
-		choose_button.pressed.connect(_on_choose)
-		
-	if quit_button: 
-		if not quit_button.pressed.is_connected(_on_quit_button_pressed):
-			quit_button.pressed.connect(_on_quit_button_pressed)
 	
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
@@ -117,7 +106,6 @@ func toggle_shop() -> void:
 	
 	continue_container.visible = shop_open
 	buttons_container.visible = shop_open
-	if quit_button: quit_button.visible = shop_open
 	
 	if shop_open:
 		mouse_filter = Control.MOUSE_FILTER_STOP
@@ -127,21 +115,13 @@ func toggle_shop() -> void:
 	else:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("pause"):
-		toggle_shop()
+
 
 
 func _on_next_level() -> void:
 	toggle_shop()
 	continue_container.visible = false
-	LoadManager.load_scene(PlayerData.get_level_path())
-
-func _on_choose() -> void:
-	LoadManager.load_scene(ScenePaths.DECK_CHOOSE)
-
-func _on_quit_button_pressed() -> void:
-	LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)
+	LoadManager.load_scene(ScenePaths.LEVEL_SELECT_MAP)
 
 
 func show_score_popup(amount: int) -> void:

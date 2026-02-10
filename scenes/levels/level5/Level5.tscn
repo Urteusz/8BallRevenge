@@ -23,6 +23,7 @@
 [ext_resource type="ArrayMesh" uid="uid://0lxkj2gtk607" path="res://models/table5/Table 5 Fan.obj" id="20_j4hik"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="21_n138t"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="22_tsu05"]
+[ext_resource type="PackedScene" uid="uid://b6x5y4z3w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -338,6 +339,9 @@ environment = ExtResource("19_7pm65")
 items_to_sell = Array[String](["purple", "speedy", "magnetic", "ice", "bomb"])
 
 [node name="GameplayUI" parent="." unique_id=1423902161 instance=ExtResource("22_tsu05")]
+
+[node name="PauseMenu" parent="." node_paths=PackedStringArray("shop_ui") instance=ExtResource("23_pause")]
+shop_ui = NodePath("../ShopUI/ControlShop")
 
 [node name="ControlGameplay" parent="GameplayUI" index="0" unique_id=1377833409 node_paths=PackedStringArray("game_manager", "shopUI")]
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")

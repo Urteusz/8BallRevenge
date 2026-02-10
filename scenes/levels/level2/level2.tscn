@@ -21,6 +21,7 @@
 [ext_resource type="AudioStream" uid="uid://bu2a7q6t07jjm" path="res://sounds/storm.mp3" id="18_fxmmb"]
 [ext_resource type="PackedScene" path="res://scenes/levels/level2/sandstorm.tscn" id="21_sandstorm"]
 [ext_resource type="Script" uid="uid://ck0tx1jdut4rv" path="res://scenes/levels/level2/level2.gd" id="22_level2"]
+[ext_resource type="PackedScene" uid="uid://b6x5y4z3w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -422,6 +423,9 @@ environment = ExtResource("13_pwggy")
 [node name="ShopUI" parent="." unique_id=1106111638 instance=ExtResource("12_k3l6j")]
 
 [node name="GameplayUI" parent="." unique_id=1501012411 instance=ExtResource("17_e4fnj")]
+
+[node name="PauseMenu" parent="." node_paths=PackedStringArray("shop_ui") instance=ExtResource("23_pause")]
+shop_ui = NodePath("../ShopUI/ControlShop")
 
 [node name="ControlGameplay" parent="GameplayUI" index="0" unique_id=1377833409 node_paths=PackedStringArray("game_manager", "shopUI")]
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
