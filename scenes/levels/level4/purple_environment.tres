@@ -1,4 +1,4 @@
-[gd_resource type="Environment" format=3 uid="uid://cy12cdkgj0j71"]
+[gd_resource type="Environment" load_steps=4 format=3 uid="uid://cy12cdkgj0j71"]
 
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="1_2jsts"]
 

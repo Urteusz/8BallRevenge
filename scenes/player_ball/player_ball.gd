@@ -1,54 +1,49 @@
 extends BallParent
 
-# Progi prędkości dla możliwości strzelania
 const SHOOTABLE_VELOCITY_THRESHOLD: float = 3.0
 const SHOOTABLE_ANGULAR_THRESHOLD: float = 2.0
 
-# Minimalna prędkość po której uznajemy, że kula CAŁKOWICIE stoi
 const FULL_STOP_THRESHOLD: float = 0.1
 const FULL_STOP_ANGULAR_THRESHOLD: float = 0.15
 
-# Stałe uderzenia
 const MIN_IMPULSE: float = 0.2
 
-# Stałe paska mocy
 const POWER_BAR_HEIGHT: float = 1.5
-const POWER_BAR_WIDTH: float = 0.18
+const POWER_BAR_WIDTH: float = 0.35 
 const POWER_BAR_DEPTH: float = 0.02
 const MARKER_WIDTH: float = 0.28
 const MARKER_HEIGHT: float = 0.045
-const POWER_BAR_OFFSET_RIGHT: float = 1.0
-const POWER_BAR_CYCLE_SPEED: float = 1.4  # sekundy na pełny cykl 0→1→0
+
+const POWER_BAR_OFFSET_Z: float = 1.5 
+const POWER_BAR_CYCLE_SPEED: float = 1.4
 const FRAME_THICKNESS: float = 0.035
-const TICK_COUNT: int = 4  # kreski podziałki (20%, 40%, 60%, 80%)
+const TICK_COUNT: int = 4
 const TICK_HEIGHT: float = 0.012
 const TICK_OUTLINE: float = 0.006
 
-# Stałe fizyki podkręcania
 const SPIN_CURVE_FORCE: float = 4.5
 const SPIN_DECAY: float = 0.4
 const SPIN_TORQUE_MULT: float = 0.015
 const VERTICAL_SPIN_FORCE: float = 3.0
 const ROLLING_RESISTANCE_FACTOR: float = 0.15
 
-# Ustawienia uderzenia
+@export_group("Shooting Settings")
 @export var max_charge_duration: float = 1.5
 @export var max_impulse_strength: float = 4.0
 
-# Ustawienia podkręcenia
 @export var max_spin_offset: float = 0.7 
 @export var spin_change_speed: float = 1.8 
 @export var spin_indicator_max_offset_visual: float = 0.5
 
-# Kolory paska mocy
+@export_group("UI Settings")
 @export var weak_charge_color := Color(0.1, 1.0, 0.2, 0.95)
-@export var medium_charge_color := Color(1.0, 1.0, 0.0, 0.95)
+@export var medium_charge_color := Color(1.0, 1.0, 0.0, 0.95) 
 @export var strong_charge_color := Color(1.0, 0.1, 0.0, 0.95)
+@export_range(0.0, 1.0) var bar_opacity: float = 0.5 
+@export var show_outline: bool = true 
 
-# Długość lini pomocniczej
 @export var aim_line_ray_range: float = 20.0
 
-# Ścieżki
 @onready var collision_shape := $CollisionShape3D
 @onready var ball_radius: float = get_ball_radius()
 @onready var aim_line: MeshInstance3D = null
@@ -56,7 +51,6 @@ const ROLLING_RESISTANCE_FACTOR: float = 0.15
 
 var camera: Camera3D = null
 
-# Pasek mocy
 var power_bar_root: Node3D = null
 var power_bar_bg: MeshInstance3D = null
 var power_bar_marker: MeshInstance3D = null
@@ -69,12 +63,10 @@ var aimed_at_ball: BallParent = null
 var is_grounded: bool = false
 var can_shoot_flag: bool = true
 
-# Zmienne podkręcenia
 var spin_factor: float = 0.0
 var vertical_spin_factor: float = 0.0
 var spin_active: bool = false
 
-# Sygnały
 signal ball_pushed(impulse_power: float)
 signal charging_cancelled
 signal turn_started
@@ -137,13 +129,11 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	var speed = lv.length()
 	var angular_speed = angular_velocity.length()
 
-	# Automatyczne zatrzymanie przy bardzo niskich prędkościach
 	if speed < FULL_STOP_THRESHOLD and angular_speed < FULL_STOP_ANGULAR_THRESHOLD:
 		state.linear_velocity = Vector3.ZERO
 		state.angular_velocity = Vector3.ZERO
 		return
 
-	# Spin effects
 	if spin_active and speed > 0.5:
 		var forward_dir = lv.normalized()
 		var curve_dir = lv.cross(Vector3.UP).normalized()
@@ -152,7 +142,6 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		if abs(vertical_spin_factor) > 0.05:
 			state.apply_central_force(forward_dir * vertical_spin_factor * VERTICAL_SPIN_FORCE)
 
-	# Rolling resistance
 	if speed > 0.5 and is_grounded:
 		var forward_dir = lv.normalized()
 		var rotation_axis = forward_dir.cross(Vector3.UP).normalized()
@@ -211,14 +200,13 @@ func push_ball(impulse_power: float) -> void:
 	if audioStream:
 		var power_ratio = impulse_power / max_impulse_strength
 		
-		var min_volume_db = -20.0  # Ciche uderzenie
-		var max_volume_db = 2.0    # Głośne uderzenie
+		var min_volume_db = -20.0 
+		var max_volume_db = 2.0 
 		
 		audioStream.volume_db = lerp(min_volume_db, max_volume_db, power_ratio)
 		print("Volume:", audioStream.volume_db)
 		audioStream.play()
 	
-	# Logic for spin
 	if camera and "spin_offset" in camera:
 		spin_factor = camera.spin_offset
 		if "vertical_spin_offset" in camera:
@@ -247,26 +235,20 @@ func push_ball(impulse_power: float) -> void:
 	emit_signal("ball_pushed", impulse_power)
 
 func get_charge_color(ratio: float) -> Color:
-	# Gradient: zielony -> żółty -> czerwony
-	if ratio < 0.5:
-		var local_ratio = ratio * 2.0
-		return weak_charge_color.lerp(medium_charge_color, local_ratio)
-	else:
-		var local_ratio = (ratio - 0.5) * 2.0
-		return medium_charge_color.lerp(strong_charge_color, local_ratio)
+	# Linear interpolation from Green to Red directly
+	return weak_charge_color.lerp(strong_charge_color, ratio)
 
-# Helper: shader overlay (depth_test_disabled = zawsze na wierzchu)
 func _make_overlay_shader(color: Color, priority: int) -> ShaderMaterial:
 	var sh := Shader.new()
 	sh.code = """
-		shader_type spatial;
-		render_mode unshaded, blend_mix, cull_disabled, depth_test_disabled;
-		uniform vec4 color : source_color;
-		void fragment() {
-			ALBEDO = color.rgb;
-			ALPHA = color.a;
-		}
-	"""
+        shader_type spatial;
+        render_mode unshaded, blend_mix, cull_disabled, depth_test_disabled;
+        uniform vec4 color : source_color;
+        void fragment() {
+            ALBEDO = color.rgb;
+            ALPHA = color.a;
+        }
+    """
 	var mat := ShaderMaterial.new()
 	mat.shader = sh
 	mat.set_shader_parameter("color", color)
@@ -274,75 +256,73 @@ func _make_overlay_shader(color: Color, priority: int) -> ShaderMaterial:
 	return mat
 
 func _create_power_bar() -> void:
-	# Root node
 	power_bar_root = Node3D.new()
 	power_bar_root.name = "PowerBarRoot"
 	add_child(power_bar_root)
+	# IMPORTANT: This detaches the power bar's transform from the ball, 
+	# preventing it from spinning with the ball physics.
+	power_bar_root.set_as_top_level(true) 
 	power_bar_root.visible = false
 
 	var half_w := POWER_BAR_WIDTH / 2.0
 	var half_h := POWER_BAR_HEIGHT / 2.0
-	var frame_col := Color(0.05, 0.05, 0.08, 0.96)
+	
+	var frame_col := Color(0.05, 0.05, 0.08, bar_opacity)
 
-	# --- Ramka (4 boki) ---
-	# Lewa
-	var lm := BoxMesh.new()
-	lm.size = Vector3(FRAME_THICKNESS, POWER_BAR_HEIGHT + FRAME_THICKNESS * 2.0, POWER_BAR_DEPTH)
-	var li := MeshInstance3D.new()
-	li.mesh = lm
-	li.material_override = _make_overlay_shader(frame_col, 10)
-	li.position = Vector3(-(half_w + FRAME_THICKNESS / 2.0), 0.0, 0.0)
-	power_bar_root.add_child(li)
+	if show_outline:
+		var lm := BoxMesh.new()
+		lm.size = Vector3(FRAME_THICKNESS, POWER_BAR_HEIGHT + FRAME_THICKNESS * 2.0, POWER_BAR_DEPTH)
+		var li := MeshInstance3D.new()
+		li.mesh = lm
+		li.material_override = _make_overlay_shader(frame_col, 10)
+		li.position = Vector3(-(half_w + FRAME_THICKNESS / 2.0), 0.0, 0.0)
+		power_bar_root.add_child(li)
 
-	# Prawa
-	var rm := BoxMesh.new()
-	rm.size = Vector3(FRAME_THICKNESS, POWER_BAR_HEIGHT + FRAME_THICKNESS * 2.0, POWER_BAR_DEPTH)
-	var ri := MeshInstance3D.new()
-	ri.mesh = rm
-	ri.material_override = _make_overlay_shader(frame_col, 10)
-	ri.position = Vector3(half_w + FRAME_THICKNESS / 2.0, 0.0, 0.0)
-	power_bar_root.add_child(ri)
+		var rm := BoxMesh.new()
+		rm.size = Vector3(FRAME_THICKNESS, POWER_BAR_HEIGHT + FRAME_THICKNESS * 2.0, POWER_BAR_DEPTH)
+		var ri := MeshInstance3D.new()
+		ri.mesh = rm
+		ri.material_override = _make_overlay_shader(frame_col, 10)
+		ri.position = Vector3(half_w + FRAME_THICKNESS / 2.0, 0.0, 0.0)
+		power_bar_root.add_child(ri)
 
-	# Góra
-	var tm := BoxMesh.new()
-	tm.size = Vector3(POWER_BAR_WIDTH, FRAME_THICKNESS, POWER_BAR_DEPTH)
-	var ti := MeshInstance3D.new()
-	ti.mesh = tm
-	ti.material_override = _make_overlay_shader(frame_col, 10)
-	ti.position = Vector3(0.0, half_h + FRAME_THICKNESS / 2.0, 0.0)
-	power_bar_root.add_child(ti)
+		var tm := BoxMesh.new()
+		tm.size = Vector3(POWER_BAR_WIDTH, FRAME_THICKNESS, POWER_BAR_DEPTH)
+		var ti := MeshInstance3D.new()
+		ti.mesh = tm
+		ti.material_override = _make_overlay_shader(frame_col, 10)
+		ti.position = Vector3(0.0, half_h + FRAME_THICKNESS / 2.0, 0.0)
+		power_bar_root.add_child(ti)
 
-	# Dół
-	var bm := BoxMesh.new()
-	bm.size = Vector3(POWER_BAR_WIDTH, FRAME_THICKNESS, POWER_BAR_DEPTH)
-	var bi := MeshInstance3D.new()
-	bi.mesh = bm
-	bi.material_override = _make_overlay_shader(frame_col, 10)
-	bi.position = Vector3(0.0, -(half_h + FRAME_THICKNESS / 2.0), 0.0)
-	power_bar_root.add_child(bi)
+		var bm := BoxMesh.new()
+		bm.size = Vector3(POWER_BAR_WIDTH, FRAME_THICKNESS, POWER_BAR_DEPTH)
+		var bi := MeshInstance3D.new()
+		bi.mesh = bm
+		bi.material_override = _make_overlay_shader(frame_col, 10)
+		bi.position = Vector3(0.0, -(half_h + FRAME_THICKNESS / 2.0), 0.0)
+		power_bar_root.add_child(bi)
 
-	# --- Gradient bar (green → yellow → red) ---
 	var bar_mesh := BoxMesh.new()
 	bar_mesh.size = Vector3(POWER_BAR_WIDTH, POWER_BAR_HEIGHT, POWER_BAR_DEPTH)
 
 	var bar_shader := ShaderMaterial.new()
 	var shader_code := Shader.new()
+	# Updated shader: Direct Mix from Green to Red
 	shader_code.code = """
-		shader_type spatial;
-		render_mode unshaded, blend_mix, cull_disabled, depth_test_disabled;
-		void fragment() {
-			float ratio = 1.0 - UV.y;
-			vec3 green  = vec3(0.1, 1.0, 0.2);
-			vec3 yellow = vec3(1.0, 1.0, 0.0);
-			vec3 red    = vec3(1.0, 0.1, 0.0);
-			vec3 col = (ratio < 0.5)
-				? mix(green, yellow, ratio * 2.0)
-				: mix(yellow, red, (ratio - 0.5) * 2.0);
-			ALBEDO = col;
-			ALPHA = 0.92;
-		}
-	"""
+        shader_type spatial;
+        render_mode unshaded, blend_mix, cull_disabled, depth_test_disabled;
+        uniform float opacity; 
+        void fragment() {
+            float ratio = 1.0 - UV.y;
+            vec3 green  = vec3(0.1, 1.0, 0.2);
+            vec3 red    = vec3(1.0, 0.1, 0.0);
+            vec3 col = mix(green, red, ratio); 
+            ALBEDO = col;
+            ALPHA = opacity;
+        }
+    """
 	bar_shader.shader = shader_code
+	bar_shader.set_shader_parameter("opacity", bar_opacity)
 	bar_shader.render_priority = 11
 
 	power_bar_bg = MeshInstance3D.new()
@@ -352,43 +332,40 @@ func _create_power_bar() -> void:
 	power_bar_bg.position = Vector3.ZERO
 	power_bar_root.add_child(power_bar_bg)
 
-	# --- Kreski podziałki (4 równo rozłożone) ---
 	for i in range(TICK_COUNT):
-		var frac := float(i + 1) / float(TICK_COUNT + 1)  # 0.2, 0.4, 0.6, 0.8
+		var frac := float(i + 1) / float(TICK_COUNT + 1) 
 		var tick_y := -half_h + frac * POWER_BAR_HEIGHT
 
-		# Czarna ramka za kreską
-		var outline_mesh := BoxMesh.new()
-		outline_mesh.size = Vector3(POWER_BAR_WIDTH + 0.01, TICK_HEIGHT + TICK_OUTLINE * 2.0, POWER_BAR_DEPTH)
-		var outline_inst := MeshInstance3D.new()
-		outline_inst.mesh = outline_mesh
-		outline_inst.material_override = _make_overlay_shader(Color(0.0, 0.0, 0.0, 0.85), 12)
-		outline_inst.position = Vector3(0.0, tick_y, 0.0)
-		power_bar_root.add_child(outline_inst)
+		if show_outline:
+			var outline_mesh := BoxMesh.new()
+			outline_mesh.size = Vector3(POWER_BAR_WIDTH + 0.01, TICK_HEIGHT + TICK_OUTLINE * 2.0, POWER_BAR_DEPTH)
+			var outline_inst := MeshInstance3D.new()
+			outline_inst.mesh = outline_mesh
+			outline_inst.material_override = _make_overlay_shader(Color(0.0, 0.0, 0.0, bar_opacity), 12)
+			outline_inst.position = Vector3(0.0, tick_y, 0.0)
+			power_bar_root.add_child(outline_inst)
 
-		# Biała kreska
 		var tick_mesh := BoxMesh.new()
 		tick_mesh.size = Vector3(POWER_BAR_WIDTH, TICK_HEIGHT, POWER_BAR_DEPTH)
 		var tick_inst := MeshInstance3D.new()
 		tick_inst.mesh = tick_mesh
-		tick_inst.material_override = _make_overlay_shader(Color(0.0, 0.0, 0.0, 0.9), 12)
+		tick_inst.material_override = _make_overlay_shader(Color(0.0, 0.0, 0.0, bar_opacity), 12)
 		tick_inst.position = Vector3(0.0, tick_y, 0.0)
 		power_bar_root.add_child(tick_inst)
 
-	# --- Marker ---
 	var marker_mesh := BoxMesh.new()
-	marker_mesh.size = Vector3(MARKER_WIDTH, MARKER_HEIGHT, POWER_BAR_DEPTH)
+	marker_mesh.size = Vector3(POWER_BAR_WIDTH + 0.1, MARKER_HEIGHT, POWER_BAR_DEPTH)
 
 	var marker_sh := Shader.new()
 	marker_sh.code = """
-		shader_type spatial;
-		render_mode unshaded, blend_mix, cull_disabled, depth_test_disabled;
-		uniform vec4 color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
-		void fragment() {
-			ALBEDO = color.rgb;
-			ALPHA = color.a;
-		}
-	"""
+        shader_type spatial;
+        render_mode unshaded, blend_mix, cull_disabled, depth_test_disabled;
+        uniform vec4 color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+        void fragment() {
+            ALBEDO = color.rgb;
+            ALPHA = color.a;
+        }
+    """
 	marker_material = ShaderMaterial.new()
 	marker_material.shader = marker_sh
 	marker_material.set_shader_parameter("color", Color(1.0, 1.0, 1.0, 0.95))
@@ -404,29 +381,38 @@ func _create_power_bar() -> void:
 func _animate_power_bar(delta: float) -> void:
 	hit_position = camera.cursor_position
 
-	# Pozycjonowanie paska po prawej stronie bili (względem kamery)
-	var cam_right := camera.global_transform.basis.x.normalized()
-	var bar_pos := global_position + cam_right * POWER_BAR_OFFSET_RIGHT
-	bar_pos.y = global_position.y  # Środek paska na środku bili
+	# 1. Get the camera's backward vector (points towards the player)
+	var cam_fwd := camera.global_transform.basis.z
+	
+	# 2. FLATTEN it by setting Y to 0 and re-normalizing.
+	# This prevents the distance from shrinking when looking down.
+	cam_fwd.y = 0.0
+	cam_fwd = cam_fwd.normalized()
+	
+	# 3. Calculate position using the flattened vector
+	var bar_pos := global_position + cam_fwd * POWER_BAR_OFFSET_Z
+	bar_pos.y = global_position.y - ball_radius + 0.02
+	
 	power_bar_root.global_position = bar_pos
 
-	# Pasek zawsze twarzą do kamery
-	var look_target := power_bar_root.global_position + camera.global_transform.basis.z
+	# 4. Use the same flattened logic for rotation so it stays upright
+	var look_target := bar_pos + cam_fwd
+	look_target.y = bar_pos.y
 	power_bar_root.look_at(look_target, Vector3.UP)
+	
+	power_bar_root.rotate_y(PI)
+	power_bar_root.rotate_object_local(Vector3.RIGHT, -PI / 2.0)
 
-	# Oscylacja mocy — fala trójkątna (ping-pong)
 	charge_timer += delta
 	var t := fmod(charge_timer, POWER_BAR_CYCLE_SPEED) / POWER_BAR_CYCLE_SPEED
-	current_power_ratio = 1.0 - abs(2.0 * t - 1.0)  # 0→1→0→1...
+	current_power_ratio = 1.0 - abs(2.0 * t - 1.0) 
 
-	# Pozycja markera na pasku (od -H/2 do +H/2)
 	var marker_y := -POWER_BAR_HEIGHT / 2.0 + current_power_ratio * POWER_BAR_HEIGHT
 	power_bar_marker.position.y = marker_y
 
-	# Kolor markera — dopasowany do pozycji na gradiencie
 	if marker_material:
 		var col := get_charge_color(current_power_ratio)
-		col.a = 0.95
+		col.a = 0.95 
 		marker_material.set_shader_parameter("color", col)
 
 func start_charging() -> void:
@@ -492,8 +478,6 @@ func _setup_aim_line() -> void:
 		if new_aimed_at_ball:
 			new_aimed_at_ball.start_being_aimed_at()
 		aimed_at_ball = new_aimed_at_ball
-
-# --- LOGIKA STANU FIZYKI ---
 
 func is_fully_stopped() -> bool:
 	return sleeping or (
