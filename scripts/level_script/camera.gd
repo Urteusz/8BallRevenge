@@ -149,11 +149,11 @@ func _input(event) -> void:
 			current_target_index = 1
 		update_camera_target()
 
-	if event.is_action_pressed("toggle_mouse_capture"):
-		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		else:
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+#	if event.is_action_pressed("toggle_mouse_capture"):
+#		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+#			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+#		else:
+#			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 	if event.is_action_pressed("reload_scene"):
 		_reload_current_scene()

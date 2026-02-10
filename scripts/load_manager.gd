@@ -12,7 +12,13 @@ var _progress: Array = []
 var use_sub_threads: bool = true
 
 
+var previous_scene_path: String = ""
+
 func load_scene(scene_path: String) -> void:
+	# Save current scene path before switching
+	if get_tree().current_scene:
+		previous_scene_path = get_tree().current_scene.scene_file_path
+	
 	_scene_path = scene_path
 
 	var new_loading_screen = _load_screen.instantiate()

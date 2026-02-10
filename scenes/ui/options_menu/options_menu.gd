@@ -125,5 +125,9 @@ func _on_apply_pressed() -> void:
 	print("Settings Applied and Saved!")
 
 
-func _on_quit_pressed() -> void:
-	LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)
+func _on_back_pressed() -> void:
+	if LoadManager.previous_scene_path != "":
+		LoadManager.load_scene(LoadManager.previous_scene_path)
+	else:
+		# Fallback to Main Menu if no previous scene (e.g. started directly in Options)
+		LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)
