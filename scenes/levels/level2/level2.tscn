@@ -321,8 +321,8 @@ script = ExtResource("8_0em4h")
 og_gradient_texture = ExtResource("10_ntc21")
 ball_pocketed_gradient = ExtResource("11_385ab")
 player_pocketed_gradient = ExtResource("12_i8ch4")
-assist_radius = 2.5
-assist_strength = 2.5
+assist_radius = 3.0
+assist_strength = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket1" unique_id=453486459]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04724121, 0, -0.10223389)
@@ -335,6 +335,8 @@ script = ExtResource("8_0em4h")
 og_gradient_texture = ExtResource("10_ntc21")
 ball_pocketed_gradient = ExtResource("11_385ab")
 player_pocketed_gradient = ExtResource("12_i8ch4")
+assist_radius = 3.0
+assist_strength = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket2" unique_id=193642547]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.048206806, 0, -0.0975647)
@@ -347,6 +349,8 @@ script = ExtResource("8_0em4h")
 og_gradient_texture = ExtResource("10_ntc21")
 ball_pocketed_gradient = ExtResource("11_385ab")
 player_pocketed_gradient = ExtResource("12_i8ch4")
+assist_radius = 3.0
+assist_strength = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket3" unique_id=1096038568]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.041778564, 0, 0.11685181)
@@ -359,6 +363,8 @@ script = ExtResource("8_0em4h")
 og_gradient_texture = ExtResource("10_ntc21")
 ball_pocketed_gradient = ExtResource("11_385ab")
 player_pocketed_gradient = ExtResource("12_i8ch4")
+assist_radius = 3.0
+assist_strength = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket4" unique_id=315749926]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
@@ -371,6 +377,8 @@ script = ExtResource("8_0em4h")
 og_gradient_texture = ExtResource("10_ntc21")
 ball_pocketed_gradient = ExtResource("11_385ab")
 player_pocketed_gradient = ExtResource("12_i8ch4")
+assist_radius = 3.0
+assist_strength = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket5" unique_id=816900879]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
@@ -383,6 +391,8 @@ script = ExtResource("8_0em4h")
 og_gradient_texture = ExtResource("10_ntc21")
 ball_pocketed_gradient = ExtResource("11_385ab")
 player_pocketed_gradient = ExtResource("12_i8ch4")
+assist_radius = 3.0
+assist_strength = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket6" unique_id=1739333827]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
