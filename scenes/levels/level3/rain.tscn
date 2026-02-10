@@ -21,10 +21,10 @@ particles_anim_loop = false
 material = SubResource("StandardMaterial3D_fp520")
 size = Vector2(0.15, 1)
 
-[node name="Node3D" type="Node3D" unique_id=633303949]
+[node name="RainParticle" type="Node3D" unique_id=633303949]
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=66863782]
-amount = 200
+amount = 100
 lifetime = 2.0
 visibility_aabb = AABB(-10.983215, -42.4775, -15.971619, 21.977108, 44.468037, 31.970703)
 process_material = SubResource("ParticleProcessMaterial_j3ki3")

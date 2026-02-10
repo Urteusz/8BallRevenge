@@ -74,15 +74,33 @@ func _process(delta: float) -> void:
 	# Aktualizacja charge ratio
 	if player_ball and player_ball.charging:
 		var charge_ratio = clamp(
-			player_ball.charge_timer / player_ball.max_charge_duration, 
-			0.0, 
+			player_ball.charge_timer / player_ball.max_charge_duration,
+			0.0,
 			1.0
 		)
 		emit_signal("charging_updated", charge_ratio)
-	
-	if moves_left == 0 and player_ball.is_fully_stopped():
+
+	# Check game over only when ALL balls are stopped
+	if moves_left == 0 and _are_all_balls_stopped():
 		if !game_over and !game_win:
 			_on_game_over()
+
+func _are_all_balls_stopped() -> bool:
+	# Check if player ball is stopped
+	if player_ball and not player_ball.is_fully_stopped():
+		return false
+
+	# Check if all other balls are stopped
+	for ball in ball_list:
+		if is_instance_valid(ball):
+			var is_stopped = ball.sleeping or (
+				ball.linear_velocity.length_squared() < 0.01 and
+				ball.angular_velocity.length_squared() < 0.01
+			)
+			if not is_stopped:
+				return false
+
+	return true
 
 func _input(event) -> void:
 	if event.is_action_pressed("push_ball") and player_ball:
