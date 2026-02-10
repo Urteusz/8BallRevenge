@@ -4,11 +4,11 @@ extends Node
 @onready var sandstorm_node = $SubViewportContainer/SubViewport/Sandstorm
 @onready var sand_particles = $SubViewportContainer/SubViewport/Sandstorm/SandParticles
 @onready var world_env: WorldEnvironment = $WorldEnvironment
-var wind_audio: AudioStreamPlayer
+@onready var wind_audio: AudioStreamPlayer3D = $SubViewportContainer/SubViewport/AudioStreamPlayer3D
 
 const SANDSTORM_START_MOVE: int = 6
 const SANDSTORM_END_MOVE: int = 3
-const WIND_DIRECTION = Vector3(1, 0, 0.3)
+const WIND_DIRECTION = Vector3(1, 0, 0)
 
 const WIND_FORCE: float = 0.2
 const WIND_FORCE_MILD: float = 0.05  # Lekki podmuch przed/po burzy
@@ -81,15 +81,9 @@ func _update_fog(moves_left: int) -> void:
 		target_wind_volume_db = -80.0
 
 func _setup_wind_audio() -> void:
-	wind_audio = AudioStreamPlayer.new()
-	var stream = load("res://sounds/storm.mp3")
-	if not stream:
-		push_warning("Brak pliku dźwięku wiatru! Dodaj sounds/wind.ogg (.wav/.mp3)")
+	if not wind_audio:
 		return
-	wind_audio.stream = stream
 	wind_audio.volume_db = -80.0
-	wind_audio.bus = "Master"
-	add_child(wind_audio)
 	wind_audio.play()
 
 func _set_fog_density(density: float) -> void:

@@ -18,6 +18,7 @@
 [ext_resource type="Environment" uid="uid://d4eptfg3c55gl" path="res://scenes/levels/level2/dust_environment.tres" id="13_pwggy"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="16_5prdx"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="17_e4fnj"]
+[ext_resource type="AudioStream" uid="uid://bu2a7q6t07jjm" path="res://sounds/storm.mp3" id="18_fxmmb"]
 [ext_resource type="PackedScene" path="res://scenes/levels/level2/sandstorm.tscn" id="21_sandstorm"]
 [ext_resource type="Script" uid="uid://ck0tx1jdut4rv" path="res://scenes/levels/level2/level2.gd" id="22_level2"]
 
@@ -401,6 +402,9 @@ returnPoint = NodePath("../Table/ReturnPosition")
 transform = Transform3D(22.16, 0, 0, 0, 22.16, 0, 0, 0, 22.16, 72.9116, 9.730457, 2.8128471)
 mesh = ExtResource("11_xqajj")
 surface_material_override/0 = SubResource("StandardMaterial3D_a011w")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport" unique_id=812987485]
+stream = ExtResource("18_fxmmb")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1604786185]
 environment = ExtResource("13_pwggy")
