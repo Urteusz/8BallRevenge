@@ -9,8 +9,20 @@ const FULL_STOP_THRESHOLD: float = 0.1
 const FULL_STOP_ANGULAR_THRESHOLD: float = 0.15
 
 # Stałe uderzenia
-const RING_ALPHA: float = 0.7
 const MIN_IMPULSE: float = 0.2
+
+# Stałe paska mocy
+const POWER_BAR_HEIGHT: float = 1.5
+const POWER_BAR_WIDTH: float = 0.18
+const POWER_BAR_DEPTH: float = 0.02
+const MARKER_WIDTH: float = 0.28
+const MARKER_HEIGHT: float = 0.045
+const POWER_BAR_OFFSET_RIGHT: float = 1.0
+const POWER_BAR_CYCLE_SPEED: float = 1.4  # sekundy na pełny cykl 0→1→0
+const FRAME_THICKNESS: float = 0.035
+const TICK_COUNT: int = 4  # kreski podziałki (20%, 40%, 60%, 80%)
+const TICK_HEIGHT: float = 0.012
+const TICK_OUTLINE: float = 0.006
 
 # Stałe fizyki podkręcania
 const SPIN_CURVE_FORCE: float = 4.5
@@ -28,24 +40,28 @@ const ROLLING_RESISTANCE_FACTOR: float = 0.15
 @export var spin_change_speed: float = 1.8 
 @export var spin_indicator_max_offset_visual: float = 0.5
 
-# Kolory pierścienia ładowania strzału
-@export var weak_charge_color := Color(0.0, 1.0, 0.0, 1.0)
-@export var medium_charge_color := Color(1.0, 1.0, 0.0, 1.0)
-@export var strong_charge_color := Color(1.0, 0.0, 0.0, 1.0)
+# Kolory paska mocy
+@export var weak_charge_color := Color(0.1, 1.0, 0.2, 0.95)
+@export var medium_charge_color := Color(1.0, 1.0, 0.0, 0.95)
+@export var strong_charge_color := Color(1.0, 0.1, 0.0, 0.95)
 
 # Długość lini pomocniczej
 @export var aim_line_ray_range: float = 20.0
 
 # Ścieżki
 @onready var collision_shape := $CollisionShape3D
-@onready var charge_ring: MeshInstance3D = $ChargeRing
 @onready var ball_radius: float = get_ball_radius()
 @onready var aim_line: MeshInstance3D = null
 @onready var audioStream = $AudioStreamPlayer3D
 
 var camera: Camera3D = null
 
-var ring_material: StandardMaterial3D = null
+# Pasek mocy
+var power_bar_root: Node3D = null
+var power_bar_bg: MeshInstance3D = null
+var power_bar_marker: MeshInstance3D = null
+var marker_material: ShaderMaterial = null
+var current_power_ratio: float = 0.0
 var charging: bool = false
 var charge_timer: float = 0.0
 var hit_position: Vector3
@@ -73,13 +89,13 @@ func _ready() -> void:
 		set_process(false)
 		return
 
-	setup_charge_ring()
+	_create_power_bar()
 	create_aim_line_mesh()
 	sleeping = true
 
 func _process(delta: float) -> void:
-	if charging and camera and charge_ring:
-		_animate_charge_ring(delta)
+	if charging and camera and power_bar_root:
+		_animate_power_bar(delta)
 	
 	_check_ground_contact()
 	
@@ -100,9 +116,11 @@ func _input(event) -> void:
 		
 	if charging:
 		if event.is_action_pressed("cancel_charging"):
-			charge_ring.visible = false
+			if power_bar_root:
+				power_bar_root.visible = false
 			charging = false
 			charge_timer = 0.0
+			current_power_ratio = 0.0
 			emit_signal("charging_cancelled")
 
 	if event.is_action_pressed("push_ball") and can_shoot():
@@ -161,9 +179,10 @@ func release_push() -> void:
 		return
 
 	charging = false
-	charge_ring.visible = false
-	charge_timer = clamp(charge_timer, 0.0, max_charge_duration)
-	var impulse_power: float = clamp(charge_timer / max_charge_duration, MIN_IMPULSE, 1.0) * max_impulse_strength
+	if power_bar_root:
+		power_bar_root.visible = false
+	var impulse_power: float = clamp(current_power_ratio, MIN_IMPULSE, 1.0) * max_impulse_strength
+	current_power_ratio = 0.0
 
 	emit_signal("turn_started")
 	push_ball(impulse_power)
@@ -236,64 +255,187 @@ func get_charge_color(ratio: float) -> Color:
 		var local_ratio = (ratio - 0.5) * 2.0
 		return medium_charge_color.lerp(strong_charge_color, local_ratio)
 
-func setup_charge_ring() -> void:
-	if charge_ring.get_surface_override_material(0):
-		ring_material = charge_ring.get_surface_override_material(0).duplicate()
-		charge_ring.set_surface_override_material(0, ring_material)
-		var color = ring_material.albedo_color
-		color.a = 0.0
-		ring_material.albedo_color = color
-	else:
-		# Proba pobrania z mesha jesli override nie ma
-		var mesh = charge_ring.mesh
-		if mesh:
-			var mat = mesh.surface_get_material(0)
-			if mat:
-				ring_material = mat.duplicate()
-				charge_ring.set_surface_override_material(0, ring_material)
-				var color = ring_material.albedo_color
-				color.a = 0.0
-				ring_material.albedo_color = color
-				return
-				
-		push_error("Error: ChargeRing has no material to setup!")
+# Helper: shader overlay (depth_test_disabled = zawsze na wierzchu)
+func _make_overlay_shader(color: Color, priority: int) -> ShaderMaterial:
+	var sh := Shader.new()
+	sh.code = """
+		shader_type spatial;
+		render_mode unshaded, blend_mix, cull_disabled, depth_test_disabled;
+		uniform vec4 color : source_color;
+		void fragment() {
+			ALBEDO = color.rgb;
+			ALPHA = color.a;
+		}
+	"""
+	var mat := ShaderMaterial.new()
+	mat.shader = sh
+	mat.set_shader_parameter("color", color)
+	mat.render_priority = priority
+	return mat
 
-func _animate_charge_ring(delta: float) -> void:
+func _create_power_bar() -> void:
+	# Root node
+	power_bar_root = Node3D.new()
+	power_bar_root.name = "PowerBarRoot"
+	add_child(power_bar_root)
+	power_bar_root.visible = false
+
+	var half_w := POWER_BAR_WIDTH / 2.0
+	var half_h := POWER_BAR_HEIGHT / 2.0
+	var frame_col := Color(0.05, 0.05, 0.08, 0.96)
+
+	# --- Ramka (4 boki) ---
+	# Lewa
+	var lm := BoxMesh.new()
+	lm.size = Vector3(FRAME_THICKNESS, POWER_BAR_HEIGHT + FRAME_THICKNESS * 2.0, POWER_BAR_DEPTH)
+	var li := MeshInstance3D.new()
+	li.mesh = lm
+	li.material_override = _make_overlay_shader(frame_col, 10)
+	li.position = Vector3(-(half_w + FRAME_THICKNESS / 2.0), 0.0, 0.0)
+	power_bar_root.add_child(li)
+
+	# Prawa
+	var rm := BoxMesh.new()
+	rm.size = Vector3(FRAME_THICKNESS, POWER_BAR_HEIGHT + FRAME_THICKNESS * 2.0, POWER_BAR_DEPTH)
+	var ri := MeshInstance3D.new()
+	ri.mesh = rm
+	ri.material_override = _make_overlay_shader(frame_col, 10)
+	ri.position = Vector3(half_w + FRAME_THICKNESS / 2.0, 0.0, 0.0)
+	power_bar_root.add_child(ri)
+
+	# Góra
+	var tm := BoxMesh.new()
+	tm.size = Vector3(POWER_BAR_WIDTH, FRAME_THICKNESS, POWER_BAR_DEPTH)
+	var ti := MeshInstance3D.new()
+	ti.mesh = tm
+	ti.material_override = _make_overlay_shader(frame_col, 10)
+	ti.position = Vector3(0.0, half_h + FRAME_THICKNESS / 2.0, 0.0)
+	power_bar_root.add_child(ti)
+
+	# Dół
+	var bm := BoxMesh.new()
+	bm.size = Vector3(POWER_BAR_WIDTH, FRAME_THICKNESS, POWER_BAR_DEPTH)
+	var bi := MeshInstance3D.new()
+	bi.mesh = bm
+	bi.material_override = _make_overlay_shader(frame_col, 10)
+	bi.position = Vector3(0.0, -(half_h + FRAME_THICKNESS / 2.0), 0.0)
+	power_bar_root.add_child(bi)
+
+	# --- Gradient bar (green → yellow → red) ---
+	var bar_mesh := BoxMesh.new()
+	bar_mesh.size = Vector3(POWER_BAR_WIDTH, POWER_BAR_HEIGHT, POWER_BAR_DEPTH)
+
+	var bar_shader := ShaderMaterial.new()
+	var shader_code := Shader.new()
+	shader_code.code = """
+		shader_type spatial;
+		render_mode unshaded, blend_mix, cull_disabled, depth_test_disabled;
+		void fragment() {
+			float ratio = 1.0 - UV.y;
+			vec3 green  = vec3(0.1, 1.0, 0.2);
+			vec3 yellow = vec3(1.0, 1.0, 0.0);
+			vec3 red    = vec3(1.0, 0.1, 0.0);
+			vec3 col = (ratio < 0.5)
+				? mix(green, yellow, ratio * 2.0)
+				: mix(yellow, red, (ratio - 0.5) * 2.0);
+			ALBEDO = col;
+			ALPHA = 0.92;
+		}
+	"""
+	bar_shader.shader = shader_code
+	bar_shader.render_priority = 11
+
+	power_bar_bg = MeshInstance3D.new()
+	power_bar_bg.name = "PowerBarBG"
+	power_bar_bg.mesh = bar_mesh
+	power_bar_bg.material_override = bar_shader
+	power_bar_bg.position = Vector3.ZERO
+	power_bar_root.add_child(power_bar_bg)
+
+	# --- Kreski podziałki (4 równo rozłożone) ---
+	for i in range(TICK_COUNT):
+		var frac := float(i + 1) / float(TICK_COUNT + 1)  # 0.2, 0.4, 0.6, 0.8
+		var tick_y := -half_h + frac * POWER_BAR_HEIGHT
+
+		# Czarna ramka za kreską
+		var outline_mesh := BoxMesh.new()
+		outline_mesh.size = Vector3(POWER_BAR_WIDTH + 0.01, TICK_HEIGHT + TICK_OUTLINE * 2.0, POWER_BAR_DEPTH)
+		var outline_inst := MeshInstance3D.new()
+		outline_inst.mesh = outline_mesh
+		outline_inst.material_override = _make_overlay_shader(Color(0.0, 0.0, 0.0, 0.85), 12)
+		outline_inst.position = Vector3(0.0, tick_y, 0.0)
+		power_bar_root.add_child(outline_inst)
+
+		# Biała kreska
+		var tick_mesh := BoxMesh.new()
+		tick_mesh.size = Vector3(POWER_BAR_WIDTH, TICK_HEIGHT, POWER_BAR_DEPTH)
+		var tick_inst := MeshInstance3D.new()
+		tick_inst.mesh = tick_mesh
+		tick_inst.material_override = _make_overlay_shader(Color(0.0, 0.0, 0.0, 0.9), 12)
+		tick_inst.position = Vector3(0.0, tick_y, 0.0)
+		power_bar_root.add_child(tick_inst)
+
+	# --- Marker ---
+	var marker_mesh := BoxMesh.new()
+	marker_mesh.size = Vector3(MARKER_WIDTH, MARKER_HEIGHT, POWER_BAR_DEPTH)
+
+	var marker_sh := Shader.new()
+	marker_sh.code = """
+		shader_type spatial;
+		render_mode unshaded, blend_mix, cull_disabled, depth_test_disabled;
+		uniform vec4 color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+		void fragment() {
+			ALBEDO = color.rgb;
+			ALPHA = color.a;
+		}
+	"""
+	marker_material = ShaderMaterial.new()
+	marker_material.shader = marker_sh
+	marker_material.set_shader_parameter("color", Color(1.0, 1.0, 1.0, 0.95))
+	marker_material.render_priority = 13
+
+	power_bar_marker = MeshInstance3D.new()
+	power_bar_marker.name = "PowerBarMarker"
+	power_bar_marker.mesh = marker_mesh
+	power_bar_marker.material_override = marker_material
+	power_bar_marker.position = Vector3(0.0, -POWER_BAR_HEIGHT / 2.0, 0.0)
+	power_bar_root.add_child(power_bar_marker)
+
+func _animate_power_bar(delta: float) -> void:
 	hit_position = camera.cursor_position
-	var direction_to_camera: Vector3 = (camera.cursor_position - global_position).normalized()
 
-	# Kierunek prawej/lewej względem kierunku strzału (po płaszczyźnie stołu)
-	var forward_visual: Vector3 = direction_to_camera
-	var right_visual: Vector3 = Vector3.UP.cross(forward_visual).normalized()
-	if right_visual.length_squared() == 0.0:
-		right_visual = Vector3.RIGHT
-		
-	# Get spin offset from camera (keeping our input logic)
-	var current_spin_offset: float = 0.0
-	if "spin_offset" in camera:
-		current_spin_offset = camera.spin_offset
+	# Pozycjonowanie paska po prawej stronie bili (względem kamery)
+	var cam_right := camera.global_transform.basis.x.normalized()
+	var bar_pos := global_position + cam_right * POWER_BAR_OFFSET_RIGHT
+	bar_pos.y = global_position.y  # Środek paska na środku bili
+	power_bar_root.global_position = bar_pos
 
-	var angle_offset = current_spin_offset * spin_indicator_max_offset_visual
-	
-	var orbital_direction = forward_visual.rotated(Vector3.UP, angle_offset)
-	
-	charge_ring.global_position = global_position + orbital_direction * 1.0
-	
-	charge_ring.look_at(global_position, Vector3.UP)
-	charge_ring.rotate_object_local(Vector3.RIGHT, deg_to_rad(90.0))
+	# Pasek zawsze twarzą do kamery
+	var look_target := power_bar_root.global_position + camera.global_transform.basis.z
+	power_bar_root.look_at(look_target, Vector3.UP)
 
+	# Oscylacja mocy — fala trójkątna (ping-pong)
 	charge_timer += delta
-	var ratio: float = clamp(charge_timer / max_charge_duration, 0.0, 1.0)
-	if ring_material:
-		var current_color := get_charge_color(ratio)
-		current_color.a = RING_ALPHA
-		ring_material.albedo_color = current_color
+	var t := fmod(charge_timer, POWER_BAR_CYCLE_SPEED) / POWER_BAR_CYCLE_SPEED
+	current_power_ratio = 1.0 - abs(2.0 * t - 1.0)  # 0→1→0→1...
+
+	# Pozycja markera na pasku (od -H/2 do +H/2)
+	var marker_y := -POWER_BAR_HEIGHT / 2.0 + current_power_ratio * POWER_BAR_HEIGHT
+	power_bar_marker.position.y = marker_y
+
+	# Kolor markera — dopasowany do pozycji na gradiencie
+	if marker_material:
+		var col := get_charge_color(current_power_ratio)
+		col.a = 0.95
+		marker_material.set_shader_parameter("color", col)
 
 func start_charging() -> void:
 	camera.cursor_phi = camera.phi
 	charging = true
 	charge_timer = 0.0
-	charge_ring.visible = true
+	current_power_ratio = 0.0
+	if power_bar_root:
+		power_bar_root.visible = true
 
 func create_aim_line_mesh() -> void:
 	var mesh := ImmediateMesh.new()

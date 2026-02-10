@@ -9,7 +9,7 @@ extends Control
 @onready var win_label: Label = $"WinWindow/VBox/LabelWin"
 @onready var shop_button: Button = $"WinWindow/VBox/WinButtons/GoToShop"
 @onready var win_try_again_button: Button = $"WinWindow/VBox/WinButtons/TryAgainButton"
-@onready var slider: HSlider = $"PowerSlider/HSlider"
+
 @onready var hint_label: Label = $"HintLabel"
 @onready var ball_list_container: Container = $"BallListContainer"
 @onready var win_confetti: CPUParticles2D = $WinConfetti
@@ -64,8 +64,6 @@ func _ready() -> void:
 	
 
 func _on_charging_paused() -> void:
-	slider.visible = false
-	slider.value = 0.0
 	_show_hint("Przytrzymaj LPM, aby naciągnąć siłę")
 	
 
@@ -219,29 +217,13 @@ func _on_shop_button() -> void:
 	shopUI.toggle_shop()
 
 func _on_charging_started() -> void:
-	slider.visible = true
-	slider.value = 0.0
 	_show_hint("Ruszaj myszą: Obrót\nQ i E: Wybierz punkt uderzenia\nPuść LPM: UDERZ!\nNaciśnij PPM: Anuluj\nA i D: Zmień widok")
 
 func _on_charging_released() -> void:
-	await get_tree().create_timer(0.1).timeout
-	slider.visible = false
-	slider.value = 0.0
+	pass
 
-func _on_charging_updated(charge_ratio: float) -> void:
-	slider.value = charge_ratio
-	_update_slider_color(charge_ratio)
-
-func _update_slider_color(ratio: float) -> void:
-	var color: Color
-	if ratio < 0.5:
-		var local_ratio = ratio * 2.0
-		color = Color(0.0, 1.0, 0.0).lerp(Color(1.0, 1.0, 0.0), local_ratio)
-	else:
-		var local_ratio = (ratio - 0.5) * 2.0
-		color = Color(1.0, 1.0, 0.0).lerp(Color(1.0, 0.0, 0.0), local_ratio)
-		
-	slider.modulate = color
+func _on_charging_updated(_charge_ratio: float) -> void:
+	pass
 
 func _ignore_mouse() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE

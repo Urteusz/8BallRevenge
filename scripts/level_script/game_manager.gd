@@ -113,8 +113,10 @@ func _on_shoot_requested() -> void:
 	else:
 		if player_ball.charging:
 			player_ball.charging = false
-			player_ball.charge_ring.visible = false
+			if player_ball.power_bar_root:
+				player_ball.power_bar_root.visible = false
 			player_ball.charge_timer = 0.0
+			player_ball.current_power_ratio = 0.0
 			print("Brak ruchów! Poczekaj aż piłki staną.")
 
 func _on_turn_started() -> void:

@@ -168,32 +168,8 @@ theme_override_fonts/font = ExtResource("3_2mbl5")
 theme_override_font_sizes/font_size = 22
 text = "Continue"
 
-[node name="PowerSlider" type="VBoxContainer" parent="ControlGameplay" unique_id=228208955]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -250.0
-offset_top = -40.0
-offset_right = 250.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/separation = 5
-alignment = 1
 
-[node name="HSlider" type="HSlider" parent="ControlGameplay/PowerSlider" unique_id=2063732135]
-layout_mode = 2
-size_flags_vertical = 4
-mouse_filter = 2
-theme_override_icons/grabber_disabled = SubResource("MeshTexture_vh4xn")
-theme_override_styles/slider = SubResource("StyleBoxFlat_vh4xn")
-theme_override_styles/grabber_area = SubResource("StyleBoxFlat_2mbl5")
-max_value = 1.0
-step = 0.01
-editable = false
-scrollable = false
+
 
 [node name="BallListContainer" type="HBoxContainer" parent="ControlGameplay" unique_id=3461045]
 layout_mode = 1
