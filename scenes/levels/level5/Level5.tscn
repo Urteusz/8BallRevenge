@@ -78,9 +78,9 @@ data = PackedVector3Array(3.5, 0.5, -2.5, 5.7555, 0.049999997, -2.5, 3.5, 0.0499
 bounce = 0.1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6sp46"]
-render_priority = -1
+render_priority = 0
 shader = ExtResource("8_wq0gc")
-shader_parameter/albedo_color = Color(0.17254902, 0.13333334, 0.9098039, 1)
+shader_parameter/albedo_color = Color(0.18811458, 0.19329146, 0.1955047, 1)
 shader_parameter/object_position = Vector3(0, 0, 0)
 shader_parameter/visible_distance = 0.690000032775
 shader_parameter/invisible_distance = 6.7490003205775
@@ -278,7 +278,7 @@ player_pocketed_gradient = ExtResource("18_82yk0")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09951019, 0, 0.27745056)
 shape = SubResource("BoxShape3D_ksjw4")
 
-[node name="Fan" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" unique_id=1798788651]
+[node name="Fan" type="AnimatableBody3D" parent="SubViewportContainer/SubViewport/Table" unique_id=1675685963]
 transform = Transform3D(-2.7873979, 0, 1.1092402, 0, 3, 0, -1.1092402, 0, -2.7873979, -14.145326, 0.7996987, -3.751828)
 physics_material_override = SubResource("PhysicsMaterial_uj8rt")
 script = ExtResource("19_256we")
@@ -292,7 +292,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_256we")
 transform = Transform3D(0.9211853, 0, -0.38912395, 0, 1, 0, 0.38912395, 0, 0.9211853, 0, 0, 0)
 shape = SubResource("ConcavePolygonShape3D_cc776")
 
-[node name="Fan2" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" unique_id=113259401]
+[node name="Fan2" type="AnimatableBody3D" parent="SubViewportContainer/SubViewport/Table" unique_id=296169160]
 transform = Transform3D(-2.7873979, 0, 1.1092402, 0, 3, 0, -1.1092402, 0, -2.7873979, -18.67561, 0.7996987, 3.8513944)
 physics_material_override = SubResource("PhysicsMaterial_uj8rt")
 script = ExtResource("19_256we")
@@ -306,7 +306,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_j4hik")
 transform = Transform3D(0.9211853, 0, -0.38912395, 0, 1, 0, 0.38912395, 0, 0.9211853, 0, 0, 0)
 shape = SubResource("ConcavePolygonShape3D_cc776")
 
-[node name="Fan3" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" unique_id=738265861]
+[node name="Fan3" type="AnimatableBody3D" parent="SubViewportContainer/SubViewport/Table" unique_id=209774144]
 transform = Transform3D(-2.7873979, 0, 1.1092402, 0, 3, 0, -1.1092402, 0, -2.7873979, 10.653, 0.8, 2.498)
 physics_material_override = SubResource("PhysicsMaterial_uj8rt")
 script = ExtResource("19_256we")
@@ -320,7 +320,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_uj8rt")
 transform = Transform3D(0.9211853, 0, -0.38912395, 0, 1, 0, 0.38912395, 0, 0.9211853, 0, 0, 0)
 shape = SubResource("ConcavePolygonShape3D_cc776")
 
-[node name="Fan4" type="StaticBody3D" parent="SubViewportContainer/SubViewport/Table" unique_id=1641186217]
+[node name="Fan4" type="AnimatableBody3D" parent="SubViewportContainer/SubViewport/Table" unique_id=750163296]
 transform = Transform3D(-2.7873979, 0, 1.1092402, 0, 3, 0, -1.1092402, 0, -2.7873979, 19.548, 0.8, -3.92)
 physics_material_override = SubResource("PhysicsMaterial_uj8rt")
 script = ExtResource("19_256we")
