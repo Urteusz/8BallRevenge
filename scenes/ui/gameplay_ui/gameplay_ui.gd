@@ -35,7 +35,7 @@ func _ready() -> void:
 	exit_button.pressed.connect(_on_main_menu)
 	shop_button.pressed.connect(_on_shop_button)
 	win_try_again_button.pressed.connect(_on_try_again)
-	_show_hint("Hold LMB to charge")
+	_show_hint("Hold LMB to charge\nTab: Change view")
 	
 	if game_manager:
 		if not game_manager.is_connected("moves_changed", _on_moves_changed):
@@ -64,7 +64,7 @@ func _ready() -> void:
 	
 
 func _on_charging_paused() -> void:
-	_show_hint("Hold LMB to charge")
+	_show_hint("Hold LMB to charge\nTab: Change view")
 	
 
 func _initialize_ball_cards(balls_data: Array) -> void:
@@ -216,11 +216,15 @@ func _on_shop_button() -> void:
 	_ignore_mouse()
 	shopUI.toggle_shop()
 
+var is_charging: bool = false
+
 func _on_charging_started() -> void:
+	is_charging = true
 	_show_hint("Move mouse: Aim\nW/S: Topspin / Backspin\nA/D: Sidespin\nRelease LMB: SHOOT!\nPress RMB: Cancel\nTab: Change view")
 
 func _on_charging_released() -> void:
-	pass
+	is_charging = false
+	_show_hint("Tab: Change view")
 
 func _on_charging_updated(_charge_ratio: float) -> void:
 	pass
@@ -267,7 +271,9 @@ func _on_aiming_state_changed(is_aiming: bool) -> void:
 		# Kula się zatrzymała -> Pokaż instrukcję
 		# Sprawdzamy czy nie ma Game Over, żeby nie wyświetlać napisu na ekranie przegranej
 		if moves_count_label.text != "0" and !game_over_window.visible: 
-			_show_hint("Hold LMB to charge")
+			_show_hint("Hold LMB to charge\nTab: Change view")
 	else:
-		# Kula ruszyła -> Ukryj instrukcję
-		_show_hint("")
+		# Kula ruszyła -> Ukryj instrukcję (ale zostaw Tab)
+		# Chyba że ładujemy strzał - wtedy zostawiamy instrukcję ładowania
+		if !is_charging:
+			_show_hint("Tab: Change view")

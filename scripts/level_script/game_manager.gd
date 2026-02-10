@@ -15,6 +15,7 @@ var ball_list: Array
 var points: int = 500
 var turn_move_refunded := false 
 var game_win := false
+var is_aiming_possible := false
 
 signal player_died
 signal player_win
@@ -26,6 +27,7 @@ signal charging_released
 signal ball_pocketed(ball_id: int)
 signal charging_paused
 signal player_win_with_score(score: int, treshould: int)
+signal aiming_state_changed(is_aiming: bool)
 
 func _ready() -> void:
 	moves_left = default_level_move_count
@@ -57,6 +59,7 @@ func _ready() -> void:
 		connect("charging_updated", gameplay_ui._on_charging_updated)
 		connect("charging_released", gameplay_ui._on_charging_released)
 		connect("ball_pocketed", gameplay_ui._on_ball_pocketed)
+		connect("aiming_state_changed", gameplay_ui._on_aiming_state_changed)
 		emit_signal("moves_changed", moves_left)
 	
 	for ball in ball_list:
@@ -79,6 +82,17 @@ func _process(delta: float) -> void:
 			1.0
 		)
 		emit_signal("charging_updated", charge_ratio)
+
+	# Check aiming state
+	var current_aiming_state = (moves_left > 0) and !game_over and !game_win
+	if player_ball and player_ball.has_method("can_shoot"):
+		current_aiming_state = current_aiming_state and player_ball.can_shoot()
+	else:
+		current_aiming_state = current_aiming_state and _are_all_balls_stopped()
+		
+	if current_aiming_state != is_aiming_possible:
+		is_aiming_possible = current_aiming_state
+		emit_signal("aiming_state_changed", is_aiming_possible)
 
 	# Check game over only when ALL balls are stopped
 	if moves_left == 0 and _are_all_balls_stopped():
