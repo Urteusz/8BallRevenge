@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BallData" format=3 uid="uid://bpl0xada3i881"]
+
+[ext_resource type="PackedScene" uid="uid://coqs5hcvw6efk" path="res://scenes/balls/light_bulb.tscn" id="1_ygyh3"]
+[ext_resource type="Script" uid="uid://cvwkj0qnv7yim" path="res://scenes/balls/scripts/ball_data.gd" id="2_8ulus"]
+
+[resource]
+script = ExtResource("2_8ulus")
+scene = ExtResource("1_ygyh3")
+shop_cost = 10000
+shop_description = "Kula która pomaga na ciemnych poziomach"

@@ -21,13 +21,12 @@ const BALL_VIEW_PITCH: float = 70.0
 const INVENTORY_ITEM_SCENE = preload("res://scenes/DeckChoose/InventoryBallItem.tscn")
 
 @onready var camera: Camera3D = $SubViewportContainer/SubViewport/Camera3D
-@export var ui: CanvasLayer
-@export var panel_container: PanelContainer
-@export var button_container: HBoxContainer
-@export var confirm_button: Button
+@onready var ui: CanvasLayer = $UI
+@onready var panel_container: PanelContainer = $UI/PanelContainer
+@onready var button_container: HBoxContainer = $UI/ExitContainer
+@onready var confirm_button: Button = $UI/ExitContainer/ButtonContinue
 @onready var balls = %Balls
-
-@export var inventory_grid: Container
+@onready var inventory_grid: Container = $UI/PanelContainer/HBoxContainer/VBoxContainer/ScrollContainer/InventoryGrid
 
 var mode = Mode.DEFAULT
 var ball_original_position_index: int = -1
@@ -38,17 +37,19 @@ var ball_being_viewed: BallParent = null
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		if mode == Mode.BALL:
-			# Check if click is outside inventory panel
-			if panel_container and not _is_mouse_over_panel():
+			# Klik gdziekolwiek poza inventory itemami odkłada kulę
+			if not _is_mouse_over_inventory_item():
 				_return_ball_to_rack()
 				get_viewport().set_input_as_handled()
 
-func _is_mouse_over_panel() -> bool:
-	if not panel_container or not panel_container.visible:
+func _is_mouse_over_inventory_item() -> bool:
+	if not inventory_grid or not panel_container or not panel_container.visible:
 		return false
 	var mouse_pos = get_viewport().get_mouse_position()
-	var panel_rect = panel_container.get_global_rect()
-	return panel_rect.has_point(mouse_pos)
+	for item in inventory_grid.get_children():
+		if item is Control and item.get_global_rect().has_point(mouse_pos):
+			return true
+	return false
 
 func _return_ball_to_rack() -> void:
 	if not ball_being_viewed or ball_original_position_index == -1:
@@ -66,6 +67,9 @@ func _return_ball_to_rack() -> void:
 	tween.set_ease(Tween.EASE_OUT)
 	tween.tween_property(ball_being_viewed, "global_position", target_position, 0.6)
 	tween.parallel().tween_property(ball_being_viewed, "rotation", ball_original_local_rotation, 0.6)
+
+	ball_being_viewed = null
+	ball_original_position_index = -1
 
 func _ready() -> void:
 	if "black" not in PlayerData.owned_balls:
@@ -244,5 +248,5 @@ func _on_ball_input_event(camera_node: Node, event: InputEvent, _pos: Vector3, _
 					panel_container.visible = true
 
 			Mode.BALL:
-				if ball_node == ball_being_viewed:
-					_return_ball_to_rack()
+				# Klik na dowolną kulę w trybie BALL — odłóż aktualną
+				_return_ball_to_rack()
