@@ -1,6 +1,7 @@
 extends Area3D
 
 @export var pocket_effect: PackedScene
+@export var particle_scene: PackedScene
 @export var uniParticlesYPos: float = 1.5
 
 var soundPocket: AudioStreamPlayer3D
@@ -15,7 +16,6 @@ var soundPocket: AudioStreamPlayer3D
 @export var assist_strength: float = 2.0
 @export var assist_max_speed: float = 1.0
 
-var _particle_scene: PackedScene = preload("res://scenes/particles/particlePocketLoop1.tscn")
 var uniParticles: Node3D
 var color_reset_timer: SceneTreeTimer
 
@@ -23,12 +23,14 @@ var snd_pocket = preload("res://sounds/Pocketed.wav")
 var snd_player = preload("res://sounds/Pocketed_player.wav")
 
 func _ready() -> void:
+	if not particle_scene:
+		particle_scene = preload("res://scenes/particles/particlePocketLoop1.tscn")
 	soundPocket = AudioStreamPlayer3D.new()
 	add_child(soundPocket)
 
 	body_entered.connect(_on_pocket_body_entered)
 
-	uniParticles = _particle_scene.instantiate()
+	uniParticles = particle_scene.instantiate()
 	add_child(uniParticles)
 	uniParticles.position = Vector3(0, uniParticlesYPos, 0)
 
