@@ -331,6 +331,8 @@ func _create_power_bar() -> void:
 		shader_type spatial;
 		render_mode unshaded, blend_mix, cull_disabled, depth_test_disabled;
 		void fragment() {
+			vec3 n = normalize(NORMAL);
+			if (abs(n.z) < 0.5) { discard; }
 			float ratio = 1.0 - UV.y;
 			vec3 green  = vec3(0.1, 1.0, 0.2);
 			vec3 yellow = vec3(1.0, 1.0, 0.0);
