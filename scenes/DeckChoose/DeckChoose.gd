@@ -25,7 +25,7 @@ const INVENTORY_ITEM_SCENE = preload("res://scenes/DeckChoose/InventoryBallItem.
 @export var panel_container: PanelContainer
 @export var button_container: HBoxContainer
 @export var confirm_button: Button
-@onready var balls = $Balls
+@onready var balls = %Balls
 
 @export var inventory_grid: Container
 
