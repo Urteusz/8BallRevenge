@@ -15,7 +15,6 @@ var level_stars: Dictionary = {}
 
 var ninja_ball_data = load("res://scenes/balls/ball_data/ninja_ball.tres")
 var red_ball_data = load("res://scenes/balls/ball_data/red_ball.tres")
-var black_ball_data = load("res://scenes/balls/ball_data/black_ball.tres")
 var blue_ball_data = load("res://scenes/balls/ball_data/blue_ball.tres")
 var green_ball_data = load("res://scenes/balls/ball_data/green_ball.tres")
 var purple_ball_data = load("res://scenes/balls/ball_data/purple_ball.tres")
@@ -30,7 +29,6 @@ var magnetic_min_ball_data = load("res://scenes/balls/ball_data/magnetic_ball_mi
 var ball_data_map = {
 	"ninja": ninja_ball_data,
 	"red": red_ball_data,
-	"black": black_ball_data,
 	"blue": blue_ball_data,
 	"green": green_ball_data,
 	"purple": purple_ball_data,

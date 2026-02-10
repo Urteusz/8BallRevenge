@@ -133,9 +133,9 @@ func _input(event) -> void:
 		return
 	if event is InputEventMouseMotion:
 		if SettingsManager.get_setting("controls", "inverted_mouse"):
-			cursor_phi -= event.relative.y * mouse_sensitivity
-		else:
 			cursor_phi += event.relative.y * mouse_sensitivity
+		else:
+			cursor_phi -= event.relative.y * mouse_sensitivity
 		theta += event.relative.x * mouse_sensitivity
 
 	# Na szybko to zmienilem zeby dzialalo
@@ -194,9 +194,9 @@ func _handle_joystick_input(delta: float) -> void:
 		theta += input_direction.x * joystick_sensitivity * delta
 		
 		if SettingsManager.get_setting("controls", "inverted_mouse"):
-			cursor_phi -= input_direction.y * joystick_sensitivity * delta
-		else:
 			cursor_phi += input_direction.y * joystick_sensitivity * delta
+		else:
+			cursor_phi -= input_direction.y * joystick_sensitivity * delta
 
 func _reload_current_scene() -> void:
 	var error_code = get_tree().reload_current_scene()

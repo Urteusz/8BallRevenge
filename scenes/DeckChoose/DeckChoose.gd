@@ -68,8 +68,7 @@ func _return_ball_to_rack() -> void:
 	tween.parallel().tween_property(ball_being_viewed, "rotation", ball_original_local_rotation, 0.6)
 
 func _ready() -> void:
-	if "black" not in PlayerData.owned_balls:
-		PlayerData.owned_balls.append("black")
+
 	if "speedy" not in PlayerData.owned_balls:
 		PlayerData.owned_balls.append("speedy")
 	_spawn_balls()

@@ -10,5 +10,5 @@ scene = ExtResource("1_sclq6")
 texture = ExtResource("3_sclq6")
 base_value = 50
 shop_cost = 1000
-shop_description = "Typowa kolorowa kula, nic wielkiego."
+shop_description = "A typical colored ball, nothing special."
 metadata/ui_color = Color(0.39946666, 0.56, 0.33600003, 1)

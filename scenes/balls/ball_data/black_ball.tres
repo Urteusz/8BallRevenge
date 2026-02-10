@@ -10,4 +10,4 @@ scene = ExtResource("1_ksp2b")
 texture = ExtResource("3_2f5ea")
 base_value = 50
 shop_cost = 1000
-shop_description = "Typowa kolorowa kula, nic wielkiego."
+shop_description = "A typical colored ball, nothing special."

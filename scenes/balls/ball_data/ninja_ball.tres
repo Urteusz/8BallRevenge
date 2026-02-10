@@ -10,5 +10,5 @@ scene = ExtResource("2_ninja_scene")
 texture = ExtResource("3_ninja_icon")
 base_value = 150
 shop_cost = 2000
-shop_description = "Ninja Ball: Po 3 uderzeniach zabija inną kulę! Nie działa na gracza."
+shop_description = "Ninja Ball: After 3 hits, eliminates another ball! Does not affect the player."
 metadata/ui_color = Color(0.1, 0.1, 0.1, 1)

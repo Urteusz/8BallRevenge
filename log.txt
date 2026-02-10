@@ -1,0 +1,11 @@
+Godot Engine v4.6.stable.official.89cea1439 - https://godotengine.org
+Vulkan 1.4.325 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 1660 Ti
+
+WARNING: res://scenes/ui/main_menu/main_menu.tscn:8 - ext_resource, invalid UID: uid://d4lqpn7 - using text path instead: res://textures/ui/Button2_pressed.png
+   at: load (scene/resources/resource_format_text.cpp:500)
+ERROR: Parse Error: Parse error. [Resource file res://scenes/ui/main_menu/main_menu.tscn:132]
+   at: _parse_node_tag (scene/resources/resource_format_text.cpp:292)
+ERROR: Failed loading resource: res://scenes/ui/main_menu/main_menu.tscn.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Failed loading scene: res://scenes/ui/main_menu/main_menu.tscn.
+   at: start (main/main.cpp:4635)
