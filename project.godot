@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="8 Ball Revenge"
-run/main_scene="uid://6mbrpkr2idfw"
+run/main_scene="uid://cu8kb6pqex3my"
 config/features=PackedStringArray("4.6", "Forward Plus")
 boot_splash/bg_color=Color(0.4745098, 0.52156866, 0.9843137, 1)
 boot_splash/show_image=false
