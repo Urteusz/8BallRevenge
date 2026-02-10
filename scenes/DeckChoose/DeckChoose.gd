@@ -20,7 +20,7 @@ const BALL_VIEW_PITCH: float = 70.0
 
 const INVENTORY_ITEM_SCENE = preload("res://scenes/DeckChoose/InventoryBallItem.tscn")
 
-@export var camera: Camera3D
+@onready var camera: Camera3D = $SubViewportContainer/SubViewport/Camera3D
 @export var ui: CanvasLayer
 @export var panel_container: PanelContainer
 @export var button_container: HBoxContainer
