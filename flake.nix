@@ -15,6 +15,8 @@
         godot_4
         gdscript-formatter
         clang-tools
+        # gdtoolkit_4
+        # python311Packages.gdtoolkit_4
       ];
     in
     {

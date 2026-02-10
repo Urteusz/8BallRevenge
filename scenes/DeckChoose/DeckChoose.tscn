@@ -7,20 +7,20 @@
 [ext_resource type="ArrayMesh" uid="uid://dimwn5un3y3tk" path="res://models/table_with_pockets/base.obj" id="5_6fa61"]
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="6_jqrga"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dww4p"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(0.22, 0.22, 0.22, 0.56078434)
+
+[sub_resource type="Theme" id="Theme_dww4p"]
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
 shader = ExtResource("3_6fa61")
 shader_parameter/lineHighlight = 0.005
 shader_parameter/lineShadow = 0.03
-shader_parameter/line_thickness_start = 0.15
-shader_parameter/line_thickness_end = 0.15
-shader_parameter/use_depth_pixelization = false
-shader_parameter/min_pixel_size = 2.0
-shader_parameter/pixelation_start_dist = 2.0
-shader_parameter/pixelation_end_dist = 20.0
-shader_parameter/pixel_density_start = 300.0
-shader_parameter/pixel_density_end = 50.0
-shader_parameter/distance_curve = 1.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_ptf86"]
 lightmap_size_hint = Vector2i(12, 12)
