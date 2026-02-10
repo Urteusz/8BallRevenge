@@ -17,6 +17,7 @@ var pocket_to_light: Dictionary = {}
 var lights_on: Dictionary = {}
 var lights_on_count: int = TOTAL_POCKET_LIGHTS
 var initial_ball_count: int = 0
+var light_tweens: Dictionary = {}
 
 func _ready() -> void:
 	# Buduj mapowanie pocket -> spotlight po indeksie 0-7
@@ -58,9 +59,14 @@ func _fade_out_light(light: SpotLight3D) -> void:
 	lights_on[light] = false
 	lights_on_count -= 1
 
+	# Zabij istniejący tween (np. flicker) żeby nie przywrócił energii
+	if light_tweens.has(light) and light_tweens[light] != null and light_tweens[light].is_valid():
+		light_tweens[light].kill()
+
 	# Gaś światło nad pocketem
 	var tween = create_tween()
 	tween.tween_property(light, "light_energy", 0.0, LIGHT_FADE_DURATION).set_ease(Tween.EASE_IN)
+	light_tweens[light] = tween
 
 	_update_center_light()
 
@@ -100,8 +106,13 @@ func _flicker_random_lights() -> void:
 
 	for i in range(flicker_count):
 		var light: SpotLight3D = active_lights[i]
+		# Zabij poprzedni flicker tween jeśli jeszcze trwa
+		if light_tweens.has(light) and light_tweens[light] != null and light_tweens[light].is_valid():
+			light_tweens[light].kill()
+			light.light_energy = BASE_LIGHT_ENERGY
 		var original_energy = light.light_energy
 		var dim_energy = original_energy * FLICKER_DIM_RATIO
 		var tween = create_tween()
 		tween.tween_property(light, "light_energy", dim_energy, FLICKER_DURATION)
 		tween.tween_property(light, "light_energy", original_energy, FLICKER_DURATION)
+		light_tweens[light] = tween

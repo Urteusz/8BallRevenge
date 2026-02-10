@@ -19,8 +19,8 @@ bg_color = Color(0.22, 0.22, 0.22, 0.56078434)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
 shader = ExtResource("3_6fa61")
-shader_parameter/lineHighlight = 0.005
-shader_parameter/lineShadow = 0.03
+shader_parameter/lineHighlight = 0.2
+shader_parameter/lineShadow = 0.55
 
 [sub_resource type="QuadMesh" id="QuadMesh_ptf86"]
 lightmap_size_hint = Vector2i(12, 12)
@@ -106,12 +106,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
-stretch_shrink = 4
+stretch_shrink = 2
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1240169065]
 handle_input_locally = false
 physics_object_picking = true
-size = Vector2i(341, 192)
+size = Vector2i(683, 384)
 render_target_update_mode = 4
 
 [node name="triangle_rack" parent="SubViewportContainer/SubViewport" unique_id=323873409 instance=ExtResource("2_4v8kc")]
