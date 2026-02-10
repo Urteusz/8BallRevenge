@@ -15,6 +15,7 @@
 [ext_resource type="Environment" uid="uid://cy12cdkgj0j71" path="res://scenes/levels/level4/purple_environment.tres" id="10_rnqjc"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="11_cuf1e"]
 [ext_resource type="PackedScene" uid="uid://cmg38wrvkqomi" path="res://models/room_colored_no_walls_no_guitar_array.glb" id="12_qoqow"]
+[ext_resource type="Script" uid="uid://bisdqx8s7uu0j" path="res://scenes/levels/level4/level4.gd" id="13_lv4sc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -46,6 +47,7 @@ size = Vector3(2.6020508, 1, 2.5028076)
 viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/crt")
 
 [node name="Node3D2" type="Node3D" unique_id=2031770271]
+script = ExtResource("13_lv4sc")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=58865027]
 texture_filter = 1
