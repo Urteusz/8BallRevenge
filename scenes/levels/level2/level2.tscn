@@ -18,6 +18,9 @@
 [ext_resource type="Environment" uid="uid://d4eptfg3c55gl" path="res://scenes/levels/level2/dust_environment.tres" id="13_pwggy"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="16_5prdx"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="17_e4fnj"]
+[ext_resource type="AudioStream" uid="uid://bu2a7q6t07jjm" path="res://sounds/storm.mp3" id="18_fxmmb"]
+[ext_resource type="PackedScene" path="res://scenes/levels/level2/sandstorm.tscn" id="21_sandstorm"]
+[ext_resource type="Script" uid="uid://ck0tx1jdut4rv" path="res://scenes/levels/level2/level2.gd" id="22_level2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -209,6 +212,7 @@ normal_enabled = true
 normal_texture = ExtResource("12_71hwt")
 
 [node name="Node3D" type="Node3D" unique_id=1414618061]
+script = ExtResource("22_level2")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1920662062]
 texture_filter = 1
@@ -317,8 +321,8 @@ script = ExtResource("8_0em4h")
 og_gradient_texture = ExtResource("10_ntc21")
 ball_pocketed_gradient = ExtResource("11_385ab")
 player_pocketed_gradient = ExtResource("12_i8ch4")
-assist_radius = 2.5
-assist_strength = 2.5
+assist_radius = 3.0
+assist_strength = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket1" unique_id=453486459]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04724121, 0, -0.10223389)
@@ -331,6 +335,8 @@ script = ExtResource("8_0em4h")
 og_gradient_texture = ExtResource("10_ntc21")
 ball_pocketed_gradient = ExtResource("11_385ab")
 player_pocketed_gradient = ExtResource("12_i8ch4")
+assist_radius = 3.0
+assist_strength = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket2" unique_id=193642547]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.048206806, 0, -0.0975647)
@@ -343,6 +349,8 @@ script = ExtResource("8_0em4h")
 og_gradient_texture = ExtResource("10_ntc21")
 ball_pocketed_gradient = ExtResource("11_385ab")
 player_pocketed_gradient = ExtResource("12_i8ch4")
+assist_radius = 3.0
+assist_strength = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket3" unique_id=1096038568]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.041778564, 0, 0.11685181)
@@ -355,6 +363,8 @@ script = ExtResource("8_0em4h")
 og_gradient_texture = ExtResource("10_ntc21")
 ball_pocketed_gradient = ExtResource("11_385ab")
 player_pocketed_gradient = ExtResource("12_i8ch4")
+assist_radius = 3.0
+assist_strength = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket4" unique_id=315749926]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
@@ -367,6 +377,8 @@ script = ExtResource("8_0em4h")
 og_gradient_texture = ExtResource("10_ntc21")
 ball_pocketed_gradient = ExtResource("11_385ab")
 player_pocketed_gradient = ExtResource("12_i8ch4")
+assist_radius = 3.0
+assist_strength = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket5" unique_id=816900879]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
@@ -379,10 +391,15 @@ script = ExtResource("8_0em4h")
 og_gradient_texture = ExtResource("10_ntc21")
 ball_pocketed_gradient = ExtResource("11_385ab")
 player_pocketed_gradient = ExtResource("12_i8ch4")
+assist_radius = 3.0
+assist_strength = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket6" unique_id=1739333827]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
 shape = SubResource("BoxShape3D_i8ch4")
+
+[node name="Sandstorm" parent="SubViewportContainer/SubViewport" unique_id=1092712890 instance=ExtResource("21_sandstorm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 
 [node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=69998455 node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui", "returnPoint")]
 script = ExtResource("16_5prdx")
@@ -395,6 +412,9 @@ returnPoint = NodePath("../Table/ReturnPosition")
 transform = Transform3D(22.16, 0, 0, 0, 22.16, 0, 0, 0, 22.16, 72.9116, 9.730457, 2.8128471)
 mesh = ExtResource("11_xqajj")
 surface_material_override/0 = SubResource("StandardMaterial3D_a011w")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport" unique_id=812987485]
+stream = ExtResource("18_fxmmb")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1604786185]
 environment = ExtResource("13_pwggy")
