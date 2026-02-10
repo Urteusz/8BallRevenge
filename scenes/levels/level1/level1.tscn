@@ -76,7 +76,7 @@ data = PackedVector3Array(1.9509, -0.1235, 1.8526, 1.9509, -0.1235, 1.9391999, 1
 bounce = 0.1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u8udk"]
-render_priority = -1
+render_priority = 0
 shader = ExtResource("8_n1moy")
 shader_parameter/albedo_color = Color(0.17254902, 0.13333334, 0.9098039, 1)
 shader_parameter/object_position = Vector3(0, 0, 0)
