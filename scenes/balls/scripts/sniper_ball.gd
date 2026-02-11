@@ -51,6 +51,8 @@ func _find_nearest_ball_in_direction(hit_dir: Vector3) -> Node:
 			continue
 		if ball.name == "PlayerBall":
 			continue
+		if not is_instance_valid(ball) or ball.is_queued_for_deletion():
+			continue
 		var to_ball = (ball.global_position - global_position).normalized()
 		# Tylko kule w półsferze w kierunku uderzenia (dot > 0)
 		if to_ball.dot(hit_dir) <= 0:
