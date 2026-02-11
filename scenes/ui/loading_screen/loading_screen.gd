@@ -10,17 +10,16 @@ signal loading_screen_has_full_coverage
 @onready var player_fill: VideoStreamPlayer = $VideoLayer_Fill
 @onready var player_empty: VideoStreamPlayer = $VideoLayer_Empty
 @onready var progress_bar: ProgressBar = $Panel/ProgressBar
+@onready var panel: Panel = $Panel
+@onready var animation_player = $AnimationPlayer
 
 var _is_loading_finished: bool = false
 var _fill_finished: bool = false
 
 func _ready() -> void:
-	# Setup Player Empty (The second one)
-	# We load it early, but keep it hidden or paused
 	player_empty.stream = load(file_empty)
-	player_empty.hide() # Hide it so it doesn't interfere yet
+	player_empty.hide()
 	
-	# Setup Player Fill (The first one)
 	player_fill.stream = load(file_fill)
 	player_fill.finished.connect(_on_fill_finished)
 	player_fill.play()
@@ -59,11 +58,11 @@ func _transition_to_empty() -> void:
 	# we might still see a black flash from the bottom layer starting up.
 	await get_tree().process_frame
 	await get_tree().process_frame
+	animation_player.play("loading_end")
 	
 	# 3. Now that the bottom video is definitely running, delete the top one.
 	# The user won't notice the switch because the images should be identical.
 	player_fill.queue_free()
 	
-	# 4. Handle end of second video
 	await player_empty.finished
 	queue_free()

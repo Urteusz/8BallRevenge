@@ -21,13 +21,13 @@
 [ext_resource type="Texture2D" uid="uid://pxoipevsp7bc" path="res://scenes/particles/player_pocketed_gradient.tres" id="19_sws0i"]
 [ext_resource type="Script" uid="uid://cblgv0hdp76us" path="res://scripts/object_scripts/fan.gd" id="20_y367v"]
 [ext_resource type="ArrayMesh" uid="uid://0lxkj2gtk607" path="res://models/table5/Table 5 Fan.obj" id="21_ixhut"]
-[ext_resource type="Script" path="res://scenes/levels/level5/background.gd" id="22_h1mtv"]
+[ext_resource type="Script" uid="uid://c1oek3r24c3fe" path="res://scenes/levels/level5/background.gd" id="22_h1mtv"]
 [ext_resource type="Script" uid="uid://tkp5glvk78m2" path="res://scripts/object_scripts/hammer.gd" id="22_tfwtw"]
 [ext_resource type="Environment" uid="uid://23vqkdd2sw7" path="res://scenes/levels/level5/level5_environment.tres" id="23_sx8sq"]
 [ext_resource type="ArrayMesh" uid="uid://b8vjd1qptkgxs" path="res://models/table7/Level7 Hammer.obj" id="23_ylxqd"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="24_r0ic5"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="25_nt2ph"]
-[ext_resource type="PackedScene" uid="uid://b6x5y4z3w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="26_pause"]
+[ext_resource type="PackedScene" uid="uid://b6x5y403w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="26_pause"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -332,7 +332,7 @@ items_to_sell = Array[String](["purple", "speedy", "magnetic", "ice", "bomb"])
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
 shopUI = NodePath("../../ShopUI/ControlShop")
 
-[node name="PauseMenu" parent="." node_paths=PackedStringArray("shop_ui") instance=ExtResource("26_pause")]
+[node name="PauseMenu" parent="." unique_id=2121248956 node_paths=PackedStringArray("shop_ui") instance=ExtResource("26_pause")]
 shop_ui = NodePath("../ShopUI/ControlShop")
 
 [connection signal="game_won" from="SubViewportContainer/SubViewport/Camera3D" to="GameplayUI/ControlGameplay" method="_on_game_win"]

@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bprm7tbtkqlqu" path="res://textures/Level1.png" id="4_42bys"]
 [ext_resource type="Texture2D" uid="uid://dwmumqo6ck2at" path="res://textures/Level2.png" id="5_u1a7q"]
 [ext_resource type="Texture2D" uid="uid://c3ogfnoe7boj1" path="res://textures/Level4.png" id="6_umtao"]
-[ext_resource type="Shader" path="res://scenes/ui/level_picker/levelpickerbg.gdshader" id="7_ic36s"]
+[ext_resource type="Shader" uid="uid://comsf7eu6hvbg" path="res://scenes/ui/level_picker/levelpickerbg.gdshader" id="7_ic36s"]
 [ext_resource type="Texture2D" uid="uid://ccxktvdjttygr" path="res://textures/ui/level_picker.png" id="7_umtao"]
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="8_bdgjx"]
 
@@ -17,72 +17,6 @@ shader_parameter/brightness = 0.570000027075
 shader_parameter/tint = Color(1, 1, 1, 1)
 
 [node name="CanvasLayer" type="CanvasLayer" unique_id=1447374548]
-
-[node name="LevelSelectMap" type="Node2D" parent="." unique_id=1659165851 node_paths=PackedStringArray("start_node", "player_cursor", "line_drawer")]
-script = ExtResource("1_v1yt6")
-start_node = NodePath("Node2D/LevelNode")
-player_cursor = NodePath("Node2D/PlayerCursor")
-line_drawer = NodePath("ConnectionsLine")
-
-[node name="ConnectionsLine" type="Line2D" parent="LevelSelectMap" unique_id=1021390176]
-z_index = -1
-width = 3.0
-default_color = Color(0.5, 0.5, 0.5, 0.6)
-
-[node name="Node2D" type="Node2D" parent="LevelSelectMap" unique_id=1107092202]
-position = Vector2(0, 50)
-
-[node name="LevelNode" parent="LevelSelectMap/Node2D" unique_id=1985807940 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
-position = Vector2(683, 580)
-level_scene_path = "res://scenes/levels/level1/level1.tscn"
-icon_texture = ExtResource("4_42bys")
-neighbors = [NodePath("../LevelNode2")]
-
-[node name="LevelNode2" parent="LevelSelectMap/Node2D" unique_id=1251535289 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
-position = Vector2(683, 430)
-level_number = 2
-level_scene_path = "res://scenes/levels/level2/level2.tscn"
-icon_texture = ExtResource("5_u1a7q")
-neighbors = [NodePath("../LevelNode3"), NodePath("../LevelNode4"), NodePath("../LevelNode")]
-
-[node name="LevelNode3" parent="LevelSelectMap/Node2D" unique_id=271403790 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
-position = Vector2(883, 270)
-level_number = 3
-level_scene_path = "res://scenes/levels/level3/level3.tscn"
-neighbors = [NodePath("../LevelNode2"), NodePath("../LevelNode5"), NodePath("../LevelNode7")]
-
-[node name="LevelNode4" parent="LevelSelectMap/Node2D" unique_id=1154560400 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
-position = Vector2(483, 270)
-level_number = 4
-level_scene_path = "res://scenes/levels/level4/level4.tscn"
-icon_texture = ExtResource("6_umtao")
-neighbors = [NodePath("../LevelNode2"), NodePath("../LevelNode5"), NodePath("../LevelNode6")]
-
-[node name="LevelNode5" parent="LevelSelectMap/Node2D" unique_id=1662642217 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
-position = Vector2(683, 120)
-level_number = 5
-level_scene_path = "res://scenes/levels/level5/level5.tscn"
-icon_texture = ExtResource("4_42bys")
-neighbors = [NodePath("../LevelNode3"), NodePath("../LevelNode4")]
-
-[node name="LevelNode6" parent="LevelSelectMap/Node2D" unique_id=1077537670 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
-position = Vector2(283, 120)
-level_number = 6
-level_scene_path = "res://scenes/levels/level6/level6.tscn"
-icon_texture = ExtResource("4_42bys")
-neighbors = [NodePath("../LevelNode4")]
-
-[node name="LevelNode7" parent="LevelSelectMap/Node2D" unique_id=158439831 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
-position = Vector2(1083, 120)
-level_number = 7
-level_scene_path = "res://scenes/levels/level7/level7.tscn"
-icon_texture = ExtResource("4_42bys")
-neighbors = [NodePath("../LevelNode3")]
-
-[node name="PlayerCursor" type="Sprite2D" parent="LevelSelectMap/Node2D" unique_id=1856796641]
-z_index = 1
-position = Vector2(546, 600)
-texture = ExtResource("3_c8iwr")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1344224455]
 
@@ -134,3 +68,69 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("7_umtao")
+
+[node name="LevelSelectMap" type="Node2D" parent="UI" unique_id=1659165851 node_paths=PackedStringArray("start_node", "player_cursor", "line_drawer")]
+script = ExtResource("1_v1yt6")
+start_node = NodePath("Node2D/LevelNode")
+player_cursor = NodePath("Node2D/PlayerCursor")
+line_drawer = NodePath("ConnectionsLine")
+
+[node name="ConnectionsLine" type="Line2D" parent="UI/LevelSelectMap" unique_id=1021390176]
+z_index = -1
+width = 3.0
+default_color = Color(0.5, 0.5, 0.5, 0.6)
+
+[node name="Node2D" type="Node2D" parent="UI/LevelSelectMap" unique_id=1107092202]
+position = Vector2(0, 50)
+
+[node name="LevelNode" parent="UI/LevelSelectMap/Node2D" unique_id=1985807940 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+position = Vector2(683, 580)
+level_scene_path = "res://scenes/levels/level1/level1.tscn"
+icon_texture = ExtResource("4_42bys")
+neighbors = [NodePath("../LevelNode2")]
+
+[node name="LevelNode2" parent="UI/LevelSelectMap/Node2D" unique_id=1251535289 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+position = Vector2(683, 430)
+level_number = 2
+level_scene_path = "res://scenes/levels/level2/level2.tscn"
+icon_texture = ExtResource("5_u1a7q")
+neighbors = [NodePath("../LevelNode3"), NodePath("../LevelNode4"), NodePath("../LevelNode")]
+
+[node name="LevelNode3" parent="UI/LevelSelectMap/Node2D" unique_id=271403790 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+position = Vector2(883, 270)
+level_number = 3
+level_scene_path = "res://scenes/levels/level3/level3.tscn"
+neighbors = [NodePath("../LevelNode2"), NodePath("../LevelNode5"), NodePath("../LevelNode7")]
+
+[node name="LevelNode4" parent="UI/LevelSelectMap/Node2D" unique_id=1154560400 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+position = Vector2(483, 270)
+level_number = 4
+level_scene_path = "res://scenes/levels/level4/level4.tscn"
+icon_texture = ExtResource("6_umtao")
+neighbors = [NodePath("../LevelNode2"), NodePath("../LevelNode5"), NodePath("../LevelNode6")]
+
+[node name="LevelNode5" parent="UI/LevelSelectMap/Node2D" unique_id=1662642217 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+position = Vector2(683, 120)
+level_number = 5
+level_scene_path = "res://scenes/levels/level5/level5.tscn"
+icon_texture = ExtResource("4_42bys")
+neighbors = [NodePath("../LevelNode3"), NodePath("../LevelNode4")]
+
+[node name="LevelNode6" parent="UI/LevelSelectMap/Node2D" unique_id=1077537670 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+position = Vector2(283, 120)
+level_number = 6
+level_scene_path = "res://scenes/levels/level6/level6.tscn"
+icon_texture = ExtResource("4_42bys")
+neighbors = [NodePath("../LevelNode4")]
+
+[node name="LevelNode7" parent="UI/LevelSelectMap/Node2D" unique_id=158439831 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+position = Vector2(1083, 120)
+level_number = 7
+level_scene_path = "res://scenes/levels/level7/level7.tscn"
+icon_texture = ExtResource("4_42bys")
+neighbors = [NodePath("../LevelNode3")]
+
+[node name="PlayerCursor" type="Sprite2D" parent="UI/LevelSelectMap/Node2D" unique_id=1856796641]
+z_index = 1
+position = Vector2(546, 600)
+texture = ExtResource("3_c8iwr")
