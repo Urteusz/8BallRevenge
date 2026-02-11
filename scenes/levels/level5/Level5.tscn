@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_25oin"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_256we"]
-[ext_resource type="PackedScene" uid="uid://llnnq31pjuch" path="res://scenes/ui/card/card.tscn" id="3_slr8f"]
 [ext_resource type="ArrayMesh" uid="uid://16o5i7c5ipiq" path="res://models/table5/Table 5 Base.obj" id="4_n1v7q"]
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="4_uj8rt"]
 [ext_resource type="Shader" uid="uid://3i5t87i5bngp" path="res://shaders/table_edges.gdshader" id="6_5x778"]
@@ -339,11 +338,6 @@ max_emission_energy = 10.0
 star_distance_min = 3500.0
 star_distance_max = 3500.0
 star_base_size = 12.0
-
-[node name="Card" parent="SubViewportContainer/SubViewport" unique_id=1279301074 node_paths=PackedStringArray("second_camera", "target") instance=ExtResource("3_slr8f")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.094708, 0)
-second_camera = NodePath("../Camera3D")
-target = NodePath("../Camera3D")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=834417071]
 environment = ExtResource("19_7pm65")
