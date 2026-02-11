@@ -94,7 +94,7 @@ load_path = "res://.godot/imported/icon.svg-3540dd99eafb6c4e602e8c59cee418fa.s3t
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qvlte"]
 resource_local_to_scene = true
-render_priority = 1
+render_priority = 2
 transparency = 1
 no_depth_test = true
 albedo_texture = SubResource("CompressedTexture2D_vr5dq")
@@ -108,19 +108,18 @@ material = SubResource("StandardMaterial3D_qvlte")
 radial_segments = 12
 rings = 6
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_oic6p"]
+[sub_resource type="BoxMesh" id="BoxMesh_vr5dq"]
+size = Vector3(1.25, 0.1, 1.75)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xlr6i"]
-resource_local_to_scene = true
-render_priority = 1
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pdfat"]
 transparency = 1
-no_depth_test = true
-albedo_texture = SubResource("ViewportTexture_oic6p")
+albedo_color = Color(0.3312, 0.36839998, 0.48, 1)
+albedo_texture = ExtResource("8_qvlte")
+uv1_scale = Vector3(4.515, 4.515, 4.515)
+uv1_triplanar = true
 texture_filter = 0
-
-[sub_resource type="QuadMesh" id="QuadMesh_vr5dq"]
-resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_xlr6i")
+stencil_mode = 3
+stencil_flags = 1
 
 [node name="SubViewport" type="Node3D" unique_id=1279301074 node_paths=PackedStringArray("card", "camera", "ball")]
 script = ExtResource("4_oic6p")
@@ -146,6 +145,7 @@ mesh = SubResource("SphereMesh_xlr6i")
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport2" unique_id=2055047003]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.8399042)
+projection = 1
 current = true
 fov = 55.4
 
@@ -167,7 +167,7 @@ transform = Transform3D(0.82931876, 0, 0, 0, 1.2013617, 0, 0, 0, 1, 0, 0, -0.014
 mesh = SubResource("QuadMesh_xlr6i")
 
 [node name="Ball" type="Node3D" parent="Card" unique_id=835349819 groups=["balls"]]
-transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0.22587633, -0.80165935)
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0.226, -0.5)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Card/Ball" unique_id=1544522999]
 mesh = SubResource("SphereMesh_noarx")
@@ -175,69 +175,40 @@ mesh = SubResource("SphereMesh_noarx")
 [node name="Contents" type="Node3D" parent="Card" unique_id=527449395]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.019672185)
 
-[node name="Mult" type="Label3D" parent="Card/Contents" unique_id=1229478145]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.9023083, -0.307, -0.511, 0)
-no_depth_test = true
-texture_filter = 0
-render_priority = 2
-outline_render_priority = 1
-text = "1x"
-outline_size = 4
-
-[node name="MultLabel" type="Label3D" parent="Card/Contents" unique_id=1845343334]
-transform = Transform3D(0.375, 0, 0, 0, 0.375, 0, 0, 0, 0.375, -0.21995443, -0.5394636, 0)
-no_depth_test = true
-texture_filter = 0
-render_priority = 2
-outline_render_priority = 1
-text = "mult"
-outline_size = 4
-
 [node name="Points" type="Label3D" parent="Card/Contents" unique_id=204427950]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.379242, 0.3066361, -0.5106868, 0)
-no_depth_test = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.379242, 0.2911281, -0.5106868, 0)
 texture_filter = 0
 render_priority = 2
 outline_render_priority = 1
 modulate = Color(0.58400005, 0.8, 0.512, 1)
-text = "100"
+text = "1000"
 outline_size = 4
 
 [node name="PointsLabel" type="Label3D" parent="Card/Contents" unique_id=777017264]
-transform = Transform3D(0.375, 0, 0, 0, 0.375, 0, 0, 0, 0.375, 0.2604351, -0.44735003, 0)
-no_depth_test = true
+transform = Transform3D(0.375, 0, 0, 0, 0.375, 0, 0, 0, 0.375, 0.23163146, -0.44735003, 0)
 texture_filter = 0
 render_priority = 2
 outline_render_priority = 1
-text = "points"
+text = "Price"
 outline_size = 4
 
 [node name="Name" type="Label3D" parent="Card/Contents" unique_id=1011115730]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.1744113, -0.03228332, 0.44827944, 0)
-no_depth_test = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.1744113, 0.002285704, 0.44827944, 0)
 texture_filter = 0
 render_priority = 2
 outline_render_priority = 1
 text = "Ball"
 outline_size = 4
 
-[node name="IconQuad" type="MeshInstance3D" parent="Card/Contents" unique_id=679473512]
-transform = Transform3D(0.27712524, 0, 0, 0, 0.27712524, 0, 0, 0, 1, -0.2754609, 0.44689935, 0)
-visible = false
-mesh = SubResource("QuadMesh_vr5dq")
-skeleton = NodePath("../..")
-
 [node name="AbilityIcon" type="Sprite3D" parent="Card/Contents" unique_id=363777029]
 transform = Transform3D(0.445, 0, 0, 0, 0.445, 0, 0, 0, 0.445, -0.30798995, -0.06469199, 0)
 shaded = true
-no_depth_test = true
 texture_filter = 0
 render_priority = 2
 texture = ExtResource("7_xlr6i")
 
 [node name="Ability" type="Label3D" parent="Card/Contents" unique_id=764884439]
 transform = Transform3D(0.855, 0, 0, 0, 0.855, 0, 0, 0, 0.855, -0.086, -0.058, 0)
-no_depth_test = true
 texture_filter = 0
 render_priority = 2
 outline_render_priority = 1
@@ -246,9 +217,30 @@ outline_size = 4
 
 [node name="Description" type="Label3D" parent="Card/Contents" unique_id=1165509919]
 transform = Transform3D(0.855, 0, 0, 0, 0.855, 0, 0, 0, 0.855, -0.086, -0.21976082, 0)
-no_depth_test = true
 texture_filter = 0
 render_priority = 2
 outline_render_priority = 1
 text = "Zwykła kula"
 outline_size = 4
+
+[node name="BasePoints" type="Label3D" parent="Card/Contents" unique_id=1163019118]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.379242, -0.23274088, -0.5106868, 0)
+texture_filter = 0
+render_priority = 2
+outline_render_priority = 1
+modulate = Color(1, 0.61372256, 0.50411975, 1)
+text = "150"
+outline_size = 4
+
+[node name="BasePointsLabel" type="Label3D" parent="Card/Contents" unique_id=771505536]
+transform = Transform3D(0.375, 0, 0, 0, 0.375, 0, 0, 0, 0.375, -0.27894187, -0.44735003, 0)
+texture_filter = 0
+render_priority = 2
+outline_render_priority = 1
+text = "Base points"
+outline_size = 4
+
+[node name="TableBase" type="MeshInstance3D" parent="Card" unique_id=1161771601]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -1)
+mesh = SubResource("BoxMesh_vr5dq")
+surface_material_override/0 = SubResource("StandardMaterial3D_pdfat")
