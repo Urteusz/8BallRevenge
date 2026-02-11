@@ -53,7 +53,7 @@ func setup_shop_item(id: String, data: Resource, is_owned: bool, player_points: 
 			ball_parent = main_card_sprite.find_child("Ball", true, false)
 	
 	if name_label:
-		name_label.text = data.display_name if "display_name" in data else id.capitalize()
+		name_label.text = data.display_name if (data.display_name and data.display_name != "") else id.capitalize()
 
 	if desc_label:
 		desc_label.text = " "#data.shop_description
@@ -89,8 +89,9 @@ func setup_ball_visuals(data: Resource):
 		var custom_ball = ball_scene.instantiate()
 		ball_parent.add_child(custom_ball)
 		custom_ball.position = Vector3.ZERO
+		custom_ball.rotation_degrees = Vector3(0, 180, 0) # Turn ball to face camera
 		custom_ball.scale = Vector3(0.5, 0.5, 0.5) # Scale down to fit card
-		
+
 		# Disable physics
 		if custom_ball is RigidBody3D:
 			custom_ball.freeze = true

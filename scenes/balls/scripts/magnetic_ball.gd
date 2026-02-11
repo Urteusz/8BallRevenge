@@ -36,6 +36,8 @@ func _physics_process(delta: float) -> void:
 		for ball in get_tree().get_nodes_in_group("balls"):
 			if ball == self:
 				continue
+			if not ball is BallParent:
+				continue
 			if ball.name == "PlayerBall":
 				continue
 			var dist = global_position.distance_to(ball.global_position)
