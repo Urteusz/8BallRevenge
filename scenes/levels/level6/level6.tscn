@@ -19,31 +19,23 @@
 [ext_resource type="ArrayMesh" uid="uid://x7ygsv712bp6" path="res://models/table6/Table 6 Base Down.obj" id="18_8m1ek"]
 [ext_resource type="PackedScene" uid="uid://bybt7gul7ksft" path="res://scenes/particles/pocketedBallEffect.tscn" id="18_fx5ks"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="19_ddetq"]
-[ext_resource type="PackedScene" uid="uid://cyqa4d25c4s04" path="res://scenes/particles/particlePocketLoop3.tscn" id="19_fx5ks"]
+[ext_resource type="PackedScene" path="res://scenes/particles/particlePocketLoop3.tscn" id="19_fx5ks"]
 [ext_resource type="ArrayMesh" uid="uid://561k8jx7u4wj" path="res://models/table6/Table 6 Walls Down.obj" id="19_uxihh"]
 [ext_resource type="Environment" uid="uid://23vqkdd2sw7" path="res://scenes/levels/level5/level5_environment.tres" id="20_3b7ih"]
 [ext_resource type="Script" uid="uid://bs7d8ijc8yx0r" path="res://scripts/object_scripts/spinner.gd" id="21_fx5ks"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="21_r3ijp"]
 [ext_resource type="ArrayMesh" uid="uid://ce7cha0ghwb8a" path="res://models/table6/Table 6 Spinner.obj" id="22_8m1ek"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="22_h7hqq"]
-[ext_resource type="PackedScene" uid="uid://b6x5y4z3w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
+[ext_resource type="PackedScene" uid="uid://b6x5y403w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
+[ext_resource type="Script" uid="uid://c1oek3r24c3fe" path="res://scenes/levels/level5/background.gd" id="24_uxihh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
 shader = ExtResource("2_53ypo")
 shader_parameter/lineHighlight = 0.2
 shader_parameter/lineShadow = 0.7
-shader_parameter/tintColor = Color(1.0, 1.0, 1.0, 1.0)
+shader_parameter/tintColor = Color(1, 1, 1, 1)
 shader_parameter/tintStrength = 0.0
-shader_parameter/line_thickness_start = 3.0
-shader_parameter/line_thickness_end = 1.0
-shader_parameter/use_depth_pixelization = true
-shader_parameter/min_pixel_size = 1.0
-shader_parameter/pixelation_start_dist = 1.0
-shader_parameter/pixelation_end_dist = 10.0
-shader_parameter/pixel_density_start = 800.0
-shader_parameter/pixel_density_end = 650.0
-shader_parameter/distance_curve = 1.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_4arys"]
 lightmap_size_hint = Vector2i(12, 12)
@@ -317,6 +309,15 @@ shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
 returnPoint = NodePath("../Table/ReturnPosition")
 
+[node name="Background" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=1604105035]
+script = ExtResource("24_uxihh")
+orbit_color = Color(3.7045925, 3.7045925, 3.7045925, 0.4)
+min_emission_energy = 5.0
+max_emission_energy = 10.0
+star_distance_min = 3500.0
+star_distance_max = 3500.0
+star_base_size = 12.0
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=834417071]
 environment = ExtResource("20_3b7ih")
 
@@ -327,12 +328,12 @@ items_to_sell = Array[String](["purple", "speedy", "magnetic", "ice", "bomb"])
 
 [node name="GameplayUI" parent="." unique_id=1423902161 instance=ExtResource("22_h7hqq")]
 
-[node name="PauseMenu" parent="." node_paths=PackedStringArray("shop_ui") instance=ExtResource("23_pause")]
-shop_ui = NodePath("../ShopUI/ControlShop")
-
 [node name="ControlGameplay" parent="GameplayUI" index="0" unique_id=1377833409 node_paths=PackedStringArray("game_manager", "shopUI")]
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
 shopUI = NodePath("../../ShopUI/ControlShop")
+
+[node name="PauseMenu" parent="." unique_id=1206105733 node_paths=PackedStringArray("shop_ui") instance=ExtResource("23_pause")]
+shop_ui = NodePath("../ShopUI/ControlShop")
 
 [connection signal="game_won" from="SubViewportContainer/SubViewport/Camera3D" to="GameplayUI/ControlGameplay" method="_on_game_win"]
 [connection signal="targetting_center" from="SubViewportContainer/SubViewport/Camera3D" to="SubViewportContainer/SubViewport/Table/PlayerBall" method="_on_camera_3d_targetting_center"]
