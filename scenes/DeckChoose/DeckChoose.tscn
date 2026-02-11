@@ -51,14 +51,8 @@ uv1_scale = Vector3(4.515, 4.515, 4.515)
 uv1_triplanar = true
 texture_filter = 0
 
-[node name="DeckChoose" type="Node3D" unique_id=543178278 node_paths=PackedStringArray("camera", "ui", "panel_container", "button_container", "confirm_button", "inventory_grid")]
+[node name="DeckChoose" type="Node3D" unique_id=543178278]
 script = ExtResource("1_8c44f")
-camera = NodePath("SubViewportContainer/SubViewport/Camera3D")
-ui = NodePath("UI")
-panel_container = NodePath("UI/PanelContainer")
-button_container = NodePath("UI/PanelContainer/HBoxContainer")
-confirm_button = NodePath("UI/ExitContainer/ButtonContinue")
-inventory_grid = NodePath("UI/PanelContainer/HBoxContainer/VBoxContainer/ScrollContainer/InventoryGrid")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1667556495]
 
