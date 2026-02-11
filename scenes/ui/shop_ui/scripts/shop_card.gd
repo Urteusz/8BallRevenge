@@ -28,7 +28,7 @@ func setup_shop_item(id: String, data: Resource, is_owned: bool, player_points: 
 	ball_id = id
 	cost = data.shop_cost
 	
-	name_label.text = data.display_name if "display_name" in data else id.capitalize()
+	name_label.text = data.display_name if ("display_name" in data and data.display_name != "") else id.capitalize()
 	
 	price_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	price_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER

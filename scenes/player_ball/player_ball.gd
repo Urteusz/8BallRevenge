@@ -46,6 +46,8 @@ const ROLLING_RESISTANCE_FACTOR: float = 0.15
 @onready var ball_radius: float = get_ball_radius()
 @onready var aim_line: MeshInstance3D = null
 @onready var audioStream = $AudioStreamPlayer3D
+@onready var meshBlack = $MeshInstance3D
+@onready var meshGold = $MeshInstance3DGold
 
 var camera: Camera3D = null
 
@@ -74,6 +76,10 @@ signal turn_started
 signal shoot_requested
 
 func _ready() -> void:
+	if PlayerData.get_total_stars() == 21:
+		print_debug("Dupa")
+		meshGold.visible = true
+		meshBlack.visible = false
 	camera = get_viewport().get_camera_3d()
 	ball_radius = get_ball_radius()
 

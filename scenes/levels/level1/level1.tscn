@@ -22,7 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://pxoipevsp7bc" path="res://scenes/particles/player_pocketed_gradient.tres" id="17_m6d3i"]
 [ext_resource type="Environment" uid="uid://djfhsep4ykllx" path="res://scenes/levels/level1/blue_environment.tres" id="18_or0go"]
 [ext_resource type="PackedScene" uid="uid://cauu31m0rk4m3" path="res://models/room_colored_v2.glb" id="22_v0ouj"]
-[ext_resource type="PackedScene" uid="uid://b6x5y4z3w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
+[ext_resource type="PackedScene" uid="uid://b6x5y403w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -287,7 +287,7 @@ items_to_sell = Array[String](["purple", "speedy", "magnetic", "ice", "bomb"])
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
 shopUI = NodePath("../../ShopUI/ControlShop")
 
-[node name="PauseMenu" parent="." node_paths=PackedStringArray("shop_ui") instance=ExtResource("23_pause")]
+[node name="PauseMenu" parent="." unique_id=353407753 node_paths=PackedStringArray("shop_ui") instance=ExtResource("23_pause")]
 shop_ui = NodePath("../ShopUI/ControlShop")
 
 [connection signal="game_won" from="SubViewportContainer/SubViewport/Camera3D" to="GameplayUI/ControlGameplay" method="_on_game_win"]
