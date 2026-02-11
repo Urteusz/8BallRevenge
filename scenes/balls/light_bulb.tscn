@@ -11,7 +11,7 @@ bounce = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1pso8"]
 resource_name = "Material.001"
-render_priority = 1
+render_priority = 2
 transparency = 4
 cull_mode = 2
 albedo_color = Color(0.90667546, 0.8812304, 0.49286488, 0.25)
@@ -85,7 +85,7 @@ shadow_mesh = SubResource("ArrayMesh_vm8hp")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eguim"]
 resource_name = "Material.003"
-render_priority = 1
+render_priority = 2
 cull_mode = 2
 albedo_color = Color(0.23529412, 0.23529412, 0.23529412, 1)
 metallic = 1.0
