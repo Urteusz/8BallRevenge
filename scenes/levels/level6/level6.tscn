@@ -79,7 +79,7 @@ bounce = 0.1
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u8udk"]
 render_priority = 0
 shader = ExtResource("8_mbi2n")
-shader_parameter/albedo_color = Color(0.22510216, 0.20862082, 0.20149148, 1)
+shader_parameter/albedo_color = Color(0.22352941, 0.20784314, 0.2, 0.88235295)
 shader_parameter/object_position = Vector3(0, 0, 0)
 shader_parameter/visible_distance = 0.690000032775
 shader_parameter/invisible_distance = 6.7490003205775
