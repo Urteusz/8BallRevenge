@@ -27,6 +27,7 @@
 [ext_resource type="ArrayMesh" uid="uid://b8vjd1qptkgxs" path="res://models/table7/Level7 Hammer.obj" id="23_ylxqd"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="24_r0ic5"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="25_nt2ph"]
+[ext_resource type="PackedScene" uid="uid://b6x5y4z3w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="26_pause"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -330,6 +331,9 @@ items_to_sell = Array[String](["purple", "speedy", "magnetic", "ice", "bomb"])
 [node name="ControlGameplay" parent="GameplayUI" index="0" unique_id=1377833409 node_paths=PackedStringArray("game_manager", "shopUI")]
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
 shopUI = NodePath("../../ShopUI/ControlShop")
+
+[node name="PauseMenu" parent="." node_paths=PackedStringArray("shop_ui") instance=ExtResource("26_pause")]
+shop_ui = NodePath("../ShopUI/ControlShop")
 
 [connection signal="game_won" from="SubViewportContainer/SubViewport/Camera3D" to="GameplayUI/ControlGameplay" method="_on_game_win"]
 
