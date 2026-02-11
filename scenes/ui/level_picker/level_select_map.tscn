@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bprm7tbtkqlqu" path="res://textures/Level1.png" id="4_42bys"]
 [ext_resource type="Texture2D" uid="uid://dwmumqo6ck2at" path="res://textures/Level2.png" id="5_u1a7q"]
 [ext_resource type="Texture2D" uid="uid://c3ogfnoe7boj1" path="res://textures/Level4.png" id="6_umtao"]
-[ext_resource type="Shader" path="res://scenes/ui/level_picker/levelpickerbg.gdshader" id="7_ic36s"]
+[ext_resource type="Shader" uid="uid://comsf7eu6hvbg" path="res://scenes/ui/level_picker/levelpickerbg.gdshader" id="7_ic36s"]
 [ext_resource type="Texture2D" uid="uid://ccxktvdjttygr" path="res://textures/ui/level_picker.png" id="7_umtao"]
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="8_bdgjx"]
 
@@ -19,6 +19,7 @@ shader_parameter/tint = Color(1, 1, 1, 1)
 [node name="CanvasLayer" type="CanvasLayer" unique_id=1447374548]
 
 [node name="LevelSelectMap" type="Node2D" parent="." unique_id=1659165851 node_paths=PackedStringArray("start_node", "player_cursor", "line_drawer")]
+z_index = 4096
 script = ExtResource("1_v1yt6")
 start_node = NodePath("Node2D/LevelNode")
 player_cursor = NodePath("Node2D/PlayerCursor")
