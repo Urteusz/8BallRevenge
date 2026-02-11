@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" uid="uid://daqmlvtkpk5vy" path="res://scenes/balls/scripts/explosive_bomb.gd" id="1_lgfus"]
 [ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="2_etd6p"]
-[ext_resource type="Texture2D" uid="uid://dfsx82n0ob0al" path="res://materials/Smoke30Frames.png" id="2_y1nh3"]
-[ext_resource type="Shader" path="res://shaders/wave.gdshader" id="3_2vxl7"]
-[ext_resource type="Script" path="res://scenes/balls/scripts/smoke_boom.gd" id="3_kee82"]
+[ext_resource type="Shader" uid="uid://bwlhqvra4x8s7" path="res://shaders/pixel_smoke.gdshader" id="2_y1nh3"]
+[ext_resource type="Shader" uid="uid://dops3226bmyhg" path="res://shaders/wave.gdshader" id="3_2vxl7"]
 [ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/hit_particles/star_particles_2.tscn" id="3_y5st0"]
 [ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/hit_particles/star_particles_3.tscn" id="4_x2os8"]
-[ext_resource type="Script" path="res://scenes/balls/scripts/wave_boom.gd" id="5_y3ptt"]
 [ext_resource type="ArrayMesh" uid="uid://bonj4bpc7rtmd" path="res://scenes/balls/ball_data/smily_bomb.tres" id="9_etd6p"]
+[ext_resource type="AudioStream" uid="uid://b6tjo6mc0dc1w" path="res://sounds/Boom.wav" id="10_y5st0"]
+[ext_resource type="Shader" uid="uid://dly7mi3buvj4e" path="res://shaders/shockwave_ring.gdshader" id="11_ring"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hafg3"]
 friction = 0.05
@@ -21,56 +21,42 @@ colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 0.5631399, 0.5631399, 0.563139
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_kee82"]
 gradient = SubResource("Gradient_2vxl7")
 
-[sub_resource type="Curve" id="Curve_y3ptt"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5297805, 1), 0.0, 0.0, 0, 0, Vector2(0.815047, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 4
-
-[sub_resource type="CurveTexture" id="CurveTexture_v2olm"]
-curve = SubResource("Curve_y3ptt")
-
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6mal5"]
 lifetime_randomness = 0.5
 direction = Vector3(0, 1, 0)
-spread = 10.0
-initial_velocity_min = 0.5
-initial_velocity_max = 1.0
+spread = 40.0
+initial_velocity_min = 1.0
+initial_velocity_max = 3.0
 gravity = Vector3(0, 0.2, 0)
 damping_min = 0.1
 damping_max = 0.3
-scale_min = 5.0
-scale_max = 8.0
-scale_curve = SubResource("CurveTexture_v2olm")
+scale_min = 1.5
+scale_max = 3.5
 color_ramp = SubResource("GradientTexture1D_kee82")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8nrpn"]
-transparency = 1
-vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("2_y1nh3")
-billboard_mode = 3
-billboard_keep_scale = true
-particles_anim_h_frames = 6
-particles_anim_v_frames = 5
-particles_anim_loop = false
+[sub_resource type="ShaderMaterial" id="StandardMaterial3D_8nrpn"]
+render_priority = 0
+shader = ExtResource("2_y1nh3")
+shader_parameter/smoke_color = Color(0.15, 0.15, 0.15, 1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_etd6p"]
 material = SubResource("StandardMaterial3D_8nrpn")
+size = Vector2(0.5, 0.5)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2vxl7"]
 shader = ExtResource("3_2vxl7")
 shader_parameter/ring_radius = 0.5
-shader_parameter/expansion_speed = 2.0
+shader_parameter/expansion_speed = 4.5
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kee82"]
-transparency = 1
-blend_mode = 1
-cull_mode = 2
-shading_mode = 0
-vertex_color_use_as_albedo = true
-billboard_mode = 1
+[sub_resource type="ShaderMaterial" id="StandardMaterial3D_kee82"]
+render_priority = 0
+shader = ExtResource("11_ring")
+shader_parameter/ring_color = Color(1, 0.5, 0.1, 1)
+shader_parameter/ring_thickness = 0.08
 
 [sub_resource type="QuadMesh" id="QuadMesh_y3ptt"]
 material = SubResource("StandardMaterial3D_kee82")
-size = Vector2(0.1, 0.1)
+size = Vector2(0.2, 0.2)
 
 [sub_resource type="Curve" id="Curve_hafg3"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.4984326, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -148,7 +134,6 @@ max_contacts_reported = 4
 linear_damp = 0.15
 angular_damp = 0.4
 script = ExtResource("1_lgfus")
-extra_speed = 5.0
 explosion_force = 1.5
 smoke_effect = NodePath("Particles/SmokeBOOM")
 shockwave_effect = NodePath("Particles/WaveBOOM")
@@ -160,23 +145,25 @@ hit_particles3 = ExtResource("4_x2os8")
 [node name="Particles" type="Node3D" parent="." unique_id=933615368]
 
 [node name="SmokeBOOM" type="GPUParticles3D" parent="Particles" unique_id=1590480038]
+top_level = true
 emitting = false
-amount = 50
+amount = 20
 one_shot = true
 explosiveness = 0.9
+visibility_aabb = AABB(-1.2894075, -0.05, -1.5329487, 2.8485482, 2.9083898, 3.0730786)
 draw_order = 3
 process_material = SubResource("ParticleProcessMaterial_6mal5")
 draw_pass_1 = SubResource("QuadMesh_etd6p")
-script = ExtResource("3_kee82")
 
 [node name="WaveBOOM" type="GPUParticles3D" parent="Particles" unique_id=1505871726]
+top_level = true
 emitting = false
-amount = 500
+amount = 1000
 one_shot = true
 explosiveness = 1.0
+visibility_aabb = AABB(-5.350002, -0.5, -5.3496375, 10.700004, 1, 10.699639)
 process_material = SubResource("ShaderMaterial_2vxl7")
 draw_pass_1 = SubResource("QuadMesh_y3ptt")
-script = ExtResource("5_y3ptt")
 
 [node name="fuzeParticle" type="GPUParticles3D" parent="Particles" unique_id=1308189455]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.46922243, 0.74374145, -0.008247852)
@@ -205,3 +192,5 @@ skeleton = NodePath("")
 shape = SubResource("SphereShape3D_lgfus")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1266938876]
+stream = ExtResource("10_y5st0")
+volume_db = -10.0

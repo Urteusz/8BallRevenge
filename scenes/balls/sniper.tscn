@@ -1,6 +1,6 @@
-[gd_scene format=4 uid="uid://b5h1k2dk148on"]
+[gd_scene format=4 uid="uid://548advwcgpm8"]
 
-[ext_resource type="Script" uid="uid://cmndk6lbwh03f" path="res://scenes/balls/scripts/sniper_ball.gd" id="1_ksy2c"]
+[ext_resource type="Script" path="res://scenes/balls/scripts/sniper_ball.gd" id="1_ksy2c"]
 [ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="2_72vq0"]
 [ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/hit_particles/star_particles_2.tscn" id="3_dlagf"]
 [ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/hit_particles/star_particles_3.tscn" id="4_se4xo"]

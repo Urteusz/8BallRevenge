@@ -9,10 +9,10 @@ var hit_count: int = 0
 var charged: bool = false
 
 var aura_colors = [
-	Color(0.5, 0.0, 0.5),   # 0 hits - dark purple
-	Color(1.0, 0.2, 0.0),   # 1 hit  - red
-	Color(1.0, 0.5, 0.0),   # 2 hits - orange
-	Color(1.0, 0.9, 0.2),   # charged - bright yellow
+	Color(0.5, 0.0, 0.5),# 0 hits - dark purple
+	Color(1.0, 0.9, 0.2),# 1 hit: bright yellow
+	Color(1.0, 0.5, 0.0),# 2 hits - orange
+	Color(1.0, 0.2, 0.0)# charged - red
 ]
 
 func _ready():
