@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cvcslt7yw1a7s"]
+[gd_scene format=3 uid="uid://cvcslt7yw1a7s"]
 
 [ext_resource type="Script" uid="uid://83vb56jogdmg" path="res://scenes/ui/loading_screen/loading_screen.gd" id="1_8cml4"]
+[ext_resource type="Shader" uid="uid://ci6venkc8lrfh" path="res://scenes/ui/loading_screen/loading_screen.gdshader" id="2_urqlm"]
 
 [sub_resource type="Animation" id="Animation_hprjd"]
 length = 0.001
@@ -70,25 +71,28 @@ _data = {
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ep5rh"]
 bg_color = Color(0.12591082, 0.12591085, 0.12591076, 1)
 
-[node name="loading_screen" type="CanvasLayer"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0ag1g"]
+shader = ExtResource("2_urqlm")
+shader_parameter/threshold = 0.5
+
+[node name="loading_screen" type="CanvasLayer" unique_id=1091680241]
 script = ExtResource("1_8cml4")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_ku3bi")
-}
-autoplay = "loading_start"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1531696206]
+deterministic = true
+libraries/ = SubResource("AnimationLibrary_ku3bi")
+autoplay = &"loading_start"
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=1548295084]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -0.00024414063
+offset_right = -0.0007324219
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ep5rh")
 
-[node name="ProgressBar" type="ProgressBar" parent="Panel"]
+[node name="ProgressBar" type="ProgressBar" parent="Panel" unique_id=1358040829]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -101,3 +105,27 @@ offset_right = 175.99994
 offset_bottom = 47.75
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VideoLayer_Empty" type="VideoStreamPlayer" parent="." unique_id=2095466571]
+material = SubResource("ShaderMaterial_0ag1g")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+autoplay = true
+expand = true
+
+[node name="VideoLayer_Fill" type="VideoStreamPlayer" parent="." unique_id=245950885]
+material = SubResource("ShaderMaterial_0ag1g")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+autoplay = true
+expand = true
