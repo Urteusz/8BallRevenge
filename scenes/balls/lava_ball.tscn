@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://dk55pnqni5fot"]
+
+[ext_resource type="Script" uid="uid://b106p7yinq2yv" path="res://scenes/balls/scripts/lava_ball.gd" id="1_pl3vm"]
+[ext_resource type="Shader" uid="uid://ckdhmv04xfhh0" path="res://lava.gdshader" id="2_a5kow"]
+[ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="2_pl3vm"]
+[ext_resource type="PackedScene" uid="uid://bb5luh1qm20ua" path="res://scenes/particles/flameParticles.tscn" id="2_qj0wm"]
+[ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/hit_particles/star_particles_2.tscn" id="3_qj0wm"]
+[ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/hit_particles/star_particles_3.tscn" id="4_c21uv"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_l8kdm"]
+friction = 0.05
+bounce = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_42ehr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pl3vm"]
+render_priority = 0
+shader = ExtResource("2_a5kow")
+shader_parameter/speed = 0.5
+shader_parameter/rotation_speed = 0.2
+shader_parameter/scale = 3.0
+shader_parameter/hot_color = Color(1, 0.8, 0, 1)
+shader_parameter/medium_color = Color(1, 0.3, 0, 1)
+shader_parameter/cool_color = Color(0.6, 0.1, 0, 1)
+shader_parameter/emission_strength = 2.0
+shader_parameter/displacement_strength = 0.05
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_l8kdm"]
+
+[node name="LavaBall" type="RigidBody3D" unique_id=997499912 groups=["balls"]]
+collision_layer = 4
+collision_mask = 5
+mass = 0.17
+physics_material_override = SubResource("PhysicsMaterial_l8kdm")
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 9
+linear_damp = 0.15
+angular_damp = 0.4
+script = ExtResource("1_pl3vm")
+burn_vfx = ExtResource("2_qj0wm")
+hit_particles = ExtResource("2_pl3vm")
+hit_particles2 = ExtResource("3_qj0wm")
+hit_particles3 = ExtResource("4_c21uv")
+base_value = 150
+metadata/_custom_type_script = "uid://dcowhvvavoqf5"
+
+[node name="LavaBall" type="MeshInstance3D" parent="." unique_id=56928001]
+mesh = SubResource("SphereMesh_42ehr")
+surface_material_override/0 = SubResource("ShaderMaterial_pl3vm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=834813031]
+shape = SubResource("SphereShape3D_l8kdm")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=139642860]

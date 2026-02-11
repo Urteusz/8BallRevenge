@@ -22,7 +22,7 @@
 [ext_resource type="Script" uid="uid://cblgv0hdp76us" path="res://scripts/object_scripts/fan.gd" id="19_256we"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="19_usx8j"]
 [ext_resource type="ArrayMesh" uid="uid://0lxkj2gtk607" path="res://models/table5/Table 5 Fan.obj" id="20_j4hik"]
-[ext_resource type="Script" uid="uid://c1oek3r24c3fe" path="res://scenes/levels/level5/background.gd" id="21_auayw"]
+[ext_resource type="Script" path="res://scenes/levels/level5/background.gd" id="21_auayw"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="21_n138t"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="22_tsu05"]
 [ext_resource type="PackedScene" uid="uid://b6x5y4z3w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
@@ -32,6 +32,8 @@ render_priority = -1
 shader = ExtResource("2_256we")
 shader_parameter/lineHighlight = 0.2
 shader_parameter/lineShadow = 0.7
+shader_parameter/tintColor = Color(0.2, 0.12, 0.71, 1)
+shader_parameter/tintStrength = 0.15
 
 [sub_resource type="QuadMesh" id="QuadMesh_4arys"]
 lightmap_size_hint = Vector2i(12, 12)
@@ -58,7 +60,7 @@ friction = 0.15
 bounce = 0.6
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qdufj"]
-render_priority = 1
+render_priority = 0
 shader = ExtResource("6_5x778")
 shader_parameter/albedo_color = Color(0.1728327, 0.17283267, 0.17283267, 1)
 shader_parameter/fade_start_distance = 5.0
@@ -73,7 +75,7 @@ bounce = 0.1
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6sp46"]
 render_priority = 0
 shader = ExtResource("8_wq0gc")
-shader_parameter/albedo_color = Color(0.18811458, 0.19329146, 0.1955047, 1)
+shader_parameter/albedo_color = Color(0.1882353, 0.19215687, 0.19607843, 0.85490197)
 shader_parameter/object_position = Vector3(0, 0, 0)
 shader_parameter/visible_distance = 0.690000032775
 shader_parameter/invisible_distance = 6.7490003205775
@@ -342,7 +344,7 @@ environment = ExtResource("19_7pm65")
 
 [node name="ShopUI" parent="." unique_id=1101322657 instance=ExtResource("21_n138t")]
 
-[node name="ControlShop" parent="ShopUI" index="0"]
+[node name="ControlShop" parent="ShopUI" index="0" unique_id=109149566]
 items_to_sell = Array[String](["purple", "speedy", "magnetic", "ice", "bomb"])
 
 [node name="GameplayUI" parent="." unique_id=1423902161 instance=ExtResource("22_tsu05")]

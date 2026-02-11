@@ -10,6 +10,7 @@ shader_parameter/outline_thickness = 0.0999999977648
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2fp3r"]
 resource_name = "Material__45"
+render_priority = 2
 next_pass = SubResource("ShaderMaterial_6mal5")
 albedo_color = Color(0.002262602, 0.002262602, 0.002262602, 1)
 metallic = 1.0
@@ -17,6 +18,7 @@ roughness = 0.7
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l8yjc"]
 resource_name = "Material__46"
+render_priority = 2
 albedo_color = Color(1, 0, 0, 1)
 roughness = 0.0
 emission_enabled = true
@@ -24,6 +26,7 @@ emission = Color(1, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hwbnp"]
 resource_name = "Material__58"
+render_priority = 2
 albedo_color = Color(0.8050955, 0.8050955, 0.85430586, 1)
 roughness = 0.6
 

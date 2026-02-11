@@ -3,6 +3,8 @@ extends Node
 @onready var game_manager = $SubViewportContainer/SubViewport/GameManager
 @onready var rain_node = $SubViewportContainer/SubViewport/RainParticle
 @onready var base_rain = $SubViewportContainer/SubViewport/RainParticle/GPUParticles3D
+@onready var wind_audio: AudioStreamPlayer3D = $SubViewportContainer/SubViewport/AudioStreamPlayer3D
+@onready var player = $SubViewportContainer/SubViewport/Table/PlayerBall
 
 var initial_moves: int = 0
 var extra_rain_layers: Array[GPUParticles3D] = []
@@ -10,12 +12,20 @@ const RAIN_LAYERS_COUNT: int = 5
 const MIN_GRAVITY: float = -8.0
 const MAX_GRAVITY: float = -20.0
 
+# Audio deszczu
+const RAIN_VOLUME_MIN_DB: float = -40.0
+const RAIN_VOLUME_MAX_DB: float = -10.0
+const RAIN_AUDIO_LERP_SPEED: float = 0.5
+var current_rain_volume_db: float = -80.0
+var target_rain_volume_db: float = -80.0
+
 func _ready() -> void:
 	if game_manager:
 		initial_moves = game_manager.default_level_move_count
 		game_manager.moves_changed.connect(_on_moves_changed)
 
 	_create_rain_layers()
+	_setup_rain_audio()
 	_update_rain_intensity(initial_moves)
 
 func _create_rain_layers() -> void:
@@ -83,4 +93,25 @@ func _update_rain_intensity(moves_left: int) -> void:
 			if layer_material:
 				layer_material.gravity = Vector3(0, current_gravity, 0)
 
+	# Głośność deszczu podąża za intensywnością
+	if intensity > 0.01:
+		target_rain_volume_db = lerp(RAIN_VOLUME_MIN_DB, RAIN_VOLUME_MAX_DB, intensity)
+	else:
+		target_rain_volume_db = -80.0
+
 	print("Moves: ", moves_left, " | Layers: ", layers_to_enable + 1, "/", RAIN_LAYERS_COUNT + 1, " | Gravity: %.1f | Color: %.2f" % [current_gravity, color_intensity])
+
+func _setup_rain_audio() -> void:
+	if not wind_audio:
+		return
+	wind_audio.volume_db = -80.0
+	wind_audio.play()
+
+func _process(delta: float) -> void:
+	if player and wind_audio:
+		wind_audio.global_position = player.global_transform.origin
+
+	# Płynne przejście głośności deszczu
+	if wind_audio and absf(current_rain_volume_db - target_rain_volume_db) > 0.1:
+		current_rain_volume_db = lerp(current_rain_volume_db, target_rain_volume_db, RAIN_AUDIO_LERP_SPEED * delta)
+		wind_audio.volume_db = current_rain_volume_db
