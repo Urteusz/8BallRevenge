@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cyqa4d25c4s04"]
+[gd_scene load_steps=0 format=3 uid="uid://cyqa4d25c4s04"]
 
 [ext_resource type="Script" uid="uid://c2ja1eugyxfeq" path="res://addons/UniParticles3D/UniParticles3D.gd" id="1_pyjc6"]
 
