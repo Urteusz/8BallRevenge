@@ -3,8 +3,8 @@ extends CanvasLayer
 signal loading_screen_has_full_coverage
 
 @export_category("Video Files")
-@export var file_fill: String = "res://0001-0075.ogv"
-@export var file_empty: String = "res://0075-0150.ogv"
+@export var file_fill: String = "res://scenes/ui/loading_screen/fill.ogv"
+@export var file_empty: String = "res://scenes/ui/loading_screen/empty.ogv"
 
 # Reference both players
 @onready var player_fill: VideoStreamPlayer = $VideoLayer_Fill
