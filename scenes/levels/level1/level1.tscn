@@ -29,7 +29,7 @@ shader = ExtResource("2_n15fh")
 shader_parameter/lineHighlight = 0.2
 shader_parameter/lineShadow = 0.7
 shader_parameter/tintColor = Color(0.18, 0.17, 0.72, 1)
-shader_parameter/tintStrength = 0.5
+shader_parameter/tintStrength = 0.7
 
 [sub_resource type="QuadMesh" id="QuadMesh_4arys"]
 lightmap_size_hint = Vector2i(12, 12)
@@ -56,7 +56,7 @@ friction = 0.15
 bounce = 0.6
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jw3ls"]
-render_priority = 1
+render_priority = 0
 shader = ExtResource("4_70mfr")
 shader_parameter/albedo_color = Color(0.1728327, 0.17283267, 0.17283267, 1)
 shader_parameter/fade_start_distance = 5.0

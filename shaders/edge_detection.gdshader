@@ -39,16 +39,19 @@ void vertex() { POSITION = vec4(VERTEX.xy, 1.0, 1.0); }
 void fragment() {
   vec2 texelSize = 1.0 / VIEWPORT_SIZE.xy;
 
+  // Skaluj sampling z głębokością — dalsze obiekty dostają szerszy offset
+  float depth = GetLinearDepth(SCREEN_UV, DEPTH_TEXTURE, INV_PROJECTION_MATRIX);
+  float depthScale = clamp(depth / 15.0, 1.0, 2.0);
+  vec2 scaledTexel = texelSize * depthScale;
+
   vec2 UVOffsets[4];
-  UVOffsets[0] = SCREEN_UV + vec2(0.0, -1.0) * texelSize;
-  UVOffsets[1] = SCREEN_UV + vec2(0.0, 1.0) * texelSize;
-  UVOffsets[2] = SCREEN_UV + vec2(1.0, 0.0) * texelSize;
-  UVOffsets[3] = SCREEN_UV + vec2(-1.0, 0.0) * texelSize;
+  UVOffsets[0] = SCREEN_UV + vec2(0.0, -1.0) * scaledTexel;
+  UVOffsets[1] = SCREEN_UV + vec2(0.0, 1.0) * scaledTexel;
+  UVOffsets[2] = SCREEN_UV + vec2(1.0, 0.0) * scaledTexel;
+  UVOffsets[3] = SCREEN_UV + vec2(-1.0, 0.0) * scaledTexel;
 
   float depthDifference = 0.0;
   float invDepthDifference = 0.5;
-  float depth = GetLinearDepth(SCREEN_UV, DEPTH_TEXTURE, INV_PROJECTION_MATRIX);
-
   float safeDepth = depth + 0.0001;
 
   for (int i = 0; i < UVOffsets.length(); i++) {

@@ -11,6 +11,7 @@ bounce = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1pso8"]
 resource_name = "Material.001"
+render_priority = 1
 transparency = 4
 cull_mode = 2
 albedo_color = Color(0.90667546, 0.8812304, 0.49286488, 0.25)
@@ -18,6 +19,7 @@ roughness = 0.4
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o7snt"]
 resource_name = "Material.002"
+render_priority = 1
 cull_mode = 2
 albedo_color = Color(0.26581952, 0.26581952, 0.26581952, 1)
 metallic = 1.0

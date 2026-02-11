@@ -31,7 +31,7 @@ shader = ExtResource("2_awq8j")
 shader_parameter/lineHighlight = 0.2
 shader_parameter/lineShadow = 0.7
 shader_parameter/tintColor = Color(1, 0, 0, 1)
-shader_parameter/tintStrength = 0.5
+shader_parameter/tintStrength = 0.7
 
 [sub_resource type="QuadMesh" id="QuadMesh_4arys"]
 lightmap_size_hint = Vector2i(12, 12)
