@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cu8kb6pqex3my"]
+[gd_scene format=3 uid="uid://d1ddpvdmnmck"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_25oin"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_256we"]

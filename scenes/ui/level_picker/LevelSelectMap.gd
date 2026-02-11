@@ -6,7 +6,7 @@ extends Node2D
 @export var line_drawer: Line2D
 @export var max_stars_per_level: int = 3
 
-@onready var total_stars_label: Label = $UI/TotalStarsPanel/VBox/StarsLabel
+@onready var total_stars_label: Label = %StarsLabel
 
 var current_node: LevelNode
 var is_moving: bool = false

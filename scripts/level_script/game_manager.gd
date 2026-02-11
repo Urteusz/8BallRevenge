@@ -251,7 +251,7 @@ func get_level_balls() -> Array:
 			"texture": ui_texture,
 			"scene": ui_scene,
 			"points": ui_points,
-			"name": _pretty_ball_name(ball.name)
+			"name": ball_data.display_name if (ball_data and ball_data.display_name != "") else _pretty_ball_name(ball.name)
 		})
 		
 	return balls_data_for_ui
