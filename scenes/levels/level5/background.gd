@@ -101,6 +101,7 @@ func _process(delta: float) -> void:
 
 func _build_starfield() -> void:
 	var mat = StandardMaterial3D.new()
+	mat.render_priority = -1
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mat.vertex_color_use_as_albedo = true
 	mat.albedo_color = Color.WHITE
@@ -239,6 +240,7 @@ func _generate_static_planet_orbits(blueprints: Array) -> void:
 	var st = SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_LINES)
 	var mat = StandardMaterial3D.new()
+	mat.render_priority = -1
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	
@@ -272,6 +274,7 @@ func _create_torus_ring(radius: float, color: Color, tilt: Basis) -> MeshInstanc
 	mesh.rings = 32
 	
 	var mat = StandardMaterial3D.new()
+	mat.render_priority = -1
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	mat.albedo_color = color
@@ -304,6 +307,7 @@ func _allocate_multimeshes(counts: Dictionary) -> void:
 		var mat = null
 		if ball_data.get("texture"):
 			mat = StandardMaterial3D.new()
+			mat.render_priority = -1
 			mat.albedo_texture = ball_data.texture
 			mat.emission_enabled = true
 			mat.emission_texture = ball_data.texture

@@ -21,6 +21,8 @@ render_priority = -1
 shader = ExtResource("3_6fa61")
 shader_parameter/lineHighlight = 0.2
 shader_parameter/lineShadow = 0.55
+shader_parameter/tintColor = Color(0.28235295, 0.41960785, 1, 1)
+shader_parameter/tintStrength = 0.7
 
 [sub_resource type="QuadMesh" id="QuadMesh_ptf86"]
 lightmap_size_hint = Vector2i(12, 12)

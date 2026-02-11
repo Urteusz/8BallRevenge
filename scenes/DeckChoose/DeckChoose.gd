@@ -21,6 +21,16 @@ const BALL_VIEW_PITCH: float = 70.0
 const INVENTORY_ITEM_SCENE = preload("res://scenes/DeckChoose/InventoryBallItem.tscn")
 
 @onready var camera: Camera3D = $SubViewportContainer/SubViewport/Camera3D
+@onready var edge_shader: MeshInstance3D = $SubViewportContainer/SubViewport/Camera3D/EdgeDetectionShader
+
+# Parametry EdgeDetectionShader dopasowane do każdego levelu
+const LEVEL_SHADER_PARAMS: Dictionary = {
+	1: { "tintColor": Color(0.18, 0.17, 0.72, 1), "lineShadow": 0.7, "tintStrength": 0.8 },
+	2: { "tintColor": Color(1.0, 0.745, 0.239, 1.0), "lineShadow": 0.7, "tintStrength": 0.8 },
+	3: { "tintColor": Color(1.0, 0.0, 0.0, 1), "lineShadow": 0.7, "tintStrength": 0.7 },
+	4: { "tintColor": Color(0.54, 0.21, 0.9, 1), "lineShadow": 0.55, "tintStrength": 0.7 },
+	5: { "tintColor": Color(0.28, 0.42, 1.0, 1), "lineShadow": 0.55, "tintStrength": 0.0 },
+}
 @onready var ui: CanvasLayer = $UI
 @onready var panel_container: PanelContainer = $UI/PanelContainer
 @onready var button_container: HBoxContainer = $UI/ExitContainer
@@ -78,6 +88,7 @@ func _ready() -> void:
 		PlayerData.owned_balls.append("speedy")
 	_spawn_balls()
 	_refresh_inventory_ui()
+	_apply_level_shader()
 
 	if panel_container:
 		panel_container.visible = false
@@ -87,6 +98,24 @@ func _ready() -> void:
 
 	if confirm_button:
 		confirm_button.pressed.connect(_on_confirm_button_pressed)
+
+func _apply_level_shader() -> void:
+	if not edge_shader:
+		print("EdgeDetectionShader: node not found")
+		return
+	var mat: ShaderMaterial = edge_shader.mesh.material as ShaderMaterial
+	if not mat:
+		print("EdgeDetectionShader: material not found, trying get_active_material")
+		mat = edge_shader.get_active_material(0) as ShaderMaterial
+	if not mat:
+		print("EdgeDetectionShader: no material found at all")
+		return
+	var params = LEVEL_SHADER_PARAMS.get(PlayerData.current_level, null)
+	print("EdgeDetectionShader: level=", PlayerData.current_level, " params=", params)
+	if params:
+		mat.set_shader_parameter("tintColor", params["tintColor"])
+		mat.set_shader_parameter("lineShadow", params["lineShadow"])
+		mat.set_shader_parameter("tintStrength", params["tintStrength"])
 
 func _on_confirm_button_pressed() -> void:
 	emit_signal("deck_selected")
