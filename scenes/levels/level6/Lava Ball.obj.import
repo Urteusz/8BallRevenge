@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://du7lddgj0w5ik"
+path="res://.godot/imported/Lava Ball.obj-e7d837665598515d9941d66f2469fb48.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Lava Ball.obj-e7d837665598515d9941d66f2469fb48.mesh"]
+
+source_file="res://scenes/levels/level6/Lava Ball.obj"
+dest_files=["res://.godot/imported/Lava Ball.obj-e7d837665598515d9941d66f2469fb48.mesh", "res://.godot/imported/Lava Ball.obj-e7d837665598515d9941d66f2469fb48.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
