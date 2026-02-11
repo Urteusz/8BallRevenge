@@ -156,10 +156,10 @@ skeleton = NodePath("")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="bulb" unique_id=1102978761]
 light_color = Color(1, 0.9882353, 0.5882353, 1)
-light_energy = 5.0
+light_energy = 20.0
 light_specular = 0.1
 omni_range = 15.0
-omni_attenuation = 1.5
+omni_attenuation = 0.1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=117853719]
 shape = SubResource("SphereShape3D_8j57j")

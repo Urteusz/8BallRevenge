@@ -164,7 +164,7 @@ spot_angle = 35.0
 [node name="SpotLightCenter" type="SpotLight3D" parent="SubViewportContainer/SubViewport/TableCircle2/Lights" unique_id=1109794863]
 transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 0, 4, 0)
 light_color = Color(1, 1, 0.90588236, 1)
-light_energy = 15.0
+light_energy = 10.0
 light_bake_mode = 1
 spot_range = 50.0
 spot_attenuation = 0.5
