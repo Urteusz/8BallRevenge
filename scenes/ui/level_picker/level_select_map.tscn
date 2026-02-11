@@ -54,7 +54,7 @@ neighbors = [NodePath("../LevelNode2"), NodePath("../LevelNode5"), NodePath("../
 [node name="LevelNode5" parent="." node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
 position = Vector2(683, 120)
 level_number = 5
-level_scene_path = "res://scenes/levels/level5/Level5.tscn"
+level_scene_path = "res://scenes/levels/level5/level5.tscn"
 icon_texture = ExtResource("4_42bys")
 neighbors = [NodePath("../LevelNode3"), NodePath("../LevelNode4")]
 
