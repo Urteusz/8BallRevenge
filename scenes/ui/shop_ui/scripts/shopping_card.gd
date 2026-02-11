@@ -40,11 +40,6 @@ func setup_shop_item(id: String, data: Resource, is_owned: bool, player_points: 
 			var node = card_node.find_child(elem_name, true, false)
 			if node:
 				node.visible = false
-				
-		# Handle "PointsLabel" text -> Change to "cost" or "pkt"
-		var points_text_label = card_node.find_child("PointsLabel", true, false)
-		if points_text_label:
-			points_text_label.text = "koszt" # Polish for cost
 		
 		# Link Ball Parent
 		# We target the one on the card surface first: Card/Ball

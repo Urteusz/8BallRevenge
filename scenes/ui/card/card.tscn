@@ -121,6 +121,12 @@ texture_filter = 0
 stencil_mode = 3
 stencil_flags = 1
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_vr5dq"]
+size = Vector2(1.115, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pkhjp"]
+albedo_color = Color(0.044578135, 1.2972741e-08, 7.52043e-10, 1)
+
 [node name="SubViewport" type="Node3D" unique_id=1279301074 node_paths=PackedStringArray("card", "camera", "ball")]
 script = ExtResource("4_oic6p")
 card = NodePath("Card")
@@ -246,3 +252,9 @@ outline_size = 4
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -1)
 mesh = SubResource("BoxMesh_vr5dq")
 surface_material_override/0 = SubResource("StandardMaterial3D_pdfat")
+
+[node name="TableBase2" type="MeshInstance3D" parent="Card" unique_id=505650786]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -0.6507479, -0.75)
+mesh = SubResource("PlaneMesh_vr5dq")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_pkhjp")
