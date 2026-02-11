@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bygje88aw8v4o"]
+[gd_scene format=3 uid="uid://bygje88aw8v4o"]
 
 [ext_resource type="Script" uid="uid://bn2sm3eaqp8xl" path="res://scenes/balls/scripts/magnetic_ball_min.gd" id="1_ftji3"]
 
@@ -11,16 +11,17 @@ metallic = 1.0
 metallic_specular = 0.74
 roughness = 0.15
 
-[node name="MagneticBallMin" type="RigidBody3D" groups=["balls"]]
+[node name="MagneticBallMin" type="RigidBody3D" unique_id=1007297848 groups=["balls"]]
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_ftji3")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=808914358]
 shape = SubResource("SphereShape3D_lxf6d")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1016340009]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
 mesh = SubResource("SphereMesh_tkrup")
 surface_material_override/0 = SubResource("StandardMaterial3D_uosa8")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1868706889]
