@@ -19,7 +19,7 @@
 [ext_resource type="ArrayMesh" uid="uid://x7ygsv712bp6" path="res://models/table6/Table 6 Base Down.obj" id="18_8m1ek"]
 [ext_resource type="PackedScene" uid="uid://bybt7gul7ksft" path="res://scenes/particles/pocketedBallEffect.tscn" id="18_fx5ks"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="19_ddetq"]
-[ext_resource type="PackedScene" path="res://scenes/particles/particlePocketLoop3.tscn" id="19_fx5ks"]
+[ext_resource type="PackedScene" uid="uid://cyqa4d25c4s04" path="res://scenes/particles/particlePocketLoop3.tscn" id="19_fx5ks"]
 [ext_resource type="ArrayMesh" uid="uid://561k8jx7u4wj" path="res://models/table6/Table 6 Walls Down.obj" id="19_uxihh"]
 [ext_resource type="Environment" uid="uid://23vqkdd2sw7" path="res://scenes/levels/level5/level5_environment.tres" id="20_3b7ih"]
 [ext_resource type="Script" uid="uid://bs7d8ijc8yx0r" path="res://scripts/object_scripts/spinner.gd" id="21_fx5ks"]
@@ -32,6 +32,8 @@ render_priority = -1
 shader = ExtResource("2_53ypo")
 shader_parameter/lineHighlight = 0.2
 shader_parameter/lineShadow = 0.7
+shader_parameter/tintColor = Color(1.0, 1.0, 1.0, 1.0)
+shader_parameter/tintStrength = 0.0
 shader_parameter/line_thickness_start = 3.0
 shader_parameter/line_thickness_end = 1.0
 shader_parameter/use_depth_pixelization = true
@@ -70,7 +72,7 @@ friction = 0.15
 bounce = 0.6
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jw3ls"]
-render_priority = 1
+render_priority = 0
 shader = ExtResource("6_8m1ek")
 shader_parameter/albedo_color = Color(0.1728327, 0.17283267, 0.17283267, 1)
 shader_parameter/fade_start_distance = 5.0
@@ -319,7 +321,7 @@ environment = ExtResource("20_3b7ih")
 
 [node name="ShopUI" parent="." unique_id=1101322657 instance=ExtResource("21_r3ijp")]
 
-[node name="ControlShop" parent="ShopUI" index="0"]
+[node name="ControlShop" parent="ShopUI" index="0" unique_id=109149566]
 items_to_sell = Array[String](["purple", "speedy", "magnetic", "ice", "bomb"])
 
 [node name="GameplayUI" parent="." unique_id=1423902161 instance=ExtResource("22_h7hqq")]

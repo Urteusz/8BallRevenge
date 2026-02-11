@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BallData" format=3 uid="uid://bt086tbxs0532"]
+
+[ext_resource type="PackedScene" uid="uid://b5h1k2dk148on" path="res://scenes/balls/sniper.tscn" id="1_fu1lf"]
+[ext_resource type="Script" uid="uid://cvwkj0qnv7yim" path="res://scenes/balls/scripts/ball_data.gd" id="2_tgql5"]
+
+[resource]
+script = ExtResource("2_tgql5")
+scene = ExtResource("1_fu1lf")
+base_value = 50
+shop_description = "Kula snipera potrafi celować za Ciebie."

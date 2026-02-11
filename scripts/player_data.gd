@@ -26,7 +26,9 @@ var bouncy_ball_data = load("res://scenes/balls/ball_data/bouncy_ball.tres")
 var magnetic_ball_data = load("res://scenes/balls/ball_data/magnetic_ball.tres")
 var ice_ball_data = load("res://scenes/balls/ball_data/ice_ball.tres")
 var magnetic_min_ball_data = load("res://scenes/balls/ball_data/magnetic_ball_min.tres")
+var light_bulb_data = load("res://scenes/balls/ball_data/light_bulb.tres")
 var lava_ball_data = load("res://scenes/balls/ball_data/lava_ball.tres")
+var sniper_ball_data = load("res://scenes/balls/ball_data/sniper_ball.tres")
 
 
 
@@ -44,7 +46,9 @@ var ball_data_map = {
 	"magnetic_min": magnetic_min_ball_data,
 	"ice": ice_ball_data,
 	"bouncy": bouncy_ball_data,
-	"lava": lava_ball_data
+	"light": light_bulb_data,
+	"lava": lava_ball_data,
+	"sniper": sniper_ball_data
 }
 
 const SAVE_PATH = "user://player_progress.save"
@@ -52,7 +56,7 @@ const SAVE_PATH = "user://player_progress.save"
 func _ready() -> void:
 	# Domyślny start (jeśli nie ma zapisu)
 	if owned_balls.is_empty():
-		owned_balls = ["lava", "red", "blue", "purple", "yellow", "speedy", "green"]
+		owned_balls = ["sniper", "light", "ninja", "purple", "yellow", "speedy", "green"]
 	
 	# Jeśli deck jest pusty, wypełnij go pierwszymi dostępnymi kulami
 	if current_deck.is_empty():

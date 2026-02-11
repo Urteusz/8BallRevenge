@@ -11,17 +11,19 @@ bounce = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1pso8"]
 resource_name = "Material.001"
+render_priority = 1
 transparency = 4
 cull_mode = 2
 albedo_color = Color(0.90667546, 0.8812304, 0.49286488, 0.25)
-roughness = 0.1
+roughness = 0.4
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o7snt"]
 resource_name = "Material.002"
+render_priority = 1
 cull_mode = 2
 albedo_color = Color(0.26581952, 0.26581952, 0.26581952, 1)
 metallic = 1.0
-roughness = 0.1
+roughness = 0.4
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_vm8hp"]
 _surfaces = [{
@@ -83,11 +85,11 @@ shadow_mesh = SubResource("ArrayMesh_vm8hp")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eguim"]
 resource_name = "Material.003"
-transparency = 4
+render_priority = 1
 cull_mode = 2
-albedo_color = Color(0.23416896, 0.23416896, 0.23416896, 0.5)
+albedo_color = Color(0.23529412, 0.23529412, 0.23529412, 1)
 metallic = 1.0
-roughness = 0.2
+roughness = 0.45
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_sxcad"]
 _surfaces = [{
@@ -151,6 +153,13 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3600305, 0)
 mesh = SubResource("ArrayMesh_hmvkj")
 skeleton = NodePath("")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="bulb" unique_id=1102978761]
+light_color = Color(1, 0.9882353, 0.5882353, 1)
+light_energy = 20.0
+light_specular = 0.1
+omni_range = 15.0
+omni_attenuation = 0.1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=117853719]
 shape = SubResource("SphereShape3D_8j57j")

@@ -11,7 +11,7 @@ const CENTER_LIGHT_FADE_DURATION: float = 0.3
 const FLICKER_DURATION: float = 2.5
 const FLICKER_DIM_RATIO: float = 0.15
 const BASE_LIGHT_ENERGY: float = 20.0
-const BASE_CENTER_ENERGY: float = 20.0
+const BASE_CENTER_ENERGY: float = 15.0
 
 var pocket_to_light: Dictionary = {}
 var lights_on: Dictionary = {}

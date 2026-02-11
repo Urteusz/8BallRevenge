@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="18_kse3a"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="19_lsmej"]
 [ext_resource type="PackedScene" uid="uid://dlhbqkiwlq55b" path="res://models/bridge.glb" id="20_13qfw"]
+[ext_resource type="AudioStream" uid="uid://bx8q623om6igx" path="res://sounds/rain.mp3" id="21_62ajq"]
 [ext_resource type="Script" uid="uid://cskdfigevu0cw" path="res://scenes/levels/level3/level3.gd" id="21_level3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
@@ -30,15 +31,8 @@ render_priority = -1
 shader = ExtResource("2_awq8j")
 shader_parameter/lineHighlight = 0.2
 shader_parameter/lineShadow = 0.7
-shader_parameter/line_thickness_start = 3.0
-shader_parameter/line_thickness_end = 1.0
-shader_parameter/use_depth_pixelization = true
-shader_parameter/min_pixel_size = 1.0
-shader_parameter/pixelation_start_dist = 1.0
-shader_parameter/pixelation_end_dist = 10.0
-shader_parameter/pixel_density_start = 800.0
-shader_parameter/pixel_density_end = 650.0
-shader_parameter/distance_curve = 1.0
+shader_parameter/tintColor = Color(1, 0, 0, 1)
+shader_parameter/tintStrength = 0.7
 
 [sub_resource type="QuadMesh" id="QuadMesh_4arys"]
 lightmap_size_hint = Vector2i(12, 12)
@@ -66,7 +60,7 @@ friction = 0.15
 bounce = 0.6
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jw3ls"]
-render_priority = 1
+render_priority = 0
 shader = ExtResource("6_4nps4")
 shader_parameter/albedo_color = Color(0.1728327, 0.17283267, 0.17283267, 1)
 shader_parameter/fade_start_distance = 5.0
@@ -291,6 +285,9 @@ returnPoint = NodePath("../Table/ReturnPosition")
 
 [node name="RainParticle" parent="SubViewportContainer/SubViewport" unique_id=633303949 instance=ExtResource("17_mn25p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 0)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SubViewportContainer/SubViewport" unique_id=1209872667]
+stream = ExtResource("21_62ajq")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1778344470]
 environment = ExtResource("16_w2rca")
