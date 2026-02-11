@@ -1,6 +1,6 @@
 [gd_resource type="ArrayMesh" format=4 uid="uid://bonj4bpc7rtmd"]
 
-[ext_resource type="Shader" path="res://shaders/outline.gdshader" id="1_od3og"]
+[ext_resource type="Shader" uid="uid://l7a30blnr3dk" path="res://shaders/outline.gdshader" id="1_od3og"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6mal5"]
 render_priority = 0
