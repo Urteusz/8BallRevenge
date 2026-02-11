@@ -57,7 +57,7 @@ friction = 0.15
 bounce = 0.6
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qdufj"]
-render_priority = 1
+render_priority = 0
 shader = ExtResource("6_5x778")
 shader_parameter/albedo_color = Color(0.1728327, 0.17283267, 0.17283267, 1)
 shader_parameter/fade_start_distance = 5.0
