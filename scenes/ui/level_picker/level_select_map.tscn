@@ -4,14 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://dn0f8x2al34c" path="res://scenes/ui/level_picker/level_node.tscn" id="2_c8iwr"]
 [ext_resource type="Texture2D" uid="uid://b8t6tcqys3kpe" path="res://textures/icon.png" id="3_c8iwr"]
 [ext_resource type="Texture2D" uid="uid://0vsg43jg66jo" path="res://textures/ui/sky.jpg" id="4_3w87r"]
-[ext_resource type="Texture2D" uid="uid://bhrek3g1afrvo" path="res://textures/Level1.png" id="4_42bys"]
-[ext_resource type="Texture2D" uid="uid://ccmld553q3hbc" path="res://textures/Level5.png" id="6_t8nsi"]
+[ext_resource type="Texture2D" uid="uid://bprm7tbtkqlqu" path="res://textures/Level1.png" id="4_42bys"]
+[ext_resource type="Texture2D" uid="uid://dwmumqo6ck2at" path="res://textures/Level2.png" id="5_u1a7q"]
 [ext_resource type="Texture2D" uid="uid://c3ogfnoe7boj1" path="res://textures/Level4.png" id="6_umtao"]
-[ext_resource type="Texture2D" uid="uid://bl3xao8er2ccj" path="res://textures/Level6.png" id="7_bdgjx"]
-[ext_resource type="Texture2D" uid="uid://hvq0nm8w4gbn" path="res://textures/Level7.png" id="7_ic36s"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bdgjx"]
-load_path = "res://.godot/imported/Level2.png-4f5f8e933156a7465a5c9c6815e89d97.ctex"
 
 [node name="LevelSelectMap" type="Node2D" unique_id=1659165851 node_paths=PackedStringArray("start_node", "player_cursor", "line_drawer")]
 script = ExtResource("1_v1yt6")
@@ -40,7 +35,7 @@ neighbors = [NodePath("../LevelNode2")]
 position = Vector2(683, 430)
 level_number = 2
 level_scene_path = "res://scenes/levels/level2/level2.tscn"
-icon_texture = SubResource("CompressedTexture2D_bdgjx")
+icon_texture = ExtResource("5_u1a7q")
 neighbors = [NodePath("../LevelNode3"), NodePath("../LevelNode4"), NodePath("../LevelNode")]
 
 [node name="LevelNode3" parent="." unique_id=271403790 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
@@ -56,25 +51,25 @@ level_scene_path = "res://scenes/levels/level4/level4.tscn"
 icon_texture = ExtResource("6_umtao")
 neighbors = [NodePath("../LevelNode2"), NodePath("../LevelNode5"), NodePath("../LevelNode6")]
 
-[node name="LevelNode5" parent="." unique_id=559879413 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+[node name="LevelNode5" parent="." node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
 position = Vector2(683, 120)
 level_number = 5
 level_scene_path = "res://scenes/levels/level5/Level5.tscn"
-icon_texture = ExtResource("6_t8nsi")
+icon_texture = ExtResource("4_42bys")
 neighbors = [NodePath("../LevelNode3"), NodePath("../LevelNode4")]
 
-[node name="LevelNode6" parent="." unique_id=1466678056 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+[node name="LevelNode6" parent="." node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
 position = Vector2(283, 120)
 level_number = 6
 level_scene_path = "res://scenes/levels/level6/level6.tscn"
-icon_texture = ExtResource("7_bdgjx")
+icon_texture = ExtResource("4_42bys")
 neighbors = [NodePath("../LevelNode4")]
 
-[node name="LevelNode7" parent="." unique_id=1566116974 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+[node name="LevelNode7" parent="." node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
 position = Vector2(1083, 120)
 level_number = 7
 level_scene_path = "res://scenes/levels/level7/level7.tscn"
-icon_texture = ExtResource("7_ic36s")
+icon_texture = ExtResource("4_42bys")
 neighbors = [NodePath("../LevelNode3")]
 
 [node name="PlayerCursor" type="Sprite2D" parent="." unique_id=1856796641]
