@@ -26,30 +26,51 @@ width = 3.0
 default_color = Color(0.5, 0.5, 0.5, 0.6)
 
 [node name="LevelNode" parent="." unique_id=1985807940 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
-position = Vector2(683, 650)
+position = Vector2(683, 580)
 level_scene_path = "res://scenes/levels/level1/level1.tscn"
 icon_texture = ExtResource("4_42bys")
 neighbors = [NodePath("../LevelNode2")]
 
 [node name="LevelNode2" parent="." unique_id=1251535289 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
-position = Vector2(683, 451)
+position = Vector2(683, 430)
 level_number = 2
 level_scene_path = "res://scenes/levels/level2/level2.tscn"
 icon_texture = ExtResource("5_u1a7q")
 neighbors = [NodePath("../LevelNode3"), NodePath("../LevelNode4"), NodePath("../LevelNode")]
 
 [node name="LevelNode3" parent="." unique_id=271403790 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
-position = Vector2(883, 200)
+position = Vector2(883, 270)
 level_number = 3
 level_scene_path = "res://scenes/levels/level3/level3.tscn"
-neighbors = [NodePath("../LevelNode2")]
+neighbors = [NodePath("../LevelNode2"), NodePath("../LevelNode5"), NodePath("../LevelNode7")]
 
 [node name="LevelNode4" parent="." unique_id=1154560400 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
-position = Vector2(483, 200)
+position = Vector2(483, 270)
 level_number = 4
 level_scene_path = "res://scenes/levels/level4/level4.tscn"
 icon_texture = ExtResource("6_umtao")
-neighbors = [NodePath("../LevelNode2")]
+neighbors = [NodePath("../LevelNode2"), NodePath("../LevelNode5"), NodePath("../LevelNode6")]
+
+[node name="LevelNode5" parent="." node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+position = Vector2(683, 120)
+level_number = 5
+level_scene_path = "res://scenes/levels/level5/Level5.tscn"
+icon_texture = ExtResource("4_42bys")
+neighbors = [NodePath("../LevelNode3"), NodePath("../LevelNode4")]
+
+[node name="LevelNode6" parent="." node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+position = Vector2(283, 120)
+level_number = 6
+level_scene_path = "res://scenes/levels/level6/level6.tscn"
+icon_texture = ExtResource("4_42bys")
+neighbors = [NodePath("../LevelNode4")]
+
+[node name="LevelNode7" parent="." node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
+position = Vector2(1083, 120)
+level_number = 7
+level_scene_path = "res://scenes/levels/level7/level7.tscn"
+icon_texture = ExtResource("4_42bys")
+neighbors = [NodePath("../LevelNode3")]
 
 [node name="PlayerCursor" type="Sprite2D" parent="." unique_id=1856796641]
 z_index = 1
@@ -74,7 +95,7 @@ horizontal_alignment = 1
 
 [node name="StarsLabel" type="Label" parent="UI/TotalStarsPanel/VBox" unique_id=1555666777]
 layout_mode = 2
-text = "0 / 12"
+text = "0 / 21"
 horizontal_alignment = 1
 
 [node name="HintLabel" type="Label" parent="UI" unique_id=1666777888]
