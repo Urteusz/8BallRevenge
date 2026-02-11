@@ -1,4 +1,5 @@
 shader_type spatial;
+render_mode unshaded;
 
 uniform sampler2D DEPTH_TEXTURE : hint_depth_texture, filter_linear_mipmap;
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_nearest;
@@ -7,6 +8,8 @@ uniform sampler2D NORMAL_TEXTURE : hint_normal_roughness_texture,
 
 uniform float lineHighlight = 0.2;
 uniform float lineShadow = 0.55;
+uniform vec4 tintColor : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform float tintStrength = 0.0;
 
 float GetLinearDepth(vec2 sUV, sampler2D depthTexture, mat4 invProjectionMat) {
   float depth = texture(depthTexture, sUV).x;
@@ -79,5 +82,11 @@ void fragment() {
   ALBEDO = texture(SCREEN_TEXTURE, SCREEN_UV).rgb;
 
   ALBEDO += innerLines * lineHighlight;
-  ALBEDO -= depthDifference * lineShadow;
+
+  // Cienie blendują do ciemnej wersji tintColor zamiast do czystej czerni
+  vec3 shadowTarget = tintColor.rgb * 0.15;
+  ALBEDO = mix(ALBEDO, shadowTarget, depthDifference * lineShadow);
+
+  // Tint — zastępuje ambient light od sky, stały niezależnie od pozycji kamery
+  ALBEDO = mix(ALBEDO, ALBEDO * tintColor.rgb, tintStrength);
 }
