@@ -4,6 +4,7 @@ extends PanelContainer
 @onready var vsync_button = $HBoxContainer/Graphics/VSync/VSyncButton
 @onready var fullscreen_button = $HBoxContainer/Graphics/FullscreenButton
 @onready var apply_button = $HBoxContainer/Graphics/HBoxContainer/ApplyButton
+@onready var apply_hint_label = $HintLabel
 
 @onready var inverted_mouse_button = $HBoxContainer/Controls/InvertedMouseButton
 @onready var volume_slider = $HBoxContainer/Controls/Volume/VolumeSlider
@@ -15,6 +16,21 @@ const VSYNC_MODES = {
 	"Adaptive": DisplayServer.VSYNC_ADAPTIVE,
 	"Mailbox": DisplayServer.VSYNC_MAILBOX,
 }
+
+const DEFAULT_SETTINGS := {
+	"graphics": {
+		"vsync_mode": DisplayServer.VSYNC_DISABLED,
+		"resolution": Vector2i(1280, 720),
+		"fullscreen": false,
+	},
+	"controls": {
+		"inverted_mouse": false,
+	},
+	"audio": {
+		"master_volume": 1.0, # 0..1
+	},
+}
+
 
 # dodaj wiecej
 # razem z rozdzielczoscia powinien zmieniac sie strech shrink, chyba
@@ -131,3 +147,29 @@ func _on_back_pressed() -> void:
 	else:
 		# Fallback to Main Menu if no previous scene (e.g. started directly in Options)
 		LoadManager.load_scene(ScenePaths.MAIN_MENU_PATH)
+
+
+func _on_reset_button_pressed() -> void:
+	# VSYNC
+	for i in range(vsync_button.item_count):
+		if vsync_button.get_item_id(i) == DEFAULT_SETTINGS["graphics"]["vsync_mode"]:
+			vsync_button.select(i)
+			break
+
+	# RESOLUTION
+	var default_res: Vector2i = DEFAULT_SETTINGS["graphics"]["resolution"]
+	for i in range(resolution_button.item_count):
+		if RESOLUTIONS[i] == default_res:
+			resolution_button.select(i)
+			break
+
+	# Fullscreen / inverted mouse
+	fullscreen_button.button_pressed = DEFAULT_SETTINGS["graphics"]["fullscreen"]
+	inverted_mouse_button.button_pressed = DEFAULT_SETTINGS["controls"]["inverted_mouse"]
+
+	# Volume
+	var vol: float = DEFAULT_SETTINGS["audio"]["master_volume"]
+	volume_slider.value = vol * 100.0
+	volume_value_label.text = "%d%%" % int(vol * 100.0)
+
+	print("Defaults restored in UI (click Apply to save).")
