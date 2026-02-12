@@ -1,13 +1,11 @@
-[gd_resource type="Resource" script_class="BallData" load_steps=4 format=3 uid="uid://ninja_ball_uid_001"]
+[gd_resource type="Resource" script_class="BallData" format=3 uid="uid://c7upo4ihsa22w"]
 
 [ext_resource type="Script" uid="uid://cvwkj0qnv7yim" path="res://scenes/balls/scripts/ball_data.gd" id="1_ninja_data"]
-[ext_resource type="PackedScene" uid="uid://ttnulrg6ie11" path="res://scenes/balls/ninja.tscn" id="2_ninja_scene"]
-[ext_resource type="Texture2D" uid="uid://bpuemw2orshx8" path="res://textures/balls/ball_red.png" id="3_ninja_icon"]
+[ext_resource type="PackedScene" path="res://scenes/balls/ninja.tscn" id="2_ninja_scene"]
 
 [resource]
 script = ExtResource("1_ninja_data")
 scene = ExtResource("2_ninja_scene")
-texture = ExtResource("3_ninja_icon")
 base_value = 150
 shop_cost = 2000
 shop_description = "Ninja Ball: After 3 hits, eliminates another ball! Does not affect the player."

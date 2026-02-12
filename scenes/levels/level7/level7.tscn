@@ -418,7 +418,7 @@ environment = ExtResource("23_sx8sq")
 [node name="ShopUI" parent="." unique_id=1101322657 instance=ExtResource("24_r0ic5")]
 
 [node name="ControlShop" parent="ShopUI" index="0" unique_id=109149566]
-items_to_sell = Array[String](["purple", "speedy", "magnetic", "ice", "bomb"])
+items_to_sell = Array[String](["light", "ice", "bomb"])
 
 [node name="GameplayUI" parent="." unique_id=1423902161 instance=ExtResource("25_nt2ph")]
 
