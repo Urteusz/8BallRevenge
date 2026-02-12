@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cxsooy44xlu3e"]
+[gd_scene format=3 uid="uid://tp32bsjd6ocn"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_25oin"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_256we"]
@@ -18,14 +18,14 @@
 [ext_resource type="Texture2D" uid="uid://b3qrjp3b4ol7y" path="res://scenes/particles/level1_gradient.tres" id="16_cc776"]
 [ext_resource type="Texture2D" uid="uid://dk2pdlthkn7hb" path="res://scenes/particles/ball_pocketed_gradient.tres" id="17_5x778"]
 [ext_resource type="Texture2D" uid="uid://pxoipevsp7bc" path="res://scenes/particles/player_pocketed_gradient.tres" id="18_82yk0"]
-[ext_resource type="Environment" uid="uid://cyxek5jj5buax" path="res://scenes/levels/level5/level5_environment.tres" id="19_7pm65"]
+[ext_resource type="Environment" uid="uid://23vqkdd2sw7" path="res://scenes/levels/level5/level5_environment.tres" id="19_7pm65"]
 [ext_resource type="Script" uid="uid://cblgv0hdp76us" path="res://scripts/object_scripts/fan.gd" id="19_256we"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="19_usx8j"]
 [ext_resource type="ArrayMesh" uid="uid://0lxkj2gtk607" path="res://models/table5/Table 5 Fan.obj" id="20_j4hik"]
 [ext_resource type="Script" uid="uid://c1oek3r24c3fe" path="res://scenes/levels/level5/background.gd" id="21_auayw"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="21_n138t"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="22_tsu05"]
-[ext_resource type="PackedScene" uid="uid://b6x5y403w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
+[ext_resource type="PackedScene" uid="uid://b6x5y4z3w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -94,9 +94,6 @@ size = Vector3(6.6041718, 1, 6.8622894)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ksjw4"]
 size = Vector3(6.617798, 1, 6.6351013)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_slr8f"]
-size = Vector3(119.76561, 1, 63.99823)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_uj8rt"]
 
@@ -208,7 +205,7 @@ spread = 1.1
 height = 0.0
 
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" unique_id=1274056530 groups=["playerBall"] instance=ExtResource("13_256we")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.131359, 1.6884607, 0.1571598)
 aim_line_ray_range = 30.0
 
 [node name="ReturnPosition" type="Node3D" parent="SubViewportContainer/SubViewport/Table" unique_id=1178245822]
@@ -276,15 +273,6 @@ player_pocketed_gradient = ExtResource("18_82yk0")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket4" unique_id=1468101282]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09951019, 0, 0.27745056)
 shape = SubResource("BoxShape3D_ksjw4")
-
-[node name="PocketVoid" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=937753145]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
-collision_mask = 5
-script = ExtResource("14_j4hik")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/PocketVoid" unique_id=728881473]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.239317, 0, -3.0517578e-05)
-shape = SubResource("BoxShape3D_slr8f")
 
 [node name="Fan" type="AnimatableBody3D" parent="SubViewportContainer/SubViewport/Table" unique_id=1675685963]
 transform = Transform3D(-2.7873979, 0, 1.1092402, 0, 3, 0, -1.1092402, 0, -2.7873979, -14.145326, 0.7996987, -3.751828)
@@ -361,12 +349,12 @@ items_to_sell = Array[String](["purple", "speedy", "magnetic", "ice", "bomb"])
 
 [node name="GameplayUI" parent="." unique_id=1423902161 instance=ExtResource("22_tsu05")]
 
+[node name="PauseMenu" parent="." node_paths=PackedStringArray("shop_ui") instance=ExtResource("23_pause")]
+shop_ui = NodePath("../ShopUI/ControlShop")
+
 [node name="ControlGameplay" parent="GameplayUI" index="0" unique_id=1377833409 node_paths=PackedStringArray("game_manager", "shopUI")]
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
 shopUI = NodePath("../../ShopUI/ControlShop")
-
-[node name="PauseMenu" parent="." unique_id=910762287 node_paths=PackedStringArray("shop_ui") instance=ExtResource("23_pause")]
-shop_ui = NodePath("../ShopUI/ControlShop")
 
 [connection signal="game_won" from="SubViewportContainer/SubViewport/Camera3D" to="GameplayUI/ControlGameplay" method="_on_game_win"]
 
