@@ -1,17 +1,15 @@
-[gd_scene load_steps=32 format=3 uid="uid://b0a6ch7y3umcj"]
+[gd_scene format=3 uid="uid://b0a6ch7y3umcj"]
 
 [ext_resource type="Script" uid="uid://cjd6s35brnfyc" path="res://scenes/ui/main_menu/scripts/main_menu.gd" id="1_5seab"]
 [ext_resource type="Texture2D" uid="uid://bmbtuxpculhwv" path="res://textures/ui/main_menu3.png" id="1_x2yjq"]
 [ext_resource type="Script" uid="uid://sbo45gobftet" path="res://scenes/ui/main_menu/scripts/main_menu_camera.gd" id="2_4xg86"]
-[ext_resource type="Texture2D" path="res://textures/ui/Button2.png" id="3_x2yjq"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="3_thkx5"]
-[ext_resource type="Texture2D" path="res://textures/ui/Button2_pressed.png" id="4_lqpn7"]
+[ext_resource type="Texture2D" uid="uid://b77vw4r7h8gp5" path="res://textures/ui/Button2.png" id="3_x2yjq"]
+[ext_resource type="Texture2D" uid="uid://bspufxilq7h0d" path="res://textures/ui/Button2_pressed.png" id="4_lqpn7"]
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="4_x2yjq"]
 [ext_resource type="Texture2D" uid="uid://m2g2mgjtfq40" path="res://textures/ui/Button2_focused.png" id="5_fnkq8"]
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="5_lqpn7"]
-[ext_resource type="Texture2D" uid="uid://dj0tnayw03xxf" path="res://textures/ui/ButtonV3Opcje.png" id="6_g6wm5"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="6_qel0l"]
-[ext_resource type="Texture2D" uid="uid://dk3vory3di74c" path="res://textures/ui/ButtonV3OpcjePressed.png" id="7_03ujm"]
 [ext_resource type="Script" uid="uid://joi35n2utr5w" path="res://scenes/ui/main_menu/scripts/main_menu_ball.gd" id="7_rrgl4"]
 [ext_resource type="Texture2D" uid="uid://brp2du77yob0s" path="res://textures/ui/ButtonV3Quit.png" id="10_wv6bh"]
 [ext_resource type="Texture2D" uid="uid://c2bqqlu4yt03p" path="res://textures/ui/Button2_quit_focusedt.png" id="11_8i8ns"]
@@ -31,6 +29,8 @@ render_priority = -1
 shader = ExtResource("3_thkx5")
 shader_parameter/lineHighlight = 0.2
 shader_parameter/lineShadow = 0.7
+shader_parameter/tintColor = Color(1, 1, 1, 1)
+shader_parameter/tintStrength = 0.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_4arys"]
 lightmap_size_hint = Vector2i(12, 12)
@@ -68,7 +68,7 @@ background_energy_multiplier = 1.34
 sky = SubResource("Sky_jka67")
 ambient_light_source = 3
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=1912827048]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -77,7 +77,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_5dd4i")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=816188734]
 top_level = true
 z_index = 1
 texture_filter = 1
@@ -90,7 +90,7 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("1_x2yjq")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=467712290]
 z_index = 1
 layout_direction = 2
 layout_mode = 1
@@ -101,27 +101,27 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer" unique_id=272312044]
 z_index = 35
 custom_minimum_size = Vector2(448.67, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4xg86")
 script = ExtResource("1_5seab")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer" unique_id=273495185]
 layout_mode = 2
 size_flags_horizontal = 0
 theme = SubResource("Theme_jk1qb")
 
-[node name="AspectRatioContainer2" type="AspectRatioContainer" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="AspectRatioContainer2" type="AspectRatioContainer" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1983385731]
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=558781446]
 modulate = Color(1, 1, 1, 0)
 self_modulate = Color(1, 0.45, 0.45, 1)
 layout_mode = 2
 
-[node name="PlayButtonTextured" type="TextureButton" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="PlayButtonTextured" type="TextureButton" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1928759607]
 unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 2
@@ -133,9 +133,9 @@ texture_normal = ExtResource("3_x2yjq")
 texture_pressed = ExtResource("4_lqpn7")
 texture_focused = ExtResource("5_fnkq8")
 
-[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer/PlayButtonTextured"]
+[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer/PlayButtonTextured" unique_id=549580852]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_left = 0.05
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -145,15 +145,14 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 56
 text = "Play"
-horizontal_alignment = 0
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=2061645742]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
-[node name="OptionsButtonTextured" type="TextureButton" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="OptionsButtonTextured" type="TextureButton" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1136447012]
 unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 2
@@ -166,9 +165,9 @@ texture_normal = ExtResource("3_x2yjq")
 texture_pressed = ExtResource("4_lqpn7")
 texture_focused = ExtResource("5_fnkq8")
 
-[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer/OptionsButtonTextured"]
+[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer/OptionsButtonTextured" unique_id=1277046823]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_left = 0.05
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -178,17 +177,14 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 56
 text = "Options"
-horizontal_alignment = 0
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="HSeparator3" type="HSeparator" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="HSeparator3" type="HSeparator" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1060252354]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
-
-
-[node name="QuitButtonTextured" type="TextureButton" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="QuitButtonTextured" type="TextureButton" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1427763256]
 unique_name_in_owner = true
 texture_filter = 1
 layout_direction = 2
@@ -199,134 +195,134 @@ texture_normal = ExtResource("10_wv6bh")
 texture_pressed = ExtResource("11_g6wm5")
 texture_focused = ExtResource("11_8i8ns")
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=221384571]
 visible = false
 custom_minimum_size = Vector2(1.015, 0)
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.05
 
-[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=699010498]
 visible = false
 layout_mode = 2
 text = "Not Ballatro"
 horizontal_alignment = 1
 
-[node name="PlayButton" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="PlayButton" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=306160222]
 visible = false
 layout_mode = 2
 theme = SubResource("Theme_qel0l")
 text = "Play"
 
-[node name="OptionsButton" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="OptionsButton" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1627801928]
 visible = false
 layout_mode = 2
 text = "Options
 "
 
-[node name="QuitButton" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="QuitButton" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1891812317]
 visible = false
 layout_mode = 2
 text = "Quit
 "
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer" unique_id=377743824]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
 stretch = true
 stretch_shrink = 2
 
-[node name="SubViewport" type="SubViewport" parent="HBoxContainer/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="HBoxContainer/SubViewportContainer" unique_id=519481266]
 handle_input_locally = false
 size = Vector2i(427, 384)
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="HBoxContainer/SubViewportContainer/SubViewport"]
+[node name="Camera3D" type="Camera3D" parent="HBoxContainer/SubViewportContainer/SubViewport" unique_id=116340204]
 transform = Transform3D(0.8496837, -0.32316923, 0.41665247, -0.029516201, 0.7597836, 0.64950573, -0.52646595, -0.5641724, 0.63603705, 2.9905348, 3.8118358, 1.4249115)
 fov = 55.4
 script = ExtResource("2_4xg86")
 
-[node name="EdgeDetectionShader" type="MeshInstance3D" parent="HBoxContainer/SubViewportContainer/SubViewport/Camera3D"]
+[node name="EdgeDetectionShader" type="MeshInstance3D" parent="HBoxContainer/SubViewportContainer/SubViewport/Camera3D" unique_id=85179835]
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_4arys")
 
-[node name="Table" type="Node" parent="HBoxContainer/SubViewportContainer/SubViewport"]
+[node name="Table" type="Node" parent="HBoxContainer/SubViewportContainer/SubViewport" unique_id=1646783553]
 
-[node name="Base" type="StaticBody3D" parent="HBoxContainer/SubViewportContainer/SubViewport/Table"]
+[node name="Base" type="StaticBody3D" parent="HBoxContainer/SubViewportContainer/SubViewport/Table" unique_id=454017217]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999998, 0, 0, 0, 0.99999994, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_b2yaj")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base" unique_id=228408779]
 transform = Transform3D(0.99986196, 0.016614765, 0, -0.016614765, 0.99986196, 0, 0, 0, 1, -0.070275314, 0.0657096, 0.016898632)
 mesh = SubResource("PlaneMesh_a202f")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HBoxContainer/SubViewportContainer/SubViewport/Table/Base" unique_id=934468716]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.10431814, 0)
 shape = SubResource("BoxShape3D_noarx")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="HBoxContainer/SubViewportContainer/SubViewport"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="HBoxContainer/SubViewportContainer/SubViewport" unique_id=1322120911]
 environment = SubResource("Environment_jka67")
 
-[node name="Balls" type="Node" parent="HBoxContainer/SubViewportContainer/SubViewport"]
+[node name="Balls" type="Node" parent="HBoxContainer/SubViewportContainer/SubViewport" unique_id=1749134635]
 
-[node name="Ball1" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" instance=ExtResource("6_qel0l")]
+[node name="Ball1" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=173607576 instance=ExtResource("6_qel0l")]
 transform = Transform3D(-0.7070943, -0.21776049, -0.67275405, 4.6499824e-08, 0.9514011, -0.30795446, 0.7071192, -0.21775289, -0.6727303, 0, 0.48252046, -0.66541624)
 script = ExtResource("7_rrgl4")
 
-[node name="Ball2" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" instance=ExtResource("6_qel0l")]
+[node name="Ball2" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1752905333 instance=ExtResource("6_qel0l")]
 transform = Transform3D(-1, 0, -3.8941437e-07, 0, 1, 0, 3.8941437e-07, 0, -1, -0.4792326, 0.483, -1.488207)
 script = null
 
-[node name="Ball3" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" instance=ExtResource("6_qel0l")]
+[node name="Ball3" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=226329794 instance=ExtResource("6_qel0l")]
 transform = Transform3D(-1, 0, -6.2783295e-07, 0, 1, 0, 6.2783295e-07, 0, -1, 0.55276734, 0.483, -1.4892074)
 script = null
 
-[node name="Ball4" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" instance=ExtResource("6_qel0l")]
+[node name="Ball4" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1752691128 instance=ExtResource("6_qel0l")]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0.48252046, -2.365305)
 script = null
 
-[node name="Ball5" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" instance=ExtResource("6_qel0l")]
+[node name="Ball5" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=238750024 instance=ExtResource("6_qel0l")]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 1, 0.48252046, -2.365305)
 script = null
 
-[node name="Ball6" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" instance=ExtResource("6_qel0l")]
+[node name="Ball6" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1878731033 instance=ExtResource("6_qel0l")]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, -1, 0.48252046, -2.365305)
 script = null
 
-[node name="Ball7" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" instance=ExtResource("6_qel0l")]
+[node name="Ball7" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=430262730 instance=ExtResource("6_qel0l")]
 transform = Transform3D(-1, 0, -3.8941437e-07, 0, 1, 0, 3.8941437e-07, 0, -1, 0.5207674, 0.483, -3.1779747)
 script = null
 
-[node name="Ball8" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" instance=ExtResource("6_qel0l")]
+[node name="Ball8" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=30150718 instance=ExtResource("6_qel0l")]
 transform = Transform3D(-1, 0, -6.2783295e-07, 0, 1, 0, 6.2783295e-07, 0, -1, 1.5527673, 0.483, -3.178975)
 script = null
 
-[node name="Ball9" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" instance=ExtResource("6_qel0l")]
+[node name="Ball9" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1807616119 instance=ExtResource("6_qel0l")]
 transform = Transform3D(-1, 0, -3.8941437e-07, 0, 1, 0, 3.8941437e-07, 0, -1, -1.4792325, 0.483, -3.1779747)
 script = null
 
-[node name="Ball10" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" instance=ExtResource("6_qel0l")]
+[node name="Ball10" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1428429884 instance=ExtResource("6_qel0l")]
 transform = Transform3D(-1, 0, -6.2783295e-07, 0, 1, 0, 6.2783295e-07, 0, -1, -0.44723272, 0.483, -3.178975)
 script = null
 
-[node name="Ball11" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" instance=ExtResource("6_qel0l")]
+[node name="Ball11" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1775435346 instance=ExtResource("6_qel0l")]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0.48252046, -4)
 script = null
 
-[node name="Ball12" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" instance=ExtResource("6_qel0l")]
+[node name="Ball12" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1059264068 instance=ExtResource("6_qel0l")]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 1, 0.48252046, -4)
 script = null
 
-[node name="Ball13" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" instance=ExtResource("6_qel0l")]
+[node name="Ball13" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1485844193 instance=ExtResource("6_qel0l")]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, -1, 0.48252046, -4)
 script = null
 
-[node name="Ball14" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" instance=ExtResource("6_qel0l")]
+[node name="Ball14" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1817199742 instance=ExtResource("6_qel0l")]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 2, 0.48252046, -4)
 script = null
 
-[node name="Ball15" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" instance=ExtResource("6_qel0l")]
+[node name="Ball15" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=694564454 instance=ExtResource("6_qel0l")]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, -2, 0.48252046, -4)
 script = null
 

@@ -1,111 +1,227 @@
-[gd_scene load_steps=2 format=3 uid="uid://72pi8chpke0y"]
+[gd_scene format=3 uid="uid://72pi8chpke0y"]
 
+[ext_resource type="FontFile" uid="uid://vcecbwh0vav0" path="res://fonts/BridgeParapet.ttf" id="1_kyv63"]
 [ext_resource type="Script" uid="uid://b1glugmu2j1dd" path="res://scenes/ui/options_menu/options_menu.gd" id="1_sglii"]
+[ext_resource type="Texture2D" uid="uid://bmbtuxpculhwv" path="res://textures/ui/main_menu3.png" id="2_r4unu"]
+[ext_resource type="Texture2D" uid="uid://dqkftrx7p0k6b" path="res://textures/ui/Button2_quit_pressed.png" id="5_w8s0e"]
+[ext_resource type="Texture2D" uid="uid://dwk3egkgbtwmf" path="res://textures/ui/Button2_quit.png" id="6_iu3f6"]
+[ext_resource type="Texture2D" uid="uid://b77vw4r7h8gp5" path="res://textures/ui/Button2.png" id="6_w8s0e"]
+[ext_resource type="Texture2D" uid="uid://bspufxilq7h0d" path="res://textures/ui/Button2_pressed.png" id="7_iu3f6"]
 
-[node name="OptionsMenu" type="Control"]
+[sub_resource type="Theme" id="Theme_hyg8v"]
+default_font = ExtResource("1_kyv63")
+default_font_size = 35
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w8s0e"]
+
+[node name="OptionsMenu" type="Control" unique_id=640391713]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_hyg8v")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=18676361]
+z_index = 1
+texture_filter = 1
+layout_mode = 0
+offset_right = 1366.0
+offset_bottom = 768.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_r4unu")
+
+[node name="CenterContainer" type="PanelContainer" parent="." unique_id=566313702]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=2101534181]
+custom_minimum_size = Vector2(900, 550)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_w8s0e")
 script = ExtResource("1_sglii")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer" unique_id=1201332219]
+z_index = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="Graphics" type="VBoxContainer" parent="CenterContainer/PanelContainer/HBoxContainer" unique_id=670747527]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Resolution" type="HBoxContainer" parent="CenterContainer/PanelContainer/HBoxContainer/Graphics" unique_id=645770585]
 layout_mode = 2
 
-[node name="Graphics" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/Graphics/Resolution" unique_id=1931000555]
 layout_mode = 2
-
-[node name="Resolution" type="HBoxContainer" parent="PanelContainer/HBoxContainer/Graphics"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/Graphics/Resolution"]
-layout_mode = 2
+theme_override_font_sizes/font_size = 34
 text = "Resolution"
 
-[node name="ResolutionButton" type="OptionButton" parent="PanelContainer/HBoxContainer/Graphics/Resolution"]
+[node name="ResolutionButton" type="OptionButton" parent="CenterContainer/PanelContainer/HBoxContainer/Graphics/Resolution" unique_id=689685608]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_right = NodePath("../../../Controls/InvertedMouseButton")
 focus_neighbor_bottom = NodePath("../../VSync/VSyncButton")
 
-[node name="VSync" type="HBoxContainer" parent="PanelContainer/HBoxContainer/Graphics"]
+[node name="VSync" type="HBoxContainer" parent="CenterContainer/PanelContainer/HBoxContainer/Graphics" unique_id=913747531]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/Graphics/VSync"]
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/Graphics/VSync" unique_id=1152568055]
 layout_mode = 2
 text = "VSync"
 
-[node name="VSyncButton" type="OptionButton" parent="PanelContainer/HBoxContainer/Graphics/VSync"]
+[node name="VSyncButton" type="OptionButton" parent="CenterContainer/PanelContainer/HBoxContainer/Graphics/VSync" unique_id=1570621143]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../../Resolution/ResolutionButton")
 focus_neighbor_bottom = NodePath("../../FullscreenButton")
 
-[node name="FullscreenButton" type="CheckButton" parent="PanelContainer/HBoxContainer/Graphics"]
+[node name="FullscreenButton" type="CheckButton" parent="CenterContainer/PanelContainer/HBoxContainer/Graphics" unique_id=1190047104]
 layout_mode = 2
+size_flags_horizontal = 0
 focus_neighbor_top = NodePath("../VSync/VSyncButton")
-focus_neighbor_bottom = NodePath("../HBoxContainer/ApplyButton")
+focus_neighbor_bottom = NodePath("../../../../../ApplyButton")
 text = "Fullscreen"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer/Graphics"]
+[node name="Controls" type="VBoxContainer" parent="CenterContainer/PanelContainer/HBoxContainer" unique_id=585033446]
 layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
 
-[node name="ApplyButton" type="Button" parent="PanelContainer/HBoxContainer/Graphics/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_top = NodePath("../../FullscreenButton")
-focus_neighbor_right = NodePath("../QuitButton")
-text = "Apply"
-
-[node name="QuitButton" type="Button" parent="PanelContainer/HBoxContainer/Graphics/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_left = NodePath("../ApplyButton")
-focus_neighbor_top = NodePath("../../FullscreenButton")
-text = "Back"
-
-[node name="Controls" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="InvertedMouseButton" type="CheckButton" parent="PanelContainer/HBoxContainer/Controls"]
+[node name="InvertedMouseButton" type="CheckButton" parent="CenterContainer/PanelContainer/HBoxContainer/Controls" unique_id=194497074]
 layout_mode = 2
 focus_neighbor_left = NodePath("../../Graphics/Resolution/ResolutionButton")
 focus_neighbor_bottom = NodePath("../Volume/VolumeSlider")
 text = "Inverted Mouse"
 
-[node name="Volume" type="HBoxContainer" parent="PanelContainer/HBoxContainer/Controls"]
+[node name="Volume" type="HBoxContainer" parent="CenterContainer/PanelContainer/HBoxContainer/Controls" unique_id=1256005566]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/separation = 16
 
-[node name="VolumeLabel" type="Label" parent="PanelContainer/HBoxContainer/Controls/Volume"]
+[node name="VolumeLabel" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/Controls/Volume" unique_id=1350286153]
 layout_mode = 2
 text = "Volume"
 
-[node name="VolumeSlider" type="HSlider" parent="PanelContainer/HBoxContainer/Controls/Volume"]
+[node name="VolumeSlider" type="HSlider" parent="CenterContainer/PanelContainer/HBoxContainer/Controls/Volume" unique_id=1607872220]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 6
+size_flags_vertical = 4
 focus_neighbor_top = NodePath("../../InvertedMouseButton")
-min_value = 0.0
-max_value = 100.0
-step = 1.0
 value = 100.0
 
-[node name="VolumeValue" type="Label" parent="PanelContainer/HBoxContainer/Controls/Volume"]
+[node name="VolumeValue" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/Controls/Volume" unique_id=1582975649]
 unique_name_in_owner = true
 layout_mode = 2
 text = "100%"
 
-[connection signal="pressed" from="PanelContainer/HBoxContainer/Graphics/HBoxContainer/ApplyButton" to="PanelContainer" method="_on_apply_pressed"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/Graphics/HBoxContainer/QuitButton" to="PanelContainer" method="_on_back_pressed"]
-[connection signal="value_changed" from="PanelContainer/HBoxContainer/Controls/Volume/VolumeSlider" to="PanelContainer" method="_on_volume_slider_value_changed"]
+[node name="QuitButton" type="TextureButton" parent="." unique_id=158580254]
+unique_name_in_owner = true
+z_index = 1
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+offset_right = 128.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+focus_neighbor_left = NodePath("../ApplyButton")
+focus_neighbor_top = NodePath("../CenterContainer/PanelContainer/HBoxContainer/Graphics/FullscreenButton")
+texture_normal = ExtResource("6_iu3f6")
+texture_pressed = ExtResource("5_w8s0e")
+
+[node name="ApplyButton" type="TextureButton" parent="." unique_id=2142408290]
+unique_name_in_owner = true
+z_index = 1
+layout_mode = 0
+offset_left = 2.0
+offset_top = 175.0
+offset_right = 514.0
+offset_bottom = 303.0
+focus_neighbor_top = NodePath("../CenterContainer/PanelContainer/HBoxContainer/Graphics/FullscreenButton")
+focus_neighbor_right = NodePath("../QuitButton")
+texture_normal = ExtResource("6_w8s0e")
+texture_pressed = ExtResource("7_iu3f6")
+
+[node name="Label" type="Label" parent="ApplyButton" unique_id=1896106102]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 24.0
+offset_top = -24.0
+offset_right = 187.0
+offset_bottom = 62.0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 56
+text = "Apply"
+
+[node name="ResetButton" type="TextureButton" parent="." unique_id=1487360101]
+z_index = 1
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -64.0
+offset_right = 512.0
+offset_bottom = 64.0
+grow_vertical = 2
+texture_normal = ExtResource("6_w8s0e")
+texture_pressed = ExtResource("7_iu3f6")
+
+[node name="Label" type="Label" parent="ResetButton" unique_id=1945235457]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 29.0
+offset_top = -56.0
+offset_right = 334.0
+offset_bottom = 51.0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 56
+text = "Default"
+vertical_alignment = 1
+
+[node name="HintLabel" type="Label" parent="." unique_id=1817071949]
+custom_minimum_size = Vector2(350, 100)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Remember to apply changes!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="value_changed" from="CenterContainer/PanelContainer/HBoxContainer/Controls/Volume/VolumeSlider" to="CenterContainer/PanelContainer" method="_on_volume_slider_value_changed"]
+[connection signal="pressed" from="QuitButton" to="CenterContainer/PanelContainer" method="_on_back_pressed"]
+[connection signal="pressed" from="ApplyButton" to="CenterContainer/PanelContainer" method="_on_apply_pressed"]
+[connection signal="pressed" from="ResetButton" to="CenterContainer/PanelContainer" method="_on_reset_button_pressed"]
