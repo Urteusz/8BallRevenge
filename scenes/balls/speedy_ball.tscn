@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://ba517yyhlau5u"]
+[gd_scene format=3 uid="uid://ba517yyhlau5u"]
 
 [ext_resource type="Script" uid="uid://b6nhfx7h257o8" path="res://scenes/balls/scripts/speedy_ball.gd" id="1_wln65"]
 [ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="2_b22gl"]
@@ -7,8 +7,8 @@
 [ext_resource type="Shader" uid="uid://b6kbsyqcwfxsp" path="res://shaders/speedy_ball.gdshader" id="5_nh68v"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nh68v"]
-bounce = 0.5
 friction = 0.05
+bounce = 0.5
 
 [sub_resource type="SphereMesh" id="SphereMesh_wln65"]
 
@@ -36,12 +36,11 @@ material = SubResource("StandardMaterial3D_1enmr")
 radial_segments = 8
 rings = 4
 
-[node name="BouncyBall" type="RigidBody3D" groups=["balls"]]
+[node name="BouncyBall" type="RigidBody3D" unique_id=1793991110 groups=["balls"]]
 collision_layer = 4
 collision_mask = 5
 mass = 0.17
 physics_material_override = SubResource("PhysicsMaterial_nh68v")
-gravity_scale = 1.0
 contact_monitor = true
 max_contacts_reported = 4
 linear_damp = 0.15
@@ -51,16 +50,16 @@ hit_particles = ExtResource("2_b22gl")
 hit_particles2 = ExtResource("3_nh68v")
 hit_particles3 = ExtResource("4_ctmrx")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1079873934]
 mesh = SubResource("SphereMesh_wln65")
 surface_material_override/0 = SubResource("ShaderMaterial_ctmrx")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=371152318]
 shape = SubResource("SphereShape3D_0naav")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1261823633]
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=1542808608]
 visible = false
 process_material = SubResource("ParticleProcessMaterial_nh68v")
 draw_pass_1 = SubResource("SphereMesh_ctmrx")
