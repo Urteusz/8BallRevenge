@@ -12,8 +12,8 @@ var soundPocket: AudioStreamPlayer3D
 @export var player_pocketed_gradient: GradientTexture1D
 
 @export_group("Pocket Assist")
-@export var assist_radius: float = 1.5
-@export var assist_strength: float = 2.0
+@export var assist_radius: float = 2.5
+@export var assist_strength: float = 2.5
 @export var assist_max_speed: float = 1.0
 
 var uniParticles: Node3D
