@@ -18,6 +18,7 @@ var soundPocket: AudioStreamPlayer3D
 
 var uniParticles: Node3D
 var color_reset_timer: SceneTreeTimer
+var pocketed_balls: Array = []  # Lista piłek już pocketowanych
 
 var snd_pocket = preload("res://sounds/Pocketed.wav")
 var snd_player = preload("res://sounds/Pocketed_player.wav")
@@ -61,11 +62,19 @@ func _physics_process(_delta: float) -> void:
 
 func _on_pocket_body_entered(body: Node3D) -> void:
 	print("Body entered pocket: ", body.name, self.name)
-	
+
 	if body is BallParent:
-		_show_pocket_effect(body.global_position)
+		# Sprawdź czy piłka już została pocketowana (zabezpieczenie przed wielokrotnym wywołaniem)
+		# UWAGA: Player ball NIE jest dodawany do listy, bo może wpadać wielokrotnie
+		var is_player = body.is_in_group("playerBall")
+		if not is_player:
+			if body in pocketed_balls:
+				return
+			pocketed_balls.append(body)
+
+		_show_pocket_effect(self.global_position)
 		if uniParticles:
-			if body not in get_tree().get_nodes_in_group("playerBall"):
+			if not is_player:
 				change_and_play_sound(snd_pocket)
 				if ball_pocketed_gradient:
 					_set_particle_gradient(uniParticles, ball_pocketed_gradient)
@@ -74,7 +83,7 @@ func _on_pocket_body_entered(body: Node3D) -> void:
 				if player_pocketed_gradient:
 					_set_particle_gradient(uniParticles, player_pocketed_gradient)
 			_reset_particle_color_after_delay()
-			
+
 		if body.has_method("pocketed"):
 			body.pocketed()
 		else:

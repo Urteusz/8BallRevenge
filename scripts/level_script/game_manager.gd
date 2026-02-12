@@ -13,9 +13,10 @@ var moves_left: int
 var game_over := false
 var ball_list: Array
 var points: int = 500
-var turn_move_refunded := false 
+var turn_move_refunded := false
 var game_win := false
 var is_aiming_possible := false
+var player_ball_pocketing := false  # Flaga zapobiegająca wielokrotnemu pocketowaniu player ball
 
 signal player_died
 signal player_win
@@ -43,6 +44,8 @@ func _ready() -> void:
 	if player_ball:
 		if player_ball.has_signal("ball_pocketed"):
 			player_ball.ball_pocketed.connect(_on_ball_pocketed)
+		if player_ball.has_signal("ball_pocketed_void"):
+			player_ball.ball_pocketed_void.connect(_on_ball_pocketed_void)
 		if player_ball.has_signal("shoot_requested"):
 			player_ball.shoot_requested.connect(_on_shoot_requested)
 		if player_ball.has_signal("turn_started"):
@@ -62,16 +65,8 @@ func _ready() -> void:
 		connect("aiming_state_changed", gameplay_ui._on_aiming_state_changed)
 		emit_signal("moves_changed", moves_left)
 	
-	for ball in ball_list:
-		if ball.has_signal("ball_pocketed"):
-			ball.ball_pocketed.connect(_on_ball_pocketed)
-		if ball.has_signal("points_scored"):
-			ball.points_scored.connect(_on_points_scored)
-		if ball.has_signal("score_updated"):
-			if gameplay_ui:
-				ball.score_updated.connect(gameplay_ui._on_ball_score_updated.bind(ball.get_instance_id()))
-			else:
-				print("BŁĄD: Brak GameplayUI!")
+	# Sygnały piłek są teraz podłączane w ball_spawner.gd po ich utworzeniu
+	# (ball_list jest pusta w momencie _ready())
 
 func _process(delta: float) -> void:
 	# Aktualizacja charge ratio
@@ -152,13 +147,23 @@ func _on_ball_pushed(impulse_power: float) -> void:
 	emit_signal("charging_released")
 
 func _on_ball_pocketed(ball):
-	print("Pocketed")
+	print("Pocketed: ", ball.name)
 	if ball == player_ball:
+		# Zabezpieczenie przed wielokrotnym wywołaniem dla player ball
+		if player_ball_pocketing:
+			print("Player ball już jest w trakcie pocketowania - ignoruję")
+			return
+		player_ball_pocketing = true
+
 		moves_left -= 1
 		moves_left = max(moves_left, 0)
 		emit_signal("moves_changed", moves_left)
 		ball.sleeping = true
 		ball.position = returnPoint.position
+
+		# Reset flagi po krótkiej chwili
+		await get_tree().create_timer(0.1).timeout
+		player_ball_pocketing = false
 	else:
 		if not turn_move_refunded:
 			moves_left += 1
@@ -167,11 +172,43 @@ func _on_ball_pocketed(ball):
 			print("Bila wbita! Ruch zwrócony. Ruchy: ", moves_left)
 		if moves_left > 0 and player_ball:
 			player_ball.allow_shooting(true)
-		
+
 		emit_signal("ball_pocketed", ball.get_instance_id())
-		
+
 		ball_list.erase(ball)
 		ball.queue_free()
+		_check_win_condition()
+
+func _on_ball_pocketed_void(ball):
+	print("Pocketed (void) - bez punktów i bez zwracania ruchu: ", ball.name)
+	if ball == player_ball:
+		# Zabezpieczenie przed wielokrotnym wywołaniem dla player ball
+		if player_ball_pocketing:
+			print("Player ball już jest w trakcie pocketowania - ignoruję")
+			return
+		player_ball_pocketing = true
+
+		# Player ball w void pocket - traktuj jak normalny pocket
+		moves_left -= 1
+		moves_left = max(moves_left, 0)
+		emit_signal("moves_changed", moves_left)
+		ball.sleeping = true
+		ball.position = returnPoint.position
+
+		# Reset flagi po krótkiej chwili
+		await get_tree().create_timer(0.1).timeout
+		player_ball_pocketing = false
+	else:
+		# Zwykła piłka w void pocket:
+		# - NIE zwraca ruchu
+		# - NIE daje punktów (już obsłużone przez brak points_scored)
+		# - Po prostu usuwa piłkę
+		print("Usuwam piłkę z void pocket: ", ball.name, " | Pozostało piłek: ", ball_list.size())
+		emit_signal("ball_pocketed", ball.get_instance_id())
+
+		ball_list.erase(ball)
+		ball.queue_free()
+		print("Po usunięciu pozostało piłek: ", ball_list.size())
 		_check_win_condition()
 
 func _check_win_condition() -> bool:

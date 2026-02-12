@@ -8,6 +8,7 @@ class_name BallParent
 
 signal points_scored(points, world_position)
 signal ball_pocketed(ball)
+signal ball_pocketed_void(ball)
 signal score_updated(new_total_points)
 
 var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
@@ -25,6 +26,10 @@ var last_hit_time: float = 0.0  # Czas ostatniego zderzenia
 func pocketed() -> void:
 	points_scored.emit(total_points, global_position)
 	emit_signal("ball_pocketed", self)
+
+func pocketed_void() -> void:
+	# Pocketowanie bez punktów (void pocket)
+	emit_signal("ball_pocketed_void", self)
 
 func on_hit() -> void:
 	for child in get_children():

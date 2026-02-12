@@ -16,11 +16,13 @@
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="12_k3l6j"]
 [ext_resource type="PackedScene" uid="uid://bybt7gul7ksft" path="res://scenes/particles/pocketedBallEffect.tscn" id="14_lv1b3"]
 [ext_resource type="Texture2D" uid="uid://b3qrjp3b4ol7y" path="res://scenes/particles/level1_gradient.tres" id="15_ei1ye"]
+[ext_resource type="PackedScene" uid="uid://c5p7wknwk3n87" path="res://scenes/particles/particlePocketLoop1.tscn" id="15_ohl02"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="16_5prdx"]
 [ext_resource type="Texture2D" uid="uid://dk2pdlthkn7hb" path="res://scenes/particles/ball_pocketed_gradient.tres" id="16_ei1ye"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="17_e4fnj"]
 [ext_resource type="Texture2D" uid="uid://pxoipevsp7bc" path="res://scenes/particles/player_pocketed_gradient.tres" id="17_m6d3i"]
 [ext_resource type="Environment" uid="uid://djfhsep4ykllx" path="res://scenes/levels/level1/blue_environment.tres" id="18_or0go"]
+[ext_resource type="Script" uid="uid://cepon37hmhf8x" path="res://scripts/level_script/pocket_void.gd" id="19_x0doa"]
 [ext_resource type="PackedScene" uid="uid://cauu31m0rk4m3" path="res://models/room_colored_v2.glb" id="22_v0ouj"]
 [ext_resource type="PackedScene" uid="uid://b6x5y403w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
 
@@ -91,6 +93,9 @@ size = Vector3(4.201355, 1, 3.6976929)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ei1ye"]
 size = Vector3(79.91312, 1, 79.959465)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_p1fx4"]
+size = Vector3(119.76561, 1, 138.33061)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_aj7ea"]
 viewport_path = NodePath("SubViewportContainer/SubViewport/Tvs/crt")
@@ -196,6 +201,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6, -2, -10.6)
 collision_mask = 5
 script = ExtResource("8_0em4h")
 pocket_effect = ExtResource("14_lv1b3")
+particle_scene = ExtResource("15_ohl02")
 og_gradient_texture = ExtResource("15_ei1ye")
 ball_pocketed_gradient = ExtResource("16_ei1ye")
 player_pocketed_gradient = ExtResource("17_m6d3i")
@@ -208,6 +214,8 @@ shape = SubResource("BoxShape3D_ke34q")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.6, -2, -10.6)
 collision_mask = 5
 script = ExtResource("8_0em4h")
+pocket_effect = ExtResource("14_lv1b3")
+particle_scene = ExtResource("15_ohl02")
 og_gradient_texture = ExtResource("15_ei1ye")
 ball_pocketed_gradient = ExtResource("16_ei1ye")
 player_pocketed_gradient = ExtResource("17_m6d3i")
@@ -220,6 +228,8 @@ shape = SubResource("BoxShape3D_lv1b3")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6, -2, 10.6)
 collision_mask = 5
 script = ExtResource("8_0em4h")
+pocket_effect = ExtResource("14_lv1b3")
+particle_scene = ExtResource("15_ohl02")
 og_gradient_texture = ExtResource("15_ei1ye")
 ball_pocketed_gradient = ExtResource("16_ei1ye")
 player_pocketed_gradient = ExtResource("17_m6d3i")
@@ -232,6 +242,8 @@ shape = SubResource("BoxShape3D_or0go")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.6, -2, 10.6)
 collision_mask = 5
 script = ExtResource("8_0em4h")
+pocket_effect = ExtResource("14_lv1b3")
+particle_scene = ExtResource("15_ohl02")
 og_gradient_texture = ExtResource("15_ei1ye")
 ball_pocketed_gradient = ExtResource("16_ei1ye")
 player_pocketed_gradient = ExtResource("17_m6d3i")
@@ -240,17 +252,14 @@ player_pocketed_gradient = ExtResource("17_m6d3i")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
 shape = SubResource("BoxShape3D_ei1ye")
 
-[node name="Pocket5" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=307298354 groups=["pockets"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+[node name="PocketVoid" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=225956522]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
 collision_mask = 5
-script = ExtResource("8_0em4h")
-og_gradient_texture = ExtResource("15_ei1ye")
-ball_pocketed_gradient = ExtResource("16_ei1ye")
-player_pocketed_gradient = ExtResource("17_m6d3i")
+script = ExtResource("19_x0doa")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket5" unique_id=593623949]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.48579407, 0, 0.40202713)
-shape = SubResource("BoxShape3D_ei1ye")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/PocketVoid" unique_id=1919436251]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.239317, 0, -1.3938522)
+shape = SubResource("BoxShape3D_p1fx4")
 
 [node name="room" parent="SubViewportContainer/SubViewport" unique_id=26455145 instance=ExtResource("22_v0ouj")]
 transform = Transform3D(-4.882562e-07, 0, -11.17, 0, 11.17, 0, 11.17, 0, -4.882562e-07, 0, 5.65, 0)

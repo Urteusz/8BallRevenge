@@ -73,7 +73,19 @@ func _ready() -> void:
 		game_manager.ball_list.append(new_instance)
 		new_instance.base_value = ball_data.base_value
 		new_instance.global_position = ball_position
-		
+
+		# Podłącz sygnały dla nowo utworzonej piłki
+		if new_instance.has_signal("ball_pocketed"):
+			new_instance.ball_pocketed.connect(game_manager._on_ball_pocketed)
+		if new_instance.has_signal("ball_pocketed_void"):
+			new_instance.ball_pocketed_void.connect(game_manager._on_ball_pocketed_void)
+		if new_instance.has_signal("points_scored"):
+			new_instance.points_scored.connect(game_manager._on_points_scored)
+		if new_instance.has_signal("score_updated"):
+			var gameplay_ui = game_manager.gameplay_ui
+			if gameplay_ui:
+				new_instance.score_updated.connect(gameplay_ui._on_ball_score_updated.bind(new_instance.get_instance_id()))
+
 		if ball_data.texture:
 			apply_texture_to_ball(new_instance, ball_data.texture)
 		
