@@ -1,16 +1,50 @@
-[gd_scene load_steps=7 format=3 uid="uid://cvcslt7yw1a7s"]
+[gd_scene format=3 uid="uid://cvcslt7yw1a7s"]
 
 [ext_resource type="Script" uid="uid://83vb56jogdmg" path="res://scenes/ui/loading_screen/loading_screen.gd" id="1_8cml4"]
+[ext_resource type="Shader" uid="uid://ci6venkc8lrfh" path="res://scenes/ui/loading_screen/loading_screen.gdshader" id="2_urqlm"]
 
 [sub_resource type="Animation" id="Animation_hprjd"]
 length = 0.001
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Panel:position:x")
+tracks/0/path = NodePath("Panel:modulate:r")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Panel:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "handle_modes": PackedInt32Array(0),
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
@@ -22,42 +56,108 @@ length = 1.5
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Panel:position:x")
+tracks/0/path = NodePath("Panel:modulate:r")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1920, -0.25, 0, 0.06666667, -130.5),
-"times": PackedFloat32Array(0, 0.8)
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.135, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.81)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.135, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.81)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.135, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.81)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Panel:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0.011764706, -0.135, 0.16470589, 0, 0),
+"times": PackedFloat32Array(0, 0.81)
 }
 
 [sub_resource type="Animation" id="Animation_ep5rh"]
 resource_name = "loading_start"
 length = 1.5
-tracks/0/type = "bezier"
+tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Panel:position:x")
+tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(1920, -0.25, 0, 0.06666667, -130.5, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.8)
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0.9),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [&"loading_screen_has_full_coverage"],
 "method": &"emit_signal"
 }]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel:modulate:r")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.135, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.81)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel:modulate:g")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.135, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.81)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Panel:modulate:b")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.135, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.81)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Panel:modulate:a")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.9764706, -0.135, -0.1627451, 0, 0),
+"times": PackedFloat32Array(0, 0.81)
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ku3bi"]
@@ -70,34 +170,50 @@ _data = {
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ep5rh"]
 bg_color = Color(0.12591082, 0.12591085, 0.12591076, 1)
 
-[node name="loading_screen" type="CanvasLayer"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0ag1g"]
+shader = ExtResource("2_urqlm")
+shader_parameter/threshold = 0.5
+
+[node name="loading_screen" type="CanvasLayer" unique_id=1091680241]
 script = ExtResource("1_8cml4")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_ku3bi")
-}
-autoplay = "loading_start"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1531696206]
+deterministic = true
+libraries/ = SubResource("AnimationLibrary_ku3bi")
+autoplay = &"loading_start"
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=1548295084]
+modulate = Color(0, 0, 0, 0)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -0.00024414063
+offset_right = -0.0007324219
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ep5rh")
 
-[node name="ProgressBar" type="ProgressBar" parent="Panel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -175.99994
-offset_top = -47.75
-offset_right = 175.99994
-offset_bottom = 47.75
+[node name="VideoLayer_Empty" type="VideoStreamPlayer" parent="." unique_id=2095466571]
+z_index = 1200
+material = SubResource("ShaderMaterial_0ag1g")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+autoplay = true
+expand = true
+
+[node name="VideoLayer_Fill" type="VideoStreamPlayer" parent="." unique_id=245950885]
+z_index = 1200
+material = SubResource("ShaderMaterial_0ag1g")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+autoplay = true
+expand = true
