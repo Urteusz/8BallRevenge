@@ -314,6 +314,89 @@ script = ExtResource("23_mbi2n")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/PocketVoid" unique_id=541331027]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.239317, 0, -1.3938522)
 shape = SubResource("BoxShape3D_mbi2n")
+[node name="Lights" type="Node3D" parent="SubViewportContainer/SubViewport/Table" unique_id=70334698]
+
+[node name="SpotLight3D0" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=1242527649]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -12.358948, 26.8335, 0.27095413)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D1" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=273418642]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 0.030529022, 26.616768, -12.981487)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=1225489996]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 12.898804, 27.86418, 0.02558899)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=131584376]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -0.12124443, 28.661186, 12.92497)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=1003241373]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -5.351816, 12.063455, -2.5186152)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D5" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=1911316084]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -1.8691387, 13.735327, 9.446)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D6" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=1566915236]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 4.9982758, 11.177647, -5.233015)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D7" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=1967297604]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 4.8661356, 10.108131, 5.378743)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLightCenter" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=1553487554]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 0, 4, 0)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 10.0
+light_bake_mode = 1
+spot_range = 50.0
+spot_attenuation = 0.5
+spot_angle = 75.0
 
 [node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=151414268 node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui", "returnPoint")]
 script = ExtResource("19_ddetq")

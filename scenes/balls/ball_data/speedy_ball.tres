@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_ia05r")
 scene = ExtResource("1_xodlh")
-display_name = "Bouncy Ball"
-shop_cost = 2000
-shop_description = "Bouncy Ball – gains extra momentum when bouncing off walls and rails."
+display_name = "Speedy Ball"
+shop_cost = 2500
+shop_description = "Speedy Ball – gains extra momentum when bouncing off walls and rails. A chaotic speed demon!"
 metadata/_custom_type_script = "uid://cvwkj0qnv7yim"
