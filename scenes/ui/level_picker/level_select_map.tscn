@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bprm7tbtkqlqu" path="res://textures/Level1.png" id="4_42bys"]
 [ext_resource type="Texture2D" uid="uid://dwmumqo6ck2at" path="res://textures/Level2.png" id="5_u1a7q"]
 [ext_resource type="Texture2D" uid="uid://c3ogfnoe7boj1" path="res://textures/Level4.png" id="6_umtao"]
-[ext_resource type="Shader" uid="uid://comsf7eu6hvbg" path="res://scenes/ui/level_picker/levelpickerbg.gdshader" id="7_ic36s"]
+[ext_resource type="Shader" path="res://scenes/ui/level_picker/levelpickerbg.gdshader" id="7_ic36s"]
 [ext_resource type="Texture2D" uid="uid://ccxktvdjttygr" path="res://textures/ui/level_picker.png" id="7_umtao"]
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="8_bdgjx"]
 
@@ -77,8 +77,8 @@ line_drawer = NodePath("ConnectionsLine")
 
 [node name="ConnectionsLine" type="Line2D" parent="UI/LevelSelectMap" unique_id=1021390176]
 z_index = -1
-width = 3.0
-default_color = Color(0.5, 0.5, 0.5, 0.6)
+width = 6.0
+default_color = Color(0.5, 0.8, 1, 0.8)
 
 [node name="Node2D" type="Node2D" parent="UI/LevelSelectMap" unique_id=1107092202]
 position = Vector2(0, 50)

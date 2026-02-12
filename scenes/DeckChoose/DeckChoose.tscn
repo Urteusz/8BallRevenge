@@ -14,6 +14,22 @@ content_margin_right = 20.0
 content_margin_bottom = 20.0
 bg_color = Color(0.22, 0.22, 0.22, 0.56078434)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tooltip"]
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+bg_color = Color(0.12, 0.12, 0.14, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.5, 0.5, 0.6, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
 [sub_resource type="Theme" id="Theme_dww4p"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
@@ -51,14 +67,8 @@ uv1_scale = Vector3(4.515, 4.515, 4.515)
 uv1_triplanar = true
 texture_filter = 0
 
-[node name="DeckChoose" type="Node3D" unique_id=543178278 node_paths=PackedStringArray("camera", "ui", "panel_container", "button_container", "confirm_button", "inventory_grid")]
+[node name="DeckChoose" type="Node3D" unique_id=543178278]
 script = ExtResource("1_8c44f")
-camera = NodePath("SubViewportContainer/SubViewport/Camera3D")
-ui = NodePath("UI")
-panel_container = NodePath("UI/PanelContainer")
-button_container = NodePath("UI/PanelContainer/HBoxContainer")
-confirm_button = NodePath("UI/ExitContainer/ButtonContinue")
-inventory_grid = NodePath("UI/PanelContainer/HBoxContainer/VBoxContainer/ScrollContainer/InventoryGrid")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1667556495]
 
@@ -82,7 +92,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_dww4p")
 
-[node name="InventoryTitle" type="Label" parent="UI/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="InventoryTitle" type="Label" parent="UI/PanelContainer/HBoxContainer/VBoxContainer" unique_id=1450226840]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Inventory"
@@ -99,7 +109,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 columns = 3
 
-[node name="BackContainer" type="HBoxContainer" parent="UI"]
+[node name="BackContainer" type="HBoxContainer" parent="UI" unique_id=1879411957]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -108,13 +118,13 @@ offset_right = 220.0
 offset_bottom = -20.0
 grow_vertical = 0
 
-[node name="ButtonBack" type="Button" parent="UI/BackContainer"]
+[node name="ButtonBack" type="Button" parent="UI/BackContainer" unique_id=1728241654]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 32
 text = "BACK"
 
-[node name="PlayContainer" type="HBoxContainer" parent="UI"]
+[node name="PlayContainer" type="HBoxContainer" parent="UI" unique_id=775368975]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -126,13 +136,13 @@ offset_bottom = -20.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="ButtonPlay" type="Button" parent="UI/PlayContainer"]
+[node name="ButtonPlay" type="Button" parent="UI/PlayContainer" unique_id=215225248]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 32
 text = "PLAY"
 
-[node name="DeckTitle" type="Label" parent="UI"]
+[node name="DeckTitle" type="Label" parent="UI" unique_id=409575206]
 anchors_preset = 10
 anchor_right = 1.0
 offset_right = -450.0
@@ -145,24 +155,23 @@ theme_override_font_sizes/font_size = 60
 text = "Choose your deck:"
 horizontal_alignment = 1
 vertical_alignment = 1
-	
-[node name="TooltipPanel" type="PanelContainer" parent="UI"]
+
+[node name="TooltipPanel" type="PanelContainer" parent="UI" unique_id=1403645810]
 visible = false
-self_modulate = Color(1, 1, 1, 0)
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tooltip")
 
-[node name="Panel" type="Panel" parent="UI/TooltipPanel"]
+[node name="Label" type="Label" parent="UI/TooltipPanel" unique_id=1584722642]
+custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_dww4p")
-
-[node name="Label" type="Label" parent="UI/TooltipPanel"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
+theme_override_font_sizes/font_size = 22
 text = "Ball Name
 Description line 1
 Description line 2"
+autowrap_mode = 3
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=543750805]
 texture_filter = 1

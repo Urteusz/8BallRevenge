@@ -89,7 +89,6 @@ func _reset_particle_color_after_delay():
 
 func _show_pocket_effect(pocket_position: Vector3) -> void:
 	if !pocket_effect:
-		push_warning("Pocket effect scene missing")
 		return
 	
 	var effect_instance = pocket_effect.instantiate()

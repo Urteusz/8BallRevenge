@@ -312,17 +312,15 @@ func _spawn_balls() -> void:
 
 func _on_ball_mouse_entered(ball_node: Node3D) -> void:
 	if is_dragging or is_swapping: return
-	
+
 	var ball_data = ball_node.get_meta("ball_data", null) as BallData
 	if not ball_data: return
-	
+
 	if tooltip_panel and tooltip_label:
-		var name_text = ball_data.display_name
-		if name_text == "" and ball_data.resource_path != "":
-			name_text = ball_data.resource_path.get_file().get_basename().capitalize()
-			
 		var desc = ball_data.shop_description
-		tooltip_label.text = "%s\n%s" % [name_text, desc]
+		if desc == null or desc == "":
+			return
+		tooltip_label.text = desc
 		tooltip_panel.visible = true
 		_update_tooltip_pos()
 

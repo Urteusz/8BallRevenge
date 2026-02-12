@@ -127,7 +127,10 @@ func _draw_connections() -> void:
 			connection_id.sort_custom(func(a, b): return a.name < b.name)
 
 			if not connection_id in processed_connections:
-				_create_visual_line(node.global_position, neighbor.global_position)
+				# Konwertuj global position do lokalnego względem LevelSelectMap
+				var local_pos_a = to_local(node.global_position)
+				var local_pos_b = to_local(neighbor.global_position)
+				_create_visual_line(local_pos_a, local_pos_b)
 				processed_connections.append(connection_id)
 				connections_count += 1
 
@@ -135,12 +138,18 @@ func _draw_connections() -> void:
 
 func _create_visual_line(pos_a: Vector2, pos_b: Vector2) -> void:
 	var new_line = Line2D.new()
-	new_line.default_color = Color(1.0, 1.0, 1.0, 0.6)
-	new_line.width = 8.0
+
+	# Jasnoniebieski kolor
+	new_line.default_color = Color(0.5, 0.8, 1.0, 0.9)
+	new_line.width = 6.0
 	new_line.add_point(pos_a)
 	new_line.add_point(pos_b)
-	new_line.z_index = -1
+	new_line.z_index = 0  # Pod węzłami poziomów (które też mają z_index=0, ale są dodane później)
 	new_line.antialiased = true
+
+	# Dodaj skrypt do animacji (gradient będzie dodany w skrypcie)
+	new_line.set_script(load("res://scenes/ui/level_picker/animated_line.gd"))
+
 	add_child(new_line)
 
 func _find_path(from: LevelNode, to: LevelNode) -> Array[LevelNode]:
