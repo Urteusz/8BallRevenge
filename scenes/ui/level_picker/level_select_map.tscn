@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://btsaqkm4vl44j" path="res://textures/Level3.png" id="5_jj46d"]
 [ext_resource type="Texture2D" uid="uid://dwmumqo6ck2at" path="res://textures/Level2.png" id="5_u1a7q"]
 [ext_resource type="Texture2D" uid="uid://c3ogfnoe7boj1" path="res://textures/Level4.png" id="6_umtao"]
-[ext_resource type="Shader" path="res://scenes/ui/level_picker/levelpickerbg.gdshader" id="7_ic36s"]
+[ext_resource type="Shader" uid="uid://comsf7eu6hvbg" path="res://scenes/ui/level_picker/levelpickerbg.gdshader" id="7_ic36s"]
 [ext_resource type="Texture2D" uid="uid://ccmld553q3hbc" path="res://textures/Level5.png" id="7_p5tfx"]
 [ext_resource type="Texture2D" uid="uid://ccxktvdjttygr" path="res://textures/ui/level_picker.png" id="7_umtao"]
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="8_bdgjx"]
@@ -134,7 +134,7 @@ neighbors = [NodePath("../LevelNode2"), NodePath("../LevelNode5"), NodePath("../
 [node name="LevelNode5" parent="UI/LevelSelectMap/Node2D" unique_id=1662642217 node_paths=PackedStringArray("neighbors") groups=["level_nodes"] instance=ExtResource("2_c8iwr")]
 position = Vector2(683, 120)
 level_number = 5
-level_scene_path = "res://scenes/levels/level5/level5.tscn"
+level_scene_path = "res://scenes/levels/level5/Level5.tscn"
 icon_texture = ExtResource("7_p5tfx")
 neighbors = [NodePath("../LevelNode3"), NodePath("../LevelNode4")]
 
