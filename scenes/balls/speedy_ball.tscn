@@ -65,7 +65,7 @@ material = SubResource("StandardMaterial3D_1enmr")
 radial_segments = 8
 rings = 4
 
-[node name="BouncyBall" type="RigidBody3D" unique_id=1793991110 groups=["balls"]]
+[node name="SpeedyBall" type="RigidBody3D" unique_id=1793991110 groups=["balls"]]
 collision_layer = 4
 collision_mask = 5
 mass = 0.17

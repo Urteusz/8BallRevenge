@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="BallData" load_steps=3 format=3 uid="uid://b5ib7ddimmfp2"]
+[gd_resource type="Resource" script_class="BallData" format=3 uid="uid://b5ib7ddimmfp2"]
 
 [ext_resource type="Script" uid="uid://cvwkj0qnv7yim" path="res://scenes/balls/scripts/ball_data.gd" id="1_ia05r"]
 [ext_resource type="PackedScene" uid="uid://ba517yyhlau5u" path="res://scenes/balls/speedy_ball.tscn" id="1_xodlh"]

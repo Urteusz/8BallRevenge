@@ -29,6 +29,10 @@ signal ball_pocketed(ball_id: int)
 signal charging_paused
 signal player_win_with_score(score: int, treshould: int)
 signal aiming_state_changed(is_aiming: bool)
+signal force_timer_ticked(time_left: float)
+
+var _force_stop_time_left: float = 0.0
+var _force_stop_active: bool = false
 
 func _ready() -> void:
 	moves_left = default_level_move_count
@@ -69,6 +73,15 @@ func _ready() -> void:
 	# (ball_list jest pusta w momencie _ready())
 
 func _process(delta: float) -> void:
+	# Obsługa timera awaryjnego (wymuszony koniec gry)
+	if _force_stop_active:
+		_force_stop_time_left -= delta
+		emit_signal("force_timer_ticked", _force_stop_time_left)
+		
+		if _force_stop_time_left <= 0:
+			_force_stop_active = false
+			_force_game_over_timeout()
+
 	# Aktualizacja charge ratio
 	if player_ball and player_ball.charging:
 		var charge_ratio = clamp(
@@ -139,6 +152,18 @@ func _on_turn_started() -> void:
 	
 	if moves_left == 0:
 		player_ball.allow_shooting(false)
+		# Aktywuj manualny licznik zamiast Tweena
+		_force_stop_active = true
+		_force_stop_time_left = 8.0 # 8 sekund na zatrzymanie
+
+func _force_game_over_timeout() -> void:
+	if game_over or game_win or moves_left > 0:
+		return
+		
+	# Jeśli po czasie bile nadal się ruszają -> Przegrana
+	if !_are_all_balls_stopped():
+		print("Czas minął! Wymuszenie końca gry.")
+		_on_game_over()
 
 func _on_charging_cancelled() -> void:
 	emit_signal("charging_paused")
@@ -169,6 +194,12 @@ func _on_ball_pocketed(ball):
 			moves_left += 1
 			turn_move_refunded = true
 			emit_signal("moves_changed", moves_left)
+			
+			# ANULUJEMY TIMER (zmienna zamiast Tweena)
+			_force_stop_active = false
+			# Emitujemy update żeby ukryć licznik w UI (np. -1)
+			emit_signal("force_timer_ticked", -1.0)
+				
 			print("Bila wbita! Ruch zwrócony. Ruchy: ", moves_left)
 		if moves_left > 0 and player_ball:
 			player_ball.allow_shooting(true)
