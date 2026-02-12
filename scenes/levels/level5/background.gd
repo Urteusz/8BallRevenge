@@ -24,7 +24,7 @@ extends Node3D
 @export var min_gap: float = 8.0 
 @export var max_gap: float = 20.0 
 @export var min_scale: float = 5.0 
-@export var max_scale: float = 40.0
+@export var max_scale: float = 25.0
 
 @export_group("Moon Settings")
 @export_range(0.0, 1.0) var moon_chance: float = 0.5 
@@ -288,6 +288,7 @@ func _scan_deck_for_valid_balls(raw_deck: Array) -> Array:
 	var valid = []
 	for ball_data in raw_deck:
 		if not ball_data or not ball_data.get("scene"): continue
+		if "bomb" in ball_data.resource_path.to_lower(): continue
 		var temp = ball_data.scene.instantiate()
 		if _find_first_mesh(temp): valid.append(ball_data)
 		temp.free()

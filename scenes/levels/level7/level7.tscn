@@ -12,9 +12,10 @@
 [ext_resource type="Script" uid="uid://38fhavc1buwq" path="res://scripts/level_script/walls.gd" id="10_2h0qb"]
 [ext_resource type="Script" uid="uid://bdvel67ub340k" path="res://scripts/level_script/ball_spawner.gd" id="11_3syl8"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="12_wurq3"]
+[ext_resource type="Script" uid="uid://8nd5mqrih32f" path="res://scripts/level_script/last_balls_spawner.gd" id="13_803st"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="13_yqxa5"]
 [ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="14_kieej"]
-[ext_resource type="Script" uid="uid://cepon37hmhf8x" path="res://scripts/level_script/pocket_void.gd" id="14_ylxqd"]
+[ext_resource type="Script" path="res://scripts/level_script/pocket_void.gd" id="14_ylxqd"]
 [ext_resource type="PackedScene" uid="uid://bybt7gul7ksft" path="res://scenes/particles/pocketedBallEffect.tscn" id="15_6ycpb"]
 [ext_resource type="PackedScene" uid="uid://cg7kh67k5p3w7" path="res://scenes/particles/particlePocketLoop2.tscn" id="16_cqryu"]
 [ext_resource type="Texture2D" uid="uid://b3qrjp3b4ol7y" path="res://scenes/particles/level1_gradient.tres" id="17_4kk30"]
@@ -23,7 +24,7 @@
 [ext_resource type="Script" uid="uid://cblgv0hdp76us" path="res://scripts/object_scripts/fan.gd" id="20_y367v"]
 [ext_resource type="ArrayMesh" uid="uid://0lxkj2gtk607" path="res://models/table5/Table 5 Fan.obj" id="21_ixhut"]
 [ext_resource type="Script" uid="uid://c1oek3r24c3fe" path="res://scenes/levels/level5/background.gd" id="22_h1mtv"]
-[ext_resource type="Script" path="res://scripts/object_scripts/hammer.gd" id="22_tfwtw"]
+[ext_resource type="Script" uid="uid://tkp5glvk78m2" path="res://scripts/object_scripts/hammer.gd" id="22_tfwtw"]
 [ext_resource type="Environment" uid="uid://cyxek5jj5buax" path="res://scenes/levels/level5/level5_environment.tres" id="23_sx8sq"]
 [ext_resource type="ArrayMesh" uid="uid://b8vjd1qptkgxs" path="res://models/table7/Level7 Hammer.obj" id="23_ylxqd"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="24_r0ic5"]
@@ -198,12 +199,21 @@ transform = Transform3D(-2, 0, 3.019916e-07, 0, 2, 0, -3.019916e-07, 0, -2, 0, 0
 shape = SubResource("ConcavePolygonShape3D_tfwtw")
 
 [node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" unique_id=600400249 node_paths=PackedStringArray("game_manager", "player_ball")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.616194, 1.5803876, -12.843352)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.70676, 1.6064348, 0.25169277)
 script = ExtResource("11_3syl8")
 game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("12_wurq3")
 player_ball = NodePath("../PlayerBall")
 num_rows = 2
+spread = 1.1
+height = 0.0
+
+[node name="BackBallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" unique_id=1682520097 node_paths=PackedStringArray("game_manager", "player_ball")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.79988, 1.501544, 0)
+script = ExtResource("13_803st")
+game_manager = NodePath("../../GameManager")
+ball_scene = ExtResource("12_wurq3")
+player_ball = NodePath("../PlayerBall")
 spread = 1.1
 height = 0.0
 
