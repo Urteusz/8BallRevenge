@@ -139,6 +139,24 @@ theme_override_font_sizes/font_size = 60
 text = "Choose your deck:"
 horizontal_alignment = 1
 vertical_alignment = 1
+	
+[node name="TooltipPanel" type="PanelContainer" parent="UI"]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="UI/TooltipPanel"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dww4p")
+
+[node name="Label" type="Label" parent="UI/TooltipPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Ball Name
+Description line 1
+Description line 2"
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=543750805]
 texture_filter = 1

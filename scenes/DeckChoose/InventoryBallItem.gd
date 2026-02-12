@@ -184,10 +184,12 @@ func _on_mouse_entered() -> void:
 	if desc_label:
 		desc_label.text = desc
 	
-	# Add to the top-level canvas so it floats above everything
-	var canvas = get_tree().root
-	if tooltip_popup.get_parent() == null:
-		canvas.add_child(tooltip_popup)
+	# Add to a dedicated CanvasLayer to ensure it's on top of everything
+	var canvas_layer = CanvasLayer.new()
+	canvas_layer.layer = 100 # High layer priority
+	canvas_layer.name = "TooltipLayer"
+	get_tree().root.add_child(canvas_layer)
+	canvas_layer.add_child(tooltip_popup)
 	
 	tooltip_popup.visible = true
 	_update_tooltip_position()
@@ -219,8 +221,12 @@ func _process(_delta: float) -> void:
 
 func _exit_tree() -> void:
 	if tooltip_popup and is_instance_valid(tooltip_popup):
-		if tooltip_popup.get_parent():
-			tooltip_popup.get_parent().remove_child(tooltip_popup)
+		# Clean up the CanvasLayer if we created one
+		var parent = tooltip_popup.get_parent()
+		if parent is CanvasLayer and parent.name == "TooltipLayer":
+			parent.queue_free()
+		elif parent:
+			parent.remove_child(tooltip_popup)
 		tooltip_popup.queue_free()
 	
 	if drag_preview and is_instance_valid(drag_preview):

@@ -10,8 +10,7 @@ const POSITIONS: Array = [
 	Vector3(2.265, 0.0, 0.0),
 	Vector3(0.0, 0.0, 0.0),
 ]
-const BALL_HOVER_Y_OFFSET: float = 0.5
-const BALL_VIEW_PITCH: float = 70.0 # Not used for drag view, but kept for reference if needed
+
 
 const INVENTORY_ITEM_SCENE = preload("res://scenes/DeckChoose/InventoryBallItem.tscn")
 
@@ -32,18 +31,20 @@ const LEVEL_SHADER_PARAMS: Dictionary = {
 @onready var play_button: Button = $UI/PlayContainer/ButtonPlay
 @onready var balls = %Balls
 @onready var inventory_grid: Container = $UI/PanelContainer/HBoxContainer/VBoxContainer/ScrollContainer/InventoryGrid
+@onready var tooltip_panel: Control = $UI/TooltipPanel
+@onready var tooltip_label: Label = $UI/TooltipPanel/Label
 
 # Drag & Drop State
 var dragged_ball: Node3D = null
 var is_dragging: bool = false
 var is_swapping: bool = false
 var drag_offset: Vector3 = Vector3.ZERO
-var drag_plane_y: float = 0.5
 
 @onready var sub_viewport_container: SubViewportContainer = $SubViewportContainer
 @onready var sub_viewport: SubViewport = $SubViewportContainer/SubViewport
 
 func _ready() -> void:
+
 	if "black" not in PlayerData.owned_balls:
 		PlayerData.owned_balls.append("black")
 	if "speedy" not in PlayerData.owned_balls:
@@ -92,7 +93,7 @@ func _handle_drag(_event: InputEvent) -> void:
 	var direction = camera.project_ray_normal(vp_mouse_pos)
 	
 	if abs(direction.y) > 0.001:
-		var t = (drag_plane_y - origin.y) / direction.y
+		var t = (0.0 - origin.y) / direction.y
 		var intersect_pos = origin + direction * t
 		dragged_ball.global_position = intersect_pos + drag_offset
 
@@ -143,6 +144,20 @@ func _end_drag() -> void:
 			is_swapping = false
 			return
 
+	# Check if dropped over inventory
+	var inventory_item = _get_inventory_item_at_screen_pos(global_mouse_pos)
+	if inventory_item:
+		var old_index = balls.get_children().find(dragged_ball)
+		if old_index != -1:
+			# Swap with inventory item
+			PlayerData.current_deck[old_index] = inventory_item.my_ball_data
+			
+			_respawn_deck()
+			_refresh_inventory_ui()
+			
+			dragged_ball = null
+			return
+
 	# Return to original
 	var old_index = balls.get_children().find(dragged_ball)
 	if old_index != -1:
@@ -156,6 +171,17 @@ func _end_drag() -> void:
 		tween.parallel().tween_property(dragged_ball, "rotation", target_rot, 0.3)
 
 	dragged_ball = null
+
+func _get_inventory_item_at_screen_pos(screen_pos: Vector2) -> Control:
+	if not inventory_grid:
+		return null
+		
+	# Check all inventory items (children of grid)
+	for item in inventory_grid.get_children():
+		if item is Control and item.visible:
+			if item.get_global_rect().has_point(screen_pos):
+				return item
+	return null
 
 func _get_face_camera_rotation(ball_pos: Vector3) -> Vector3:
 	var dir_to_cam = (camera.global_position - ball_pos).normalized()
@@ -275,35 +301,52 @@ func _spawn_balls() -> void:
 		ball.input_event.connect(_on_ball_input_event.bind(ball))
 		ball.mouse_entered.connect(_on_ball_mouse_entered.bind(ball))
 		ball.mouse_exited.connect(_on_ball_mouse_exited.bind(ball))
+		
+		# Metadata for tooltip
+		ball.set_meta("ball_data", ball_data)
 
 		balls.add_child(ball)
 		ball.position = POSITIONS[i]
-		ball.rotation = Vector3.ZERO
-		
-		var dir_to_cam = (camera.global_position - ball.global_position).normalized()
-		var angle_y = atan2(dir_to_cam.x, dir_to_cam.z) + PI
-		var angle_x = -asin(dir_to_cam.y)
-		ball.rotation = Vector3(angle_x, angle_y, 0.0)
-		
+		ball.rotation = _get_face_camera_rotation(ball.global_position)
 		ball.freeze = true
 
 func _on_ball_mouse_entered(ball_node: Node3D) -> void:
-	pass
-
-func _on_ball_mouse_exited(ball_node: Node3D) -> void:
-	pass
-
-func _animate_ball_height(target: Node3D, target_y: float) -> void:
-	if target.has_meta("active_tween"):
-		var old_tween = target.get_meta("active_tween")
-		if old_tween.is_valid():
-			old_tween.kill()
+	if is_dragging or is_swapping: return
 	
-	var tween = create_tween()
-	target.set_meta("active_tween", tween)
-	tween.set_ease(Tween.EASE_OUT)
-	tween.set_trans(Tween.TRANS_CUBIC)
-	tween.tween_property(target, "position:y", target_y, 0.2)
+	var ball_data = ball_node.get_meta("ball_data", null) as BallData
+	if not ball_data: return
+	
+	if tooltip_panel and tooltip_label:
+		var name_text = ball_data.display_name
+		if name_text == "" and ball_data.resource_path != "":
+			name_text = ball_data.resource_path.get_file().get_basename().capitalize()
+			
+		var desc = ball_data.shop_description
+		tooltip_label.text = "%s\n%s" % [name_text, desc]
+		tooltip_panel.visible = true
+		_update_tooltip_pos()
+
+func _on_ball_mouse_exited(_ball_node: Node3D) -> void:
+	if tooltip_panel:
+		tooltip_panel.visible = false
+
+func _process(_delta: float) -> void:
+	if tooltip_panel and tooltip_panel.visible:
+		_update_tooltip_pos()
+
+func _update_tooltip_pos() -> void:
+	if not tooltip_panel: return
+	var mouse_pos = get_viewport().get_mouse_position()
+	tooltip_panel.position = mouse_pos + Vector2(20, 20)
+	
+	# Clamp to screen
+	var screen_size = get_viewport().get_visible_rect().size
+	if tooltip_panel.position.x + tooltip_panel.size.x > screen_size.x:
+		tooltip_panel.position.x = mouse_pos.x - tooltip_panel.size.x - 10
+	if tooltip_panel.position.y + tooltip_panel.size.y > screen_size.y:
+		tooltip_panel.position.y = screen_size.y - tooltip_panel.size.y
+
+
 
 func _on_ball_input_event(_camera: Node, event: InputEvent, _pos: Vector3, _normal: Vector3, _idx: int, ball_node: Node3D) -> void:
 	if is_swapping: return
@@ -313,7 +356,9 @@ func _on_ball_input_event(_camera: Node, event: InputEvent, _pos: Vector3, _norm
 			dragged_ball = ball_node
 			
 			# Start drag logic
-			drag_plane_y = 0.0 # Drag at table level (no lifting)
+			if tooltip_panel:
+				tooltip_panel.visible = false
+			# Drag at table level (no lifting)
 			
 			# Calculate correct plane intersection at start to maintain offset
 			var global_mouse_pos = get_viewport().get_mouse_position() # Window coords
@@ -324,6 +369,6 @@ func _on_ball_input_event(_camera: Node, event: InputEvent, _pos: Vector3, _norm
 			
 			# Intersect with drag_plane_y = 0.0
 			if abs(direction.y) > 0.001:
-				var t = (drag_plane_y - origin.y) / direction.y
+				var t = (0.0 - origin.y) / direction.y
 				var intersect_pos = origin + direction * t
 				drag_offset = ball_node.global_position - intersect_pos
