@@ -50,9 +50,81 @@ func _derive_name_from_resource(ball_data: BallData) -> String:
 			result.append(part.capitalize())
 	return " ".join(result)
 
+@onready var sub_viewport: SubViewport = $SubViewportContainer/SubViewport
+
+# Drag state
+var is_dragging: bool = false
+var drag_preview: Control = null
+var drag_start_pos: Vector2 = Vector2.ZERO
+
 func _gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		clicked.emit(my_ball_data)
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				is_dragging = true
+				drag_start_pos = event.global_position
+			elif is_dragging:
+				_end_drag(event.global_position)
+	
+	elif event is InputEventMouseMotion:
+		if is_dragging:
+			if not drag_preview:
+				# Start actual visual drag if moved enough
+				if event.global_position.distance_to(drag_start_pos) > 5.0:
+					_start_drag_visual()
+			
+			if drag_preview:
+				drag_preview.global_position = event.global_position - (drag_preview.size / 2.0)
+
+func _start_drag_visual() -> void:
+	# Hide tooltip if visible
+	if tooltip_popup:
+		tooltip_popup.visible = false
+	
+	# Create a simple visual representation
+	drag_preview = TextureRect.new()
+	drag_preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	drag_preview.custom_minimum_size = Vector2(80, 80)
+	drag_preview.size = Vector2(80, 80)
+	
+	# Capture the current view of the ball from the subviewport
+	# This ensures we see the 3D model (sphere) instead of the flat square texture
+	var img = sub_viewport.get_texture().get_image()
+	if img:
+		var tex = ImageTexture.create_from_image(img)
+		drag_preview.texture = tex
+	elif my_ball_data.texture:
+		# Fallback just in case
+		drag_preview.texture = my_ball_data.texture
+	
+	# Add to top layer
+	var canvas = get_tree().root
+	canvas.add_child(drag_preview)
+	drag_preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	drag_preview.modulate = Color(1, 1, 1, 0.8)
+	drag_preview.z_index = 200 # Above everything
+
+func _end_drag(release_pos: Vector2) -> void:
+	is_dragging = false
+	
+	if drag_preview:
+		# Check if we dropped over the rack
+		# We need to access DeckChoose scene
+		var deck_choose = find_parent("DeckChoose") # Might return null if hierarchy is deep/complex
+		if not deck_choose:
+			# Fallback: try group or get_node with absolute path if structure is known
+			# Or since we are in DeckChoose scene, look up
+			var root = get_tree().current_scene
+			if root.name == "DeckChoose":
+				deck_choose = root
+		
+		var success = false
+		if deck_choose and deck_choose.has_method("receive_inventory_drop"):
+			success = deck_choose.receive_inventory_drop(my_ball_data, release_pos)
+		
+		# Cleanup preview
+		drag_preview.queue_free()
+		drag_preview = null
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(100, 130) 
@@ -100,6 +172,7 @@ func _create_tooltip() -> void:
 	tooltip_popup.add_child(label)
 
 func _on_mouse_entered() -> void:
+	if is_dragging: return # Don't show tooltip if dragging
 	if not my_ball_data or not tooltip_popup:
 		return
 	
@@ -149,3 +222,6 @@ func _exit_tree() -> void:
 		if tooltip_popup.get_parent():
 			tooltip_popup.get_parent().remove_child(tooltip_popup)
 		tooltip_popup.queue_free()
+	
+	if drag_preview and is_instance_valid(drag_preview):
+		drag_preview.queue_free()

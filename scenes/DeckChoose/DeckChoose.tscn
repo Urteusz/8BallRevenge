@@ -126,6 +126,20 @@ size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 32
 text = "PLAY"
 
+[node name="DeckTitle" type="Label" parent="UI"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = -450.0
+offset_bottom = 120.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 60
+text = "Choose your deck:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=543750805]
 texture_filter = 1
 anchors_preset = 15
