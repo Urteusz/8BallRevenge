@@ -27,8 +27,8 @@ const LEVEL_SHADER_PARAMS: Dictionary = {
 }
 @onready var ui: CanvasLayer = $UI
 @onready var panel_container: PanelContainer = $UI/PanelContainer
-@onready var back_button: Button = $UI/BackContainer/ButtonBack
-@onready var play_button: Button = $UI/PlayContainer/ButtonPlay
+@onready var back_button: TextureButton = $UI/BackContainer/ButtonBack
+@onready var play_button: TextureButton = $UI/PlayContainer/ButtonPlay
 @onready var balls = %Balls
 @onready var inventory_grid: Container = $UI/PanelContainer/HBoxContainer/VBoxContainer/ScrollContainer/InventoryGrid
 @onready var tooltip_panel: Control = $UI/TooltipPanel
