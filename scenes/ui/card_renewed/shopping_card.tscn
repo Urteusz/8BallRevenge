@@ -152,7 +152,7 @@ grow_vertical = 2
 stretch = true
 stretch_shrink = 2
 script = ExtResource("1_wi4lw")
-card = NodePath("SubViewport/Card")
+card = NodePath("SubViewport/CardSprite")
 camera = NodePath("SubViewport/Camera3D")
 ball = NodePath("SubViewport/Card/Ball")
 
@@ -192,7 +192,7 @@ mesh = SubResource("QuadMesh_fqdgi")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Card/SubViewportContainer/SubViewport" unique_id=2071308593]
 environment = SubResource("Environment_vr5dq")
 
-[node name="Card" type="Sprite3D" parent="Card/SubViewportContainer/SubViewport" unique_id=1107323765]
+[node name="CardSprite" type="Sprite3D" parent="Card/SubViewportContainer/SubViewport" unique_id=1107323765]
 shaded = true
 texture_filter = 0
 render_priority = 3
@@ -200,24 +200,24 @@ texture = ExtResource("6_asj1q")
 region_enabled = true
 region_rect = Rect2(0, 0, 90, 128)
 
-[node name="ShineEffect" type="MeshInstance3D" parent="Card/SubViewportContainer/SubViewport/Card" unique_id=2080185601]
+[node name="ShineEffect" type="MeshInstance3D" parent="Card/SubViewportContainer/SubViewport/CardSprite" unique_id=2080185601]
 transform = Transform3D(0.87379694, 0, 0, 0, -5.3739104e-08, -1, 0, 1.2294074, -4.371139e-08, 0, 0, -0.0054369867)
 mesh = SubResource("PlaneMesh_pkhjp")
 
-[node name="StencilQuad" type="MeshInstance3D" parent="Card/SubViewportContainer/SubViewport/Card" unique_id=2011508447]
+[node name="StencilQuad" type="MeshInstance3D" parent="Card/SubViewportContainer/SubViewport/CardSprite" unique_id=2011508447]
 transform = Transform3D(0.82931876, 0, 0, 0, 1.2013617, 0, 0, 0, 1, 0, 0, -0.014705509)
 mesh = SubResource("QuadMesh_xlr6i")
 
-[node name="Ball" type="Node3D" parent="Card/SubViewportContainer/SubViewport/Card" unique_id=1078972325 groups=["balls"]]
+[node name="Ball" type="Node3D" parent="Card/SubViewportContainer/SubViewport/CardSprite" unique_id=1078972325 groups=["balls"]]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0.22587633, -0.80165935)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Card/SubViewportContainer/SubViewport/Card/Ball" unique_id=864742717]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Card/SubViewportContainer/SubViewport/CardSprite/Ball" unique_id=864742717]
 mesh = SubResource("SphereMesh_noarx")
 
-[node name="Contents" type="Node3D" parent="Card/SubViewportContainer/SubViewport/Card" unique_id=807567569]
+[node name="Contents" type="Node3D" parent="Card/SubViewportContainer/SubViewport/CardSprite" unique_id=807567569]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.019672185)
 
-[node name="Mult" type="Label3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents" unique_id=1964273213]
+[node name="Mult" type="Label3D" parent="Card/SubViewportContainer/SubViewport/CardSprite/Contents" unique_id=1964273213]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.9023083, -0.307, -0.511, 0)
 texture_filter = 0
 render_priority = 2
@@ -225,7 +225,7 @@ outline_render_priority = 1
 text = "1x"
 outline_size = 4
 
-[node name="MultLabel" type="Label3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents" unique_id=335665561]
+[node name="MultLabel" type="Label3D" parent="Card/SubViewportContainer/SubViewport/CardSprite/Contents" unique_id=335665561]
 transform = Transform3D(0.375, 0, 0, 0, 0.375, 0, 0, 0, 0.375, -0.21995443, -0.5394636, 0)
 texture_filter = 0
 render_priority = 2
@@ -233,7 +233,7 @@ outline_render_priority = 1
 text = "mult"
 outline_size = 4
 
-[node name="Points" type="Label3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents" unique_id=173785832]
+[node name="Points" type="Label3D" parent="Card/SubViewportContainer/SubViewport/CardSprite/Contents" unique_id=173785832]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.379242, 0.3066361, -0.5106868, 0)
 texture_filter = 0
 render_priority = 2
@@ -242,7 +242,7 @@ modulate = Color(0.58400005, 0.8, 0.512, 1)
 text = "100"
 outline_size = 4
 
-[node name="PointsLabel" type="Label3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents" unique_id=1236858682]
+[node name="PointsLabel" type="Label3D" parent="Card/SubViewportContainer/SubViewport/CardSprite/Contents" unique_id=1236858682]
 transform = Transform3D(0.375, 0, 0, 0, 0.375, 0, 0, 0, 0.375, 0.2604351, -0.44735003, 0)
 texture_filter = 0
 render_priority = 2
@@ -250,7 +250,7 @@ outline_render_priority = 1
 text = "points"
 outline_size = 4
 
-[node name="Name" type="Label3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents" unique_id=1660155814]
+[node name="Name" type="Label3D" parent="Card/SubViewportContainer/SubViewport/CardSprite/Contents" unique_id=1660155814]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.1744113, -0.03228332, 0.44827944, 0)
 texture_filter = 0
 render_priority = 2
@@ -258,19 +258,19 @@ outline_render_priority = 1
 text = "Ball"
 outline_size = 4
 
-[node name="IconQuad" type="MeshInstance3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents" unique_id=269703950]
+[node name="IconQuad" type="MeshInstance3D" parent="Card/SubViewportContainer/SubViewport/CardSprite/Contents" unique_id=269703950]
 transform = Transform3D(0.27712524, 0, 0, 0, 0.27712524, 0, 0, 0, 1, -0.2754609, 0.44689935, 0)
 mesh = SubResource("QuadMesh_vr5dq")
 skeleton = NodePath("../..")
 
-[node name="AbilityIcon" type="Sprite3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents" unique_id=958323411]
+[node name="AbilityIcon" type="Sprite3D" parent="Card/SubViewportContainer/SubViewport/CardSprite/Contents" unique_id=958323411]
 transform = Transform3D(0.445, 0, 0, 0, 0.445, 0, 0, 0, 0.445, -0.30798995, -0.06469199, 0)
 shaded = true
 texture_filter = 0
 render_priority = 2
 texture = ExtResource("9_demwl")
 
-[node name="Ability" type="Label3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents" unique_id=266313097]
+[node name="Ability" type="Label3D" parent="Card/SubViewportContainer/SubViewport/CardSprite/Contents" unique_id=266313097]
 transform = Transform3D(0.855, 0, 0, 0, 0.855, 0, 0, 0, 0.855, -0.086, -0.058, 0)
 texture_filter = 0
 render_priority = 2
@@ -278,7 +278,7 @@ outline_render_priority = 1
 text = "-"
 outline_size = 4
 
-[node name="Description" type="Label3D" parent="Card/SubViewportContainer/SubViewport/Card/Contents" unique_id=2052840341]
+[node name="Description" type="Label3D" parent="Card/SubViewportContainer/SubViewport/CardSprite/Contents" unique_id=2052840341]
 transform = Transform3D(0.855, 0, 0, 0, 0.855, 0, 0, 0, 0.855, -0.086, -0.21976082, 0)
 texture_filter = 0
 render_priority = 2
