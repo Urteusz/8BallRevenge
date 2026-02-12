@@ -28,6 +28,10 @@ var light_bulb_data = load("res://scenes/balls/ball_data/light_bulb.tres")
 var lava_ball_data = load("res://scenes/balls/ball_data/lava_ball.tres")
 var sniper_ball_data = load("res://scenes/balls/ball_data/sniper_ball.tres")
 var ninja_ball_data = load("res://scenes/balls/ball_data/ninja_ball.tres")
+var football_ball_data = load("res://scenes/balls/ball_data/football.tres")
+var basketball_ball_data = load("res://scenes/balls/ball_data/basketball.tres")
+var tenisball_ball_data = load("res://scenes/balls/ball_data/tenisball.tres")
+var pink_ball_data = load("res://scenes/balls/ball_data/pink_ball.tres")
 
 
 
@@ -46,7 +50,11 @@ var ball_data_map = {
 	"light": light_bulb_data,
 	"bomb": bomb_ball_data,
 	"ninja": ninja_ball_data,
-	"sniper": sniper_ball_data
+	"sniper": sniper_ball_data,
+	"football": football_ball_data,
+	"basketball": basketball_ball_data,
+	"tenisball": tenisball_ball_data,
+	"pink": pink_ball_data
 }
 
 const SAVE_PATH = "user://player_progress.save"
@@ -54,7 +62,7 @@ const SAVE_PATH = "user://player_progress.save"
 func _ready() -> void:
 	# Domyślny start (jeśli nie ma zapisu)
 	if owned_balls.is_empty():
-		owned_balls = ["red", "blue", "green", "purple", "yellow"]
+		owned_balls = ["football", "basketball", "tenisball", "pink", "red", "blue", "green", "purple", "yellow"]
 	
 	# Jeśli deck jest pusty, wypełnij go pierwszymi dostępnymi kulami
 	if current_deck.is_empty():
@@ -163,6 +171,26 @@ func load_progress() -> void:
 			# Wczytaj gwiazdki
 			if save_data.has("level_stars"):
 				level_stars = save_data.level_stars
+
+			# Migration: Unlock new balls if they are missing
+			var new_balls_migration = ["football", "basketball", "tenisball", "pink"]
+			var need_save = false
+			for ball in new_balls_migration:
+				if ball not in owned_balls:
+					owned_balls.append(ball)
+					need_save = true
+			
+			# TEST: Force new balls into deck for testing
+			current_deck.clear()
+			var test_deck_ids = ["football", "basketball", "tenisball", "pink", "red", "blue"]
+			for id in test_deck_ids:
+				if ball_data_map.has(id):
+					current_deck.append(ball_data_map[id])
+			need_save = true
+
+			if need_save:
+				save_progress()
+
 
 			print("Wczytano postęp: Poziom ", current_level)
 		else:
