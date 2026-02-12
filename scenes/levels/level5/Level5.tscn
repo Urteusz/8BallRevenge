@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://tp32bsjd6ocn"]
+[gd_scene format=3 uid="uid://d1ddpvdmnmck"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_25oin"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_256we"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://bdvel67ub340k" path="res://scripts/level_script/ball_spawner.gd" id="11_7pm65"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="12_25oin"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="13_256we"]
+[ext_resource type="Script" uid="uid://8nd5mqrih32f" path="res://scripts/level_script/last_balls_spawner.gd" id="13_pjep6"]
 [ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="14_j4hik"]
 [ext_resource type="PackedScene" uid="uid://cg7kh67k5p3w7" path="res://scenes/particles/particlePocketLoop2.tscn" id="15_7pm65"]
 [ext_resource type="PackedScene" uid="uid://bybt7gul7ksft" path="res://scenes/particles/pocketedBallEffect.tscn" id="15_j4hik"]
@@ -21,7 +22,7 @@
 [ext_resource type="Environment" uid="uid://cyxek5jj5buax" path="res://scenes/levels/level5/level5_environment.tres" id="19_7pm65"]
 [ext_resource type="Script" uid="uid://cblgv0hdp76us" path="res://scripts/object_scripts/fan.gd" id="19_256we"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="19_usx8j"]
-[ext_resource type="Script" uid="uid://cepon37hmhf8x" path="res://scripts/level_script/pocket_void.gd" id="20_c0sq5"]
+[ext_resource type="Script" path="res://scripts/level_script/pocket_void.gd" id="20_c0sq5"]
 [ext_resource type="ArrayMesh" uid="uid://0lxkj2gtk607" path="res://models/table5/Table 5 Fan.obj" id="20_j4hik"]
 [ext_resource type="Script" uid="uid://c1oek3r24c3fe" path="res://scenes/levels/level5/background.gd" id="21_auayw"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="21_n138t"]
@@ -199,7 +200,7 @@ transform = Transform3D(-5, 0, 7.54979e-07, 0, 5, 0, -7.54979e-07, 0, -5, 0, -8.
 shape = SubResource("ConcavePolygonShape3D_8vf2c")
 
 [node name="BallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" unique_id=600400249 node_paths=PackedStringArray("game_manager", "player_ball")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5803876, 0.0468235)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2272048, 1.5803876, 0.0468235)
 script = ExtResource("11_7pm65")
 game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("12_25oin")
@@ -208,8 +209,18 @@ num_rows = 2
 spread = 1.1
 height = 0.0
 
+[node name="BackBallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" unique_id=1807762980 node_paths=PackedStringArray("game_manager", "player_ball")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.399212, 1.9982605, 0)
+visible = false
+script = ExtResource("13_pjep6")
+game_manager = NodePath("../../GameManager")
+ball_scene = ExtResource("12_25oin")
+player_ball = NodePath("../PlayerBall")
+spread = 1.1
+height = 0.0
+
 [node name="PlayerBall" parent="SubViewportContainer/SubViewport/Table" unique_id=1274056530 groups=["playerBall"] instance=ExtResource("13_256we")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.131359, 1.6884607, 0.1571598)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.086131, 1.6884607, 0.1571598)
 aim_line_ray_range = 30.0
 
 [node name="ReturnPosition" type="Node3D" parent="SubViewportContainer/SubViewport/Table" unique_id=1178245822]
@@ -337,6 +348,90 @@ surface_material_override/0 = SubResource("StandardMaterial3D_cc776")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Fan4" unique_id=561621573]
 transform = Transform3D(0.9211853, 0, -0.38912395, 0, 1, 0, 0.38912395, 0, 0.9211853, 0, 0, 0)
 shape = SubResource("ConcavePolygonShape3D_cc776")
+
+[node name="Lights" type="Node3D" parent="SubViewportContainer/SubViewport/Table" unique_id=497732816]
+
+[node name="SpotLight3D0" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=1344096726]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -23.660282, 10.351681, -6.6523857)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D1" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=1564941374]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 22.785234, 10.075861, -6.9356995)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=1985846779]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 20.692696, 10.780016, 5.898449)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=668134236]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -20.543535, 12.574081, 6.0748587)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=1497757289]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, -12.951569, 12.063455, -2.5186152)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D5" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=1415434693]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 12.466806, 13.735327, 0.1449089)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D6" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=1705271471]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 4.9982758, 11.177647, -5.233015)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLight3D7" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=313802327]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 4.8661356, 10.108131, 5.378743)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 20.0
+light_bake_mode = 1
+spot_range = 20.0
+spot_attenuation = 0.7
+spot_angle = 35.0
+
+[node name="SpotLightCenter" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=618683658]
+transform = Transform3D(1, 0, 0, 0, -2.9802319e-08, 1, 0, -1, -2.9802319e-08, 0, 20.471352, 0)
+light_color = Color(1, 1, 0.90588236, 1)
+light_energy = 10.0
+light_bake_mode = 1
+spot_range = 50.0
+spot_attenuation = 0.5
+spot_angle = 75.0
 
 [node name="Background" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=1946140795]
 script = ExtResource("21_auayw")

@@ -26,7 +26,7 @@
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="21_r3ijp"]
 [ext_resource type="ArrayMesh" uid="uid://ce7cha0ghwb8a" path="res://models/table6/Table 6 Spinner.obj" id="22_8m1ek"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="22_h7hqq"]
-[ext_resource type="Script" uid="uid://cepon37hmhf8x" path="res://scripts/level_script/pocket_void.gd" id="23_mbi2n"]
+[ext_resource type="Script" path="res://scripts/level_script/pocket_void.gd" id="23_mbi2n"]
 [ext_resource type="PackedScene" uid="uid://b6x5y403w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
 [ext_resource type="Script" uid="uid://c1oek3r24c3fe" path="res://scenes/levels/level5/background.gd" id="24_uxihh"]
 
@@ -237,7 +237,6 @@ script = ExtResource("10_jrims")
 game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("11_xppjr")
 player_ball = NodePath("../PlayerBall")
-num_rows = 2
 spread = 1.1
 height = 0.0
 
