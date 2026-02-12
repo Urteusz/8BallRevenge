@@ -22,7 +22,7 @@ rings = 6
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_taxpf"]
 
-[node name="BouncyBall" type="RigidBody3D" unique_id=387341127]
+[node name="BouncyBall" type="RigidBody3D" unique_id=431621083 groups=["balls"]]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
 mass = 0.17
 physics_material_override = SubResource("PhysicsMaterial_rqvfc")
@@ -34,6 +34,7 @@ script = ExtResource("1_rqvfc")
 hit_particles = ExtResource("2_213mc")
 hit_particles2 = ExtResource("3_jbkhv")
 hit_particles3 = ExtResource("4_fb0j7")
+metadata/_custom_type_script = "uid://dcowhvvavoqf5"
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=407152732]
 

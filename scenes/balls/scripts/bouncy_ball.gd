@@ -15,47 +15,31 @@ func _ready():
 	contact_monitor = true
 	max_contacts_reported = 4
 	
-	# --- FIX RESPAWNU: TRYB DUCHA ---
-	# Wyłączamy kolizję z innymi bilami na starcie, żeby nie wybuchały.
-	
-	# 1. Ustawiamy Maskę na 1 (widzimy tylko Stół/Layer 1). 
-	# Ignorujemy Layer 2 (inne bile).
-	collision_mask = 1 
-	
-	# 2. Ustawiamy naszą Warstwę na 0 (lub inną pustą), 
-	# żeby inne bile nas "nie widziały" i nie odpychały się od nas.
-	# (Zakładając, że normalnie bile są na Layer 2)
-	collision_layer = 0 
-	
-	print("Bila w trybie ducha (przenika inne bile)...")
-
-	# Czekamy na koniec respa
-	await get_tree().create_timer(start_delay).timeout
-	
-	# --- KONIEC FAZY DUCHA ---
 	abilities_enabled = true
 	
-	# Przywracamy normalną fizykę
-	# Teraz widzimy stół (1) i bile (2) -> Wartość binarna 1+2 = 3
-	collision_mask = 3 
-	
-	# My też wracamy na warstwę 2, żeby inne bile nas widziały
-	collision_layer = 2 
-	
-	print("BouncyBall: Fizyka i umiejętności włączone!")
+	# Ensure correct physics layers are set immediately (Standard Ball Layers)
+	collision_mask = 5 # Table (1) + Balls (4/Layer 3)
+	collision_layer = 4 # Balls layer (Layer 3)
 
 func on_hit():
 	super.on_hit()
 
 func _on_body_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
+	# Standard Ball Behavior (Sound + Scoring)
+	$AudioStreamPlayer3D.play()
+	
+	if body.is_in_group("table"):
+		return
+		
+	# Call scoring logic for any valid hit (walls, balls, etc.)
+	on_hit()
+
 	if body == self or not can_apply_modifier:
 		return
 
 	# --- 1. ODBICIE OD ŚCIANY ---
 	# Pamiętaj o ustawieniu grupy "walls" dla band w edytorze!
 	if body.is_in_group("walls"):
-		$AudioStreamPlayer3D.play()
-		
 		if abilities_enabled:
 			# Sprawdzenie prędkości, żeby nie przyspieszała przy toczeniu
 			if linear_velocity.length() > 1.0:
@@ -66,9 +50,6 @@ func _on_body_entered(body_rid: RID, body: Node, body_shape_index: int, local_sh
 
 	# --- 2. KOLIZJA Z INNYMI OBIEKTAMI ---
 	if body is RigidBody3D:
-		on_hit()
-		$AudioStreamPlayer3D.play()
-		
 		if body.name == "PlayerBall":
 			print("Kontakt z białą")
 		else:

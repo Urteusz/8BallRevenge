@@ -12,14 +12,14 @@
 [ext_resource type="Script" uid="uid://bdvel67ub340k" path="res://scripts/level_script/ball_spawner.gd" id="11_7pm65"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="12_25oin"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="13_256we"]
-[ext_resource type="Script" uid="uid://8nd5mqrih32f" path="res://scripts/level_script/last_balls_spawner.gd" id="13_pjep6"]
+[ext_resource type="Script" path="res://scripts/level_script/last_balls_spawner.gd" id="13_pjep6"]
 [ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="14_j4hik"]
 [ext_resource type="PackedScene" uid="uid://cg7kh67k5p3w7" path="res://scenes/particles/particlePocketLoop2.tscn" id="15_7pm65"]
 [ext_resource type="PackedScene" uid="uid://bybt7gul7ksft" path="res://scenes/particles/pocketedBallEffect.tscn" id="15_j4hik"]
 [ext_resource type="Texture2D" uid="uid://b3qrjp3b4ol7y" path="res://scenes/particles/level1_gradient.tres" id="16_cc776"]
 [ext_resource type="Texture2D" uid="uid://dk2pdlthkn7hb" path="res://scenes/particles/ball_pocketed_gradient.tres" id="17_5x778"]
 [ext_resource type="Texture2D" uid="uid://pxoipevsp7bc" path="res://scenes/particles/player_pocketed_gradient.tres" id="18_82yk0"]
-[ext_resource type="Environment" uid="uid://cyxek5jj5buax" path="res://scenes/levels/level5/level5_environment.tres" id="19_7pm65"]
+[ext_resource type="Environment" uid="uid://23vqkdd2sw7" path="res://scenes/levels/level5/level5_environment.tres" id="19_7pm65"]
 [ext_resource type="Script" uid="uid://cblgv0hdp76us" path="res://scripts/object_scripts/fan.gd" id="19_256we"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="19_usx8j"]
 [ext_resource type="Script" path="res://scripts/level_script/pocket_void.gd" id="20_c0sq5"]
@@ -211,7 +211,6 @@ height = 0.0
 
 [node name="BackBallSpawner" type="Marker3D" parent="SubViewportContainer/SubViewport/Table" unique_id=1807762980 node_paths=PackedStringArray("game_manager", "player_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.399212, 1.9982605, 0)
-visible = false
 script = ExtResource("13_pjep6")
 game_manager = NodePath("../../GameManager")
 ball_scene = ExtResource("12_25oin")
