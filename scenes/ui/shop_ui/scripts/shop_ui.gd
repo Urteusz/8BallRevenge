@@ -35,7 +35,6 @@ func _ready() -> void:
 	_generate_shop_cards()
 	
 	_update_points_display()
-	toggle_shop()
 
 func _generate_shop_cards() -> void:
 	for child in buttons_container.get_children():
