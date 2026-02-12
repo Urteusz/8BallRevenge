@@ -22,7 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="17_e4fnj"]
 [ext_resource type="Texture2D" uid="uid://pxoipevsp7bc" path="res://scenes/particles/player_pocketed_gradient.tres" id="17_m6d3i"]
 [ext_resource type="Environment" uid="uid://djfhsep4ykllx" path="res://scenes/levels/level1/blue_environment.tres" id="18_or0go"]
-[ext_resource type="Script" uid="uid://cepon37hmhf8x" path="res://scripts/level_script/pocket_void.gd" id="19_x0doa"]
+[ext_resource type="Script" path="res://scripts/level_script/pocket_void.gd" id="19_x0doa"]
 [ext_resource type="PackedScene" uid="uid://cauu31m0rk4m3" path="res://models/room_colored_v2.glb" id="22_v0ouj"]
 [ext_resource type="PackedScene" uid="uid://b6x5y403w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
 
@@ -289,12 +289,11 @@ fov = 123.75
 
 [node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=151414268 node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui", "returnPoint")]
 script = ExtResource("16_5prdx")
-default_level_move_count = 10
-star_score_treshold = 30000
 player_ball = NodePath("../Table/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
 returnPoint = NodePath("../Table/ReturnPosition")
+star_score_treshold = 30000
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=834417071]
 environment = ExtResource("18_or0go")
