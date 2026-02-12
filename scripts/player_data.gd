@@ -62,7 +62,7 @@ const SAVE_PATH = "user://player_progress.save"
 func _ready() -> void:
 	# Domyślny start (jeśli nie ma zapisu)
 	if owned_balls.is_empty():
-		owned_balls = ["football", "basketball", "tenisball", "pink", "red", "blue", "green", "purple", "yellow"]
+		owned_balls = ["red", "green", "yellow", "purple", "pink", "blue"]
 	
 	# Jeśli deck jest pusty, wypełnij go pierwszymi dostępnymi kulami
 	if current_deck.is_empty():
@@ -173,21 +173,13 @@ func load_progress() -> void:
 				level_stars = save_data.level_stars
 
 			# Migration: Unlock new balls if they are missing
-			var new_balls_migration = ["football", "basketball", "tenisball", "pink"]
+			var new_balls_migration = ["pink"]
 			var need_save = false
 			for ball in new_balls_migration:
 				if ball not in owned_balls:
 					owned_balls.append(ball)
 					need_save = true
 			
-			# TEST: Force new balls into deck for testing
-			current_deck.clear()
-			var test_deck_ids = ["football", "basketball", "tenisball", "pink", "red", "blue"]
-			for id in test_deck_ids:
-				if ball_data_map.has(id):
-					current_deck.append(ball_data_map[id])
-			need_save = true
-
 			if need_save:
 				save_progress()
 
