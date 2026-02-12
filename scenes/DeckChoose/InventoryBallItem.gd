@@ -1,9 +1,13 @@
-extends SubViewportContainer
+extends VBoxContainer
 
 signal clicked(ball_data)
 
 var my_ball_data: BallData
-@onready var pivot: Node3D = $SubViewport/Pivot
+@onready var pivot: Node3D = $SubViewportContainer/SubViewport/Pivot
+@onready var ball_name_label: Label = $BallNameLabel
+
+# Tooltip popup
+var tooltip_popup: PanelContainer = null
 
 func setup(ball_data: BallData) -> void:
 	my_ball_data = ball_data
@@ -23,13 +27,125 @@ func setup(ball_data: BallData) -> void:
 		
 		if ball_instance is RigidBody3D:
 			ball_instance.freeze = true
+	
+	# Set ball name label
+	if ball_name_label:
+		var name_text = ball_data.display_name
+		if name_text == null or name_text == "":
+			# Derive from resource path: "res://.../.../bomb_ball.tres" -> "Bomb Ball"
+			name_text = _derive_name_from_resource(ball_data)
+		ball_name_label.text = name_text
+		ball_name_label.add_theme_font_size_override("font_size", 22)
+
+func _derive_name_from_resource(ball_data: BallData) -> String:
+	var path = ball_data.resource_path
+	if path == "":
+		return "???"
+	var filename = path.get_file().get_basename()  # e.g. "bomb_ball"
+	# Replace underscores with spaces, capitalize each word
+	var parts = filename.split("_")
+	var result = []
+	for part in parts:
+		if part.length() > 0:
+			result.append(part.capitalize())
+	return " ".join(result)
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		clicked.emit(my_ball_data)
-		
+
 func _ready() -> void:
-	custom_minimum_size = Vector2(100, 100) 
+	custom_minimum_size = Vector2(100, 130) 
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	size_flags_vertical = Control.SIZE_EXPAND_FILL
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	
+	# Connect hover signals for tooltip
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
+	
+	# Create tooltip popup (hidden by default)
+	_create_tooltip()
+
+func _create_tooltip() -> void:
+	tooltip_popup = PanelContainer.new()
+	tooltip_popup.visible = false
+	tooltip_popup.z_index = 100
+	tooltip_popup.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	
+	# Style the tooltip
+	var style = StyleBoxFlat.new()
+	style.bg_color = Color(0.12, 0.12, 0.14, 0.92)
+	style.border_color = Color(0.5, 0.5, 0.6, 0.8)
+	style.border_width_left = 1
+	style.border_width_top = 1
+	style.border_width_right = 1
+	style.border_width_bottom = 1
+	style.corner_radius_top_left = 6
+	style.corner_radius_top_right = 6
+	style.corner_radius_bottom_left = 6
+	style.corner_radius_bottom_right = 6
+	style.content_margin_left = 10.0
+	style.content_margin_top = 6.0
+	style.content_margin_right = 10.0
+	style.content_margin_bottom = 6.0
+	tooltip_popup.add_theme_stylebox_override("panel", style)
+	
+	var label = Label.new()
+	label.name = "DescriptionLabel"
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.custom_minimum_size = Vector2(180, 0)
+	label.add_theme_font_size_override("font_size", 22)
+	label.add_theme_color_override("font_color", Color(0.9, 0.9, 0.95, 1.0))
+	tooltip_popup.add_child(label)
+
+func _on_mouse_entered() -> void:
+	if not my_ball_data or not tooltip_popup:
+		return
+	
+	var desc = my_ball_data.shop_description
+	if desc == null or desc == "":
+		return
+	
+	var desc_label = tooltip_popup.get_node("DescriptionLabel") as Label
+	if desc_label:
+		desc_label.text = desc
+	
+	# Add to the top-level canvas so it floats above everything
+	var canvas = get_tree().root
+	if tooltip_popup.get_parent() == null:
+		canvas.add_child(tooltip_popup)
+	
+	tooltip_popup.visible = true
+	_update_tooltip_position()
+
+func _on_mouse_exited() -> void:
+	if tooltip_popup:
+		tooltip_popup.visible = false
+
+func _update_tooltip_position() -> void:
+	if not tooltip_popup or not tooltip_popup.visible:
+		return
+	
+	var mouse_pos = get_viewport().get_mouse_position()
+	# Position tooltip to the left of the inventory panel, slightly above
+	tooltip_popup.position = Vector2(mouse_pos.x - tooltip_popup.size.x - 10, mouse_pos.y - 10)
+	
+	# Clamp to screen bounds
+	var screen_size = get_viewport().get_visible_rect().size
+	if tooltip_popup.position.x < 0:
+		tooltip_popup.position.x = mouse_pos.x + 15
+	if tooltip_popup.position.y < 0:
+		tooltip_popup.position.y = 0
+	if tooltip_popup.position.y + tooltip_popup.size.y > screen_size.y:
+		tooltip_popup.position.y = screen_size.y - tooltip_popup.size.y
+
+func _process(_delta: float) -> void:
+	if tooltip_popup and tooltip_popup.visible:
+		_update_tooltip_position()
+
+func _exit_tree() -> void:
+	if tooltip_popup and is_instance_valid(tooltip_popup):
+		if tooltip_popup.get_parent():
+			tooltip_popup.get_parent().remove_child(tooltip_popup)
+		tooltip_popup.queue_free()

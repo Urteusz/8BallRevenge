@@ -7,4 +7,4 @@
 script = ExtResource("2_8ulus")
 scene = ExtResource("1_ygyh3")
 shop_cost = 10000
-shop_description = "Kula która pomaga na ciemnych poziomach"
+shop_description = "A glowing ball that helps illuminate dark levels."

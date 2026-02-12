@@ -76,6 +76,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_dww4p")
 
+[node name="InventoryTitle" type="Label" parent="UI/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Inventory"
+horizontal_alignment = 1
+
 [node name="ScrollContainer" type="ScrollContainer" parent="UI/PanelContainer/HBoxContainer/VBoxContainer" unique_id=1285612688]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2

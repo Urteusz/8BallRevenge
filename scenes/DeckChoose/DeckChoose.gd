@@ -53,7 +53,7 @@ func _input(event: InputEvent) -> void:
 				get_viewport().set_input_as_handled()
 
 func _is_mouse_over_inventory_item() -> bool:
-	if not inventory_grid or not panel_container or not panel_container.visible:
+	if not inventory_grid or not panel_container:
 		return false
 	var mouse_pos = get_viewport().get_mouse_position()
 	for item in inventory_grid.get_children():
@@ -66,8 +66,6 @@ func _return_ball_to_rack() -> void:
 		return
 
 	mode = Mode.DEFAULT
-	if panel_container:
-		panel_container.visible = false
 
 	# Get original position from POSITIONS array
 	var target_position = balls.to_global(POSITIONS[ball_original_position_index])
@@ -89,9 +87,6 @@ func _ready() -> void:
 	_spawn_balls()
 	_refresh_inventory_ui()
 	_apply_level_shader()
-
-	if panel_container:
-		panel_container.visible = false
 
 	if back_button:
 		back_button.pressed.connect(_on_back_button_pressed)
@@ -276,8 +271,7 @@ func _on_ball_input_event(camera_node: Node, event: InputEvent, _pos: Vector3, _
 				tween.tween_property(ball_node, "global_position", target_pos, 0.6)
 				tween.parallel().tween_property(ball_node, "rotation", target_rotation, 0.6)
 
-				if panel_container:
-					panel_container.visible = true
+
 
 			Mode.BALL:
 				# Klik na dowolną kulę w trybie BALL — odłóż aktualną

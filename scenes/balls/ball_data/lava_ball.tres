@@ -7,4 +7,4 @@
 script = ExtResource("2_k6jre")
 scene = ExtResource("1_dev3w")
 shop_cost = 30000
-shop_description = "Podpala każdą kule którą dotknie. Podpalenie nalicza dodatkowe punktu."
+shop_description = "Sets every ball it touches on fire. Burning balls score extra points."
