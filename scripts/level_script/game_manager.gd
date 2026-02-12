@@ -183,6 +183,10 @@ func _on_ball_pocketed(ball):
 		moves_left -= 1
 		moves_left = max(moves_left, 0)
 		emit_signal("moves_changed", moves_left)
+		
+		# Reset velocity to ensure game logic sees it as stopped immediately
+		ball.linear_velocity = Vector3.ZERO
+		ball.angular_velocity = Vector3.ZERO
 		ball.sleeping = true
 		ball.position = returnPoint.position
 
@@ -223,6 +227,10 @@ func _on_ball_pocketed_void(ball):
 		moves_left -= 1
 		moves_left = max(moves_left, 0)
 		emit_signal("moves_changed", moves_left)
+		
+		# Reset velocity immediately
+		ball.linear_velocity = Vector3.ZERO
+		ball.angular_velocity = Vector3.ZERO
 		ball.sleeping = true
 		ball.position = returnPoint.position
 

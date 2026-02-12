@@ -14,6 +14,8 @@ func _ready():
 func _on_body_entered(idk, body: Node, idk2, idk3) -> void:
 	if body == self or not can_apply_modifier:
 		return
+
+	on_hit()
 	
 	if body is RigidBody3D:
 		if body.name == "PlayerBall":
