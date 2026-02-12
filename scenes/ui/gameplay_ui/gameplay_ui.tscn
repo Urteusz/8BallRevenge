@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://ctvxoy867ts7e" path="res://scenes/ui/gameplay_ui/gameplay_ui.gd" id="1_kgdaj"]
 [ext_resource type="FontFile" uid="uid://vcecbwh0vav0" path="res://fonts/BridgeParapet.ttf" id="3_2mbl5"]
+[ext_resource type="Texture2D" uid="uid://ylbw8pi3gdfy" path="res://textures/ui/Button_ingameV2.png" id="3_ya03u"]
+[ext_resource type="Texture2D" uid="uid://cmu4oh7emqhd2" path="res://textures/ui/Button_ingameV2_pressed.png" id="4_opt6b"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_win_bg"]
 content_margin_left = 24.0
@@ -12,33 +14,6 @@ bg_color = Color(0.08, 0.08, 0.12, 0.88)
 border_width_top = 3
 border_width_bottom = 3
 border_color = Color(1, 0.85, 0.3, 0.7)
-
-[sub_resource type="MeshTexture" id="MeshTexture_vh4xn"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vh4xn"]
-bg_color = Color(0.6, 0.6, 0.6, 0.6745098)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0, 0, 0, 0.6745098)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-expand_margin_left = 4.0
-expand_margin_top = 8.0
-expand_margin_right = 4.0
-expand_margin_bottom = 8.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2mbl5"]
-bg_color = Color(0.6, 0.6, 0.6, 0.6745098)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-expand_margin_top = 4.0
-expand_margin_bottom = 4.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_vh4xn"]
 font_size = 27
@@ -108,17 +83,63 @@ offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="AgainButton" type="Button" parent="ControlGameplay/GameOverWindow" unique_id=1079722405]
+[node name="AgainButton" type="TextureButton" parent="ControlGameplay/GameOverWindow" unique_id=75984196]
 process_mode = 3
+custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
+texture_normal = ExtResource("3_ya03u")
+texture_pressed = ExtResource("4_opt6b")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="ControlGameplay/GameOverWindow/AgainButton" unique_id=238796322]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -46.0
+offset_top = -13.0
+offset_right = 46.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 30
 text = "Try again"
 
-[node name="ExitButton" type="Button" parent="ControlGameplay/GameOverWindow" unique_id=559210674]
+[node name="ExitButton" type="TextureButton" parent="ControlGameplay/GameOverWindow" unique_id=1005501013]
 process_mode = 3
+custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Change Level"
+size_flags_vertical = 4
+texture_normal = ExtResource("3_ya03u")
+texture_pressed = ExtResource("4_opt6b")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="ControlGameplay/GameOverWindow/ExitButton" unique_id=936303583]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -13.0
+offset_right = 20.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 30
+text = "Exit"
 
 [node name="WinWindow" type="PanelContainer" parent="ControlGameplay" unique_id=272990186]
 layout_mode = 1
@@ -154,22 +175,58 @@ layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="TryAgainButton" type="Button" parent="ControlGameplay/WinWindow/VBox/WinButtons" unique_id=1924255962]
-custom_minimum_size = Vector2(160, 40)
+[node name="TryAgainButton" type="TextureButton" parent="ControlGameplay/WinWindow/VBox/WinButtons" unique_id=762416684]
+custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("3_2mbl5")
-theme_override_font_sizes/font_size = 22
-text = "Try Again"
+size_flags_vertical = 4
+texture_normal = ExtResource("3_ya03u")
+texture_pressed = ExtResource("4_opt6b")
+ignore_texture_size = true
+stretch_mode = 0
 
-[node name="GoToShop" type="Button" parent="ControlGameplay/WinWindow/VBox/WinButtons" unique_id=1172631810]
-custom_minimum_size = Vector2(160, 40)
+[node name="Label" type="Label" parent="ControlGameplay/WinWindow/VBox/WinButtons/TryAgainButton" unique_id=2104285509]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.0
+offset_top = -12.5
+offset_right = 43.0
+offset_bottom = 12.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 28
+text = "Try again"
+
+[node name="GoToShop" type="TextureButton" parent="ControlGameplay/WinWindow/VBox/WinButtons" unique_id=615067802]
+custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("3_2mbl5")
-theme_override_font_sizes/font_size = 22
-text = "Continue"
+texture_normal = ExtResource("3_ya03u")
+texture_pressed = ExtResource("4_opt6b")
+ignore_texture_size = true
+stretch_mode = 0
 
-
-
+[node name="Label" type="Label" parent="ControlGameplay/WinWindow/VBox/WinButtons/GoToShop" unique_id=1228111211]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -28.5
+offset_top = -7.0
+offset_right = 28.5
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 28
+text = "Go to shop"
 
 [node name="BallListContainer" type="HBoxContainer" parent="ControlGameplay" unique_id=3461045]
 layout_mode = 1
