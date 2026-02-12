@@ -12,7 +12,6 @@ var abilities_enabled: bool = false
 
 func _ready():
 	super._ready()
-	base_value = 400
 	contact_monitor = true
 	max_contacts_reported = 4
 	

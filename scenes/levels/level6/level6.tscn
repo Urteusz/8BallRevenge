@@ -401,6 +401,8 @@ spot_angle = 75.0
 
 [node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=151414268 node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui", "returnPoint")]
 script = ExtResource("19_ddetq")
+default_level_move_count = 10
+star_score_treshold = 125000
 player_ball = NodePath("../Table/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")

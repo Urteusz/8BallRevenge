@@ -6,5 +6,6 @@
 [resource]
 script = ExtResource("2_tgql5")
 scene = ExtResource("1_fu1lf")
-base_value = 50
+base_value = 150
+shop_cost = 6000
 shop_description = "A precision ball that can aim for you."

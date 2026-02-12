@@ -11,7 +11,6 @@ var _snipe_velocity: Vector3 = Vector3.ZERO
 
 func _ready():
 	super._ready()
-	base_value = 400
 
 func _on_body_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
 	if body == self or body.is_in_group("table") or body.is_in_group("walls"):

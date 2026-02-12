@@ -8,6 +8,7 @@
 script = ExtResource("1_fnemy")
 scene = ExtResource("1_rtkap")
 texture = ExtResource("3_m2ojr")
-shop_cost = 3000
+base_value = 80
+shop_cost = 12000
 shop_description = "A magnetic ball that repels nearby balls on collision, changing the course of play."
 metadata/_custom_type_script = "uid://cvwkj0qnv7yim"

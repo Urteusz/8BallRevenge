@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_ia05r")
 scene = ExtResource("1_xodlh")
+base_value = 100
 display_name = "Speedy Ball"
 shop_cost = 2500
 shop_description = "Speedy Ball – gains extra momentum when bouncing off walls and rails. A chaotic speed demon!"

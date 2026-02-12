@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_ojgbi")
 scene = ExtResource("1_cuwtl")
-base_value = 2000
+base_value = 120
+shop_cost = 3500
 shop_description = "A ball that bounces harder off the walls."
 metadata/_custom_type_script = "uid://cvwkj0qnv7yim"

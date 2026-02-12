@@ -9,5 +9,5 @@ script = ExtResource("1_phvfd")
 scene = ExtResource("1_ksp2b")
 texture = ExtResource("3_2f5ea")
 base_value = 50
-shop_cost = 1000
+shop_cost = 0
 shop_description = "A typical colored ball, nothing special."

@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_mc265")
 scene = ExtResource("1_qe54q")
-shop_cost = 5000
+base_value = 100
+shop_cost = 7000
 shop_description = "An explosive ball that detonates on collision, pushing nearby balls away with a shockwave."
 metadata/ui_color = Color(0, 0, 0, 1)

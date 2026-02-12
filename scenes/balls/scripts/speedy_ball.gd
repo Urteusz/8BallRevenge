@@ -15,8 +15,7 @@ var can_boost: bool = true
 
 func _ready():
 	super._ready()
-	base_value = 300
-	
+
 	mass = 0.17
 	linear_damp = 0.05
 	
