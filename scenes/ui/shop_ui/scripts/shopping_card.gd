@@ -2,8 +2,8 @@ extends PanelContainer
 
 signal purchase_requested(ball_id, cost)
 
-@onready var buy_button: Button = $VBoxContainer/BuyButton
-@onready var card_anchor: Node3D = $VBoxContainer/SubViewportContainer/SubViewport/CardAnchor
+@onready var buy_button: Button = $ContentLayer/BuyButton
+@onready var card_anchor: Node3D = $ContentLayer/SubViewportContainer/SubViewport/CardAnchor
 
 # References to nodes inside the instantiated card scene
 var card_node: Node3D
