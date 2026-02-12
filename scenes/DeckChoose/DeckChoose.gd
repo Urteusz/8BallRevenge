@@ -45,10 +45,6 @@ var drag_offset: Vector3 = Vector3.ZERO
 
 func _ready() -> void:
 
-	if "black" not in PlayerData.owned_balls:
-		PlayerData.owned_balls.append("black")
-	if "speedy" not in PlayerData.owned_balls:
-		PlayerData.owned_balls.append("speedy")
 	_spawn_balls()
 	_refresh_inventory_ui()
 	_apply_level_shader()
