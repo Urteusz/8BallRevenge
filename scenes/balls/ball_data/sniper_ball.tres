@@ -7,4 +7,4 @@
 script = ExtResource("2_tgql5")
 scene = ExtResource("1_fu1lf")
 base_value = 50
-shop_description = "Kula snipera potrafi celować za Ciebie."
+shop_description = "A precision ball that can aim for you."
