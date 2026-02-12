@@ -13,11 +13,6 @@ var rotation_speed: float = 0.5
 var ball_id: String = ""
 var cost: int = 0
 
-# Rotation disabled so ball textures are visible
-#func _process(delta: float) -> void:
-#	if ball_mesh_node and rotation_speed > 0:
-#		ball_mesh_node.rotation.y += rotation_speed * delta
-
 func setup_shop_item(id: String, data: Resource, is_owned: bool, player_points: int) -> void:
 	if not $VBoxContainer.has_node("Spacer"):
 		var spacer := Control.new()

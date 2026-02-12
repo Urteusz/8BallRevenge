@@ -22,8 +22,8 @@
 [ext_resource type="Script" uid="uid://cblgv0hdp76us" path="res://scripts/object_scripts/fan.gd" id="20_y367v"]
 [ext_resource type="ArrayMesh" uid="uid://0lxkj2gtk607" path="res://models/table5/Table 5 Fan.obj" id="21_ixhut"]
 [ext_resource type="Script" uid="uid://c1oek3r24c3fe" path="res://scenes/levels/level5/background.gd" id="22_h1mtv"]
-[ext_resource type="Script" uid="uid://tkp5glvk78m2" path="res://scripts/object_scripts/hammer.gd" id="22_tfwtw"]
-[ext_resource type="Environment" uid="uid://23vqkdd2sw7" path="res://scenes/levels/level5/level5_environment.tres" id="23_sx8sq"]
+[ext_resource type="Script" path="res://scripts/object_scripts/hammer.gd" id="22_tfwtw"]
+[ext_resource type="Environment" uid="uid://cyxek5jj5buax" path="res://scenes/levels/level5/level5_environment.tres" id="23_sx8sq"]
 [ext_resource type="ArrayMesh" uid="uid://b8vjd1qptkgxs" path="res://models/table7/Level7 Hammer.obj" id="23_ylxqd"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="24_r0ic5"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="25_nt2ph"]
@@ -90,6 +90,9 @@ size = Vector3(7.2821045, 1, 5.9804993)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5ijt8"]
 size = Vector3(6.7201233, 1, 6.82164)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ylxqd"]
+size = Vector3(119.76561, 1, 138.33061)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_uj8rt"]
 
@@ -242,6 +245,15 @@ player_pocketed_gradient = ExtResource("19_sws0i")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket2" unique_id=81494883]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03425598, 0, -0.10764313)
 shape = SubResource("BoxShape3D_5ijt8")
+
+[node name="PocketVoid" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=556562848]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+collision_mask = 5
+script = ExtResource("14_kieej")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/PocketVoid" unique_id=616166928]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.239317, 0, -1.3938522)
+shape = SubResource("BoxShape3D_ylxqd")
 
 [node name="Fan" type="AnimatableBody3D" parent="SubViewportContainer/SubViewport/Table" unique_id=1675685963]
 transform = Transform3D(-2.7873979, 0, 1.1092402, 0, 3, 0, -1.1092402, 0, -2.7873979, -23.03189, 0.7996987, -3.9691002)

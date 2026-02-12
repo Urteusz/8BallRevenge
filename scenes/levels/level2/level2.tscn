@@ -15,13 +15,13 @@
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="12_e4fnj"]
 [ext_resource type="Texture2D" uid="uid://pxoipevsp7bc" path="res://scenes/particles/player_pocketed_gradient.tres" id="12_i8ch4"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="12_k3l6j"]
-[ext_resource type="Environment" uid="uid://d4eptfg3c55gl" path="res://scenes/levels/level2/dust_environment.tres" id="13_pwggy"]
+[ext_resource type="Environment" uid="uid://cshoix47xkmgi" path="res://scenes/levels/level2/dust_environment.tres" id="13_pwggy"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="16_5prdx"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="17_e4fnj"]
 [ext_resource type="AudioStream" uid="uid://bu2a7q6t07jjm" path="res://sounds/storm.mp3" id="18_fxmmb"]
 [ext_resource type="PackedScene" path="res://scenes/levels/level2/sandstorm.tscn" id="21_sandstorm"]
-[ext_resource type="Script" uid="uid://ck0tx1jdut4rv" path="res://scenes/levels/level2/level2.gd" id="22_level2"]
-[ext_resource type="PackedScene" uid="uid://b6x5y4z3w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
+[ext_resource type="Script" path="res://scenes/levels/level2/level2.gd" id="22_level2"]
+[ext_resource type="PackedScene" uid="uid://b6x5y403w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jsk3o"]
 render_priority = -1
@@ -197,7 +197,7 @@ size = Vector3(4.20105, 1, 3.66156)
 size = Vector3(4.201355, 1, 3.6976929)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_i8ch4"]
-size = Vector3(2.6020508, 1, 2.5028076)
+size = Vector3(264.47736, 1, 440.0773)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a011w"]
 albedo_color = Color(0.4541009, 0.35983774, 0.15194741, 1)
@@ -392,6 +392,20 @@ assist_strength = 3.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
 shape = SubResource("BoxShape3D_i8ch4")
 
+[node name="Pocket7" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=103458402 groups=["pockets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+collision_mask = 5
+script = ExtResource("8_0em4h")
+og_gradient_texture = ExtResource("10_ntc21")
+ball_pocketed_gradient = ExtResource("11_385ab")
+player_pocketed_gradient = ExtResource("12_i8ch4")
+assist_radius = 3.0
+assist_strength = 3.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket7" unique_id=445435639]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.824463, 0, 0.49674225)
+shape = SubResource("BoxShape3D_i8ch4")
+
 [node name="Sandstorm" parent="SubViewportContainer/SubViewport" unique_id=1092712890 instance=ExtResource("21_sandstorm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 
@@ -417,12 +431,12 @@ environment = ExtResource("13_pwggy")
 
 [node name="GameplayUI" parent="." unique_id=1501012411 instance=ExtResource("17_e4fnj")]
 
-[node name="PauseMenu" parent="." node_paths=PackedStringArray("shop_ui") instance=ExtResource("23_pause")]
-shop_ui = NodePath("../ShopUI/ControlShop")
-
 [node name="ControlGameplay" parent="GameplayUI" index="0" unique_id=1377833409 node_paths=PackedStringArray("game_manager", "shopUI")]
 game_manager = NodePath("../../SubViewportContainer/SubViewport/GameManager")
 shopUI = NodePath("../../ShopUI/ControlShop")
+
+[node name="PauseMenu" parent="." unique_id=1498148786 node_paths=PackedStringArray("shop_ui") instance=ExtResource("23_pause")]
+shop_ui = NodePath("../ShopUI/ControlShop")
 
 [connection signal="game_won" from="SubViewportContainer/SubViewport/Camera3D" to="GameplayUI/ControlGameplay" method="_on_game_win"]
 [connection signal="targetting_center" from="SubViewportContainer/SubViewport/Camera3D" to="SubViewportContainer/SubViewport/Table/PlayerBall" method="_on_camera_3d_targetting_center"]

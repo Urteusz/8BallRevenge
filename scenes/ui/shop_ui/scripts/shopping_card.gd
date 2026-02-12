@@ -4,6 +4,8 @@ signal purchase_requested(ball_id, cost)
 
 @onready var buy_button: Button = $ContentLayer/BuyButton
 @onready var card_anchor: Node3D = $ContentLayer/SubViewportContainer/SubViewport/CardAnchor
+@onready var tooltip_panel: PanelContainer = $TooltipLayer/TooltipPanel
+@onready var tooltip_label: Label = $TooltipLayer/TooltipPanel/MarginContainer/Label
 
 # References to nodes inside the instantiated card scene
 var card_node: Node3D
@@ -16,17 +18,28 @@ var ball_parent: Node3D
 
 var ball_id: String = ""
 var cost: int = 0
+var description_text: String = ""
+var _tooltip_tween: Tween
+
+func _ready() -> void:
+	if tooltip_panel:
+		tooltip_panel.visible = false
+		tooltip_panel.modulate.a = 0.0
+
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
 
 func setup_shop_item(id: String, data: Resource, is_owned: bool, player_points: int) -> void:
 	ball_id = id
 	cost = data.shop_cost
-	
+	description_text = data.shop_description if data.shop_description else "No description available."
+
 	# Attempt to find the card instance
 	if card_anchor.get_child_count() > 0:
 		card_node = card_anchor.get_child(0)
 		# Disable the card's native movement logic which depends on specific camera setups
 		card_node.set_process(false)
-		
+
 		# Find visual elements
 		# Path in card.tscn: Card/Contents/Name
 		name_label = card_node.find_child("Name", true, false)
@@ -35,23 +48,20 @@ func setup_shop_item(id: String, data: Resource, is_owned: bool, player_points: 
 		base_points_label = card_node.find_child("BasePoints", true, false)
 
 		# Hide unrelated/unused elements
-		var elements_to_hide = ["Mult", "MultLabel", "Ability", "AbilityIcon"]
+		var elements_to_hide = ["Mult", "MultLabel", "Ability", "AbilityIcon", "Description"]
 		for elem_name in elements_to_hide:
 			var node = card_node.find_child(elem_name, true, false)
 			if node:
 				node.visible = false
-		
+
 		# Link Ball Parent
 		# We target the one on the card surface first: Card/Ball
 		var main_card_sprite = card_node.find_child("Card", true, false)
 		if main_card_sprite:
 			ball_parent = main_card_sprite.find_child("Ball", true, false)
-	
+
 	if name_label:
 		name_label.text = data.display_name if (data.display_name and data.display_name != "") else id.capitalize()
-
-	if desc_label:
-		desc_label.text = " "#data.shop_description
 
 	if cost_label:
 		cost_label.text = str(cost)
@@ -59,10 +69,13 @@ func setup_shop_item(id: String, data: Resource, is_owned: bool, player_points: 
 	if base_points_label:
 		base_points_label.text = str(data.base_value)
 
+	if tooltip_label:
+		tooltip_label.text = description_text
+
 	setup_ball_visuals(data)
-	
+
 	update_state(is_owned, player_points)
-	
+
 	# Connect button
 	if buy_button.pressed.is_connected(_on_buy_pressed):
 		buy_button.pressed.disconnect(_on_buy_pressed)
@@ -110,12 +123,12 @@ func setup_ball_visuals(data: Resource):
 
 func update_state(is_owned: bool, current_points: int) -> void:
 	if is_owned:
-		buy_button.text = "POSIADASZ"
+		buy_button.text = "OWNED"
 		buy_button.disabled = true
 		# Optional: Dim the whole card?
 		modulate = Color(0.9, 0.9, 0.9, 1.0)
 	else:
-		buy_button.text = "KUP"
+		buy_button.text = "BUY"
 		buy_button.disabled = (current_points < cost)
 		modulate = Color.WHITE
 
@@ -126,3 +139,32 @@ func play_success_anim():
 	var tween = create_tween()
 	tween.tween_property(self, "scale", Vector2(1.1, 1.1), 0.1)
 	tween.tween_property(self, "scale", Vector2(1.0, 1.0), 0.1)
+
+func _on_mouse_entered() -> void:
+	if not tooltip_panel or description_text.is_empty():
+		return
+
+	tooltip_panel.visible = true
+	tooltip_panel.pivot_offset = tooltip_panel.size / 2
+
+	if _tooltip_tween:
+		_tooltip_tween.kill()
+
+	_tooltip_tween = create_tween()
+	_tooltip_tween.set_parallel(true)
+	_tooltip_tween.tween_property(tooltip_panel, "modulate:a", 1.0, 0.25).set_ease(Tween.EASE_OUT)
+	_tooltip_tween.tween_property(tooltip_panel, "scale", Vector2(1.0, 1.0), 0.3).from(Vector2(0.8, 0.8)).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+func _on_mouse_exited() -> void:
+	if not tooltip_panel:
+		return
+
+	if _tooltip_tween:
+		_tooltip_tween.kill()
+
+	_tooltip_tween = create_tween()
+	_tooltip_tween.set_parallel(true)
+	_tooltip_tween.tween_property(tooltip_panel, "modulate:a", 0.0, 0.15).set_ease(Tween.EASE_IN)
+	_tooltip_tween.tween_property(tooltip_panel, "scale", Vector2(0.8, 0.8), 0.15).set_ease(Tween.EASE_IN)
+	_tooltip_tween.set_parallel(false)
+	_tooltip_tween.tween_callback(func(): tooltip_panel.visible = false)

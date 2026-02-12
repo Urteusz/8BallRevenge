@@ -14,6 +14,20 @@ ambient_light_color = Color(1, 1, 1, 1)
 [sub_resource type="World3D" id="World3D_shop"]
 environment = SubResource("Environment_shop")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tooltip"]
+bg_color = Color(0.1, 0.1, 0.15, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.13600002, 0.61186665, 0.8, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 4
+
 [node name="ShoppingCard" type="PanelContainer" unique_id=1288132980]
 custom_minimum_size = Vector2(200, 300)
 offset_right = 200.0
@@ -23,6 +37,7 @@ script = ExtResource("1_script")
 
 [node name="ContentLayer" type="Control" parent="." unique_id=1794290886]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="ContentLayer" unique_id=686696266]
 layout_mode = 1
@@ -66,4 +81,38 @@ offset_right = -13.0
 offset_bottom = -6.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "KUP"
+text = "BUY"
+
+[node name="TooltipLayer" type="Control" parent="." unique_id=177302406]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TooltipPanel" type="PanelContainer" parent="TooltipLayer" unique_id=2070891198]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -140.0
+offset_top = -130.0
+offset_right = 140.0
+offset_bottom = -10.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tooltip")
+
+[node name="MarginContainer" type="MarginContainer" parent="TooltipLayer/TooltipPanel" unique_id=1475965519]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="Label" type="Label" parent="TooltipLayer/TooltipPanel/MarginContainer" unique_id=1751065243]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 24
+text = "Description text here"
+vertical_alignment = 1
+autowrap_mode = 3

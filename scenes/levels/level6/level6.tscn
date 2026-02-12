@@ -19,9 +19,9 @@
 [ext_resource type="ArrayMesh" uid="uid://x7ygsv712bp6" path="res://models/table6/Table 6 Base Down.obj" id="18_8m1ek"]
 [ext_resource type="PackedScene" uid="uid://bybt7gul7ksft" path="res://scenes/particles/pocketedBallEffect.tscn" id="18_fx5ks"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="19_ddetq"]
-[ext_resource type="PackedScene" path="res://scenes/particles/particlePocketLoop3.tscn" id="19_fx5ks"]
+[ext_resource type="PackedScene" uid="uid://cyqa4d25c4s04" path="res://scenes/particles/particlePocketLoop3.tscn" id="19_fx5ks"]
 [ext_resource type="ArrayMesh" uid="uid://561k8jx7u4wj" path="res://models/table6/Table 6 Walls Down.obj" id="19_uxihh"]
-[ext_resource type="Environment" uid="uid://23vqkdd2sw7" path="res://scenes/levels/level5/level5_environment.tres" id="20_3b7ih"]
+[ext_resource type="Environment" uid="uid://cyxek5jj5buax" path="res://scenes/levels/level5/level5_environment.tres" id="20_3b7ih"]
 [ext_resource type="Script" uid="uid://bs7d8ijc8yx0r" path="res://scripts/object_scripts/spinner.gd" id="21_fx5ks"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="21_r3ijp"]
 [ext_resource type="ArrayMesh" uid="uid://ce7cha0ghwb8a" path="res://models/table6/Table 6 Spinner.obj" id="22_8m1ek"]
@@ -113,6 +113,9 @@ size = Vector3(4.201355, 1, 4.0540466)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ei1ye"]
 size = Vector3(3.2617798, 1, 3.3615417)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uxihh"]
+size = Vector3(143.17236, 1, 281.59152)
 
 [node name="Node3D" type="Node3D" unique_id=1062246699]
 
@@ -301,6 +304,15 @@ player_pocketed_gradient = ExtResource("17_wupgr")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket4" unique_id=1870221952]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02645874, 0, 0.012741089)
 shape = SubResource("BoxShape3D_ei1ye")
+
+[node name="PocketVoid" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=271573649]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+collision_mask = 5
+script = ExtResource("13_5fjiy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/PocketVoid" unique_id=1663017232]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.870798, 0, 3.2612648)
+shape = SubResource("BoxShape3D_uxihh")
 
 [node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=151414268 node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui", "returnPoint")]
 script = ExtResource("19_ddetq")
