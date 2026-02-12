@@ -22,6 +22,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_hyg8v")
+script = ExtResource("1_sglii")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=18676361]
 z_index = 1
@@ -47,7 +48,6 @@ custom_minimum_size = Vector2(900, 550)
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_styles/panel = SubResource("StyleBoxEmpty_w8s0e")
-script = ExtResource("1_sglii")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer" unique_id=1201332219]
 z_index = 1
@@ -90,6 +90,7 @@ focus_neighbor_top = NodePath("../../Resolution/ResolutionButton")
 focus_neighbor_bottom = NodePath("../../FullscreenButton")
 
 [node name="FullscreenButton" type="CheckButton" parent="CenterContainer/PanelContainer/HBoxContainer/Graphics" unique_id=1190047104]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 focus_neighbor_top = NodePath("../VSync/VSyncButton")
@@ -102,6 +103,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 4
 
 [node name="InvertedMouseButton" type="CheckButton" parent="CenterContainer/PanelContainer/HBoxContainer/Controls" unique_id=194497074]
+unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../../Graphics/Resolution/ResolutionButton")
 focus_neighbor_bottom = NodePath("../Volume/VolumeSlider")
@@ -148,6 +150,22 @@ focus_neighbor_top = NodePath("../CenterContainer/PanelContainer/HBoxContainer/G
 texture_normal = ExtResource("6_iu3f6")
 texture_pressed = ExtResource("5_w8s0e")
 
+[node name="ApplyButtonLabel" type="Label" parent="QuitButton" unique_id=999791750]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -124.0
+offset_right = 124.0
+offset_bottom = -14.0
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 56
+text = "Return"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="ApplyButton" type="TextureButton" parent="." unique_id=2142408290]
 unique_name_in_owner = true
 z_index = 1
@@ -161,7 +179,8 @@ focus_neighbor_right = NodePath("../QuitButton")
 texture_normal = ExtResource("6_w8s0e")
 texture_pressed = ExtResource("7_iu3f6")
 
-[node name="Label" type="Label" parent="ApplyButton" unique_id=1896106102]
+[node name="ApplyButtonLabel" type="Label" parent="ApplyButton" unique_id=1896106102]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -177,6 +196,7 @@ theme_override_font_sizes/font_size = 56
 text = "Apply"
 
 [node name="ResetButton" type="TextureButton" parent="." unique_id=1487360101]
+unique_name_in_owner = true
 z_index = 1
 layout_mode = 1
 anchors_preset = 4

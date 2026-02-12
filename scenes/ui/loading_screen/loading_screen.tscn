@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cvcslt7yw1a7s"]
 
 [ext_resource type="Script" uid="uid://83vb56jogdmg" path="res://scenes/ui/loading_screen/loading_screen.gd" id="1_8cml4"]
-[ext_resource type="Shader" uid="uid://ci6venkc8lrfh" path="res://scenes/ui/loading_screen/loading_screen.gdshader" id="2_urqlm"]
+[ext_resource type="Shader" path="res://scenes/ui/loading_screen/loading_screen.gdshader" id="2_urqlm"]
 
 [sub_resource type="Animation" id="Animation_hprjd"]
 length = 0.001
