@@ -12,8 +12,7 @@
 default_font = ExtResource("1_kyv63")
 default_font_size = 35
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w8s0e"]
-bg_color = Color(0.35280028, 0.4932208, 0.8298709, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w8s0e"]
 
 [node name="OptionsMenu" type="Control" unique_id=640391713]
 layout_mode = 3
@@ -47,7 +46,7 @@ grow_vertical = 2
 custom_minimum_size = Vector2(900, 550)
 layout_mode = 2
 size_flags_horizontal = 8
-theme_override_styles/panel = SubResource("StyleBoxFlat_w8s0e")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_w8s0e")
 script = ExtResource("1_sglii")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer" unique_id=1201332219]
@@ -60,8 +59,8 @@ alignment = 1
 
 [node name="Graphics" type="VBoxContainer" parent="CenterContainer/PanelContainer/HBoxContainer" unique_id=670747527]
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
 [node name="Resolution" type="HBoxContainer" parent="CenterContainer/PanelContainer/HBoxContainer/Graphics" unique_id=645770585]
 layout_mode = 2
@@ -92,6 +91,7 @@ focus_neighbor_bottom = NodePath("../../FullscreenButton")
 
 [node name="FullscreenButton" type="CheckButton" parent="CenterContainer/PanelContainer/HBoxContainer/Graphics" unique_id=1190047104]
 layout_mode = 2
+size_flags_horizontal = 0
 focus_neighbor_top = NodePath("../VSync/VSyncButton")
 focus_neighbor_bottom = NodePath("../../../../../ApplyButton")
 text = "Fullscreen"
@@ -109,6 +109,9 @@ text = "Inverted Mouse"
 
 [node name="Volume" type="HBoxContainer" parent="CenterContainer/PanelContainer/HBoxContainer/Controls" unique_id=1256005566]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/separation = 16
 
 [node name="VolumeLabel" type="Label" parent="CenterContainer/PanelContainer/HBoxContainer/Controls/Volume" unique_id=1350286153]
 layout_mode = 2
@@ -118,7 +121,8 @@ text = "Volume"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 6
+size_flags_vertical = 4
 focus_neighbor_top = NodePath("../../InvertedMouseButton")
 value = 100.0
 
