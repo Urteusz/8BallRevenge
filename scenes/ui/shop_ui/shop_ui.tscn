@@ -18,7 +18,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_67u7h")
 shop_card_scene = ExtResource("2_p6g4p")
-items_to_sell = Array[String](["bomb", "speedy", "magnetic", "blue", "green", "magnetic_min"])
+items_to_sell = Array[String](["bomb", "speedy", "magnetic"])
 
 [node name="LabelPoints" type="Label" parent="ControlShop" unique_id=1339122172]
 layout_mode = 0

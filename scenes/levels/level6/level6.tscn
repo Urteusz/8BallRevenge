@@ -314,6 +314,7 @@ script = ExtResource("23_mbi2n")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/PocketVoid" unique_id=541331027]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.239317, 0, -1.3938522)
 shape = SubResource("BoxShape3D_mbi2n")
+
 [node name="Lights" type="Node3D" parent="SubViewportContainer/SubViewport/Table" unique_id=70334698]
 
 [node name="SpotLight3D0" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Table/Lights" unique_id=1242527649]
@@ -420,7 +421,7 @@ environment = ExtResource("20_3b7ih")
 [node name="ShopUI" parent="." unique_id=1101322657 instance=ExtResource("21_r3ijp")]
 
 [node name="ControlShop" parent="ShopUI" index="0" unique_id=109149566]
-items_to_sell = Array[String](["purple", "speedy", "magnetic", "ice", "bomb"])
+items_to_sell = Array[String](["light", "lava", "bomb"])
 
 [node name="GameplayUI" parent="." unique_id=1423902161 instance=ExtResource("22_h7hqq")]
 

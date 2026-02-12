@@ -333,6 +333,9 @@ environment = ExtResource("10_rnqjc")
 
 [node name="ShopUI" parent="." unique_id=83626306 instance=ExtResource("10_l0b7s")]
 
+[node name="ControlShop" parent="ShopUI" index="0" unique_id=109149566]
+items_to_sell = Array[String](["light", "sniper"])
+
 [node name="GameplayUI" parent="." unique_id=160693144 instance=ExtResource("11_cuf1e")]
 
 [node name="ControlGameplay" parent="GameplayUI" index="0" unique_id=1377833409 node_paths=PackedStringArray("game_manager", "shopUI")]

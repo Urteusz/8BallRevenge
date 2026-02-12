@@ -13,7 +13,6 @@ var current_level: int = 1
 # Gwiazdki dla każdego poziomu {level_number: stars_earned}
 var level_stars: Dictionary = {}
 
-var ninja_ball_data = load("res://scenes/balls/ball_data/ninja_ball.tres")
 var red_ball_data = load("res://scenes/balls/ball_data/red_ball.tres")
 var blue_ball_data = load("res://scenes/balls/ball_data/blue_ball.tres")
 var green_ball_data = load("res://scenes/balls/ball_data/green_ball.tres")
@@ -28,24 +27,25 @@ var magnetic_min_ball_data = load("res://scenes/balls/ball_data/magnetic_ball_mi
 var light_bulb_data = load("res://scenes/balls/ball_data/light_bulb.tres")
 var lava_ball_data = load("res://scenes/balls/ball_data/lava_ball.tres")
 var sniper_ball_data = load("res://scenes/balls/ball_data/sniper_ball.tres")
+var ninja_ball_data = load("res://scenes/balls/ball_data/ninja_ball.tres")
 
 
 
 var ball_data_map = {
-	"ninja": ninja_ball_data,
 	"red": red_ball_data,
 	"blue": blue_ball_data,
 	"green": green_ball_data,
 	"purple": purple_ball_data,
 	"yellow": yellow_ball_data,
-	"bomb": bomb_ball_data,
-	"speedy": speedy_ball_data,
 	"magnetic": magnetic_ball_data,
 	"magnetic_min": magnetic_min_ball_data,
 	"ice": ice_ball_data,
+	"speedy": speedy_ball_data,
 	"bouncy": bouncy_ball_data,
-	"light": light_bulb_data,
 	"lava": lava_ball_data,
+	"light": light_bulb_data,
+	"bomb": bomb_ball_data,
+	"ninja": ninja_ball_data,
 	"sniper": sniper_ball_data
 }
 
@@ -54,7 +54,7 @@ const SAVE_PATH = "user://player_progress.save"
 func _ready() -> void:
 	# Domyślny start (jeśli nie ma zapisu)
 	if owned_balls.is_empty():
-		owned_balls = ["bomb", "light", "ninja", "purple", "yellow", "magnetic", "green"]
+		owned_balls = ["red", "blue", "green", "purple", "yellow"]
 	
 	# Jeśli deck jest pusty, wypełnij go pierwszymi dostępnymi kulami
 	if current_deck.is_empty():
