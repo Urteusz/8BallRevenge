@@ -156,12 +156,7 @@ func _on_apply_pressed() -> void:
 	SettingsManager.apply_graphics_settings()
 	SettingsManager.apply_audio_settings()
 	SettingsManager.save_settings()
-
-	# --- SKALOWANIE / PIXEL ART (Twoje pytanie o 'stretch shrink') ---
-	# Jeśli chcesz efekt pikselozy, możesz odkomentować poniższe linie:
-	# get_viewport().scaling_3d_scale = 0.5  # Renderuje grę w 50% rozdzielczości (pikseloza)
-	# get_viewport().texture_filter = Viewport.TEXTURE_FILTER_NEAREST # Ostry pixel art
-
+	
 	print("Ustawienia Zapisane i Zaaplikowane!")
 
 func _on_back_pressed() -> void:

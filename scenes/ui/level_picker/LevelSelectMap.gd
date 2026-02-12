@@ -15,6 +15,9 @@ var last_click_time: float = 0.0
 var double_click_threshold: float = 0.3
 
 func _ready() -> void:
+	# Ukryj mapę do zakończenia przejścia
+	modulate.a = 0.0
+
 	current_node = start_node
 	player_cursor.global_position = current_node.global_position
 
@@ -35,6 +38,11 @@ func _ready() -> void:
 
 	# Animacja pulsowania kursora
 	_start_cursor_pulse()
+
+	# Fade-in po krótkim opóźnieniu
+	await get_tree().create_timer(0.8).timeout
+	var fade_tween = create_tween()
+	fade_tween.tween_property(self, "modulate:a", 1.0, 0.3)
 
 func _process(delta: float) -> void:
 	if is_moving:
@@ -208,7 +216,6 @@ func _move_along_path(path: Array[LevelNode]) -> void:
 		# Krótka pauza między skokami (tylko jeśli nie jest to ostatni węzeł)
 		if i < path.size() - 1:
 			await get_tree().create_timer(0.1).timeout
-
 	is_moving = false
 
 func _start_cursor_pulse() -> void:
