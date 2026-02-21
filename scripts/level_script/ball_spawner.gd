@@ -69,6 +69,9 @@ func _ready() -> void:
 			continue
 		
 		var new_instance = ball_data.scene.instantiate()
+		# Explicitly set the name for network sync:
+		new_instance.name = "LevelBall_" + str(i)
+		
 		add_child(new_instance)
 		game_manager.ball_list.append(new_instance)
 		new_instance.base_value = ball_data.base_value
@@ -88,7 +91,12 @@ func _ready() -> void:
 
 		if ball_data.texture:
 			apply_texture_to_ball(new_instance, ball_data.texture)
-		
+
+		# On multiplayer client, freeze balls in kinematic mode so position updates work visually
+		if NetworkManager.is_multiplayer_active() and not NetworkManager.is_host:
+			new_instance.freeze_mode = RigidBody3D.FREEZE_MODE_KINEMATIC
+			new_instance.freeze = true
+
 		i += 1
 	await get_tree().create_timer(0.3).timeout
 	_enable_scoring_for_all_balls()

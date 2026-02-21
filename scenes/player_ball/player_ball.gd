@@ -73,7 +73,9 @@ var spin_active: bool = false
 signal ball_pushed(impulse_power: float)
 signal charging_cancelled
 signal turn_started
-signal shoot_requested
+signal shoot_requested(ball)
+
+var owner_id: int = 1
 
 func _ready() -> void:
 	if PlayerData.get_total_stars() == 21:
@@ -97,6 +99,7 @@ func _ready() -> void:
 	sleeping = true
 
 func _process(delta: float) -> void:
+	# On multiplayer client, UI still updates locally
 	if charging and camera and power_bar_root:
 		_animate_power_bar(delta)
 		_animate_crosshair()
@@ -118,6 +121,9 @@ func _input(event) -> void:
 	if !is_inside_tree():
 		return
 		
+	if NetworkManager.is_multiplayer_active() and owner_id != NetworkManager.peer_id:
+		return
+
 	if charging:
 		if event.is_action_pressed("cancel_charging"):
 			if power_bar_root:
@@ -133,10 +139,13 @@ func _input(event) -> void:
 		start_charging()
 	elif event.is_action_released("push_ball"):
 		if charging:
-			emit_signal("shoot_requested")
+			emit_signal("shoot_requested", self)
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if sleeping:
+		return
+	# On multiplayer client, player ball is frozen — no local physics
+	if NetworkManager.is_multiplayer_active() and not NetworkManager.is_host:
 		return
 
 	var lv = state.linear_velocity
@@ -171,14 +180,32 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 func can_shoot() -> bool:
 	if !camera:
 		return false
-	
+
+	var my_turn := true
+	if NetworkManager.is_multiplayer_active():
+		var gm := _get_game_manager()
+		if gm:
+			my_turn = gm.is_my_turn() and (owner_id == NetworkManager.peer_id or owner_id == 0)
+
 	return (
 		can_shoot_flag
-		and is_shootable_speed() 
-		and is_grounded 
+		and is_shootable_speed()
+		and is_grounded
 		and camera.current_target_index == 0
 		and !charging
+		and my_turn
 	)
+
+func _get_game_manager() -> Node:
+	var parent := get_parent()
+	while parent:
+		if parent.has_method("is_my_turn"):
+			return parent
+		for child in parent.get_children():
+			if child.has_method("is_my_turn"):
+				return child
+		parent = parent.get_parent()
+	return null
 
 func release_push() -> void:
 	if !charging:
@@ -197,6 +224,29 @@ func release_push() -> void:
 
 func execute_shot() -> void:
 	release_push()
+
+func execute_shot_from_network(power_ratio: float, direction: Vector3, spin: float, v_spin: float) -> void:
+	# Called by host's game_manager when receiving an RPC shot (or host's own shot)
+	charging = false
+	if power_bar_root:
+		power_bar_root.visible = false
+	if crosshair:
+		crosshair.visible = false
+
+	hit_position = direction
+	current_power_ratio = power_ratio
+
+	# Set spin values on camera temporarily so push_ball picks them up
+	if camera:
+		if "spin_offset" in camera:
+			camera.spin_offset = spin
+		if "vertical_spin_offset" in camera:
+			camera.vertical_spin_offset = v_spin
+
+	var impulse_power: float = clamp(power_ratio, MIN_IMPULSE, 1.0) * max_impulse_strength
+	current_power_ratio = 0.0
+	emit_signal("turn_started")
+	push_ball(impulse_power)
 
 func allow_shooting(allowed: bool) -> void:
 	can_shoot_flag = allowed

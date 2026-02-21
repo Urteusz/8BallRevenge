@@ -253,7 +253,10 @@ func _apply_level_shader() -> void:
 
 func _on_confirm_button_pressed() -> void:
 	emit_signal("deck_selected")
-	LoadManager.load_scene(PlayerData.get_level_path())
+	if NetworkManager.is_multiplayer_active() and NetworkManager.is_host:
+		NetworkManager.host_start_level(PlayerData.get_level_path())
+	else:
+		LoadManager.load_scene(PlayerData.get_level_path())
 
 func _refresh_inventory_ui() -> void:
 	if not inventory_grid:

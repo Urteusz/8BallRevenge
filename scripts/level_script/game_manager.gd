@@ -4,6 +4,7 @@ const BALLS_GROUP = "balls"
 
 @export var default_level_move_count: int = 10
 @export var player_ball: RigidBody3D
+var player_ball_2: RigidBody3D = null
 @export var shop_ui: Control
 @export var gameplay_ui: Control
 @export var returnPoint: Node3D
@@ -34,6 +35,13 @@ signal force_timer_ticked(time_left: float)
 var _force_stop_time_left: float = 0.0
 var _force_stop_active: bool = false
 
+# Multiplayer
+var current_turn_player: int = 1  # peer_id of whose turn it is (1 = host)
+var _mp_balls_moving: bool = false  # true when balls are in motion after a shot
+var _mp_sync_timer: float = 0.0
+const MP_SYNC_INTERVAL: float = 0.05  # 50ms between ball position syncs
+signal turn_changed(peer_id: int)
+
 func _ready() -> void:
 	moves_left = default_level_move_count
 	
@@ -45,6 +53,29 @@ func _ready() -> void:
 			continue
 		ball_list.append(ball)
 	
+	if NetworkManager.is_multiplayer_active():
+		player_ball.owner_id = 1
+		player_ball_2 = player_ball.duplicate()
+		player_ball.get_parent().call_deferred("add_child", player_ball_2)
+		
+		var client_id = NetworkManager.opponent_id if NetworkManager.is_host else NetworkManager.peer_id
+		player_ball_2.owner_id = client_id
+		player_ball_2.name = "PlayerBall2"
+		player_ball_2.position = player_ball.position + Vector3(0, 0, -1.0)
+		
+		if player_ball_2.has_signal("ball_pocketed"):
+			player_ball_2.ball_pocketed.connect(_on_ball_pocketed)
+		if player_ball_2.has_signal("ball_pocketed_void"):
+			player_ball_2.ball_pocketed_void.connect(_on_ball_pocketed_void)
+		if player_ball_2.has_signal("shoot_requested"):
+			player_ball_2.shoot_requested.connect(_on_shoot_requested)
+		if player_ball_2.has_signal("turn_started"):
+			player_ball_2.turn_started.connect(_on_turn_started)
+		if player_ball_2.has_signal("ball_pushed"):
+			player_ball_2.ball_pushed.connect(_on_ball_pushed)
+		if player_ball_2.has_signal("charging_cancelled"):
+			player_ball_2.charging_cancelled.connect(_on_charging_cancelled)
+
 	if player_ball:
 		if player_ball.has_signal("ball_pocketed"):
 			player_ball.ball_pocketed.connect(_on_ball_pocketed)
@@ -72,12 +103,21 @@ func _ready() -> void:
 	# Sygnały piłek są teraz podłączane w ball_spawner.gd po ich utworzeniu
 	# (ball_list jest pusta w momencie _ready())
 
+	# On multiplayer client, freeze player ball in kinematic mode (host controls it)
+	if NetworkManager.is_multiplayer_active() and not NetworkManager.is_host:
+		if player_ball:
+			player_ball.freeze_mode = RigidBody3D.FREEZE_MODE_KINEMATIC
+			player_ball.freeze = true
+		if player_ball_2:
+			player_ball_2.freeze_mode = RigidBody3D.FREEZE_MODE_KINEMATIC
+			player_ball_2.freeze = true
+
 func _process(delta: float) -> void:
 	# Obsługa timera awaryjnego (wymuszony koniec gry)
 	if _force_stop_active:
 		_force_stop_time_left -= delta
 		emit_signal("force_timer_ticked", _force_stop_time_left)
-		
+
 		if _force_stop_time_left <= 0:
 			_force_stop_active = false
 			_force_game_over_timeout()
@@ -93,23 +133,43 @@ func _process(delta: float) -> void:
 
 	# Check aiming state
 	var current_aiming_state = (moves_left > 0) and !game_over and !game_win
-	if player_ball and player_ball.has_method("can_shoot"):
-		current_aiming_state = current_aiming_state and player_ball.can_shoot()
+	
+	var active_pb = player_ball
+	if current_turn_player != 1 and player_ball_2:
+		active_pb = player_ball_2
+	
+	if active_pb and active_pb.has_method("can_shoot"):
+		current_aiming_state = current_aiming_state and active_pb.can_shoot()
 	else:
 		current_aiming_state = current_aiming_state and _are_all_balls_stopped()
-		
+
 	if current_aiming_state != is_aiming_possible:
 		is_aiming_possible = current_aiming_state
 		emit_signal("aiming_state_changed", is_aiming_possible)
 
-	# Check game over only when ALL balls are stopped
-	if moves_left == 0 and _are_all_balls_stopped():
-		if !game_over and !game_win:
-			_on_game_over()
+	# Check game over only when ALL balls are stopped (host only in multiplayer)
+	if not (NetworkManager.is_multiplayer_active() and not NetworkManager.is_host):
+		if moves_left == 0 and _are_all_balls_stopped():
+			if !game_over and !game_win:
+				_on_game_over()
+
+	# Multiplayer: always sync ball positions to client, and detect turn switch
+	if NetworkManager.is_multiplayer_active() and NetworkManager.is_host:
+		if _mp_balls_moving and _are_all_balls_stopped():
+			_mp_balls_moving = false
+			_send_ball_positions()  # Final sync with resting positions
+			_switch_turn()
+		# Always sync positions at regular intervals (not just when moving)
+		_mp_sync_timer += delta
+		if _mp_sync_timer >= MP_SYNC_INTERVAL:
+			_mp_sync_timer = 0.0
+			_send_ball_positions()
 
 func _are_all_balls_stopped() -> bool:
 	# Check if player ball is stopped
 	if player_ball and not player_ball.is_fully_stopped():
+		return false
+	if player_ball_2 and not player_ball_2.is_fully_stopped():
 		return false
 
 	# Check if all other balls are stopped
@@ -125,22 +185,50 @@ func _are_all_balls_stopped() -> bool:
 	return true
 
 func _input(event) -> void:
-	if event.is_action_pressed("push_ball") and player_ball:
-		if player_ball.can_shoot():
+	if event.is_action_pressed("push_ball"):
+		var active_pb = player_ball
+		if current_turn_player != 1 and player_ball_2:
+			active_pb = player_ball_2
+		if active_pb and active_pb.can_shoot() and is_my_turn():
 			emit_signal("charging_started")
 
-func _on_shoot_requested() -> void:
+func _on_shoot_requested(ball: Node3D = null) -> void:
+	if ball == null:
+		ball = player_ball
 	if moves_left > 0:
-		player_ball.execute_shot()
+		if NetworkManager.is_multiplayer_active():
+			# In multiplayer, send shot params via RPC
+			var power: float = ball.current_power_ratio
+			var direction: Vector3 = ball.hit_position
+			var spin := 0.0
+			var v_spin := 0.0
+			if ball.camera and "spin_offset" in ball.camera:
+				spin = ball.camera.spin_offset
+			if ball.camera and "vertical_spin_offset" in ball.camera:
+				v_spin = ball.camera.vertical_spin_offset
+			if NetworkManager.is_host:
+				_execute_network_shot(power, direction, spin, v_spin, ball.name)
+			else:
+				request_shot.rpc_id(1, power, direction, spin, v_spin, ball.name)
+				# Cancel local charging visuals
+				ball.charging = false
+				if ball.power_bar_root:
+					ball.power_bar_root.visible = false
+				if ball.crosshair:
+					ball.crosshair.visible = false
+				ball.charge_timer = 0.0
+				ball.current_power_ratio = 0.0
+		else:
+			ball.execute_shot()
 	else:
-		if player_ball.charging:
-			player_ball.charging = false
-			if player_ball.power_bar_root:
-				player_ball.power_bar_root.visible = false
-			if player_ball.crosshair:
-				player_ball.crosshair.visible = false
-			player_ball.charge_timer = 0.0
-			player_ball.current_power_ratio = 0.0
+		if ball.charging:
+			ball.charging = false
+			if ball.power_bar_root:
+				ball.power_bar_root.visible = false
+			if ball.crosshair:
+				ball.crosshair.visible = false
+			ball.charge_timer = 0.0
+			ball.current_power_ratio = 0.0
 			print("Brak ruchów! Poczekaj aż piłki staną.")
 
 func _on_turn_started() -> void:
@@ -148,6 +236,8 @@ func _on_turn_started() -> void:
 	moves_left = max(moves_left, 0)
 	emit_signal("moves_changed", moves_left)
 	turn_move_refunded = false
+	if NetworkManager.is_multiplayer_active():
+		_mp_balls_moving = true
 	print("Nowa tura. Ruchy: ", moves_left)
 	
 	if moves_left == 0:
@@ -172,8 +262,11 @@ func _on_ball_pushed(impulse_power: float) -> void:
 	emit_signal("charging_released")
 
 func _on_ball_pocketed(ball):
+	# In multiplayer, only host processes pocketing (client gets sync via RPC)
+	if NetworkManager.is_multiplayer_active() and not NetworkManager.is_host:
+		return
 	print("Pocketed: ", ball.name)
-	if ball == player_ball:
+	if ball == player_ball or ball == player_ball_2:
 		# Zabezpieczenie przed wielokrotnym wywołaniem dla player ball
 		if player_ball_pocketing:
 			print("Player ball już jest w trakcie pocketowania - ignoruję")
@@ -210,13 +303,19 @@ func _on_ball_pocketed(ball):
 
 		emit_signal("ball_pocketed", ball.get_instance_id())
 
+		var ball_name: String = ball.name
 		ball_list.erase(ball)
 		ball.queue_free()
+		if NetworkManager.is_multiplayer_active() and NetworkManager.is_host:
+			_sync_ball_removed.rpc(ball_name)
 		_check_win_condition()
 
 func _on_ball_pocketed_void(ball):
+	# In multiplayer, only host processes pocketing
+	if NetworkManager.is_multiplayer_active() and not NetworkManager.is_host:
+		return
 	print("Pocketed (void) - bez punktów i bez zwracania ruchu: ", ball.name)
-	if ball == player_ball:
+	if ball == player_ball or ball == player_ball_2:
 		# Zabezpieczenie przed wielokrotnym wywołaniem dla player ball
 		if player_ball_pocketing:
 			print("Player ball już jest w trakcie pocketowania - ignoruję")
@@ -245,8 +344,11 @@ func _on_ball_pocketed_void(ball):
 		print("Usuwam piłkę z void pocket: ", ball.name, " | Pozostało piłek: ", ball_list.size())
 		emit_signal("ball_pocketed", ball.get_instance_id())
 
+		var ball_name: String = ball.name
 		ball_list.erase(ball)
 		ball.queue_free()
+		if NetworkManager.is_multiplayer_active() and NetworkManager.is_host:
+			_sync_ball_removed.rpc(ball_name)
 		print("Po usunięciu pozostało piłek: ", ball_list.size())
 		_check_win_condition()
 
@@ -255,12 +357,12 @@ func _check_win_condition() -> bool:
 		if !game_win and !game_over:
 			game_win = true
 			points = points * max(moves_left + 1, 1)
-			# NIE inkrementujemy current_level tutaj - gwiazdki muszą być zapisane najpierw!
-			# PlayerData.advance_level() wywoła się w gameplay_ui po zapisaniu gwiazdek
 			emit_signal("points_changed", points)
 			emit_signal("player_win")
-			emit_signal("player_win_with_score",points,star_score_treshold)
+			emit_signal("player_win_with_score", points, star_score_treshold)
 			print("WYGRANA! Pozostałe ruchy: ", moves_left)
+			if NetworkManager.is_multiplayer_active() and NetworkManager.is_host:
+				_sync_game_end.rpc(true, points, star_score_treshold)
 		return true
 	return false
 
@@ -272,10 +374,12 @@ func _on_points_scored(points_earned: int, world_pos: Vector3) -> void:
 func _on_game_over() -> void:
 	if game_over or game_win:
 		return
-	
+
 	game_over = true
 	emit_signal("player_died")
 	print("PRZEGRANA! Brak ruchów.")
+	if NetworkManager.is_multiplayer_active() and NetworkManager.is_host:
+		_sync_game_end.rpc(false, points, star_score_treshold)
 
 func get_level_balls() -> Array:
 	var balls_data_for_ui = []
@@ -331,6 +435,138 @@ func get_level_balls() -> Array:
 		})
 		
 	return balls_data_for_ui
+
+# === MULTIPLAYER ===
+
+func is_my_turn() -> bool:
+	if not NetworkManager.is_multiplayer_active():
+		return true
+	return current_turn_player == NetworkManager.peer_id
+
+@rpc("any_peer", "call_local", "reliable")
+func request_shot(power_ratio: float, direction: Vector3, spin: float, v_spin: float, ball_name: String = "") -> void:
+	# Only host processes shots
+	if not NetworkManager.is_host:
+		return
+	var sender := multiplayer.get_remote_sender_id()
+	if sender != current_turn_player and sender != 0:
+		print("Shot rejected: not this player's turn. Sender: ", sender, " Current turn: ", current_turn_player)
+		return
+	_execute_network_shot(power_ratio, direction, spin, v_spin, ball_name)
+
+func _execute_network_shot(power_ratio: float, direction: Vector3, spin: float, v_spin: float, ball_name: String = "") -> void:
+	var target_ball = player_ball
+	if ball_name != "" and player_ball_2 and player_ball_2.name == ball_name:
+		target_ball = player_ball_2
+	
+	if not target_ball:
+		return
+	target_ball.execute_shot_from_network(power_ratio, direction, spin, v_spin)
+	_mp_balls_moving = true
+
+func _switch_turn() -> void:
+	if not NetworkManager.is_multiplayer_active():
+		return
+	if game_over or game_win:
+		return
+	# Toggle between host (1) and opponent
+	if current_turn_player == 1:
+		current_turn_player = NetworkManager.opponent_id
+	else:
+		current_turn_player = 1
+	print("Turn switched to player: ", current_turn_player)
+	turn_changed.emit(current_turn_player)
+	_update_camera_target()
+	# Sync turn to client
+	_sync_turn.rpc(current_turn_player, moves_left, points)
+
+@rpc("authority", "call_remote", "reliable")
+func _sync_turn(turn_player: int, sync_moves: int, sync_points: int) -> void:
+	current_turn_player = turn_player
+	moves_left = sync_moves
+	points = sync_points
+	emit_signal("moves_changed", moves_left)
+	emit_signal("points_changed", points)
+	turn_changed.emit(current_turn_player)
+	_update_camera_target()
+
+func _update_camera_target() -> void:
+	var active_pb = player_ball
+	if current_turn_player != 1 and player_ball_2:
+		active_pb = player_ball_2
+
+	if active_pb and active_pb.get("camera") and active_pb.camera:
+		var cam = active_pb.camera
+		cam.player_ball = active_pb
+		if cam.current_target_index == 0:
+			cam.target = active_pb
+			cam.animating = true
+
+func _send_ball_positions() -> void:
+	var data: Array = []
+	# Player ball
+	if player_ball and is_instance_valid(player_ball):
+		data.append({
+			"n": player_ball.name,
+			"p": 1,
+			"pos": player_ball.global_position,
+			"rot": player_ball.global_rotation,
+		})
+	if player_ball_2 and is_instance_valid(player_ball_2):
+		data.append({
+			"n": player_ball_2.name,
+			"p": 2,
+			"pos": player_ball_2.global_position,
+			"rot": player_ball_2.global_rotation,
+		})
+	# Other balls
+	for ball in ball_list:
+		if is_instance_valid(ball):
+			data.append({
+				"n": ball.name,
+				"p": 0,
+				"pos": ball.global_position,
+				"rot": ball.global_rotation,
+			})
+	_receive_ball_positions.rpc(data)
+
+@rpc("authority", "call_remote", "unreliable")
+func _receive_ball_positions(data: Array) -> void:
+	for entry in data:
+		if entry["p"] == 1:
+			if player_ball and is_instance_valid(player_ball):
+				player_ball.global_position = entry["pos"]
+				player_ball.global_rotation = entry["rot"]
+		elif entry["p"] == 2:
+			if player_ball_2 and is_instance_valid(player_ball_2):
+				player_ball_2.global_position = entry["pos"]
+				player_ball_2.global_rotation = entry["rot"]
+		else:
+			for ball in ball_list:
+				if is_instance_valid(ball) and ball.name == entry["n"]:
+					ball.global_position = entry["pos"]
+					ball.global_rotation = entry["rot"]
+					break
+
+@rpc("authority", "call_remote", "reliable")
+func _sync_game_end(is_win: bool, final_points: int, threshold: int) -> void:
+	points = final_points
+	emit_signal("points_changed", points)
+	if is_win:
+		game_win = true
+		emit_signal("player_win")
+		emit_signal("player_win_with_score", final_points, threshold)
+	else:
+		game_over = true
+		emit_signal("player_died")
+
+@rpc("authority", "call_remote", "reliable")
+func _sync_ball_removed(ball_name: String) -> void:
+	for ball in ball_list:
+		if is_instance_valid(ball) and ball.name == ball_name:
+			ball_list.erase(ball)
+			ball.queue_free()
+			break
 
 # Pomocnicza funkcja tymczasowa bo zrobimy se w .tres nazwy a nie takie gówno
 func _pretty_ball_name(raw_name: String) -> String:

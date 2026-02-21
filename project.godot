@@ -28,6 +28,7 @@ ScenePaths="*res://scripts/scene_paths.gd"
 SettingsManager="*res://scripts/settings_manager.gd"
 PlayerData="*res://scripts/player_data.gd"
 Utils="*res://scripts/utils.gd"
+NetworkManager="*res://scripts/network_manager.gd"
 
 [display]
 

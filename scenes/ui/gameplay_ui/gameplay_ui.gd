@@ -129,6 +129,9 @@ func _on_game_win(score: int, threshold: int) -> void:
 	_enable_mouse()
 	if ball_list_container:
 		ball_list_container.visible = false
+	# Hide shop button in multiplayer
+	if NetworkManager.is_multiplayer_active():
+		shop_button.visible = false
 	if win_confetti:
 		win_confetti.restart()
 		win_confetti.emitting = true
@@ -204,13 +207,17 @@ func _on_game_win(score: int, threshold: int) -> void:
 			# Szara gwiazdka
 			tween.tween_property(star, "scale", Vector2(1.0, 1.0), 0.2).set_ease(Tween.EASE_OUT)
 func _on_try_again() -> void:
+	if NetworkManager.is_multiplayer_active():
+		NetworkManager.disconnect_from_game()
 	# Wróć do poziomu na którym graliśmy (played_level_number został zapisany w _ready)
 	PlayerData.set_level(played_level_number)
 	LoadManager.load_scene(PlayerData.get_level_path())
 
 func _on_change_level() -> void:
+	if NetworkManager.is_multiplayer_active():
+		NetworkManager.disconnect_from_game()
 	LoadManager.load_scene(ScenePaths.LEVEL_SELECT_MAP)
-	
+
 func _on_shop_button() -> void:
 	win_window.visible = false
 	_ignore_mouse()

@@ -3,6 +3,7 @@ extends PanelContainer
 @onready var play_button: TextureButton = %PlayButtonTextured
 @onready var options_button: TextureButton = %OptionsButtonTextured
 @onready var quit_button: TextureButton = %QuitButtonTextured
+@onready var multiplayer_button: TextureButton = %MultiplayerButtonTextured
 
 var focused = false
 
@@ -33,10 +34,15 @@ func _on_options_button_pressed() -> void:
 
 
 func _on_quit_button_pressed() -> void:
-	_lock_buttons() 
+	_lock_buttons()
 	get_tree().quit()
+
+func _on_multiplayer_button_pressed() -> void:
+	_lock_buttons()
+	LoadManager.load_scene(ScenePaths.MULTIPLAYER_LOBBY)
 
 func _lock_buttons() -> void:
 	play_button.disabled = true
 	options_button.disabled = true
 	quit_button.disabled = true
+	multiplayer_button.disabled = true
