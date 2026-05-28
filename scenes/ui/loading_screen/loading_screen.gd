@@ -3,8 +3,8 @@ extends CanvasLayer
 signal loading_screen_has_full_coverage
 
 @export_category("Video Files")
-@export var file_fill: String = "res://scenes/ui/loading_screen/fill.ogv"
-@export var file_empty: String = "res://scenes/ui/loading_screen/empty.ogv"
+@export var file_fill: VideoStream = preload("res://scenes/ui/loading_screen/fill.ogv")
+@export var file_empty: VideoStream = preload("res://scenes/ui/loading_screen/empty.ogv")
 
 # Reference both players
 @onready var player_fill: VideoStreamPlayer = $VideoLayer_Fill
@@ -17,10 +17,10 @@ var _is_loading_finished: bool = false
 var _fill_finished: bool = false
 
 func _ready() -> void:
-	player_empty.stream = load(file_empty)
+	player_empty.stream = file_empty
 	player_empty.hide()
 	
-	player_fill.stream = load(file_fill)
+	player_fill.stream = file_fill
 	player_fill.finished.connect(_on_fill_finished)
 	player_fill.play()
 
