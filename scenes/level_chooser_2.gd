@@ -379,7 +379,8 @@ func _get_hovered_level(mouse_pos: Vector2) -> int:
 func _enter_level(level_number: int) -> void:
 	var path = level_path % [level_number, level_number]
 	if ResourceLoader.exists(path):
-		LoadManager.load_scene(path)
+		PlayerData.set_level(level_number)
+		LoadManager.load_scene(ScenePaths.DECK_CHOOSE)
 
 func _build_starfield() -> void:
 	var mat = StandardMaterial3D.new()
