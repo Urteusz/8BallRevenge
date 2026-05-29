@@ -5,7 +5,7 @@
 [ext_resource type="Shader" uid="uid://d0acs2f3wrni6" path="res://shaders/sky.gdshader" id="3_oic6p"]
 [ext_resource type="Script" uid="uid://cul5khlq0sb3x" path="res://scenes/ui/card/card.gd" id="4_oic6p"]
 [ext_resource type="Shader" uid="uid://cr63kprmyipui" path="res://shaders/edge_detection_2.gdshader" id="4_xlr6i"]
-[ext_resource type="Shader" path="res://card_shine.gdshader" id="7_vr5dq"]
+[ext_resource type="Shader" uid="uid://bvoh43dcinv1c" path="res://card_shine.gdshader" id="7_vr5dq"]
 [ext_resource type="Texture2D" uid="uid://d3qey8cts4l0c" path="res://textures/ui/card/ability_icon.png" id="7_xlr6i"]
 [ext_resource type="Texture2D" uid="uid://kcyag62qbr4" path="res://textures/checkerboard.png" id="8_qvlte"]
 
@@ -173,7 +173,7 @@ transform = Transform3D(0.82931876, 0, 0, 0, 1.2013617, 0, 0, 0, 1, 0, 0, -0.014
 mesh = SubResource("QuadMesh_xlr6i")
 
 [node name="Ball" type="Node3D" parent="Card" unique_id=835349819 groups=["balls"]]
-transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0.226, -0.5)
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0.033296943, -0.5)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Card/Ball" unique_id=1544522999]
 mesh = SubResource("SphereMesh_noarx")
