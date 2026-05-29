@@ -11,6 +11,7 @@ const DEFAULTS = {
 	},
 	"controls": {
 		"inverted_mouse": false,
+		"pad_sensitivity": 1.0,
 	},
 	"audio": {
 		"master_volume": 1.0,

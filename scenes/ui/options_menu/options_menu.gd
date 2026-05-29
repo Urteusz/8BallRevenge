@@ -9,6 +9,8 @@ extends Control
 @onready var apply_hint_label = %ApplyButtonLabel # Upewnij się, że dałeś mu %
 
 @onready var inverted_mouse_button = %InvertedMouseButton
+@onready var pad_sensitivity_slider = %PadSensitivitySlider
+@onready var pad_sensitivity_value_label = %PadSensitivityValue
 @onready var volume_slider = %VolumeSlider
 @onready var volume_value_label = %VolumeValue
 
@@ -40,6 +42,7 @@ const DEFAULT_SETTINGS := {
 	},
 	"controls": {
 		"inverted_mouse": false,
+		"pad_sensitivity": 1.0,
 	},
 	"audio": {
 		"master_volume": 1.0, 
@@ -53,6 +56,7 @@ func _ready():
 	# --- AUTOMATYCZNE PODŁĄCZANIE SYGNAŁÓW ---
 	# Nie musisz tego robić w edytorze, robimy to kodem tutaj:
 	apply_button.pressed.connect(_on_apply_pressed)
+	pad_sensitivity_slider.value_changed.connect(_on_pad_sensitivity_slider_value_changed)
 	volume_slider.value_changed.connect(_on_volume_slider_value_changed)
 	
 	if quit_button:
@@ -96,30 +100,31 @@ func _setup_focus_nav() -> void:
 	var def = reset_button
 
 	for c in [resolution_button, vsync_button, fullscreen_button,
-			inverted_mouse_button, volume_slider, apply_button, ret, def]:
+			inverted_mouse_button, pad_sensitivity_slider, volume_slider, apply_button, ret, def]:
 		if c:
 			c.focus_mode = Control.FOCUS_ALL
 
 	# Trzy kolumny: LEFT/RIGHT zmienia kolumne, UP/DOWN chodzi po danej kolumnie.
-	# A: [Apply, Default, Return], B: [Resolution, VSync, Fullscreen], C: [InvertedMouse, Volume]
+	# A: [Apply, Default, Return], B: [Resolution, VSync, Fullscreen], C: [InvertedMouse, PadSensitivity, Volume]
 
 	# Kolumna B: Graphics
 	_nb(resolution_button, apply_button, inverted_mouse_button, fullscreen_button, vsync_button)
-	_nb(vsync_button, def if def else apply_button, volume_slider, resolution_button, fullscreen_button)
+	_nb(vsync_button, def if def else apply_button, pad_sensitivity_slider, resolution_button, fullscreen_button)
 	_nb(fullscreen_button, ret if ret else (def if def else apply_button), volume_slider, vsync_button, resolution_button)
 
 	# Kolumna C: Controls / Audio
-	_nb(inverted_mouse_button, resolution_button, apply_button, volume_slider, volume_slider)
-	_nb(volume_slider, vsync_button, def if def else apply_button, inverted_mouse_button, inverted_mouse_button)
+	_nb(inverted_mouse_button, resolution_button, apply_button, volume_slider, pad_sensitivity_slider)
+	_nb(pad_sensitivity_slider, vsync_button, def if def else apply_button, inverted_mouse_button, volume_slider)
+	_nb(volume_slider, fullscreen_button, ret if ret else (def if def else apply_button), pad_sensitivity_slider, inverted_mouse_button)
 
 	# Kolumna A: Akcje
 	if def and ret:
 		_nb(apply_button,   inverted_mouse_button,  resolution_button,  ret,          def)
-		_nb(def,            volume_slider,          vsync_button,       apply_button, ret)
+		_nb(def,            pad_sensitivity_slider, vsync_button,       apply_button, ret)
 		_nb(ret,            volume_slider,          fullscreen_button,  def,          apply_button)
 	elif def:
 		_nb(apply_button,   inverted_mouse_button,  resolution_button,  def,          def)
-		_nb(def,            volume_slider,          vsync_button,       apply_button, apply_button)
+		_nb(def,            pad_sensitivity_slider, vsync_button,       apply_button, apply_button)
 	elif ret:
 		_nb(apply_button,   inverted_mouse_button,  resolution_button,  ret,          ret)
 		_nb(ret,            volume_slider,          fullscreen_button,  apply_button, apply_button)
@@ -185,6 +190,7 @@ func load_current_settings() -> void:
 	var resolution = SettingsManager.get_setting("graphics", "resolution")
 	var fullscreen = SettingsManager.get_setting("graphics", "fullscreen")
 	var inverted_mouse = SettingsManager.get_setting("controls", "inverted_mouse")
+	var pad_sensitivity = SettingsManager.get_setting("controls", "pad_sensitivity")
 
 	# Ustawienie VSync w UI
 	for i in range(vsync_button.item_count):
@@ -208,11 +214,17 @@ func load_current_settings() -> void:
 
 	fullscreen_button.button_pressed = fullscreen
 	inverted_mouse_button.button_pressed = inverted_mouse
+	if pad_sensitivity != null:
+		pad_sensitivity_slider.value = pad_sensitivity * 100.0
+		pad_sensitivity_value_label.text = "%d%%" % int(pad_sensitivity_slider.value)
 
 	var master_volume = SettingsManager.get_setting("audio", "master_volume")
 	if master_volume != null:
 		volume_slider.value = master_volume * 100.0
 		volume_value_label.text = "%d%%" % int(master_volume * 100.0)
+
+func _on_pad_sensitivity_slider_value_changed(value: float) -> void:
+	pad_sensitivity_value_label.text = "%d%%" % int(value)
 
 func _on_volume_slider_value_changed(value: float) -> void:
 	var linear_volume = value / 100.0
@@ -232,12 +244,14 @@ func _on_apply_pressed() -> void:
 
 	var new_fullscreen: bool = fullscreen_button.button_pressed
 	var new_inverted_mouse: bool = inverted_mouse_button.button_pressed
+	var new_pad_sensitivity: float = pad_sensitivity_slider.value / 100.0
 	
 	# Zapis do SettingsManagera
 	SettingsManager.set_setting("graphics", "resolution", new_resolution)
 	SettingsManager.set_setting("graphics", "vsync_mode", new_vsync_mode)
 	SettingsManager.set_setting("graphics", "fullscreen", new_fullscreen)
 	SettingsManager.set_setting("controls", "inverted_mouse", new_inverted_mouse)
+	SettingsManager.set_setting("controls", "pad_sensitivity", new_pad_sensitivity)
 	
 	# Głośność (pobieramy ponownie dla pewności)
 	var vol_linear = volume_slider.value / 100.0
@@ -276,6 +290,8 @@ func _on_reset_button_pressed() -> void:
 	# RESZTA
 	fullscreen_button.button_pressed = DEFAULT_SETTINGS["graphics"]["fullscreen"]
 	inverted_mouse_button.button_pressed = DEFAULT_SETTINGS["controls"]["inverted_mouse"]
+	pad_sensitivity_slider.value = DEFAULT_SETTINGS["controls"]["pad_sensitivity"] * 100.0
+	pad_sensitivity_value_label.text = "%d%%" % int(pad_sensitivity_slider.value)
 
 	var vol = DEFAULT_SETTINGS["audio"]["master_volume"]
 	volume_slider.value = vol * 100.0

@@ -191,12 +191,17 @@ func _handle_joystick_input(delta: float) -> void:
 	var input_direction = Input.get_vector("look_left", "look_right", "look_up", "look_down")
 	
 	if input_direction.length() > 0:
-		theta += input_direction.x * joystick_sensitivity * delta
+		var pad_sensitivity = SettingsManager.get_setting("controls", "pad_sensitivity")
+		var sensitivity_scale: float = 1.0
+		if pad_sensitivity != null:
+			sensitivity_scale = clamp(float(pad_sensitivity), 0.25, 2.0)
+		var turn_speed := joystick_sensitivity * sensitivity_scale
+		theta += input_direction.x * turn_speed * delta
 		
 		if SettingsManager.get_setting("controls", "inverted_mouse"):
-			cursor_phi += input_direction.y * joystick_sensitivity * delta
+			cursor_phi += input_direction.y * turn_speed * delta
 		else:
-			cursor_phi -= input_direction.y * joystick_sensitivity * delta
+			cursor_phi -= input_direction.y * turn_speed * delta
 
 func _reload_current_scene() -> void:
 	var error_code = get_tree().reload_current_scene()
