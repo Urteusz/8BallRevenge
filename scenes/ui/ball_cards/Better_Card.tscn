@@ -30,9 +30,9 @@ shadow_color = Color(0, 0, 0, 0.5)
 shadow_size = 4
 
 [node name="BetterCard" type="PanelContainer" unique_id=1288132980]
-custom_minimum_size = Vector2(100, 150)
-offset_right = 100.0
-offset_bottom = 150.0
+custom_minimum_size = Vector2(120, 180)
+offset_right = 120.0
+offset_bottom = 180.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_panel")
 script = ExtResource("1_670ai")
 
@@ -54,7 +54,7 @@ own_world_3d = true
 world_3d = SubResource("World3D_shop")
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(100, 150)
+size = Vector2i(120, 180)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="ContentLayer/SubViewportContainer/SubViewport" unique_id=899283919]
@@ -71,7 +71,7 @@ light_energy = 1.2
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="ContentLayer" unique_id=1234567890]
 z_index = 10
-position = Vector2(50, 130)
+position = Vector2(60, 160)
 emitting = false
 amount = 20
 one_shot = true

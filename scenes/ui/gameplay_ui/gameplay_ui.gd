@@ -11,7 +11,7 @@ extends Control
 @onready var win_try_again_button: TextureButton = $"WinWindow/VBox/WinButtons/TryAgainButton"
 
 @onready var hint_label: Label = $"HintLabel"
-@onready var ball_list_container: Container = $"BallListContainer"
+@onready var ball_list_container: Control = $"BallListContainer"
 @onready var win_confetti: CPUParticles2D = $WinConfetti
 
 @export var game_manager: Node3D
@@ -97,9 +97,36 @@ func _initialize_ball_cards(balls_data: Array) -> void:
 			print("Texture: ", ball_texture)
 			
 			card.setup_card(ball_name, ball_texture, ball_color, ball_points, ball_scene)
+			
+			if data.has("node") and card.has_method("bind_to_physical_ball"):
+				card.bind_to_physical_ball(data["node"])
 		
 		# Zapisujemy referencję
 		ball_cards[data["id"]] = card
+	
+	# Aranżacja w wachlarz
+	var count = balls_data.size()
+	if count > 0:
+		var card_width = 120.0
+		var spacing = 70.0 # overlap
+		var total_width = (count - 1) * spacing + card_width
+		var start_x = (ball_list_container.size.x - total_width) / 2.0
+		var center_index = (count - 1) / 2.0
+		
+		for i in range(count):
+			var id = balls_data[i]["id"]
+			var card = ball_cards[id]
+			var dist_from_center = i - center_index
+			
+			card.position.x = start_x + i * spacing
+			card.position.y = abs(dist_from_center) * abs(dist_from_center) * 3.0
+			
+			if "target_rotation" in card:
+				card.target_rotation = dist_from_center * 2.5
+			
+			# Ensure the card draws in proper order
+			card.base_z_index = i
+			card.z_index = i
 	
 	print("Karty zainicjalizowane!")
 

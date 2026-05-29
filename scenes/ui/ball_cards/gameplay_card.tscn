@@ -181,13 +181,16 @@ mesh = SubResource("SphereMesh_noarx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.019672185)
 
 [node name="Name" type="Label3D" parent="Card/Contents" unique_id=1011115730]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.47634843, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.640185, 0)
 texture_filter = 0
 render_priority = 2
 outline_render_priority = 1
 text = "Ball"
-font_size = 76
+font_size = 56
 outline_size = 4
+vertical_alignment = 0
+autowrap_mode = 2
+width = 100.0
 
 [node name="BasePoints" type="Label3D" parent="Card/Contents" unique_id=1163019118]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.379242, -0.003, -0.45659682, 0)

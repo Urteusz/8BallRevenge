@@ -10,6 +10,8 @@ signal points_scored(points, world_position)
 signal ball_pocketed(ball)
 signal ball_pocketed_void(ball)
 signal score_updated(new_total_points)
+signal aimed_at
+signal unaimed_at
 
 var points_popup = preload(ScenePaths.POINTS_POPUP_PATH)
 
@@ -88,6 +90,7 @@ func _on_body_entered(body_rid: RID, body: Node, body_shape_index: int, local_sh
 	on_hit()
 
 func start_being_aimed_at() -> void:
+	emit_signal("aimed_at")
 	if !total_score_popup_instance:
 		total_score_popup_instance = points_popup.instantiate()
 		get_parent().add_child(total_score_popup_instance)
@@ -95,6 +98,7 @@ func start_being_aimed_at() -> void:
 		total_score_popup_instance.total_points(total_points, name)
 		
 func stop_being_aimed_at() -> void:
+	emit_signal("unaimed_at")
 	if total_score_popup_instance:
 		total_score_popup_instance.remove()
 		total_score_popup_instance = null

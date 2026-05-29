@@ -4,11 +4,16 @@ extends PanelContainer
 @onready var sub_viewport: SubViewport = $ContentLayer/SubViewportContainer/SubViewport
 
 var is_super_charged: bool = false
+var is_pocketed: bool = false
 var card_node: Node3D
 var name_label: Node
 var points_label: Node
 var ball_parent: Node3D
 @onready var particles: CPUParticles2D = $ContentLayer/CPUParticles2D
+
+var physical_ball: Node3D = null
+var is_aimed: bool = false
+var base_z_index: int = 0
 
 func _ready() -> void:
 	pivot_offset = size / 2
@@ -32,11 +37,35 @@ func _ready() -> void:
 			if node:
 				node.visible = false
 
+var target_rotation: float = 0.0
+
 func _process(delta: float) -> void:
 	if is_super_charged:
-		rotation_degrees = randf_range(-3.0, 3.0)
+		rotation_degrees = randf_range(target_rotation - 3.0, target_rotation + 3.0)
 	else:
-		rotation_degrees = lerp(rotation_degrees, 0.0, delta * 10)
+		rotation_degrees = lerp(rotation_degrees, target_rotation, delta * 10)
+		
+	if is_instance_valid(physical_ball):
+		if ball_parent and ball_parent.get_child_count() > 0:
+			var model = ball_parent.get_child(0)
+			# Sync rotation with the physical ball on the table
+			model.global_transform.basis = physical_ball.global_transform.basis
+			
+			var speed = 0.0
+			if physical_ball.is_class("RigidBody3D"):
+				speed = physical_ball.linear_velocity.length()
+				
+			if speed > 6.0:
+				var shake = min((speed - 6.0) * 0.5, 3.0)
+				if card_node:
+					card_node.position = Vector3(
+						randf_range(-shake, shake) * 0.01,
+						randf_range(-shake, shake) * 0.01,
+						0
+					)
+			else:
+				if card_node:
+					card_node.position = card_node.position.lerp(Vector3.ZERO, delta * 10)
 
 func setup_card(name_text: String, texture: Texture2D, ui_color: Color, points: int, ball_scene: PackedScene = null) -> void:
 	if name_label:
@@ -98,7 +127,31 @@ func setup_card(name_text: String, texture: Texture2D, ui_color: Color, points: 
 			ball_parent.add_child(mesh_inst)
 
 func set_pocketed() -> void:
+	is_pocketed = true
 	modulate = Color(0.4, 0.4, 0.4, 0.5)
+
+func bind_to_physical_ball(node: Node3D) -> void:
+	physical_ball = node
+	if physical_ball.has_signal("aimed_at"):
+		physical_ball.connect("aimed_at", _on_aimed_at)
+	if physical_ball.has_signal("unaimed_at"):
+		physical_ball.connect("unaimed_at", _on_unaimed_at)
+
+func _on_aimed_at() -> void:
+	if is_pocketed: return
+	is_aimed = true
+	z_index = 5
+	var tween = create_tween()
+	tween.tween_property(self, "scale", Vector2(1.15, 1.15), 0.15)
+	modulate = Color(1.2, 1.2, 1.2, 1.0) # Lekki glow
+
+func _on_unaimed_at() -> void:
+	if is_pocketed: return
+	is_aimed = false
+	var tween = create_tween()
+	tween.tween_property(self, "scale", Vector2(1.0, 1.0), 0.2)
+	tween.tween_callback(func(): z_index = base_z_index)
+	modulate = Color(1.0, 1.0, 1.0, 1.0)
 
 func update_points(new_value: int) -> void:
 	if not points_label:

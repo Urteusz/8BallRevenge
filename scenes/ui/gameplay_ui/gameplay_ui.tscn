@@ -228,20 +228,19 @@ theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 28
 text = "Go to shop"
 
-[node name="BallListContainer" type="HBoxContainer" parent="ControlGameplay" unique_id=3461045]
+[node name="BallListContainer" type="Control" parent="ControlGameplay" unique_id=3461045]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.92100006
 anchor_right = 0.5
 anchor_bottom = 0.92100006
-offset_left = -245.0
-offset_top = -22.120056
-offset_right = 249.0
-offset_bottom = 21.879944
+offset_left = -300.0
+offset_top = -100.0
+offset_right = 300.0
+offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 0
-alignment = 1
 
 [node name="HintLabel" type="Label" parent="ControlGameplay" unique_id=1081873546]
 layout_mode = 1
