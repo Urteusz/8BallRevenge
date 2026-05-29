@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bgfnovshdkokt" path="res://textures/ui/ButtonReturn_pressed.png" id="5_iu3f6"]
 [ext_resource type="Texture2D" uid="uid://b77vw4r7h8gp5" path="res://textures/ui/Button2.png" id="6_w8s0e"]
 [ext_resource type="Texture2D" uid="uid://bspufxilq7h0d" path="res://textures/ui/Button2_pressed.png" id="7_iu3f6"]
+[ext_resource type="Texture2D" uid="uid://m2g2mgjtfq40" path="res://textures/ui/Button2_focused.png" id="8_iu3f6"]
 
 [sub_resource type="Theme" id="Theme_hyg8v"]
 default_font = ExtResource("1_kyv63")
@@ -169,6 +170,7 @@ focus_neighbor_top = NodePath("../CenterContainer/PanelContainer/HBoxContainer/G
 focus_neighbor_right = NodePath("../QuitButton")
 texture_normal = ExtResource("6_w8s0e")
 texture_pressed = ExtResource("7_iu3f6")
+texture_focused = ExtResource("8_iu3f6")
 
 [node name="ApplyButtonLabel" type="Label" parent="ApplyButton" unique_id=1896106102]
 unique_name_in_owner = true
@@ -199,6 +201,7 @@ offset_bottom = 64.0
 grow_vertical = 2
 texture_normal = ExtResource("6_w8s0e")
 texture_pressed = ExtResource("7_iu3f6")
+texture_focused = ExtResource("8_iu3f6")
 
 [node name="Label" type="Label" parent="ResetButton" unique_id=1945235457]
 layout_mode = 1

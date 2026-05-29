@@ -47,6 +47,7 @@ const DEFAULT_SETTINGS := {
 }
 
 var focused = false
+var _open_dropdown = null  # aktualnie otwarty OptionButton (lub null)
 
 func _ready():
 	# --- AUTOMATYCZNE PODŁĄCZANIE SYGNAŁÓW ---
@@ -64,18 +65,108 @@ func _ready():
 	populate_resolution_options()
 	load_current_settings()
 
+	_setup_focus_nav()
+
+	# Gdy dropdown jest otwarty, blokujemy nawigacje focusa w tle, zeby ui_down
+	# nie przesuwalo jednoczesnie pozycji popupa i ustawien pod spodem.
+	for ob in [resolution_button, vsync_button]:
+		if ob:
+			var popup = ob.get_popup()
+			if not popup.about_to_popup.is_connected(_on_dropdown_about_to_popup):
+				popup.about_to_popup.connect(_on_dropdown_about_to_popup.bind(ob))
+			if not popup.popup_hide.is_connected(_on_dropdown_hidden):
+				popup.popup_hide.connect(_on_dropdown_hidden)
+
+# Przypnij sasiadow focusa do samego siebie (^".") -> focus nie ucieka w tle.
+func _on_dropdown_about_to_popup(ob) -> void:
+	_open_dropdown = ob
+	ob.focus_neighbor_left = ^"."
+	ob.focus_neighbor_right = ^"."
+	ob.focus_neighbor_top = ^"."
+	ob.focus_neighbor_bottom = ^"."
+
+func _on_dropdown_hidden() -> void:
+	_open_dropdown = null
+	_setup_focus_nav()
+
+# Pelny lancuch focusa padem/klawiatura - kazda kontrolka i kazdy przycisk
+# (Apply / Default / Return) musi byc osiagalny.
+func _setup_focus_nav() -> void:
+	var ret = quit_button
+	var def = reset_button
+
+	for c in [resolution_button, vsync_button, fullscreen_button,
+			inverted_mouse_button, volume_slider, apply_button, ret, def]:
+		if c:
+			c.focus_mode = Control.FOCUS_ALL
+
+	# Trzy kolumny: LEFT/RIGHT zmienia kolumne, UP/DOWN chodzi po danej kolumnie.
+	# A: [Apply, Default, Return], B: [Resolution, VSync, Fullscreen], C: [InvertedMouse, Volume]
+
+	# Kolumna B: Graphics
+	_nb(resolution_button, apply_button, inverted_mouse_button, fullscreen_button, vsync_button)
+	_nb(vsync_button, def if def else apply_button, volume_slider, resolution_button, fullscreen_button)
+	_nb(fullscreen_button, ret if ret else (def if def else apply_button), volume_slider, vsync_button, resolution_button)
+
+	# Kolumna C: Controls / Audio
+	_nb(inverted_mouse_button, resolution_button, apply_button, volume_slider, volume_slider)
+	_nb(volume_slider, vsync_button, def if def else apply_button, inverted_mouse_button, inverted_mouse_button)
+
+	# Kolumna A: Akcje
+	if def and ret:
+		_nb(apply_button,   inverted_mouse_button,  resolution_button,  ret,          def)
+		_nb(def,            volume_slider,          vsync_button,       apply_button, ret)
+		_nb(ret,            volume_slider,          fullscreen_button,  def,          apply_button)
+	elif def:
+		_nb(apply_button,   inverted_mouse_button,  resolution_button,  def,          def)
+		_nb(def,            volume_slider,          vsync_button,       apply_button, apply_button)
+	elif ret:
+		_nb(apply_button,   inverted_mouse_button,  resolution_button,  ret,          ret)
+		_nb(ret,            volume_slider,          fullscreen_button,  apply_button, apply_button)
+	else:
+		_nb(apply_button,   inverted_mouse_button,  resolution_button,  inverted_mouse_button, inverted_mouse_button)
+
+# Ustawia albo czysci sasiadow focusa. Parametry nietypowane, bo @onready
+# w tym pliku sa nietypowane i chcemy uniknac ostrzezen o rzutowaniu.
+func _nb(node, left, right, top, bottom) -> void:
+	if not node:
+		return
+	node.focus_neighbor_left = node.get_path_to(left) if left else NodePath()
+	node.focus_neighbor_right = node.get_path_to(right) if right else NodePath()
+	node.focus_neighbor_top = node.get_path_to(top) if top else NodePath()
+	node.focus_neighbor_bottom = node.get_path_to(bottom) if bottom else NodePath()
+
 func _input(event) -> void:
-	# Obsługa nawigacji padem/klawiaturą
-	if !focused and (event is InputEventJoypadButton or event is InputEventKey):
-		if event.is_pressed() and (event.is_action("ui_up") or event.is_action("ui_down")):
-			resolution_button.grab_focus()
-			focused = true
-			
+	# Otwarty dropdown: sami obslugujemy akcept/anuluj (pad nie zatwierdza popupa).
+	if _open_dropdown:
+		if event.is_action_pressed("ui_accept"):
+			var popup = _open_dropdown.get_popup()
+			var idx: int = popup.get_focused_item()
+			if idx >= 0:
+				_open_dropdown.select(idx)
+				_open_dropdown.item_selected.emit(idx)
+			popup.hide()
+			get_viewport().set_input_as_handled()
+			return
+		if event.is_action_pressed("ui_cancel"):
+			_open_dropdown.get_popup().hide()
+			get_viewport().set_input_as_handled()
+			return
+
+	# Pierwszy ruch padem/klawiatura - zlap focus na pierwszej opcji.
+	if !focused and (event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down") \
+			or event.is_action_pressed("ui_left") or event.is_action_pressed("ui_right")):
+		resolution_button.grab_focus()
+		focused = true
+		get_viewport().set_input_as_handled()
+		return
+
+	# B (ui_cancel) / Esc - powrot do poprzedniego menu.
 	if event.is_action_pressed("ui_cancel"):
 		if focused:
-			resolution_button.release_focus() # Puszczenie focusu
+			resolution_button.release_focus()
 			focused = false
-		_on_back_pressed() # Cofnięcie do menu
+		_on_back_pressed()
 
 func populate_vsync_options() -> void:
 	vsync_button.clear()
