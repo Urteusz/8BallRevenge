@@ -8,6 +8,9 @@ extends Control
 @onready var continue_container = $ContinueContainer
 @onready var next_button: TextureButton = %ButtonNextLevel
 @onready var scored_label = $PointsScored
+@onready var hint_label: RichTextLabel = $HintLabel
+
+var hint_template: String = "[act:nav_hint]\n[act:buy] - Buy/Select\n"
 
 
 var shop_open := false
@@ -25,6 +28,9 @@ func _ready() -> void:
 		scored_label.visible = false
 		scored_label.modulate.a = 0.0
 	
+	if hint_label:
+		hint_label.visible = false
+	
 	buttons_container.visible = false
 	continue_container.visible = false
 	if not next_button.pressed.is_connected(_on_next_level):
@@ -40,6 +46,18 @@ func _ready() -> void:
 	_generate_shop_cards()
 	
 	_update_points_display()
+	
+	if InputManager:
+		if not InputManager.is_connected("input_device_changed", _on_input_device_changed):
+			InputManager.connect("input_device_changed", _on_input_device_changed)
+	_update_hint_display()
+
+func _on_input_device_changed(_device: String) -> void:
+	_update_hint_display()
+
+func _update_hint_display() -> void:
+	if hint_label:
+		hint_label.text = "[right]" + InputManager.parse_prompts(hint_template) + "[/right]"
 
 func _generate_shop_cards() -> void:
 	for child in buttons_container.get_children():
@@ -172,6 +190,8 @@ func toggle_shop() -> void:
 	
 	continue_container.visible = shop_open
 	buttons_container.visible = shop_open
+	if hint_label:
+		hint_label.visible = shop_open
 	
 	if shop_open:
 		mouse_filter = Control.MOUSE_FILTER_STOP

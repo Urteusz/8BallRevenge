@@ -116,7 +116,7 @@ func _initialize_ball_cards(balls_data: Array) -> void:
 	var count = balls_data.size()
 	if count > 0:
 		var card_width = 120.0
-		var spacing = 70.0 # overlap
+		var spacing = 100.0
 		var total_width = (count - 1) * spacing + card_width
 		var start_x = (ball_list_container.size.x - total_width) / 2.0
 		var center_index = (count - 1) / 2.0
@@ -289,6 +289,8 @@ func _on_change_level() -> void:
 	
 func _on_shop_button() -> void:
 	win_window.visible = false
+	if hint_label:
+		hint_label.visible = false
 	_ignore_mouse()
 	shopUI.toggle_shop()
 
