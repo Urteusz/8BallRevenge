@@ -12,7 +12,12 @@
 default_font = ExtResource("1_kyv63")
 default_font_size = 35
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w8s0e"]
+[sub_resource type="Theme" id="Theme_w8s0e"]
+
+[sub_resource type="Theme" id="Theme_iu3f6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jasm6"]
+bg_color = Color(0.29411766, 0.32941177, 0.6784314, 1)
 
 [node name="OptionsMenu" type="Control" unique_id=640391713]
 layout_mode = 3
@@ -42,12 +47,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_w8s0e")
 
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=2101534181]
 custom_minimum_size = Vector2(900, 550)
 layout_mode = 2
 size_flags_horizontal = 8
-theme_override_styles/panel = SubResource("StyleBoxEmpty_w8s0e")
+theme = SubResource("Theme_iu3f6")
+theme_override_styles/panel = SubResource("StyleBoxFlat_jasm6")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer" unique_id=1201332219]
 z_index = 1
@@ -233,8 +240,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -31.0
+offset_left = -372.0
+offset_top = -101.0
+offset_right = -22.0
+offset_bottom = -1.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "Remember to apply changes!"
