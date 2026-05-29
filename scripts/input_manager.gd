@@ -13,11 +13,15 @@ var prompts_keyboard = {
 	"change_view": "Tab",
 	"nav_hint": "Arrow Keys / Click - Navigate",
 	"select_hint": "Enter / Double-Click - Select Level",
-	"back_hint": "ESC - Back to Menu"
+	"back_hint": "ESC - Back to Menu",
+	"start_game": "Click Play",
+	"swap": "Click / Enter",
+	"buy": "Click / Enter",
+	"nav_only": "Arrow Keys"
 }
 
 var prompts_gamepad = {
-	"aim": "[img=40]res://textures/ui/pad_icon/xbox_stick_r.png[/img]",
+	"aim": "[img=40]res://textures/ui/pad_icon/xbox_stick_l.png[/img]",
 	"spin_y": "[img=40]res://textures/ui/pad_icon/xbox_stick_l_vertical.png[/img]",
 	"spin_x": "[img=40]res://textures/ui/pad_icon/xbox_stick_l_horizontal.png[/img]",
 	"charge": "[img=40]res://textures/ui/pad_icon/xbox_button_a.png[/img]",
@@ -25,7 +29,11 @@ var prompts_gamepad = {
 	"change_view": "[img=40]res://textures/ui/pad_icon/xbox_dpad_right.png[/img]",
 	"nav_hint": "[img=40]res://textures/ui/pad_icon/xbox_stick_l.png[/img] - Navigate",
 	"select_hint": "[img=40]res://textures/ui/pad_icon/xbox_button_a.png[/img] - Select Level",
-	"back_hint": "[img=40]res://textures/ui/pad_icon/xbox_button_b.png[/img] - Back to Menu"
+	"back_hint": "[img=40]res://textures/ui/pad_icon/xbox_button_b.png[/img] - Back to Menu",
+	"start_game": "[img=40]res://textures/ui/pad_icon/xbox_button_start.png[/img]",
+	"swap": "[img=40]res://textures/ui/pad_icon/xbox_button_a.png[/img]",
+	"buy": "[img=40]res://textures/ui/pad_icon/xbox_button_a.png[/img]",
+	"nav_only": "[img=40]res://textures/ui/pad_icon/xbox_stick_l.png[/img]"
 }
 
 func _ready() -> void:

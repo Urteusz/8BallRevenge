@@ -33,6 +33,12 @@ const LEVEL_SHADER_PARAMS: Dictionary = {
 @onready var inventory_grid: Container = $UI/PanelContainer/HBoxContainer/VBoxContainer/ScrollContainer/InventoryGrid
 @onready var tooltip_panel: Control = $UI/TooltipPanel
 @onready var tooltip_label: Label = $UI/TooltipPanel/Label
+@onready var deck_under_title: RichTextLabel = $UI/DeckUnderTitle
+@onready var hint_label: RichTextLabel = $UI/HintLabel
+
+var hint_rack: String = "[act:nav_hint]\n[act:swap] - Swap ball\n[act:back_hint]"
+var hint_inv: String = "[act:nav_only] - Navigate Inventory\n[act:swap] - Confirm Swap\n[act:back_hint]"
+var hint_start: String = "[center][act:start_game] to start game[/center]"
 
 # Drag & Drop State
 var dragged_ball: Node3D = null
@@ -57,6 +63,24 @@ func _ready() -> void:
 
 	_setup_pad_navigation()
 	call_deferred("_cache_tooltip_static_pos")
+	
+	if InputManager:
+		if not InputManager.is_connected("input_device_changed", _on_input_device_changed):
+			InputManager.connect("input_device_changed", _on_input_device_changed)
+	_update_hint_display()
+
+func _on_input_device_changed(_device: String) -> void:
+	_update_hint_display()
+
+func _update_hint_display() -> void:
+	if deck_under_title:
+		deck_under_title.text = InputManager.parse_prompts(hint_start)
+	
+	if hint_label:
+		if nav_zone == ZONE_RACK:
+			hint_label.text = InputManager.parse_prompts(hint_rack)
+		else:
+			hint_label.text = InputManager.parse_prompts(hint_inv)
 
 const ZONE_RACK: int = 0
 const ZONE_INVENTORY: int = 1
@@ -272,6 +296,7 @@ func _mark_and_enter_inventory() -> void:
 	inventory_index = 0
 	_highlight_selected()
 	_highlight_inventory()
+	_update_hint_display()
 
 # 'B' / wyjście z inwentarza: anuluj oznaczenie i wróć na stojak bez zmian.
 func _exit_inventory() -> void:
@@ -279,6 +304,7 @@ func _exit_inventory() -> void:
 	held_index = -1
 	_clear_inventory_highlight()
 	_highlight_selected()
+	_update_hint_display()
 
 # 'A' w inwentarzu: wstaw wybraną bilę w oznaczony slot stojaka i wróć.
 func _pick_from_inventory() -> void:
