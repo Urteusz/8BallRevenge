@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://duh4i8yd1aby6" path="res://scenes/ui/shop_ui/scripts/shopping_card.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://llnnq31pjuch" path="res://scenes/ui/card/card.tscn" id="2_cardscene"]
+[ext_resource type="Texture2D" uid="uid://ylbw8pi3gdfy" path="res://textures/ui/Button_ingameV2.png" id="3_sxi0c"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_panel"]
 
@@ -68,20 +69,35 @@ light_energy = 1.2
 
 [node name="CardInstance" parent="ContentLayer/SubViewportContainer/SubViewport/CardAnchor" unique_id=143432964 instance=ExtResource("2_cardscene")]
 
-[node name="BuyButton" type="Button" parent="ContentLayer" unique_id=500712200]
+[node name="BuyButton" type="TextureButton" parent="ContentLayer" unique_id=1094936398]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.05
-anchor_top = 0.62
-anchor_right = 0.95
-anchor_bottom = 0.75
-offset_left = 13.0
-offset_top = 7.0
-offset_right = -13.0
-offset_bottom = -6.0
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -27.0
+grow_horizontal = 2
+grow_vertical = 0
+texture_normal = ExtResource("3_sxi0c")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="ContentLayer/BuyButton" unique_id=918018754]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -13.5
+offset_right = 20.0
+offset_bottom = 9.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "BUY"
+text = "Buy"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="TooltipLayer" type="Control" parent="." unique_id=177302406]
 layout_mode = 2

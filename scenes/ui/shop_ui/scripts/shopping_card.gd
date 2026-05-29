@@ -2,7 +2,8 @@ extends PanelContainer
 
 signal purchase_requested(ball_id, cost)
 
-@onready var buy_button: Button = $ContentLayer/BuyButton
+@onready var buy_button: TextureButton = $ContentLayer/BuyButton
+@onready var buy_label: Label = $ContentLayer/BuyButton/Label
 @onready var card_anchor: Node3D = $ContentLayer/SubViewportContainer/SubViewport/CardAnchor
 @onready var tooltip_panel: PanelContainer = $TooltipLayer/TooltipPanel
 @onready var tooltip_label: Label = $TooltipLayer/TooltipPanel/MarginContainer/Label
@@ -123,12 +124,12 @@ func setup_ball_visuals(data: Resource):
 
 func update_state(is_owned: bool, current_points: int) -> void:
 	if is_owned:
-		buy_button.text = "OWNED"
+		buy_label.text = "OWNED"
 		buy_button.disabled = true
 		# Optional: Dim the whole card?
-		modulate = Color(0.9, 0.9, 0.9, 1.0)
+		modulate = Color(0.6, 0.6, 0.6, 1.0)
 	else:
-		buy_button.text = "BUY"
+		buy_label.text = "BUY"
 		buy_button.disabled = (current_points < cost)
 		modulate = Color.WHITE
 
