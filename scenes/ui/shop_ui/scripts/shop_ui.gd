@@ -6,7 +6,7 @@ extends Control
 @onready var label_points = $LabelPoints
 @onready var buttons_container = %ButtonsContainer 
 @onready var continue_container = $ContinueContainer
-@onready var next_button: Button = %ButtonNextLevel
+@onready var next_button: TextureButton = %ButtonNextLevel
 @onready var scored_label = $PointsScored
 
 
