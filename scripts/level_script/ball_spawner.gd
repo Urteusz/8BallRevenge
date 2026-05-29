@@ -92,6 +92,8 @@ func _ready() -> void:
 		i += 1
 	await get_tree().create_timer(0.3).timeout
 	
+	_enable_scoring_for_all_balls()
+	
 	_preload_shaders()
 
 func _preload_shaders() -> void:

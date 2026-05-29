@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://mg6xun5vnnb3"]
+
+[ext_resource type="Script" uid="uid://dx2cskto0l8se" path="res://scenes/ui/ball_cards/ball_card.gd" id="1_670ai"]
+[ext_resource type="PackedScene" path="res://scenes/ui/ball_cards/gameplay_card.tscn" id="2_3fo1h"]
+[ext_resource type="Texture2D" uid="uid://ylbw8pi3gdfy" path="res://textures/ui/Button_ingameV2.png" id="3_roueb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_panel"]
+
+[sub_resource type="Environment" id="Environment_shop"]
+background_mode = 1
+background_color = Color(0, 0, 0, 0)
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+
+[sub_resource type="World3D" id="World3D_shop"]
+environment = SubResource("Environment_shop")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tooltip"]
+bg_color = Color(0.1, 0.1, 0.15, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.13600002, 0.61186665, 0.8, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 4
+
+[node name="BetterCard" type="PanelContainer" unique_id=1288132980]
+custom_minimum_size = Vector2(100, 150)
+offset_right = 100.0
+offset_bottom = 150.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_panel")
+script = ExtResource("1_670ai")
+
+[node name="ContentLayer" type="Control" parent="." unique_id=1794290886]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="ContentLayer" unique_id=686696266]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="ContentLayer/SubViewportContainer" unique_id=156521170]
+own_world_3d = true
+world_3d = SubResource("World3D_shop")
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(100, 150)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="ContentLayer/SubViewportContainer/SubViewport" unique_id=899283919]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.2)
+fov = 40.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="ContentLayer/SubViewportContainer/SubViewport" unique_id=516099887]
+transform = Transform3D(0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, -0.75, 0.433013, 0, 0, 0)
+light_energy = 1.2
+
+[node name="CardAnchor" type="Node3D" parent="ContentLayer/SubViewportContainer/SubViewport" unique_id=279200939]
+
+[node name="CardInstance" parent="ContentLayer/SubViewportContainer/SubViewport/CardAnchor" unique_id=143432964 instance=ExtResource("2_3fo1h")]
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="ContentLayer" unique_id=1234567890]
+z_index = 10
+position = Vector2(50, 130)
+emitting = false
+amount = 20
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+initial_velocity_min = 51.55
+initial_velocity_max = 123.72
+scale_amount_min = 4.0
+scale_amount_max = 4.0
+color = Color(1, 0.9835, 0.00999999, 1)

@@ -17,7 +17,7 @@ extends Control
 @export var game_manager: Node3D
 @export var shopUI: Control
 
-const BALL_CARD_SCENE = preload("res://scenes/ui/ball_cards/BallCard.tscn")
+const BALL_CARD_SCENE = preload("res://scenes/ui/ball_cards/Better_Card.tscn")
 
 var ball_cards: Dictionary = {}
 var played_level_number: int = 0
