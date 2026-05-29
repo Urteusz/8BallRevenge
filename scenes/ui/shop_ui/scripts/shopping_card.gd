@@ -142,6 +142,12 @@ func play_success_anim():
 	tween.tween_property(self, "scale", Vector2(1.0, 1.0), 0.1)
 
 func _on_mouse_entered() -> void:
+	_show_tooltip()
+
+func _on_mouse_exited() -> void:
+	_hide_tooltip()
+
+func _show_tooltip() -> void:
 	if not tooltip_panel or description_text.is_empty():
 		return
 
@@ -156,7 +162,7 @@ func _on_mouse_entered() -> void:
 	_tooltip_tween.tween_property(tooltip_panel, "modulate:a", 1.0, 0.25).set_ease(Tween.EASE_OUT)
 	_tooltip_tween.tween_property(tooltip_panel, "scale", Vector2(1.0, 1.0), 0.3).from(Vector2(0.8, 0.8)).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
-func _on_mouse_exited() -> void:
+func _hide_tooltip() -> void:
 	if not tooltip_panel:
 		return
 
@@ -169,3 +175,19 @@ func _on_mouse_exited() -> void:
 	_tooltip_tween.tween_property(tooltip_panel, "scale", Vector2(0.8, 0.8), 0.15).set_ease(Tween.EASE_IN)
 	_tooltip_tween.set_parallel(false)
 	_tooltip_tween.tween_callback(func(): tooltip_panel.visible = false)
+
+# Wizualny focus dla pada/klawiatury: powiekszenie karty + tooltip.
+const PAD_FOCUS_SCALE: Vector2 = Vector2(1.08, 1.08)
+var _focus_tween: Tween
+
+func set_pad_focused(on: bool) -> void:
+	pivot_offset = size / 2.0
+	if _focus_tween:
+		_focus_tween.kill()
+	_focus_tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	if on:
+		_focus_tween.tween_property(self, "scale", PAD_FOCUS_SCALE, 0.15)
+		_show_tooltip()
+	else:
+		_focus_tween.tween_property(self, "scale", Vector2.ONE, 0.12)
+		_hide_tooltip()
