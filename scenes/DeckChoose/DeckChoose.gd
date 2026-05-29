@@ -56,29 +56,27 @@ func _ready() -> void:
 		play_button.pressed.connect(_on_confirm_button_pressed)
 
 	_setup_pad_navigation()
-	# zapamietaj statyczna pozycje tooltipa (z anchorow sceny) zanim cokolwiek ja ruszy
 	call_deferred("_cache_tooltip_static_pos")
 
 const ZONE_RACK: int = 0
 const ZONE_INVENTORY: int = 1
 
 var nav_zone: int = ZONE_RACK
-var selected_index: int = 0      # kursor po stojaku
-var held_index: int = -1         # podniesiona bila ze stojaka (zamiana stojak<->stojak)
-var inventory_index: int = 0     # kursor po inwentarzu
+var selected_index: int = 0
+var held_index: int = -1
+var inventory_index: int = 0
 
-# DAS (delayed auto-shift) dla gałki/D-pada:
-# kierunki czytane przez polling w _process, zeby jedno wychylenie = jeden ruch.
-const NAV_INITIAL_DELAY: float = 0.35   # pauza zanim ruszy auto-powtarzanie
-const NAV_REPEAT_DELAY: float = 0.16    # tempo powtarzania przy przytrzymaniu
-const SELECT_LIFT: float = 0.3          # uniesienie zaznaczonej bili (w gore, Y)
-const SELECT_LIFT_HELD: float = 0.55    # uniesienie bili oznaczonej do wymiany
+# DAS (delayed auto-shift) dla gałki/D-pada: jedno wychylenie = jeden ruch.
+const NAV_INITIAL_DELAY: float = 0.35
+const NAV_REPEAT_DELAY: float = 0.16
+const SELECT_LIFT: float = 0.3
+const SELECT_LIFT_HELD: float = 0.55
 var _nav_dir: Vector2i = Vector2i.ZERO
 var _nav_timer: float = 0.0
 
 # Tooltip: przy myszy goni kursor, przy strzalkach/padzie stoi w miejscu (anchor ze sceny).
 var tooltip_follow_mouse: bool = false
-var _tooltip_static_offsets: Vector4 = Vector4.ZERO   # offsety kotwic ze sceny (l, t, r, b)
+var _tooltip_static_offsets: Vector4 = Vector4.ZERO
 var _tooltip_static_cached: bool = false
 
 func _setup_pad_navigation() -> void:
@@ -88,37 +86,14 @@ func _setup_pad_navigation() -> void:
 	inventory_index = 0
 	_highlight_selected()
 
-func _describe_event(event: InputEvent) -> String:
-	var actions: Array = []
-	for a in ["ui_left", "ui_right", "ui_up", "ui_down", "ui_accept", "ui_cancel"]:
-		if event.is_action_pressed(a):
-			actions.append(a)
-	return "%s dev=%d actions=%s" % [event.get_class(), event.device, str(actions)]
-
-func _zone_name() -> String:
-	return "INVENTORY" if nav_zone == ZONE_INVENTORY else "RACK"
-
-func _ball_name(ball_data) -> String:
-	if ball_data and ball_data is BallData:
-		return str(ball_data.display_name)
-	return "<brak>"
-
 func _unhandled_input(event: InputEvent) -> void:
 	if is_dragging or is_swapping:
 		return
 
-	# ui_start = "kliknij" przycisk Play za uzytkownika (dziala w obu strefach)
 	if event.is_action_pressed("ui_start"):
-		print_debug("[DeckNav] ui_start -> klik przycisku Play")
 		if play_button:
 			play_button.pressed.emit()
 		return
-
-	# Kierunki idą przez polling (_process_navigation), wiec tu logujemy tylko A/B,
-	# zeby galka analogowa nie spamowala konsoli setkami eventow JoypadMotion.
-	if event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_cancel"):
-		print_debug("[DeckNav] zona=%s sel=%d held=%d inv=%d | %s" % [
-			_zone_name(), selected_index, held_index, inventory_index, _describe_event(event)])
 
 	if nav_zone == ZONE_INVENTORY:
 		_handle_inventory_input(event)
@@ -158,7 +133,6 @@ func _move_rack_horizontal(dir: int) -> void:
 	var row: Array = rows[rc.x]
 	var c: int = clampi(rc.y + dir, 0, row.size() - 1)
 	selected_index = row[c]
-	print_debug("[DeckNav] RACK poziomo dir=%d -> rzad=%d kol=%d sel=%d" % [dir, rc.x, c, selected_index])
 	_highlight_selected()
 
 func _move_rack_vertical(dir: int) -> void:
@@ -168,8 +142,8 @@ func _move_rack_vertical(dir: int) -> void:
 		return
 	var nr: int = clampi(rc.x + dir, 0, rows.size() - 1)
 	if nr == rc.x:
-		return                          # juz na skraju (wierzcholek/podstawa)
-	# Wyladuj na bili najblizszej w poziomie (po X). Remis -> lewa (mniejszy X).
+		return
+	# wyladuj na bili najblizszej w poziomie (po X); remis -> lewa (mniejszy X)
 	var cur_x: float = POSITIONS[selected_index].x
 	var best: int = rows[nr][0]
 	var best_d: float = absf(POSITIONS[best].x - cur_x)
@@ -179,7 +153,6 @@ func _move_rack_vertical(dir: int) -> void:
 			best_d = d
 			best = idx
 	selected_index = best
-	print_debug("[DeckNav] RACK pionowo dir=%d -> rzad=%d sel=%d (najblizej X=%.2f)" % [dir, nr, selected_index, cur_x])
 	_highlight_selected()
 
 func _handle_rack_input(event: InputEvent) -> void:
@@ -187,26 +160,17 @@ func _handle_rack_input(event: InputEvent) -> void:
 	if deck_size == 0:
 		return
 
-	# Kierunki (lewo/prawo/gora/dol) obsluguje _process_navigation (DAS).
-	# Tu tylko akcje przyciskowe, ktore wysylaja event raz na wcisniecie:
-	# 'A' oznacza slot do wymiany i wchodzi do inwentarza, 'B' wraca do mapy.
 	if event.is_action_pressed("ui_accept"):
-		print_debug("[DeckNav] RACK ui_accept -> oznacz slot=%d do wymiany i wejdz do inwentarza" % selected_index)
 		_mark_and_enter_inventory()
 	elif event.is_action_pressed("ui_cancel"):
-		print_debug("[DeckNav] RACK ui_cancel -> powrot do mapy")
 		_on_back_button_pressed()
 
 func _handle_inventory_input(event: InputEvent) -> void:
-	# Kierunki obsluguje _process_navigation (DAS). Tu tylko 'A'/'B'.
 	if event.is_action_pressed("ui_accept"):
 		_pick_from_inventory()
 	elif event.is_action_pressed("ui_cancel"):
-		print_debug("[DeckNav] INV ui_cancel -> anuluj, powrot na stojak (bez zmian)")
 		_exit_inventory()
 
-# Polling kierunkow z DAS: jedno wychylenie galki = jeden ruch,
-# przytrzymanie -> powtarzanie po NAV_INITIAL_DELAY w tempie NAV_REPEAT_DELAY.
 func _process_navigation(delta: float) -> void:
 	if is_dragging or is_swapping:
 		return
@@ -220,7 +184,7 @@ func _process_navigation(delta: float) -> void:
 		dir.y = 1
 	elif Input.is_action_pressed("ui_down"):
 		dir.y = -1
-	# przy ukosie galki priorytet ma poziom (zeby nie ruszac dwoma osiami naraz)
+	# przy ukosie galki priorytet ma poziom
 	if dir.x != 0:
 		dir.y = 0
 
@@ -230,7 +194,6 @@ func _process_navigation(delta: float) -> void:
 		return
 
 	if dir != _nav_dir:
-		# nowy kierunek -> ruch natychmiast, potem dluzsza pauza
 		_nav_dir = dir
 		_nav_timer = NAV_INITIAL_DELAY
 		_apply_nav_dir(dir)
@@ -242,21 +205,19 @@ func _process_navigation(delta: float) -> void:
 
 func _apply_nav_dir(dir: Vector2i) -> void:
 	if nav_zone == ZONE_INVENTORY:
-		# Inwentarz to siatka (3 kolumny) -> pelna nawigacja 2D.
-		# Lewo/prawo bylo odwrocone, wiec negujemy dir.x; gora/dol zostaje.
+		# lewo/prawo w inwentarzu jest odwrocone, wiec negujemy dir.x
 		_inventory_move(-dir.x, dir.y)
 	else:
-		# mapowanie znakow jak wczesniej (dopasowane do kamery)
-		if dir.x == 1:                 # ui_right
+		# znaki dopasowane do orientacji kamery
+		if dir.x == 1:
 			_move_rack_horizontal(-1)
-		elif dir.x == -1:              # ui_left
+		elif dir.x == -1:
 			_move_rack_horizontal(1)
-		elif dir.y == 1:               # ui_up
+		elif dir.y == 1:
 			_move_rack_vertical(1)
-		elif dir.y == -1:              # ui_down
+		elif dir.y == -1:
 			_move_rack_vertical(-1)
 
-# Nawigacja po siatce inwentarza. dx: -1 lewo / +1 prawo, dy: +1 gora / -1 dol.
 func _inventory_move(dx: int, dy: int) -> void:
 	var items := _inventory_items()
 	if items.is_empty():
@@ -273,16 +234,16 @@ func _inventory_move(dx: int, dy: int) -> void:
 	var last_row: int = (count - 1) / columns
 	var new_index: int = inventory_index
 
-	if dx == 1:                        # prawo (w obrebie rzedu)
+	if dx == 1:
 		if col < columns - 1 and inventory_index + 1 < count:
 			new_index = inventory_index + 1
-	elif dx == -1:                     # lewo (w obrebie rzedu)
+	elif dx == -1:
 		if col > 0:
 			new_index = inventory_index - 1
-	elif dy == 1:                      # gora (ui_up)
+	elif dy == 1:
 		if inventory_index - columns >= 0:
 			new_index = inventory_index - columns
-	elif dy == -1:                     # dol (ui_down)
+	elif dy == -1:
 		if inventory_index + columns < count:
 			new_index = inventory_index + columns
 		elif cur_row < last_row:        # niepelny ostatni rzad -> ostatni element
@@ -290,8 +251,6 @@ func _inventory_move(dx: int, dy: int) -> void:
 
 	if new_index != inventory_index:
 		inventory_index = new_index
-		print_debug("[DeckNav] INV grid dx=%d dy=%d -> inv=%d (count=%d, cols=%d)" % [
-			dx, dy, inventory_index, count, columns])
 		_highlight_inventory()
 		_scroll_to_selected_inventory()
 
@@ -303,16 +262,15 @@ func _scroll_to_selected_inventory() -> void:
 	if scroll:
 		scroll.ensure_control_visible(items[inventory_index])
 
-# 'A' na stojaku: oznacz wybrany slot (held_index) i przejdź do inwentarza.
+# 'A' na stojaku: oznacz wybrany slot i przejdź do inwentarza.
 func _mark_and_enter_inventory() -> void:
 	var items := _inventory_items()
 	if items.is_empty():
-		print_debug("[DeckNav] Inwentarz pusty -> nie ma czym wymienic, zostajemy na stojaku")
 		return
-	held_index = selected_index            # slot stojaka, ktory zamienimy
+	held_index = selected_index
 	nav_zone = ZONE_INVENTORY
 	inventory_index = 0
-	_highlight_selected()                  # zaznaczony slot stojaka zostaje podniesiony
+	_highlight_selected()
 	_highlight_inventory()
 
 # 'B' / wyjście z inwentarza: anuluj oznaczenie i wróć na stojak bez zmian.
@@ -322,18 +280,15 @@ func _exit_inventory() -> void:
 	_clear_inventory_highlight()
 	_highlight_selected()
 
-# 'A' w inwentarzu: wstaw wybraną bilę w oznaczony slot stojaka (held_index) i wróć.
+# 'A' w inwentarzu: wstaw wybraną bilę w oznaczony slot stojaka i wróć.
 func _pick_from_inventory() -> void:
 	var items := _inventory_items()
 	if inventory_index >= items.size():
 		return
 	var item = items[inventory_index]
 	if held_index < 0 or held_index >= PlayerData.current_deck.size():
-		print_debug("[DeckNav] Brak poprawnego oznaczonego slotu (held=%d) -> anuluj" % held_index)
 		_exit_inventory()
 		return
-	print_debug("[DeckNav] WYMIANA: slot stojaka=%d <- inwentarz idx=%d (%s)" % [
-		held_index, inventory_index, _ball_name(item.my_ball_data if "my_ball_data" in item else null)])
 	PlayerData.current_deck[held_index] = item.my_ball_data
 	_respawn_deck()
 	_refresh_inventory_ui()
@@ -353,9 +308,6 @@ func _highlight_inventory() -> void:
 	if inventory_index < items.size():
 		var sel_item = items[inventory_index]
 		var bd = sel_item.my_ball_data if "my_ball_data" in sel_item else null
-		print_debug("[DeckNav] >>> ZAZNACZONA bila w INWENTARZU: inv=%d nazwa=%s" % [
-			inventory_index, _ball_name(bd)])
-		# opis zaznaczonej kuli z inwentarza w tym samym statycznym miejscu
 		_show_tooltip_static_data(bd)
 	for i in range(items.size()):
 		var target: Color = Color(1, 1, 1, 1) if i == inventory_index else Color(0.55, 0.55, 0.6, 1)
@@ -379,11 +331,8 @@ func _highlight_selected() -> void:
 		var tw = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tw.tween_property(ball, "position:y", base_y + lift, 0.15)
 
-	# tooltip pokazuj tylko gdy jesteśmy na stojaku (w statycznym miejscu, nie przy myszy)
+	# tooltip tylko gdy jesteśmy na stojaku (statycznie, nie przy myszy)
 	if nav_zone == ZONE_RACK and selected_index < children.size():
-		var bd = children[selected_index].get_meta("ball_data", null)
-		print_debug("[DeckNav] >>> ZAZNACZONA bila na STOJAKU: idx=%d nazwa=%s (held=%d)" % [
-			selected_index, _ball_name(bd), held_index])
 		_show_tooltip_static(children[selected_index])
 
 func _input(event: InputEvent) -> void:
@@ -708,8 +657,6 @@ func _update_tooltip_pos() -> void:
 func _on_ball_input_event(_camera: Node, event: InputEvent, _pos: Vector3, _normal: Vector3, _idx: int, ball_node: Node3D) -> void:
 	if is_swapping: return
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		var bd = ball_node.get_meta("ball_data", null)
-		print_debug("[DeckNav] !!! MYSZ klik na bile: nazwa=%s (zrodlo=InputEventMouseButton, NIE d-pad) — start drag" % _ball_name(bd))
 		if not is_dragging:
 			is_dragging = true
 			dragged_ball = ball_node
