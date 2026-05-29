@@ -35,6 +35,7 @@ func _ready() -> void:
 	exit_button.pressed.connect(_on_change_level)
 	shop_button.pressed.connect(_on_shop_button)
 	win_try_again_button.pressed.connect(_on_try_again)
+	_setup_button_focus()
 	_show_hint("Hold LMB to charge\nTab: Change view")
 	
 	if game_manager:
@@ -140,11 +141,51 @@ func _on_moves_changed(value: int) -> void:
 	moves_count_label.text = "%d" % value
 	moves_title_label.text = "Moves left"
 
+const FOCUS_SCALE: Vector2 = Vector2(1.18, 1.18)   # powiekszenie zafokusowanego przycisku
+
+# Nawigacja padem/klawiatura po przyciskach okien (lewo/prawo, akcept = A/Enter).
+func _setup_button_focus() -> void:
+	for b in [again_button, exit_button, shop_button, win_try_again_button]:
+		if b:
+			b.focus_mode = Control.FOCUS_ALL
+			b.focus_entered.connect(_on_button_focused.bind(b))
+			b.focus_exited.connect(_on_button_unfocused.bind(b))
+	# Game Over: AgainButton <-> ExitButton (zawijanie w obie strony)
+	if again_button and exit_button:
+		_link_focus_pair(again_button, exit_button)
+	# Win: GoToShop <-> TryAgainButton
+	if shop_button and win_try_again_button:
+		_link_focus_pair(shop_button, win_try_again_button)
+
+# Wizualny styl focusa: zafokusowany przycisk powieksza sie (od srodka).
+func _on_button_focused(b: Control) -> void:
+	b.pivot_offset = b.size / 2.0
+	var tw := create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(b, "scale", FOCUS_SCALE, 0.15)
+
+func _on_button_unfocused(b: Control) -> void:
+	var tw := create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tw.tween_property(b, "scale", Vector2.ONE, 0.12)
+
+# Spina dwa przyciski w pętlę focusa (lewo/prawo i gora/dol).
+func _link_focus_pair(a: Control, b: Control) -> void:
+	var to_b := a.get_path_to(b)
+	var to_a := b.get_path_to(a)
+	a.focus_neighbor_left = to_b
+	a.focus_neighbor_right = to_b
+	a.focus_neighbor_top = to_b
+	a.focus_neighbor_bottom = to_b
+	b.focus_neighbor_left = to_a
+	b.focus_neighbor_right = to_a
+	b.focus_neighbor_top = to_a
+	b.focus_neighbor_bottom = to_a
+
 func _on_game_over() -> void:
 	game_over_window.visible = true
 	moves_title_label.text = "You died"
 	moves_count_label.text = ""
 	_enable_mouse()
+	again_button.grab_focus()
 	
 func _on_game_win_simple() -> void:
 	pass
@@ -154,6 +195,7 @@ func _on_game_win(score: int, threshold: int) -> void:
 	win_label.text = "Level Complete!"
 	win_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_enable_mouse()
+	shop_button.grab_focus.call_deferred()
 	if ball_list_container:
 		ball_list_container.visible = false
 	if win_confetti:
@@ -263,14 +305,28 @@ func _ignore_mouse() -> void:
 func _enable_mouse() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	_disable_camera_input()
-	
-func _disable_camera_input() -> void:
+	_disable_gameplay_input()
+
+# Po zakonczeniu rundy: zatrzymaj strzelanie i kamere, zeby pad/klawiatura
+# obslugiwaly przyciski okna (A = akcept, lewo/prawo = focus) zamiast gry.
+func _disable_gameplay_input() -> void:
 	if !game_manager:
 		return
-	var camera = game_manager.get_viewport().get_camera_3d()
-	if camera and "input_enabled" in camera:
-		camera.input_enabled = false
+	var pb = game_manager.player_ball
+	if pb:
+		if pb.has_method("allow_shooting"):
+			pb.allow_shooting(false)
+		# twardo odetnij wejscie kuli, zeby A nie wyzwalalo strzalu za UI
+		pb.set_process_input(false)
+		pb.set_process_unhandled_input(false)
+		# wylacz kamere orbitalna przez jej bezposrednia referencje w player_ball
+		var cam = pb.camera if "camera" in pb else null
+		if cam and "input_enabled" in cam:
+			cam.input_enabled = false
+	# fallback: aktywna kamera 3D viewportu
+	var vp_cam = game_manager.get_viewport().get_camera_3d()
+	if vp_cam and "input_enabled" in vp_cam:
+		vp_cam.input_enabled = false
 
 func _on_ball_score_updated(new_points: int, ball_id: int) -> void:
 	if ball_cards.has(ball_id):
