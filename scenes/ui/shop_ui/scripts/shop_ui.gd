@@ -29,6 +29,11 @@ func _ready() -> void:
 	continue_container.visible = false
 	if not next_button.pressed.is_connected(_on_next_level):
 		next_button.pressed.connect(_on_next_level)
+
+	# Wizualny focus padem/klawiatura na przycisku nastepnego poziomu.
+	next_button.focus_mode = Control.FOCUS_ALL
+	next_button.focus_entered.connect(_set_button_focus_scale.bind(next_button, true))
+	next_button.focus_exited.connect(_set_button_focus_scale.bind(next_button, false))
 	
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
@@ -63,6 +68,18 @@ func _generate_shop_cards() -> void:
 		if card.has_signal("purchase_requested"):
 			card.purchase_requested.connect(_on_card_purchase_requested)
 
+		# Wizualny focus padem/klawiatura na przycisku kupna karty.
+		var btn = card.buy_button if "buy_button" in card else null
+		if btn:
+			btn.focus_entered.connect(_on_card_focus.bind(card, true))
+			btn.focus_exited.connect(_on_card_focus.bind(card, false))
+
+	_setup_card_focus()
+
+func _on_card_focus(card, on: bool) -> void:
+	if is_instance_valid(card) and card.has_method("set_pad_focused"):
+		card.set_pad_focused(on)
+
 func _on_card_purchase_requested(ball_id: String, cost: int) -> void:
 	if points >= cost:
 		if PlayerData.unlock_ball(ball_id):
@@ -72,10 +89,13 @@ func _on_card_purchase_requested(ball_id: String, cost: int) -> void:
 			print("Kupiono: ", ball_id)
 			
 			_refresh_all_cards_state()
-			
+
 			for card in generated_cards:
 				if card.ball_id == ball_id and card.has_method("play_success_anim"):
 					card.play_success_anim()
+
+			# Kupiona karta sie blokuje (OWNED) i traci focus -> przenies focus dalej.
+			_grab_initial_focus.call_deferred()
 		else:
 			print("Błąd: Nie udało się odblokować kuli (już posiadana?)")
 	else:
@@ -86,6 +106,52 @@ func _refresh_all_cards_state() -> void:
 		if card.has_method("update_state"):
 			var is_owned = PlayerData.owned_balls.has(card.ball_id)
 			card.update_state(is_owned, points)
+	_setup_card_focus()
+
+# Buduje lancuch focusa: lewo/prawo miedzy kartami (z zawijaniem),
+# dol = przycisk nastepnego poziomu, gora z przycisku = powrot do kart.
+func _setup_card_focus() -> void:
+	var focusables: Array = []
+	for card in generated_cards:
+		if not is_instance_valid(card):
+			continue
+		var btn = card.buy_button if "buy_button" in card else null
+		if btn and not btn.disabled:
+			btn.focus_mode = Control.FOCUS_ALL
+			focusables.append(btn)
+
+	var n = focusables.size()
+	for i in range(n):
+		var btn: Control = focusables[i]
+		var left: Control = focusables[(i - 1 + n) % n]
+		var right: Control = focusables[(i + 1) % n]
+		btn.focus_neighbor_left = btn.get_path_to(left)
+		btn.focus_neighbor_right = btn.get_path_to(right)
+		btn.focus_neighbor_bottom = btn.get_path_to(next_button)
+		btn.focus_neighbor_top = btn.get_path_to(next_button)
+
+	if n > 0:
+		next_button.focus_neighbor_top = next_button.get_path_to(focusables[0])
+		next_button.focus_neighbor_bottom = next_button.get_path_to(focusables[0])
+	else:
+		next_button.focus_neighbor_top = NodePath()
+		next_button.focus_neighbor_bottom = NodePath()
+
+# Ustawia focus na pierwszej dostepnej do kupna karcie, inaczej na Next Level.
+func _grab_initial_focus() -> void:
+	for card in generated_cards:
+		if not is_instance_valid(card):
+			continue
+		var btn = card.buy_button if "buy_button" in card else null
+		if btn and not btn.disabled:
+			btn.grab_focus()
+			return
+	next_button.grab_focus()
+
+func _set_button_focus_scale(btn: Control, on: bool) -> void:
+	btn.pivot_offset = btn.size / 2.0
+	var tw := create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(btn, "scale", Vector2(1.06, 1.06) if on else Vector2.ONE, 0.13)
 
 func _on_points_updated(new_points: int) -> void:
 	var delta = new_points - points
@@ -110,8 +176,9 @@ func toggle_shop() -> void:
 	if shop_open:
 		mouse_filter = Control.MOUSE_FILTER_STOP
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		
+
 		_refresh_all_cards_state()
+		_grab_initial_focus.call_deferred()
 	else:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
 
