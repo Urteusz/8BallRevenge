@@ -91,8 +91,25 @@ func _ready() -> void:
 		
 		i += 1
 	await get_tree().create_timer(0.3).timeout
-	_enable_scoring_for_all_balls()
+	
+	_preload_shaders()
 
+func _preload_shaders() -> void:
+	if !ball_scene: return
+	
+	var dummy_ball = ball_scene.instantiate()
+	get_tree().root.add_child(dummy_ball)
+	
+	dummy_ball.global_position = Vector3(0, -1000, 0)
+	
+	if dummy_ball.hit_particles:
+		var p1 = dummy_ball.hit_particles.instantiate()
+		get_tree().root.add_child(p1)
+		p1.global_position = dummy_ball.global_position
+		p1.emitting = true
+		get_tree().create_timer(1.0).timeout.connect(p1.queue_free)
+		
+	dummy_ball.queue_free()
 
 func _enable_scoring_for_all_balls() -> void:
 	for ball in game_manager.ball_list:
