@@ -57,18 +57,26 @@ theme_override_font_sizes/font_size = 48
 text = "0 / 21"
 horizontal_alignment = 1
 
-[node name="HintLabel" type="Label" parent="UI" unique_id=1666777888]
+[node name="HintLabel" type="RichTextLabel" parent="UI" unique_id=1666777888]
 z_index = 1
-offset_left = 30.0
-offset_top = 650.0
-offset_right = 460.0
-offset_bottom = 749.0
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = -144.0
+offset_right = 570.0
+offset_bottom = -15.0
+grow_vertical = 0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 36
-text = "Arrow Keys / Click - Navigate
-Enter / Double-Click - Select Level
-ESC - Back to Menu"
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "[act:nav_hint]
+[act:select_hint]
+[act:back_hint]"
+fit_content = true
+scroll_active = false
+vertical_alignment = 2
 
 [node name="checkerboard" type="TextureRect" parent="UI" unique_id=184149119]
 texture_filter = 1

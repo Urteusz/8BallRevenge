@@ -7,6 +7,9 @@ extends Node2D
 @export var max_stars_per_level: int = 3
 
 @onready var total_stars_label: Label = %StarsLabel
+@onready var hint_label: RichTextLabel = $"../HintLabel"
+
+var hint_template: String = "[act:nav_hint]\n[act:select_hint]\n[act:back_hint]"
 
 var current_node: LevelNode
 var is_moving: bool = false
@@ -36,6 +39,11 @@ func _ready() -> void:
 	# Aktualizuj label z całkowitą liczbą gwiazdek
 	_update_total_stars_label()
 
+	if InputManager:
+		if not InputManager.is_connected("input_device_changed", _on_input_device_changed):
+			InputManager.connect("input_device_changed", _on_input_device_changed)
+	_update_hint_display()
+
 	# Animacja pulsowania kursora
 	_start_cursor_pulse()
 
@@ -43,6 +51,13 @@ func _ready() -> void:
 	await get_tree().create_timer(0.8).timeout
 	var fade_tween = create_tween()
 	fade_tween.tween_property(self, "modulate:a", 1.0, 0.3)
+
+func _on_input_device_changed(_device: String) -> void:
+	_update_hint_display()
+
+func _update_hint_display() -> void:
+	if hint_label:
+		hint_label.text = InputManager.parse_prompts(hint_template)
 
 func _process(delta: float) -> void:
 	if is_moving:

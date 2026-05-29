@@ -15,10 +15,6 @@ border_width_top = 3
 border_width_bottom = 3
 border_color = Color(1, 0.85, 0.3, 0.7)
 
-[sub_resource type="LabelSettings" id="LabelSettings_vh4xn"]
-font_size = 27
-outline_size = 1
-
 [node name="GameplayUI" type="CanvasLayer" unique_id=313784389]
 process_mode = 3
 
@@ -230,7 +226,6 @@ text = "Go to shop"
 
 [node name="BallListContainer" type="Control" parent="ControlGameplay" unique_id=3461045]
 layout_mode = 1
-anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.92100006
 anchor_right = 0.5
@@ -238,23 +233,26 @@ anchor_bottom = 0.92100006
 offset_left = -300.0
 offset_top = -100.0
 offset_right = 300.0
-offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="HintLabel" type="Label" parent="ControlGameplay" unique_id=1081873546]
+[node name="HintLabel" type="RichTextLabel" parent="ControlGameplay" unique_id=1081873546]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -14.0
+offset_left = -639.0
+offset_top = -269.0
 grow_horizontal = 0
 grow_vertical = 0
-text = "Instructions"
-label_settings = SubResource("LabelSettings_vh4xn")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[right]Instructions[/right]"
+fit_content = true
+scroll_active = false
+vertical_alignment = 2
 
 [node name="WinConfetti" type="CPUParticles2D" parent="ControlGameplay" unique_id=1412567298]
 position = Vector2(640, 0)

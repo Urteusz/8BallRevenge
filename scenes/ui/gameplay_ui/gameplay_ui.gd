@@ -10,7 +10,7 @@ extends Control
 @onready var shop_button: TextureButton = $"WinWindow/VBox/WinButtons/GoToShop"
 @onready var win_try_again_button: TextureButton = $"WinWindow/VBox/WinButtons/TryAgainButton"
 
-@onready var hint_label: Label = $"HintLabel"
+@onready var hint_label: RichTextLabel = $"HintLabel"
 @onready var ball_list_container: Control = $"BallListContainer"
 @onready var win_confetti: CPUParticles2D = $WinConfetti
 
@@ -63,9 +63,16 @@ func _ready() -> void:
 		_on_moves_changed(game_manager.default_level_move_count)
 	_ignore_mouse()
 	
+	if InputManager:
+		if not InputManager.is_connected("input_device_changed", _on_input_device_changed):
+			InputManager.connect("input_device_changed", _on_input_device_changed)
+
+func _on_input_device_changed(_device: String) -> void:
+	_update_hint_display()
+	
 
 func _on_charging_paused() -> void:
-	_show_hint("Hold LMB to charge\nTab: Change view")
+	_show_hint("Hold [act:charge] to charge\n[act:change_view]: Change view")
 	
 
 func _initialize_ball_cards(balls_data: Array) -> void:
@@ -289,11 +296,11 @@ var is_charging: bool = false
 
 func _on_charging_started() -> void:
 	is_charging = true
-	_show_hint("Move mouse: Aim\nW/S: Topspin / Backspin\nA/D: Sidespin\nRelease LMB: SHOOT!\nPress RMB: Cancel\nTab: Change view")
+	_show_hint("[act:aim]: Aim\n[act:spin_y]: Topspin / Backspin\nRelease [act:charge]: SHOOT!\nPress [act:cancel]: Cancel\n[act:change_view]: Change view")
 
 func _on_charging_released() -> void:
 	is_charging = false
-	_show_hint("Tab: Change view")
+	_show_hint("[act:change_view]: Change view")
 
 func _on_charging_updated(_charge_ratio: float) -> void:
 	pass
@@ -332,13 +339,16 @@ func _on_ball_score_updated(new_points: int, ball_id: int) -> void:
 	if ball_cards.has(ball_id):
 		ball_cards[ball_id].update_points(new_points)
 		
-func _show_hint(text: String) -> void:
+var current_hint_template: String = ""
+
+func _show_hint(template: String) -> void:
 	if not hint_label: return
 	
-	hint_label.text = text
+	current_hint_template = template
+	_update_hint_display()
 	
 	# Mały efekt "pojawiania się" (Tween)
-	if text != "":
+	if template != "":
 		hint_label.modulate.a = 0.0 # Przezroczysty
 		var tween = create_tween()
 		tween.tween_property(hint_label, "modulate:a", 1.0, 0.3) # Fade In
@@ -347,16 +357,23 @@ func _show_hint(text: String) -> void:
 		var pulse = create_tween().set_loops()
 		pulse.tween_property(hint_label, "scale", Vector2(1.05, 1.05), 0.5)
 		pulse.tween_property(hint_label, "scale", Vector2(1.0, 1.0), 0.5)
-	else:
+
+func _update_hint_display() -> void:
+	if not hint_label: return
+	if current_hint_template == "":
 		hint_label.text = ""
+	else:
+		var parsed = InputManager.parse_prompts(current_hint_template)
+		hint_label.text = "[right]" + parsed + "[/right]"
+
 func _on_aiming_state_changed(is_aiming: bool) -> void:
 	if is_aiming:
 		# Kula się zatrzymała -> Pokaż instrukcję
 		# Sprawdzamy czy nie ma Game Over, żeby nie wyświetlać napisu na ekranie przegranej
 		if moves_count_label.text != "0" and !game_over_window.visible: 
-			_show_hint("Hold LMB to charge\nTab: Change view")
+			_show_hint("Hold [act:charge] to charge\n[act:change_view]: Change view")
 	else:
 		# Kula ruszyła -> Ukryj instrukcję (ale zostaw Tab)
 		# Chyba że ładujemy strzał - wtedy zostawiamy instrukcję ładowania
 		if !is_charging:
-			_show_hint("Tab: Change view")
+			_show_hint("[act:change_view]: Change view")
