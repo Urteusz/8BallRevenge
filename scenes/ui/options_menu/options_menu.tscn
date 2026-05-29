@@ -3,8 +3,8 @@
 [ext_resource type="FontFile" uid="uid://vcecbwh0vav0" path="res://fonts/BridgeParapet.ttf" id="1_kyv63"]
 [ext_resource type="Script" uid="uid://b1glugmu2j1dd" path="res://scenes/ui/options_menu/options_menu.gd" id="1_sglii"]
 [ext_resource type="Texture2D" uid="uid://bmbtuxpculhwv" path="res://textures/ui/main_menu3.png" id="2_r4unu"]
-[ext_resource type="Texture2D" uid="uid://dqkftrx7p0k6b" path="res://textures/ui/Button2_quit_pressed.png" id="5_w8s0e"]
-[ext_resource type="Texture2D" uid="uid://dwk3egkgbtwmf" path="res://textures/ui/Button2_quit.png" id="6_iu3f6"]
+[ext_resource type="Texture2D" uid="uid://kkeoe4ggk7um" path="res://textures/ui/ButtonReturn.png" id="4_w8s0e"]
+[ext_resource type="Texture2D" uid="uid://bgfnovshdkokt" path="res://textures/ui/ButtonReturn_pressed.png" id="5_iu3f6"]
 [ext_resource type="Texture2D" uid="uid://b77vw4r7h8gp5" path="res://textures/ui/Button2.png" id="6_w8s0e"]
 [ext_resource type="Texture2D" uid="uid://bspufxilq7h0d" path="res://textures/ui/Button2_pressed.png" id="7_iu3f6"]
 
@@ -50,7 +50,7 @@ grow_vertical = 2
 theme = SubResource("Theme_w8s0e")
 
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=2101534181]
-custom_minimum_size = Vector2(900, 550)
+custom_minimum_size = Vector2(808.695, 531.36)
 layout_mode = 2
 size_flags_horizontal = 8
 theme = SubResource("Theme_iu3f6")
@@ -154,24 +154,8 @@ size_flags_horizontal = 0
 size_flags_vertical = 8
 focus_neighbor_left = NodePath("../ApplyButton")
 focus_neighbor_top = NodePath("../CenterContainer/PanelContainer/HBoxContainer/Graphics/FullscreenButton")
-texture_normal = ExtResource("6_iu3f6")
-texture_pressed = ExtResource("5_w8s0e")
-
-[node name="ApplyButtonLabel" type="Label" parent="QuitButton" unique_id=999791750]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -124.0
-offset_right = 124.0
-offset_bottom = -14.0
-grow_vertical = 0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 56
-text = "Return"
-horizontal_alignment = 1
-vertical_alignment = 1
+texture_normal = ExtResource("4_w8s0e")
+texture_pressed = ExtResource("5_iu3f6")
 
 [node name="ApplyButton" type="TextureButton" parent="." unique_id=2142408290]
 unique_name_in_owner = true
