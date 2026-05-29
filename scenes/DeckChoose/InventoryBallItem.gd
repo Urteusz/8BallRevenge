@@ -126,7 +126,8 @@ func _create_tooltip() -> void:
 	tooltip_layer = CanvasLayer.new()
 	tooltip_layer.layer = 100
 	tooltip_layer.name = "TooltipLayer"
-	get_tree().root.add_child(tooltip_layer)
+	# odroczone, bo przy tworzeniu inwentarza root jest w trakcie budowy drzewa
+	get_tree().root.add_child.call_deferred(tooltip_layer)
 	
 	# 2. Create the Popup
 	tooltip_popup = PanelContainer.new()
