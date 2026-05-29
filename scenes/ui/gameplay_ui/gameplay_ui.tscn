@@ -172,7 +172,7 @@ horizontal_alignment = 1
 
 [node name="WinButtons" type="HBoxContainer" parent="ControlGameplay/WinWindow/VBox" unique_id=1485176516]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 24
 alignment = 1
 
 [node name="TryAgainButton" type="TextureButton" parent="ControlGameplay/WinWindow/VBox/WinButtons" unique_id=762416684]
