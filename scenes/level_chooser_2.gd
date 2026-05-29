@@ -74,6 +74,9 @@ class PlanetBlueprint:
 @onready var camera: Camera3D = $Camera3D
 @onready var progress_quad: MeshInstance3D = $ProgressQuad
 
+var hint_label: RichTextLabel
+var hint_template: String = "[act:nav_hint]\n[act:select_hint]\n[act:back_hint]"
+
 var levels: Array[Node3D] = []
 var base_scales: Dictionary = {}
 var current_level_index: int = 0
@@ -96,6 +99,26 @@ var universe_root: Node3D
 func _ready() -> void:
 	if progress_quad:
 		progress_quad.visible = false
+
+	# Dynamiczne dodawanie podpowiedzi (zamiast edycji .scn)
+	var canvas_layer = CanvasLayer.new()
+	canvas_layer.layer = 0 # Gwarantuje, że rysuje się pod ekranem ładowania (który ma layer 1+)
+	add_child(canvas_layer)
+	
+	hint_label = RichTextLabel.new()
+	hint_label.bbcode_enabled = true
+	hint_label.fit_content = true
+	hint_label.scroll_active = false
+	hint_label.add_theme_font_size_override("normal_font_size", 36)
+	hint_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	hint_label.add_theme_constant_override("outline_size", 4)
+	canvas_layer.add_child(hint_label)
+	
+	hint_label.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	hint_label.offset_left = -800.0 # Poszerzono z -400 na -800
+	hint_label.offset_top = -140.0
+	hint_label.offset_right = -20.0
+	hint_label.offset_bottom = -20.0
 
 	var i: int = 1
 	while true:
@@ -134,6 +157,18 @@ func _ready() -> void:
 	
 	_build_starfield() 
 	_build_universe()
+	
+	if InputManager:
+		if not InputManager.is_connected("input_device_changed", _on_input_device_changed):
+			InputManager.connect("input_device_changed", _on_input_device_changed)
+	_update_hint_display()
+
+func _on_input_device_changed(_device: String) -> void:
+	_update_hint_display()
+
+func _update_hint_display() -> void:
+	if hint_label:
+		hint_label.text = "[right]" + InputManager.parse_prompts(hint_template) + "[/right]"
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
