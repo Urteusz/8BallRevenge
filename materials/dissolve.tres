@@ -1,0 +1,73 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dv85qnftk32v1"]
+
+[sub_resource type="Shader" id="Shader_yuqhy"]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_disabled, diffuse_burley, specular_schlick_ggx;
+
+uniform vec4 albedo : source_color;
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+uniform float roughness : hint_range(0.0, 1.0, 0.01);
+
+uniform float edge_size : hint_range(0.0, 1.0) = 0.05;
+uniform sampler2D curve_texture;
+uniform sampler2D noise_texture;
+uniform float u_progress : hint_range(0.0, 1.0) = 1.0;
+uniform vec3 edge_color : source_color;
+uniform float object_radius = 8.0;
+
+varying vec3 model_pos;
+
+void vertex() {
+    model_pos = VERTEX;
+}
+
+void fragment() {
+    METALLIC = metallic;
+    ROUGHNESS = roughness;
+
+    float dist = length(model_pos);
+    float normalized_dist = dist / object_radius;
+
+    vec2 auto_uv = model_pos.xz / object_radius * 5.0;
+    float noise_value = texture(noise_texture, auto_uv * 0.1).r;
+    float remapped_noise = texture(curve_texture, vec2(noise_value, 0.0)).r;
+
+    float progress = mix(-edge_size, 1.0 + edge_size, u_progress);
+    float threshold_val = normalized_dist * remapped_noise;
+
+    if (threshold_val < progress) {
+        discard;
+    }
+    
+    ALBEDO = albedo.rgb;
+
+    if (threshold_val < progress + edge_size) {
+        ALBEDO = edge_color;
+    }
+}"
+
+[sub_resource type="Gradient" id="Gradient_yuqhy"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ee5xf"]
+gradient = SubResource("Gradient_yuqhy")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_m75rw"]
+noise_type = 3
+frequency = 0.0017
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_q8frk"]
+noise = SubResource("FastNoiseLite_m75rw")
+seamless = true
+
+[resource]
+render_priority = 0
+shader = SubResource("Shader_yuqhy")
+shader_parameter/albedo = Color(0.9172731, 0.596588, 0.0044904067, 1)
+shader_parameter/metallic = 1.0
+shader_parameter/roughness = 0.0
+shader_parameter/edge_size = 0.05
+shader_parameter/curve_texture = SubResource("GradientTexture1D_ee5xf")
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_q8frk")
+shader_parameter/u_progress = 0.0
+shader_parameter/edge_color = Color(3.3198552, 1.645415, 0, 1)
+shader_parameter/object_radius = 0.5

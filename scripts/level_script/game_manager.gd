@@ -188,10 +188,20 @@ func _on_ball_pocketed(ball):
 		ball.linear_velocity = Vector3.ZERO
 		ball.angular_velocity = Vector3.ZERO
 		ball.sleeping = true
+
+		var animation_player: AnimationPlayer = ball.get_node_or_null("AnimationPlayer")
+		await get_tree().create_timer(0.5).timeout
+
+		if animation_player:
+			animation_player.play("dissolve")
+			await animation_player.animation_finished
+
 		ball.position = returnPoint.position
 
-		# Reset flagi po krótkiej chwili
-		await get_tree().create_timer(0.1).timeout
+		if animation_player:
+			animation_player.play_backwards("dissolve")
+			await animation_player.animation_finished
+
 		player_ball_pocketing = false
 	else:
 		if not turn_move_refunded:
@@ -232,10 +242,20 @@ func _on_ball_pocketed_void(ball):
 		ball.linear_velocity = Vector3.ZERO
 		ball.angular_velocity = Vector3.ZERO
 		ball.sleeping = true
+
+		var animation_player: AnimationPlayer = ball.get_node_or_null("AnimationPlayer")
+		await get_tree().create_timer(0.5).timeout
+
+		if animation_player:
+			animation_player.play("dissolve")
+			await animation_player.animation_finished
+
 		ball.position = returnPoint.position
 
-		# Reset flagi po krótkiej chwili
-		await get_tree().create_timer(0.1).timeout
+		if animation_player:
+			animation_player.play_backwards("dissolve")
+			await animation_player.animation_finished
+
 		player_ball_pocketing = false
 	else:
 		# Zwykła piłka w void pocket:
