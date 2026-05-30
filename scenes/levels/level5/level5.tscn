@@ -153,6 +153,7 @@ player_ball = NodePath("../Table/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
 returnPoint = NodePath("../Table/ReturnPosition")
+star_score_treshold = 45000
 
 [node name="Table" type="Node" parent="SubViewportContainer/SubViewport" unique_id=402600627]
 

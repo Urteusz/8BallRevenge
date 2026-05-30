@@ -306,7 +306,7 @@ player_ball = NodePath("../Table/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
 returnPoint = NodePath("../Table/ReturnPosition")
-star_score_treshold = 75000
+star_score_treshold = 84000
 
 [node name="RainParticle" parent="SubViewportContainer/SubViewport" unique_id=633303949 instance=ExtResource("17_mn25p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16, 0)

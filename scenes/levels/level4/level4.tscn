@@ -324,7 +324,7 @@ fov = 123.75
 [node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=1490450740 node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui", "returnPoint")]
 script = ExtResource("8_2psii")
 default_level_move_count = 10
-star_score_treshold = 100000
+star_score_treshold = 114000
 player_ball = NodePath("../TableCircle2/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")

@@ -60,10 +60,9 @@ var ball_data_map = {
 const SAVE_PATH = "user://player_progress.save"
 
 func _ready() -> void:
-	# Domyślny start (jeśli nie ma zapisu)
+	load_progress()
 	if owned_balls.is_empty():
-		owned_balls = ["red", "green", "yellow", "purple", "pink", "blue", "bomb", "tenisball", "basketball", "sniper", "light", "lava", "ninja", "magnetic", "ice" ]
-	# Jeśli deck jest pusty, wypełnij go pierwszymi dostępnymi kulami
+		owned_balls = ["red", "green", "yellow", "purple", "pink", "blue" ]
 	if current_deck.is_empty():
 		refresh_deck_from_owned()
 	print("Dupa: "+str(current_level))
@@ -145,7 +144,6 @@ func save_progress() -> void:
 func load_progress() -> void:
 	if not FileAccess.file_exists(SAVE_PATH):
 		print("Brak zapisu, start od nowa.")
-		_ready()
 		return
 	
 	var file = FileAccess.open(SAVE_PATH, FileAccess.READ)
@@ -173,7 +171,7 @@ func load_progress() -> void:
 
 			# Migration: Unlock new balls if they are missing
 			var new_balls_migration = ["pink"]
-			var need_save = false
+			var need_save = true
 			for ball in new_balls_migration:
 				if ball not in owned_balls:
 					owned_balls.append(ball)

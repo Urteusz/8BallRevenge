@@ -7,7 +7,7 @@ const BALLS_GROUP = "balls"
 @export var shop_ui: Control
 @export var gameplay_ui: Control
 @export var returnPoint: Node3D
-@export var star_score_treshold = 25000
+@export var star_score_treshold = 15000
 
 var moves_left: int
 var game_over := false

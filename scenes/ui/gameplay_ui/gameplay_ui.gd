@@ -214,9 +214,9 @@ func _on_game_win(score: int, threshold: int) -> void:
 		var ratio = float(score) / float(threshold)
 		if ratio >= 1.0:
 			star_count = 3
-		elif ratio >= 0.66:
+		elif ratio >= 0.70:
 			star_count = 2
-		elif ratio >= 0.33:
+		elif ratio >= 0.40:
 			star_count = 1
 
 	PlayerData.save_level_stars(played_level_number, star_count)
