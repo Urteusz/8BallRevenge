@@ -15,7 +15,7 @@
 [ext_resource type="Script" uid="uid://8nd5mqrih32f" path="res://scripts/level_script/last_balls_spawner.gd" id="13_803st"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="13_yqxa5"]
 [ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="14_kieej"]
-[ext_resource type="Script" path="res://scripts/level_script/pocket_void.gd" id="14_ylxqd"]
+[ext_resource type="Script" uid="uid://cepon37hmhf8x" path="res://scripts/level_script/pocket_void.gd" id="14_ylxqd"]
 [ext_resource type="PackedScene" uid="uid://bybt7gul7ksft" path="res://scenes/particles/pocketedBallEffect.tscn" id="15_6ycpb"]
 [ext_resource type="PackedScene" uid="uid://cg7kh67k5p3w7" path="res://scenes/particles/particlePocketLoop2.tscn" id="16_cqryu"]
 [ext_resource type="Texture2D" uid="uid://b3qrjp3b4ol7y" path="res://scenes/particles/level1_gradient.tres" id="17_4kk30"]
@@ -24,8 +24,8 @@
 [ext_resource type="Script" uid="uid://cblgv0hdp76us" path="res://scripts/object_scripts/fan.gd" id="20_y367v"]
 [ext_resource type="ArrayMesh" uid="uid://0lxkj2gtk607" path="res://models/table5/Table 5 Fan.obj" id="21_ixhut"]
 [ext_resource type="Script" uid="uid://c1oek3r24c3fe" path="res://scenes/levels/level5/background.gd" id="22_h1mtv"]
-[ext_resource type="Script" uid="uid://tkp5glvk78m2" path="res://scripts/object_scripts/hammer.gd" id="22_tfwtw"]
-[ext_resource type="Environment" uid="uid://cyxek5jj5buax" path="res://scenes/levels/level5/level5_environment.tres" id="23_sx8sq"]
+[ext_resource type="Script" path="res://scripts/object_scripts/hammer.gd" id="22_tfwtw"]
+[ext_resource type="Environment" uid="uid://23vqkdd2sw7" path="res://scenes/levels/level5/level5_environment.tres" id="23_sx8sq"]
 [ext_resource type="ArrayMesh" uid="uid://b8vjd1qptkgxs" path="res://models/table7/Level7 Hammer.obj" id="23_ylxqd"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="24_r0ic5"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="25_nt2ph"]
@@ -148,8 +148,6 @@ mesh = SubResource("QuadMesh_4arys")
 
 [node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=151414268 node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui", "returnPoint")]
 script = ExtResource("3_tfwtw")
-default_level_move_count = 10
-star_score_treshold = 150000
 player_ball = NodePath("../Table/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
@@ -431,6 +429,10 @@ environment = ExtResource("23_sx8sq")
 
 [node name="ControlShop" parent="ShopUI" index="0" unique_id=109149566]
 items_to_sell = Array[String](["light", "ice", "bomb"])
+
+[node name="HintLabel" parent="ShopUI/ControlShop" index="3" unique_id=1411223344]
+layout_mode = 0
+anchors_preset = 0
 
 [node name="GameplayUI" parent="." unique_id=1423902161 instance=ExtResource("25_nt2ph")]
 

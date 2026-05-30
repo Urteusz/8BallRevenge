@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://d1lhgonujp48d"]
+[gd_scene format=3 uid="uid://w147ttjxtw2p"]
 
 [ext_resource type="Script" uid="uid://tc20kyas61rl" path="res://scripts/level_script/camera.gd" id="1_25oin"]
 [ext_resource type="Shader" uid="uid://ca8tkxbmpyc21" path="res://shaders/edge_detection.gdshader" id="2_256we"]
@@ -12,7 +12,7 @@
 [ext_resource type="Script" uid="uid://bdvel67ub340k" path="res://scripts/level_script/ball_spawner.gd" id="11_7pm65"]
 [ext_resource type="PackedScene" uid="uid://br6fw3sedv0yn" path="res://scenes/balls/ball.tscn" id="12_25oin"]
 [ext_resource type="PackedScene" uid="uid://yy3aivcgtbfo" path="res://scenes/player_ball/player_ball.tscn" id="13_256we"]
-[ext_resource type="Script" path="res://scripts/level_script/last_balls_spawner.gd" id="13_pjep6"]
+[ext_resource type="Script" uid="uid://8nd5mqrih32f" path="res://scripts/level_script/last_balls_spawner.gd" id="13_pjep6"]
 [ext_resource type="Script" uid="uid://dxrfe73xb2tsh" path="res://scripts/level_script/pocket.gd" id="14_j4hik"]
 [ext_resource type="PackedScene" uid="uid://cg7kh67k5p3w7" path="res://scenes/particles/particlePocketLoop2.tscn" id="15_7pm65"]
 [ext_resource type="PackedScene" uid="uid://bybt7gul7ksft" path="res://scenes/particles/pocketedBallEffect.tscn" id="15_j4hik"]
@@ -22,7 +22,7 @@
 [ext_resource type="Environment" uid="uid://23vqkdd2sw7" path="res://scenes/levels/level5/level5_environment.tres" id="19_7pm65"]
 [ext_resource type="Script" uid="uid://cblgv0hdp76us" path="res://scripts/object_scripts/fan.gd" id="19_256we"]
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="19_usx8j"]
-[ext_resource type="Script" path="res://scripts/level_script/pocket_void.gd" id="20_c0sq5"]
+[ext_resource type="Script" uid="uid://cepon37hmhf8x" path="res://scripts/level_script/pocket_void.gd" id="20_c0sq5"]
 [ext_resource type="ArrayMesh" uid="uid://0lxkj2gtk607" path="res://models/table5/Table 5 Fan.obj" id="20_j4hik"]
 [ext_resource type="Script" uid="uid://c1oek3r24c3fe" path="res://scenes/levels/level5/background.gd" id="21_auayw"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="21_n138t"]
@@ -236,6 +236,7 @@ particle_scene = ExtResource("15_7pm65")
 og_gradient_texture = ExtResource("16_cc776")
 ball_pocketed_gradient = ExtResource("17_5x778")
 player_pocketed_gradient = ExtResource("18_82yk0")
+assist_radius = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket1" unique_id=1299469646]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10845566, 0, 0.09162903)
@@ -250,6 +251,7 @@ particle_scene = ExtResource("15_7pm65")
 og_gradient_texture = ExtResource("16_cc776")
 ball_pocketed_gradient = ExtResource("17_5x778")
 player_pocketed_gradient = ExtResource("18_82yk0")
+assist_radius = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket2" unique_id=81494883]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03425598, 0, -0.10764313)
@@ -264,6 +266,7 @@ particle_scene = ExtResource("15_7pm65")
 og_gradient_texture = ExtResource("16_cc776")
 ball_pocketed_gradient = ExtResource("17_5x778")
 player_pocketed_gradient = ExtResource("18_82yk0")
+assist_radius = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket3" unique_id=1678373128]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03325653, 0, -0.03452301)
@@ -278,6 +281,7 @@ particle_scene = ExtResource("15_7pm65")
 og_gradient_texture = ExtResource("16_cc776")
 ball_pocketed_gradient = ExtResource("17_5x778")
 player_pocketed_gradient = ExtResource("18_82yk0")
+assist_radius = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket4" unique_id=1468101282]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09951019, 0, 0.27745056)
@@ -448,6 +452,10 @@ environment = ExtResource("19_7pm65")
 
 [node name="ControlShop" parent="ShopUI" index="0" unique_id=109149566]
 items_to_sell = Array[String](["magnetic_min", "light", "ninja"])
+
+[node name="HintLabel" parent="ShopUI/ControlShop" index="3" unique_id=1411223344]
+layout_mode = 0
+anchors_preset = 0
 
 [node name="GameplayUI" parent="." unique_id=1423902161 instance=ExtResource("22_tsu05")]
 

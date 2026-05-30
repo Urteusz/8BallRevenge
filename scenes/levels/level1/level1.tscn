@@ -22,7 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="17_e4fnj"]
 [ext_resource type="Texture2D" uid="uid://pxoipevsp7bc" path="res://scenes/particles/player_pocketed_gradient.tres" id="17_m6d3i"]
 [ext_resource type="Environment" uid="uid://djfhsep4ykllx" path="res://scenes/levels/level1/blue_environment.tres" id="18_or0go"]
-[ext_resource type="Script" path="res://scripts/level_script/pocket_void.gd" id="19_x0doa"]
+[ext_resource type="Script" uid="uid://cepon37hmhf8x" path="res://scripts/level_script/pocket_void.gd" id="19_x0doa"]
 [ext_resource type="PackedScene" uid="uid://cauu31m0rk4m3" path="res://models/room_colored_v2.glb" id="22_v0ouj"]
 [ext_resource type="PackedScene" uid="uid://b6x5y403w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
 
@@ -293,7 +293,7 @@ player_ball = NodePath("../Table/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
 returnPoint = NodePath("../Table/ReturnPosition")
-star_score_treshold = 30000
+star_score_treshold = 100000
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=834417071]
 environment = ExtResource("18_or0go")
@@ -302,6 +302,10 @@ environment = ExtResource("18_or0go")
 
 [node name="ControlShop" parent="ShopUI" index="0" unique_id=109149566]
 items_to_sell = Array[String](["football", "magnetic", "ice"])
+
+[node name="HintLabel" parent="ShopUI/ControlShop" index="3" unique_id=1411223344]
+layout_mode = 0
+anchors_preset = 0
 
 [node name="GameplayUI" parent="." unique_id=1423902161 instance=ExtResource("17_e4fnj")]
 

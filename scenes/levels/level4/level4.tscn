@@ -323,12 +323,11 @@ fov = 123.75
 
 [node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=1490450740 node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui", "returnPoint")]
 script = ExtResource("8_2psii")
-default_level_move_count = 10
-star_score_treshold = 100000
 player_ball = NodePath("../TableCircle2/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
 returnPoint = NodePath("../TableCircle2/ReturnPosition")
+star_score_treshold = 150000
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=607035429]
 environment = ExtResource("10_rnqjc")
@@ -337,6 +336,10 @@ environment = ExtResource("10_rnqjc")
 
 [node name="ControlShop" parent="ShopUI" index="0" unique_id=109149566]
 items_to_sell = Array[String](["speedy", "light", "sniper"])
+
+[node name="HintLabel" parent="ShopUI/ControlShop" index="3" unique_id=1411223344]
+layout_mode = 0
+anchors_preset = 0
 
 [node name="GameplayUI" parent="." unique_id=160693144 instance=ExtResource("11_cuf1e")]
 

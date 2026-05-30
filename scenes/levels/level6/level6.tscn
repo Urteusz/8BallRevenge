@@ -21,12 +21,12 @@
 [ext_resource type="Script" uid="uid://i8v1qogrk0rc" path="res://scripts/level_script/game_manager.gd" id="19_ddetq"]
 [ext_resource type="PackedScene" uid="uid://cyqa4d25c4s04" path="res://scenes/particles/particlePocketLoop3.tscn" id="19_fx5ks"]
 [ext_resource type="ArrayMesh" uid="uid://561k8jx7u4wj" path="res://models/table6/Table 6 Walls Down.obj" id="19_uxihh"]
-[ext_resource type="Environment" uid="uid://cyxek5jj5buax" path="res://scenes/levels/level5/level5_environment.tres" id="20_3b7ih"]
+[ext_resource type="Environment" uid="uid://23vqkdd2sw7" path="res://scenes/levels/level5/level5_environment.tres" id="20_3b7ih"]
 [ext_resource type="Script" uid="uid://bs7d8ijc8yx0r" path="res://scripts/object_scripts/spinner.gd" id="21_fx5ks"]
 [ext_resource type="PackedScene" uid="uid://kvfi6lfgn235" path="res://scenes/ui/shop_ui/shop_ui.tscn" id="21_r3ijp"]
 [ext_resource type="ArrayMesh" uid="uid://ce7cha0ghwb8a" path="res://models/table6/Table 6 Spinner.obj" id="22_8m1ek"]
 [ext_resource type="PackedScene" uid="uid://db71sbrfnx3y4" path="res://scenes/ui/gameplay_ui/gameplay_ui.tscn" id="22_h7hqq"]
-[ext_resource type="Script" path="res://scripts/level_script/pocket_void.gd" id="23_mbi2n"]
+[ext_resource type="Script" uid="uid://cepon37hmhf8x" path="res://scripts/level_script/pocket_void.gd" id="23_mbi2n"]
 [ext_resource type="PackedScene" uid="uid://b6x5y403w2v1" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="23_pause"]
 [ext_resource type="Script" uid="uid://c1oek3r24c3fe" path="res://scenes/levels/level5/background.gd" id="24_uxihh"]
 
@@ -400,8 +400,6 @@ spot_angle = 75.0
 
 [node name="GameManager" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=151414268 node_paths=PackedStringArray("player_ball", "shop_ui", "gameplay_ui", "returnPoint")]
 script = ExtResource("19_ddetq")
-default_level_move_count = 10
-star_score_treshold = 125000
 player_ball = NodePath("../Table/PlayerBall")
 shop_ui = NodePath("../../../ShopUI/ControlShop")
 gameplay_ui = NodePath("../../../GameplayUI/ControlGameplay")
@@ -423,6 +421,10 @@ environment = ExtResource("20_3b7ih")
 
 [node name="ControlShop" parent="ShopUI" index="0" unique_id=109149566]
 items_to_sell = Array[String](["light", "lava", "bomb"])
+
+[node name="HintLabel" parent="ShopUI/ControlShop" index="3" unique_id=1411223344]
+layout_mode = 0
+anchors_preset = 0
 
 [node name="GameplayUI" parent="." unique_id=1423902161 instance=ExtResource("22_h7hqq")]
 
