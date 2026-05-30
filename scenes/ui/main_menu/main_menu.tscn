@@ -239,63 +239,63 @@ environment = SubResource("Environment_jka67")
 [node name="Balls" type="Node" parent="HBoxContainer/SubViewportContainer/SubViewport" unique_id=1749134635]
 
 [node name="Ball1" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=173607576 instance=ExtResource("6_qel0l")]
-transform = Transform3D(-0.7070943, -0.21776049, -0.67275405, 4.6499824e-08, 0.9514011, -0.30795446, 0.7071192, -0.21775289, -0.6727303, 0, 0.48252046, -0.66541624)
+transform = Transform3D(0.99999994, 0, 0, 0, 0.92652863, 0.37622428, 0, -0.37622428, 0.92652863, 0, 0.48252046, -0.66541624)
 script = ExtResource("7_rrgl4")
 
 [node name="Ball2" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1752905333 instance=ExtResource("6_qel0l")]
-transform = Transform3D(-1, 0, -3.8941437e-07, 0, 1, 0, 3.8941437e-07, 0, -1, -0.4792326, 0.483, -1.488207)
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -0.4792326, 0.483, -1.488207)
 script = null
 
 [node name="Ball3" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=226329794 instance=ExtResource("6_qel0l")]
-transform = Transform3D(-1, 0, -6.2783295e-07, 0, 1, 0, 6.2783295e-07, 0, -1, 0.55276734, 0.483, -1.4892074)
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 0.55276734, 0.483, -1.4892074)
 script = null
 
 [node name="Ball4" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1752691128 instance=ExtResource("6_qel0l")]
-transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0.48252046, -2.365305)
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 0, 0.48252046, -2.365305)
 script = null
 
 [node name="Ball5" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=238750024 instance=ExtResource("6_qel0l")]
-transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 1, 0.48252046, -2.365305)
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 1, 0.48252046, -2.365305)
 script = null
 
 [node name="Ball6" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1878731033 instance=ExtResource("6_qel0l")]
-transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, -1, 0.48252046, -2.365305)
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -1, 0.48252046, -2.365305)
 script = null
 
 [node name="Ball7" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=430262730 instance=ExtResource("6_qel0l")]
-transform = Transform3D(-1, 0, -3.8941437e-07, 0, 1, 0, 3.8941437e-07, 0, -1, 0.5207674, 0.483, -3.1779747)
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 0.5207674, 0.483, -3.1779747)
 script = null
 
 [node name="Ball8" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=30150718 instance=ExtResource("6_qel0l")]
-transform = Transform3D(-1, 0, -6.2783295e-07, 0, 1, 0, 6.2783295e-07, 0, -1, 1.5527673, 0.483, -3.178975)
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 1.5527673, 0.483, -3.178975)
 script = null
 
 [node name="Ball9" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1807616119 instance=ExtResource("6_qel0l")]
-transform = Transform3D(-1, 0, -3.8941437e-07, 0, 1, 0, 3.8941437e-07, 0, -1, -1.4792325, 0.483, -3.1779747)
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -1.4792325, 0.483, -3.1779747)
 script = null
 
 [node name="Ball10" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1428429884 instance=ExtResource("6_qel0l")]
-transform = Transform3D(-1, 0, -6.2783295e-07, 0, 1, 0, 6.2783295e-07, 0, -1, -0.44723272, 0.483, -3.178975)
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -0.44723272, 0.483, -3.178975)
 script = null
 
 [node name="Ball11" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1775435346 instance=ExtResource("6_qel0l")]
-transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 0.48252046, -4)
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 0, 0.48252046, -4)
 script = null
 
 [node name="Ball12" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1059264068 instance=ExtResource("6_qel0l")]
-transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 1, 0.48252046, -4)
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 1, 0.48252046, -4)
 script = null
 
 [node name="Ball13" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1485844193 instance=ExtResource("6_qel0l")]
-transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, -1, 0.48252046, -4)
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -1, 0.48252046, -4)
 script = null
 
 [node name="Ball14" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=1817199742 instance=ExtResource("6_qel0l")]
-transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 2, 0.48252046, -4)
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, 2, 0.48252046, -4)
 script = null
 
 [node name="Ball15" parent="HBoxContainer/SubViewportContainer/SubViewport/Balls" unique_id=694564454 instance=ExtResource("6_qel0l")]
-transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, -2, 0.48252046, -4)
+transform = Transform3D(1, 0, 0, 0, 0.92718387, 0.37460658, 0, -0.37460658, 0.92718387, -2, 0.48252046, -4)
 script = null
 
 [connection signal="pressed" from="HBoxContainer/PanelContainer/VBoxContainer/PlayButtonTextured" to="HBoxContainer/PanelContainer" method="_on_play_button_pressed"]
