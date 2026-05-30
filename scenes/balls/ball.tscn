@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://br6fw3sedv0yn"]
 
 [ext_resource type="Script" uid="uid://dcowhvvavoqf5" path="res://scenes/balls/scripts/ball.gd" id="1_cxlvu"]
-[ext_resource type="Texture2D" uid="uid://bqmhekyijn2be" path="res://textures/icon.svg" id="2_f7cbr"]
 [ext_resource type="PackedScene" uid="uid://ddljhcf1xg3ag" path="res://scenes/hit_particles/star_particles.tscn" id="3_svc1m"]
 [ext_resource type="PackedScene" uid="uid://bifvnqe3bgagj" path="res://scenes/hit_particles/star_particles_2.tscn" id="3_wehov"]
 [ext_resource type="PackedScene" uid="uid://deyr08f8vjdrj" path="res://scenes/hit_particles/star_particles_3.tscn" id="4_jd46c"]
+[ext_resource type="Texture2D" uid="uid://c05fn4jy27e0d" path="res://textures/balls/ball_purplish.png" id="5_jd46c"]
 [ext_resource type="AudioStream" uid="uid://dtwieedoj8h0f" path="res://sounds/Hit_ball.wav" id="6_jd46c"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_svc1m"]
@@ -12,7 +12,7 @@ friction = 0.05
 bounce = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uxwjp"]
-albedo_texture = ExtResource("2_f7cbr")
+albedo_texture = ExtResource("5_jd46c")
 
 [sub_resource type="SphereMesh" id="SphereMesh_noarx"]
 material = SubResource("StandardMaterial3D_uxwjp")
@@ -37,7 +37,7 @@ hit_particles2 = ExtResource("3_wehov")
 hit_particles3 = ExtResource("4_jd46c")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=721474558]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.03813243, 0, 0)
+transform = Transform3D(-1, 0, 8.742278e-08, -8.5133486e-08, 0.22734824, -0.97381353, -1.9875415e-08, -0.97381353, -0.22734824, 0.03813243, 0, 0)
 mesh = SubResource("SphereMesh_noarx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1035594071]
