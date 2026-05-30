@@ -68,6 +68,6 @@ shader_parameter/roughness = 0.0
 shader_parameter/edge_size = 0.05
 shader_parameter/curve_texture = SubResource("GradientTexture1D_ee5xf")
 shader_parameter/noise_texture = SubResource("NoiseTexture2D_q8frk")
-shader_parameter/u_progress = 1.0
+shader_parameter/u_progress = 0.0
 shader_parameter/edge_color = Color(3.3198552, 1.645415, 0, 1)
 shader_parameter/object_radius = 0.5

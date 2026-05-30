@@ -200,7 +200,7 @@ size = Vector3(4.20105, 1, 3.66156)
 size = Vector3(4.201355, 1, 3.6976929)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_i8ch4"]
-size = Vector3(264.47736, 1, 440.0773)
+size = Vector3(5.722584, 1, 9.744835)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_euj78"]
 size = Vector3(119.76561, 1, 138.33061)
@@ -367,7 +367,7 @@ ball_pocketed_gradient = ExtResource("11_385ab")
 player_pocketed_gradient = ExtResource("12_i8ch4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Table/Pockets/Pocket4" unique_id=315749926]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020263672, 0, -0.02545166)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.42877197, 0, 0.44345212)
 shape = SubResource("BoxShape3D_i8ch4")
 
 [node name="Pocket5" type="Area3D" parent="SubViewportContainer/SubViewport/Table/Pockets" unique_id=1042507805 groups=["pockets"]]
